@@ -1,0 +1,547 @@
+/* =============================================================================
+   POKÉDEX - ESTILOS PARA PÁGINA DE OBJETOS
+   Diseño elegante con acentos sutiles de color por categoría
+   ============================================================================= */
+
+/* ===== COLORES POR CATEGORÍA (USO SUTIL) ===== */
+:root {
+  --item-pokeball: #ef5350;
+  --item-healing: #4caf50;
+  --item-stat: #ff9800;
+  --item-evolution: #9c27b0;
+  --item-held: #2196f3;
+  --item-berry: #e91e63;
+  --item-machine: #00bcd4;
+  --item-badge: #ffc107;
+  --item-default: #6366f1;
+}
+
+#itemsGrid.grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr); /* Divisor of 60 */
+  gap: 16px;
+  padding: 10px 0;
+}
+
+@media (max-width: 1400px) {
+  #itemsGrid.grid {
+    grid-template-columns: repeat(6, 1fr); /* Divisor of 60 */
+  }
+}
+
+@media (max-width: 992px) {
+  #itemsGrid.grid {
+    grid-template-columns: repeat(5, 1fr); /* Divisor of 60 */
+  }
+}
+
+@media (max-width: 768px) {
+  #itemsGrid.grid {
+    grid-template-columns: repeat(4, 1fr); /* Divisor of 60 */
+  }
+}
+
+@media (max-width: 480px) {
+  #itemsGrid.grid {
+    grid-template-columns: repeat(2, 1fr); /* Divisor of 60 */
+  }
+}
+
+/* ===== TARJETAS DE OBJETOS ===== */
+.interactive-card {
+  background: var(--c-surface);
+  border: 2px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: var(
+    --spacing-xl
+  ); /* Increased from var(--spacing-lg) for better breathing room */
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Sutil acento de color solo en el borde superior */
+.interactive-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--item-color, var(--c-border));
+  opacity: 0.8; /* Increased from 0.5 */
+  transition: opacity 0.3s ease;
+}
+
+.interactive-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--c-border);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.interactive-card:hover::after {
+  opacity: 1;
+}
+
+.item-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--c-white-05);
+  border-radius: 50%;
+  margin-bottom: var(--spacing-md);
+  padding: 12px;
+  transition: all 0.3s ease;
+}
+
+.interactive-card:hover .item-icon-wrapper {
+  transform: scale(1.05);
+}
+
+.item-icon {
+  width: 48px;
+  height: 48px;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.item-info {
+  text-align: center;
+  width: 100%;
+}
+
+.item-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: var(--spacing-xs);
+  text-transform: capitalize;
+  color: var(--c-text);
+}
+
+.item-cat-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  color: var(--c-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 12px;
+  background: var(--c-white-05);
+  border-radius: 12px;
+  border: 1px solid var(--c-border);
+  font-weight: 600;
+}
+
+/* Colores sutiles por categoría - Completo */
+.interactive-card[data-category*="ball"] {
+  --item-color: var(--item-pokeball);
+}
+.interactive-card[data-category*="healing"] {
+  --item-color: var(--item-healing);
+}
+.interactive-card[data-category*="stat"] {
+  --item-color: var(--item-stat);
+}
+.interactive-card[data-category*="evolution"] {
+  --item-color: var(--item-evolution);
+}
+.interactive-card[data-category*="held"] {
+  --item-color: var(--item-held);
+}
+.interactive-card[data-category*="berr"] {
+  --item-color: var(--item-berry);
+}
+.interactive-card[data-category*="machine"] {
+  --item-color: var(--item-machine);
+}
+.interactive-card[data-category*="badge"] {
+  --item-color: var(--item-badge);
+}
+.interactive-card[data-category*="vitamin"] {
+  --item-color: var(--item-stat);
+}
+.interactive-card[data-category*="mega-stone"] {
+  --item-color: var(--item-evolution);
+}
+.interactive-card[data-category*="z-crystal"] {
+  --item-color: var(--item-machine);
+}
+.interactive-card[data-category*="plate"] {
+  --item-color: var(--item-badge);
+}
+.interactive-card[data-category*="type-protection"] {
+  --item-color: var(--item-held);
+}
+.interactive-card[data-category*="specific"] {
+  --item-color: var(--item-default);
+}
+.interactive-card[data-category*="choice"] {
+  --item-color: var(--item-evolution);
+}
+.interactive-card[data-category*="effort"] {
+  --item-color: var(--item-stat);
+}
+.interactive-card[data-category*="training"] {
+  --item-color: var(--item-stat);
+}
+.interactive-card[data-category*="ditto"] {
+  --item-color: var(--item-evolution);
+}
+.interactive-card[data-category*="miracle"] {
+  --item-color: var(--item-healing);
+}
+.interactive-card[data-category*="scarf"] {
+  --item-color: var(--item-held);
+}
+.interactive-card[data-category*="band"] {
+  --item-color: var(--item-held);
+}
+.interactive-card[data-category*="lens"] {
+  --item-color: var(--item-held);
+}
+.interactive-card[data-category*="incense"] {
+  --item-color: var(--item-berry);
+}
+.interactive-card[data-category*="mulch"] {
+  --item-color: var(--item-berry);
+}
+.interactive-card[data-category*="flute"] {
+  --item-color: var(--item-machine);
+}
+.interactive-card[data-category*="shard"] {
+  --item-color: var(--item-machine);
+}
+.interactive-card[data-category*="fossil"] {
+  --item-color: var(--item-pokeball);
+}
+.interactive-card[data-category*="jewel"] {
+  --item-color: var(--item-badge);
+}
+.interactive-card[data-category*="memory"] {
+  --item-color: var(--item-default);
+}
+.interactive-card[data-category*="drive"] {
+  --item-color: var(--item-default);
+}
+.interactive-card[data-category*="nectar"] {
+  --item-color: var(--item-berry);
+}
+
+/* ===== MODAL DE OBJETOS - DISEÑO ATRACTIVO Y ÚNICO ===== */
+#itemModal {
+  max-width: 900px;
+  width: 90%;
+  border: none;
+  border-radius: 24px;
+  background: transparent;
+  padding: 0;
+  margin: auto;
+  overflow: visible;
+}
+
+#itemModal::backdrop {
+  background: var(--c-modal-overlay);
+  backdrop-filter: blur(10px);
+}
+
+.modal-content {
+  background: linear-gradient(135deg, var(--c-bg) 0%, var(--c-surface) 100%);
+  border-radius: 24px;
+  border: 2px solid var(--modal-color, var(--c-border));
+  box-shadow:
+    0 30px 60px var(--c-card-shadow),
+    0 0 20px -5px var(--modal-color, transparent),
+    inset 0 1px 0 var(--c-white-10);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Efecto de brillo sutil en la esquina */
+.modal-content::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.05) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--c-border);
+  padding: 2.5rem 3.5rem 1rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.header-left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.header-left img {
+  width: 72px;
+  height: 72px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 12px;
+  border: 1px solid var(--c-white-10);
+  flex-shrink: 0;
+}
+
+.modal-title {
+  font-size: 1.75rem;
+  font-weight: 900;
+  margin: 0;
+  color: var(--c-text);
+  text-transform: capitalize;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+
+.modal-body {
+  padding: 2.5rem 3.5rem 3.5rem;
+}
+
+/* Stats Row - Diseño moderno y limpio */
+.item-stats-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.5rem;
+  margin-bottom: 3rem;
+}
+
+.stat-card {
+  background: var(--c-white-05);
+  padding: 1.75rem;
+  border-radius: 20px;
+  border: 1px solid var(--c-white-10);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat-card:hover {
+  background: var(--c-white-10);
+  border-color: var(--modal-color, var(--c-accent));
+  transform: translateY(-2px);
+}
+
+/* Pequeño acento de color en la esquina */
+.stat-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(
+    circle at top right,
+    var(--modal-color, transparent) 0%,
+    transparent 70%
+  );
+  opacity: 0.5;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.stat-val {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--c-text);
+  text-transform: capitalize;
+  text-align: left;
+}
+
+/* Description con diseño elegante */
+.item-description {
+  background: var(--c-black-20);
+  padding: 2rem;
+  border-radius: 20px;
+  border: 1px solid var(--c-white-05);
+  line-height: 1.8;
+  color: var(--c-text);
+  margin: 0;
+  font-size: 1rem;
+  position: relative;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Pequeña marca de cita */
+.item-description::before {
+  content: '"';
+  position: absolute;
+  top: 5px;
+  left: 15px;
+  font-size: 4rem;
+  font-family: Georgia, serif;
+  color: var(--modal-color, var(--c-accent));
+  opacity: 0.4;
+  line-height: 1;
+}
+
+/* Colores dinámicos del modal (muy sutiles) - Completo */
+#itemModal[data-category*="ball"] {
+  --modal-color: var(--item-pokeball);
+}
+#itemModal[data-category*="healing"] {
+  --modal-color: var(--item-healing);
+}
+#itemModal[data-category*="stat"] {
+  --modal-color: var(--item-stat);
+}
+#itemModal[data-category*="evolution"] {
+  --modal-color: var(--item-evolution);
+}
+#itemModal[data-category*="held"] {
+  --modal-color: var(--item-held);
+}
+#itemModal[data-category*="berr"] {
+  --modal-color: var(--item-berry);
+}
+#itemModal[data-category*="machine"] {
+  --modal-color: var(--item-machine);
+}
+#itemModal[data-category*="badge"] {
+  --modal-color: var(--item-badge);
+}
+#itemModal[data-category*="vitamin"] {
+  --modal-color: var(--item-stat);
+}
+#itemModal[data-category*="mega-stone"] {
+  --modal-color: var(--item-evolution);
+}
+#itemModal[data-category*="z-crystal"] {
+  --modal-color: var(--item-machine);
+}
+#itemModal[data-category*="plate"] {
+  --modal-color: var(--item-badge);
+}
+#itemModal[data-category*="type-protection"] {
+  --modal-color: var(--item-held);
+}
+#itemModal[data-category*="specific"] {
+  --modal-color: var(--item-default);
+}
+#itemModal[data-category*="choice"] {
+  --modal-color: var(--item-evolution);
+}
+#itemModal[data-category*="effort"] {
+  --modal-color: var(--item-stat);
+}
+#itemModal[data-category*="training"] {
+  --modal-color: var(--item-stat);
+}
+#itemModal[data-category*="ditto"] {
+  --modal-color: var(--item-evolution);
+}
+#itemModal[data-category*="miracle"] {
+  --modal-color: var(--item-healing);
+}
+#itemModal[data-category*="scarf"] {
+  --modal-color: var(--item-held);
+}
+#itemModal[data-category*="band"] {
+  --modal-color: var(--item-held);
+}
+#itemModal[data-category*="lens"] {
+  --modal-color: var(--item-held);
+}
+#itemModal[data-category*="incense"] {
+  --modal-color: var(--item-berry);
+}
+#itemModal[data-category*="mulch"] {
+  --modal-color: var(--item-berry);
+}
+#itemModal[data-category*="flute"] {
+  --modal-color: var(--item-machine);
+}
+#itemModal[data-category*="shard"] {
+  --modal-color: var(--item-machine);
+}
+#itemModal[data-category*="fossil"] {
+  --modal-color: var(--item-pokeball);
+}
+#itemModal[data-category*="jewel"] {
+  --modal-color: var(--item-badge);
+}
+#itemModal[data-category*="memory"] {
+  --modal-color: var(--item-default);
+}
+#itemModal[data-category*="drive"] {
+  --modal-color: var(--item-default);
+}
+#itemModal[data-category*="nectar"] {
+  --modal-color: var(--item-berry);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+  .filters-bar {
+    flex-direction: column;
+  }
+
+  .filters-bar .form-control,
+  .filters-bar .form-select {
+    width: 100%;
+  }
+
+  .item-stats-row {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+  }
+
+  .header-left {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .modal-header {
+    padding: 1.5rem;
+  }
+
+  .modal-body {
+    padding: 1rem 1.5rem 1.5rem;
+  }
+}
+
+/* Pantallas muy pequeñas: Divisor de 60 */
+@media (max-width: 380px) {
+  #itemsGrid.grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

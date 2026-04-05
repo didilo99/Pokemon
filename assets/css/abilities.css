@@ -1,0 +1,412 @@
+/* =============================================================================
+   POKÉDEX - ESTILOS PARA PÁGINA DE HABILIDADES
+   Estilo inspirado en Generaciones con tema de habilidades
+   ============================================================================= */
+
+/* ===== GRID DE HABILIDADES ===== */
+#abilitiesGrid.grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr); /* Divisor of 60 */
+  gap: 16px;
+  padding: 10px 0;
+}
+
+@media (max-width: 1400px) {
+  #abilitiesGrid.grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  #abilitiesGrid.grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  #abilitiesGrid.grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===== TARJETAS DE HABILIDADES ===== */
+#abilitiesGrid .card {
+  min-height: 220px;
+  cursor: pointer;
+  border: 2px solid var(--c-border);
+  position: relative;
+  background: var(--c-surface);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Align to top */
+  text-align: center;
+  padding: 1.5rem;
+}
+
+/* Degradado base para habilidades normales (morado/azul) */
+#abilitiesGrid .card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #a890f0 0%, #667eea 100%);
+  opacity: 0.25; /* Increased from 0.12 */
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+#abilitiesGrid .card:hover::before {
+  opacity: 0.2;
+}
+
+#abilitiesGrid .card:hover {
+  border-color: #a890f0;
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* Degradado especial para habilidades ocultas (dorado) */
+#abilitiesGrid .card.hidden-ability::before {
+  background: linear-gradient(135deg, #f8d030 0%, #d4af37 100%);
+  opacity: 0.3; /* Increased from 0.15 */
+}
+
+#abilitiesGrid .card.hidden-ability {
+  border-color: rgba(248, 208, 48, 0.3);
+}
+
+#abilitiesGrid .card.hidden-ability:hover {
+  border-color: #f8d030;
+}
+
+/* Badge de habilidad oculta */
+.ability-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f8d030, #d4af37);
+  color: #1a1a1a;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Nombre de habilidad */
+.ability-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--c-text);
+  margin-bottom: 12px;
+  padding-top: 16px;
+  text-transform: capitalize;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 1px 2px var(--c-black-20);
+  letter-spacing: 0.5px;
+}
+
+/* Descripción de efecto */
+.ability-effect {
+  font-size: 0.85rem;
+  color: var(--c-text-muted);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== MODAL DE HABILIDADES ===== */
+#abilityModal {
+  max-width: 1000px;
+  width: 90%;
+  max-height: 85vh;
+  border: none;
+  border-radius: 24px;
+  background: var(--c-bg);
+  color: var(--c-text);
+  box-shadow: 0 25px 50px -12px var(--c-modal-overlay);
+  padding: 0;
+  overflow: hidden;
+  margin: auto;
+}
+
+#abilityModal::backdrop {
+  background: var(--c-modal-overlay);
+  backdrop-filter: blur(8px);
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 85vh;
+}
+
+/* Header del Modal */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 2.5rem;
+  background: var(--c-surface);
+  border-bottom: 1px solid var(--c-border);
+  flex-shrink: 0;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+#modalTitle {
+  font-size: 1.75rem;
+  font-weight: 900;
+  margin: 0;
+  background: linear-gradient(
+    to bottom,
+    var(--c-title-top, var(--c-text)) 0%,
+    var(--c-title-bottom, var(--c-text-muted)) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px var(--c-black-20);
+}
+
+#modalSubtitle {
+  background: var(--c-bg);
+  color: var(--c-text-muted);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  border: 1px solid var(--c-border);
+  font-weight: 600;
+}
+
+/* Cuerpo del Modal */
+.modal-body {
+  padding: 2rem 2.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Stats Row */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: linear-gradient(
+    135deg,
+    var(--c-surface) 0%,
+    rgba(168, 144, 240, 0.05) 100%
+  );
+  padding: 1.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--c-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.stat-card:hover {
+  border-color: #a890f0;
+  transform: translateY(-2px);
+}
+
+.stat-val {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #a890f0;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  letter-spacing: 0.5px;
+  margin-top: 6px;
+}
+
+/* Sección de efecto */
+.effect-section {
+  margin-bottom: 2rem;
+}
+
+#abilityEffect {
+  background: var(--c-black-20);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--c-border);
+  line-height: 1.8;
+  color: var(--c-text);
+}
+
+/* Grid de Pokémon */
+.pokemon-list {
+  background: var(--c-black-20);
+  padding: 1.5rem;
+  border-radius: 12px;
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+.pokemon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 1rem;
+  background: var(--c-surface);
+  border-radius: 8px;
+  border: 1px solid var(--c-border);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.pokemon-item:hover {
+  background: var(--c-surface-hover);
+  transform: translateY(-2px);
+  border-color: #a890f0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.pokemon-item img {
+  width: 64px;
+  height: 64px;
+  image-rendering: pixelated;
+}
+
+.pokemon-item span {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+/* Loading state */
+.loading-state,
+.spinner {
+  text-align: center;
+  padding: 3rem;
+  color: var(--c-text-muted);
+}
+
+/* Scrollbar */
+.pokemon-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.pokemon-list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.pokemon-list::-webkit-scrollbar-thumb {
+  background: var(--c-surface-hover);
+  border-radius: 4px;
+}
+
+.pokemon-list::-webkit-scrollbar-thumb:hover {
+  background: #a890f0;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  #abilitiesGrid.grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .modal-header,
+  .modal-body {
+    padding: 1.5rem;
+  }
+
+  .stats-row {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+
+  .pokemon-grid {
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  }
+}
+
+/* Pantallas muy pequeñas: Divisor de 5 */
+@media (max-width: 450px) {
+  #abilitiesGrid.grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+/* ===== NUEVAS SECCIONES MODAL HABILIDADES (Phase 2.3) ===== */
+
+.effect-changes-section {
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.effect-change-item {
+  background: var(--c-surface);
+  border: 1px dashed var(--c-border);
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.effect-change-item:last-child {
+  margin-bottom: 0;
+}
+
+.effect-change-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.version-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  font-weight: 800;
+  background: var(--c-accent-30);
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 10px;
+  letter-spacing: 0.5px;
+}
+
+.effect-change-text {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--c-text-muted);
+  font-style: italic;
+}

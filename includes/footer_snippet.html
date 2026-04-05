@@ -1,0 +1,265 @@
+<footer class="dex-footer">
+  <div class="inner container-fluid">
+    <div class="footer-grid">
+      <!-- Links Column -->
+      <div class="footer-nav-group">
+        <div class="footer-nav-col">
+          <h4>
+            <i data-lucide="globe" class="title-icon"></i>
+            <span data-i18n="footer.nav_world">Mundo Pokémon</span>
+          </h4>
+          <ul class="footer-nav-list">
+            <li>
+              <a
+                href="index.html"
+                class="footer-link"
+                data-i18n="footer.pokemon"
+                >Pokémon</a
+              >
+            </li>
+            <li>
+              <a
+                href="pages/regions.html"
+                class="footer-link"
+                data-i18n="footer.regions"
+                >Regiones</a
+              >
+            </li>
+            <li>
+              <a
+                href="pages/generations.html"
+                class="footer-link"
+                data-i18n="footer.generations"
+                >Generaciones</a
+              >
+            </li>
+            <li>
+              <a
+                href="pages/locations.html"
+                class="footer-link"
+                data-i18n="nav.locations"
+                >Localizaciones</a
+              >
+            </li>
+            <li>
+              <a
+                href="pages/breeding.html"
+                class="footer-link"
+                data-i18n="nav.breeding"
+                >Crianza</a
+              >
+            </li>
+            <li>
+              <a
+                href="pages/habitats.html"
+                class="footer-link"
+                data-i18n="nav.habitats"
+                >Hábitats</a
+              >
+            </li>
+            <li>
+              <a
+                href="pages/shapes.html"
+                class="footer-link"
+                data-i18n="nav.shapes"
+                >Formas</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="footer-nav-col">
+          <h4>
+            <i data-lucide="swords" class="title-icon"></i>
+            <span data-i18n="footer.nav_combat">Combate</span>
+          </h4>
+          <ul class="footer-nav-list">
+            <li>
+              <a
+                href="pages/moves.html"
+                class="footer-link"
+                data-i18n="footer.moves"
+                >Movimientos</a
+              >
+            </li>
+            <li>
+              <a
+                href="pages/abilities.html"
+                class="footer-link"
+                data-i18n="footer.abilities"
+                >Habilidades</a
+              >
+            </li>
+            <li>
+              <a
+                href="pages/types.html"
+                class="footer-link"
+                data-i18n="nav.types"
+                >Tabla de Tipos</a
+              >
+            </li>
+            <li>
+              <a
+                href="pages/natures.html"
+                class="footer-link"
+                data-i18n="footer.natures"
+                >Naturalezas</a
+              >
+            </li>
+            <li>
+              <a
+                href="pages/machines.html"
+                class="footer-link"
+                data-i18n="nav.machines"
+                >Máquinas</a
+              >
+            </li>
+            <li>
+              <a
+                href="pages/contests.html"
+                class="footer-link"
+                data-i18n="nav.contests"
+                >Concursos</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="footer-nav-col">
+          <h4>
+            <i data-lucide="layers" class="title-icon"></i>
+            <span data-i18n="footer.nav_collection">Colección</span>
+          </h4>
+          <ul class="footer-nav-list">
+            <li>
+              <a
+                href="pages/items.html"
+                class="footer-link"
+                data-i18n="footer.items"
+                >Objetos</a
+              >
+            </li>
+            <li>
+              <a
+                href="pages/berries.html"
+                class="footer-link"
+                data-i18n="nav.berries"
+                >Bayas</a
+              >
+            </li>
+            <li>
+              <a
+                href="pages/games.html"
+                class="footer-link"
+                data-i18n="footer.games"
+                >Juegos</a
+              >
+            </li>
+            <li>
+              <a
+                href="pages/cards.html"
+                class="footer-link"
+                data-i18n="nav.cards"
+                >Cartas TCG</a
+              >
+            </li>
+            <li>
+              <a
+                href="pages/tcg-sets.html"
+                class="footer-link"
+                data-i18n="nav.tcg_sets"
+                >Sets TCG</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="footer-nav-col">
+          <h4>
+            <i data-lucide="cpu" class="title-icon"></i>
+            <span data-i18n="footer.system">Sistema</span>
+          </h4>
+          <ul class="footer-nav-list">
+            <li>
+              <a
+                href="pages/api_info.html"
+                class="footer-link"
+                data-i18n="footer.api_info"
+                >Estado de APIs</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Cache Status Column -->
+      <div class="footer-stats">
+        <h4>
+          <i data-lucide="database" class="title-icon"></i>
+          <span data-i18n="footer.status_title"
+            >Estado de la Base de Datos</span
+          >
+        </h4>
+        <div class="stat-item">
+          <span class="stat-icon"><i data-lucide="refresh-cw"></i></span>
+          <div class="stat-info">
+            <span class="stat-label" data-i18n="footer.last_sync"
+              >Última sincronización</span
+            >
+            <span class="stat-value" id="cacheLastSync">...</span>
+          </div>
+        </div>
+        <div class="stat-item">
+          <span class="stat-icon"><i data-lucide="package"></i></span>
+          <div class="stat-info">
+            <span class="stat-label" data-i18n="footer.cached_data"
+              >Datos en caché</span
+            >
+            <span class="stat-value" id="cacheTotalCount">...</span>
+          </div>
+        </div>
+
+        <div class="sync-btn-container">
+          <button id="deepSyncPokeApiBtn" class="dex-btn-deep-sync">
+            <span><i data-lucide="rocket"></i></span>
+            <span data-i18n="footer.deep_sync_btn"
+              >Sincronización Profunda</span
+            >
+          </button>
+          <p class="sync-warning" data-i18n="footer.deep_sync_warning">
+            Esto descargará miles de registros. Tardará varios minutos.
+          </p>
+
+          <button id="syncPokeApiBtn" class="dex-btn-sync">
+            <span><i data-lucide="zap"></i></span>
+            <span data-i18n="footer.sync_btn">Actualizar Todo</span>
+          </button>
+
+          <button id="clearCacheBtn" class="dex-btn-clear">
+            <span data-i18n="footer.clear_cache">Borrar Caché</span>
+          </button>
+        </div>
+
+        <div id="syncProgressRow" class="sync-progress-row" hidden>
+          <span id="syncProgressText" class="sync-progress-text"
+            >Sincronizando...</span
+          >
+          <div class="sync-progress-bar-container">
+            <div
+              id="syncProgressBar"
+              class="sync-progress-bar"
+              role="progressbar"
+              style="width: 0%"
+              aria-valuenow="0"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="copyright">
+        <span data-i18n="footer.copyright">© {year} Pokédex App</span>
+      </div>
+    </div>
+  </div>
+</footer>

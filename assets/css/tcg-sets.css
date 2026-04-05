@@ -1,0 +1,196 @@
+/* =============================================================================
+   POKÉDEX - ESTILOS PARA LA PÁGINA DE TCG SETS
+   ============================================================================= */
+
+:root {
+  --item-tcg-color: #fbc02d;
+}
+
+#setsGrid.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 10px 0;
+}
+
+@media (max-width: 1400px) {
+  #setsGrid.grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 992px) {
+  #setsGrid.grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  #setsGrid.grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.interactive-card {
+  background: var(--c-surface);
+  border: 2px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  min-height: 180px;
+  justify-content: center;
+}
+
+.interactive-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--item-tcg-color);
+  opacity: 0.8;
+  transition: opacity 0.4s ease;
+}
+
+.interactive-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: all 0.6s ease;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.interactive-card:hover::before {
+  left: 200%;
+}
+
+.interactive-card:hover {
+  transform: translateY(-10px) scale(1.05);
+  border-color: var(--item-tcg-color);
+  box-shadow: 0 30px 40px -10px rgba(251, 192, 45, 0.25);
+}
+
+.item-name {
+  color: var(--c-text);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+/* Modal */
+#setModal {
+  max-width: 900px;
+  width: 95%;
+  border: none;
+  border-radius: 24px;
+  background: transparent;
+  padding: 0;
+  margin: auto;
+  overflow: visible;
+}
+
+#setModal::backdrop {
+  background: var(--c-modal-overlay);
+  backdrop-filter: blur(10px);
+}
+
+.modal-content {
+  background: linear-gradient(135deg, var(--c-bg) 0%, var(--c-surface) 100%);
+  border-radius: 24px;
+  border: 2px solid var(--item-tcg-color);
+  box-shadow:
+    0 30px 60px var(--c-card-shadow),
+    0 0 20px -5px var(--item-tcg-color),
+    inset 0 1px 0 var(--c-white-10);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--c-border);
+  padding: 2rem 3rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.header-left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.modal-title {
+  font-size: 2rem;
+  font-weight: 900;
+  margin: 0;
+  color: var(--c-text);
+  text-transform: capitalize;
+}
+
+.modal-body {
+  padding: 2rem 3rem 3rem;
+  overflow-y: auto;
+}
+
+.item-stats-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.5rem;
+}
+
+.stat-card {
+  background: var(--c-white-05);
+  padding: 1.75rem;
+  border-radius: 20px;
+  border: 1px solid var(--c-white-10);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.stat-val {
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-weight: 800;
+  color: var(--c-text);
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .item-stats-row {
+    grid-template-columns: 1fr;
+  }
+  .modal-header {
+    padding: 1.5rem;
+  }
+  .modal-body {
+    padding: 1rem 1.5rem 1.5rem;
+  }
+}

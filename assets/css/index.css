@@ -1,0 +1,386 @@
+/* =============================================================================
+   POKÉDEX - ESTILOS PARA PÁGINA PRINCIPAL (POKÉMON)
+   Degradados por tipo Pokémon
+   ============================================================================= */
+
+/* ===== PANEL DE EQUIPO ===== */
+/* 
+  MODIFICAR background para cambiar el fondo del panel:
+  - rgba(30, 41, 59, 0.5) = actual (semi-transparente)
+  - rgba(30, 41, 59, 0.8) = más opaco
+  - rgba(30, 41, 59, 0.2) = más transparente
+*/
+.team-panel {
+  background: var(--c-surface); /* Fondo del panel */
+  padding: var(--spacing-lg); /* Espacio interno - usar variables de spacing */
+  border-radius: var(--radius-lg); /* Redondeo de esquinas */
+  border: 1px solid var(--c-border); /* Color de borde */
+  backdrop-filter: blur(
+    10px
+  ); /* Efecto de desenfoque - MODIFICAR: 10px más/menos = más/menos blur */
+}
+
+.team-actions-top {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+#importTeamInput {
+  flex: 1;
+  padding: var(--spacing-sm);
+  background: var(--c-surface);
+  color: var(--c-text);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+}
+
+.team-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+/* ===== SLOT DE EQUIPO ===== */
+/* 
+  MODIFICAR min-height para cambiar altura de slots:
+  - 160px = altura actual
+  - 180px = más alto
+  - 140px = más bajo
+*/
+.team-slot {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    var(--c-surface) 0%,
+    var(--c-white-05) 100%
+  );
+  border: 2px dashed var(--c-border); /* Borde punteado cuando está vacío */
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  min-height: 160px; /* Altura mínima del slot - MODIFICAR para cambiar tamaño */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-normal);
+  cursor: pointer;
+  box-shadow: 0 4px 12px var(--c-card-shadow);
+}
+
+/* 
+  HOVER EFFECT: Efecto al pasar el mouse sobre slot vacío
+  MODIFICAR translateY para cambiar elevación:
+  - translateY(-4px) = sube 4px (actual)
+  - translateY(-8px) = sube más
+*/
+.team-slot:hover:not(.filled) {
+  border-color: var(--c-accent);
+  transform: translateY(
+    -4px
+  ); /* Elevación al hover - MODIFICAR para más/menos movimiento */
+  box-shadow: 0 8px 20px var(--c-accent-30);
+}
+
+.team-slot.filled {
+  border-style: solid;
+  border-width: 2px;
+  border-color: var(--c-accent);
+  cursor: default;
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.15),
+    rgba(118, 75, 162, 0.1)
+  );
+}
+
+.team-slot.filled::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.05;
+  border-radius: var(--radius-md);
+  z-index: 0;
+  background: linear-gradient(135deg, var(--c-accent), transparent);
+}
+
+.team-slot.filled > * {
+  position: relative;
+  z-index: 1;
+}
+
+.team-slot:not(.filled):hover {
+  border-color: var(--c-text);
+  transform: scale(1.02);
+}
+
+/* 
+  SPRITE DEL EQUIPO
+  MODIFICAR width/height para cambiar tamaño del sprite:
+  - 80px = tamaño actual
+  - 96px = más grande
+  - 64px = más pequeño
+*/
+.team-slot .team-sprite {
+  width: 80px; /* Ancho del sprite - MODIFICAR para cambiar tamaño */
+  height: 80px; /* Alto del sprite */
+  image-rendering: pixelated; /* Mantiene estilo pixel-art */
+  margin-bottom: var(--spacing-sm);
+}
+
+.team-slot .team-name {
+  font-weight: 700;
+  font-size: 0.875rem; /* Tamaño fuente nombre - MODIFICAR: 0.875rem, 1rem, etc. */
+  text-align: center;
+  text-transform: capitalize;
+  margin-bottom: var(--spacing-xs);
+}
+
+.team-slot .team-level {
+  font-size: 0.75rem;
+  color: var(--c-text-muted);
+  margin-bottom: var(--spacing-xs);
+}
+
+.team-slot .team-controls {
+  display: flex;
+  gap: var(--spacing-xs);
+  margin-top: auto;
+}
+
+.team-slot .team-btn {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: 0.75rem;
+  background: var(--c-surface-hover);
+  color: var(--c-text);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.team-slot .team-btn:hover {
+  background: var(--c-border);
+  transform: scale(1.05);
+}
+
+.team-slot .placeholder-text {
+  color: var(--c-text-muted);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/* ===== ESTADÍSTICAS DE EQUIPO ===== */
+.team-stats {
+  background: var(--c-surface);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--c-border);
+  backdrop-filter: blur(10px);
+}
+
+.team-stats table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.team-stats th,
+.team-stats td {
+  padding: var(--spacing-sm);
+  text-align: center;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.team-stats th {
+  font-weight: 700;
+  color: var(--c-text-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.team-stats td {
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.team-stats tbody tr:hover {
+  background: var(--c-white-05);
+}
+
+#teamTypes {
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--c-black-20);
+  border-radius: var(--radius-md);
+}
+
+/* ===== MODAL DE EDICIÓN DE EQUIPO ===== */
+/* 
+  MODIFICAR max-width para cambiar ancho del modal de edición:
+  - 600px = actual
+  - 700px = más ancho
+  - 500px = más estrecho
+*/
+
+.team-edit-head {
+  text-align: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.team-edit-sprite-container {
+  margin-top: var(--spacing-md);
+}
+
+/* 
+  SPRITE EN MODAL DE EDICIÓN
+  MODIFICAR width/height para cambiar tamaño:
+  - 96px = actual
+  - 120px = más grande
+  - 80px = más pequeño
+*/
+#teamEditSprite {
+  width: 160px;
+  height: 160px;
+  image-rendering: pixelated; /* Consistent with other sprites */
+}
+
+.team-edit-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.edit-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.edit-section label {
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--c-text-muted);
+}
+
+.edit-section.full-width {
+  width: 100%;
+}
+
+/* 
+  GRID DE MOVIMIENTOS
+  MODIFICAR grid-template-columns para cambiar distribución:
+  - repeat(2, 1fr) = 2 columnas (actual)
+  - repeat(1, 1fr) = 1 columna (lista vertical)
+  - repeat(4, 1fr) = 4 columnas (más compacto)
+*/
+.moves-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    2,
+    1fr
+  ); /* Número de columnas para selects de movimientos */
+  gap: var(--spacing-md);
+}
+
+/* ===== BADGES ===== */
+.badge-compact {
+  font-size: 0.8rem;
+  padding: 6px 12px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== RESPONSIVE ===== */
+/* 
+  BREAKPOINT PARA MÓVILES
+  MODIFICAR max-width para cambiar cuándo se activan estilos móviles:
+  - 768px = actual
+  - 960px = se activa antes (más temprano)
+  - 640px = se activa después (más tarde)
+*/
+@media (max-width: 768px) {
+  .team-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* En móviles, una sola columna para movimientos */
+  .moves-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .team-row {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* ===== MODAL LOADING SKELETONS ===== */
+.modal-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--c-bg); /* Opaque background to hide uninitialized content */
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.modal-loading-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.poke-modal-head .modal-loading-overlay {
+  background: var(--c-surface);
+}
+
+.modal-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--c-border);
+  border-top-color: var(--c-accent);
+  border-radius: 50%;
+  animation: modal-spin 1s linear infinite;
+  margin-bottom: var(--spacing-md);
+}
+
+.modal-loading-text {
+  color: var(--c-text-muted);
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes modal-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+/* Base style overrides to prevent flash of content */
+dialog#modal .poke-modal, dialog#teamEditModal .poke-modal {
+    position: relative;
+    overflow: hidden; /* Ensure overlay covers perfectly */
+}

@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title data-i18n="games.title">Juegos Pokémon — Pokédex</title>
+    <!-- Bootstrap 5 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../assets/css/styles.css?v=2" />
+    <link rel="stylesheet" href="../assets/css/games.css" />
+    <link rel="icon" type="image/png" href="../assets/icon/favicon.png" />
+    <script src="../assets/js/cache.js"></script>
+    <script src="../assets/js/i18n.js"></script>
+    <link rel="stylesheet" href="../assets/css/a11y.css" />
+    <script src="../assets/js/a11y.js" defer></script>
+    <script src="../assets/js/gamesData.js"></script>
+    <script
+      src="https://unpkg.com/lucide@latest"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body class="v2-theme">
+    <!-- Cabecera -->
+    <header>
+      <div class="dex-top">
+        <div class="inner container-fluid">
+          <div class="d-flex align-items-center justify-content-between">
+            <a href="../index.html" class="brand">
+              <img
+                src="../assets/icon/logo.png"
+                alt="Logo"
+                class="title-logo"
+              />
+              <h1 class="title mb-0" data-i18n="games.title">Juegos Pokémon</h1>
+            </a>
+            <div class="d-flex align-items-center gap-2">
+              <div class="dropdown d-inline-block">
+                <button
+                  class="btn btn-sm dropdown-toggle dex-select d-flex align-items-center gap-2"
+                  type="button"
+                  id="langDropdown"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <img
+                    id="currentFlag"
+                    src="../assets/img/flags/espana.png"
+                    alt="ES"
+                    width="20"
+                    height="20"
+                  />
+                  <span id="currentLangLabel">ES</span>
+                </button>
+                <ul
+                  class="dropdown-menu dropdown-menu-end dex-dropdown-menu"
+                  aria-labelledby="langDropdown"
+                >
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="es"
+                      ><img
+                        src="../assets/img/flags/espana.png"
+                        width="20"
+                        height="20"
+                      />
+                      Español</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="en"
+                      ><img
+                        src="../assets/img/flags/reino-unido.png"
+                        width="20"
+                        height="20"
+                      />
+                      English</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="fr"
+                      ><img
+                        src="../assets/img/flags/francia.png"
+                        width="20"
+                        height="20"
+                      />
+                      Français</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="de"
+                      ><img
+                        src="../assets/img/flags/alemania.png"
+                        width="20"
+                        height="20"
+                      />
+                      Deutsch</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="it"
+                      ><img
+                        src="../assets/img/flags/italia.png"
+                        width="20"
+                        height="20"
+                      />
+                      Italiano</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="pt"
+                      ><img
+                        src="../assets/img/flags/portugal.png"
+                        width="20"
+                        height="20"
+                      />
+                      Português</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="ja"
+                      ><img
+                        src="../assets/img/flags/japon.png"
+                        width="20"
+                        height="20"
+                      />
+                      日本語</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="zh-tw"
+                      ><img
+                        src="../assets/img/flags/china.png"
+                        width="20"
+                        height="20"
+                      />
+                      中文</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="inner container-fluid">
+          <nav class="dex-nav">
+            <!-- Mundo Pokémon -->
+            <li class="nav-item dropdown d-inline-block">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="mundoDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-i18n="footer.nav_world"
+              >
+                Mundo Pokémon
+              </a>
+              <ul
+                class="dropdown-menu dex-dropdown-menu"
+                aria-labelledby="mundoDropdown"
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="../index.html"
+                    data-i18n="nav.pokemon"
+                    >Pokémon</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="regions.html"
+                    data-i18n="nav.regions"
+                    >Regiones</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="generations.html"
+                    data-i18n="nav.generations"
+                    >Generaciones</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="locations.html"
+                    data-i18n="nav.locations"
+                    >Localizaciones</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="breeding.html"
+                    data-i18n="nav.breeding"
+                    >Crianza</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="habitats.html"
+                    data-i18n="nav.habitats"
+                    >Hábitats</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="shapes.html"
+                    data-i18n="nav.shapes"
+                    >Formas</a
+                  >
+                </li>
+              </ul>
+            </li>
+
+            <!-- Combate -->
+            <li class="nav-item dropdown d-inline-block">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="combateDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-i18n="footer.nav_combat"
+              >
+                Combate
+              </a>
+              <ul
+                class="dropdown-menu dex-dropdown-menu"
+                aria-labelledby="combateDropdown"
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="moves.html"
+                    data-i18n="nav.moves"
+                    >Movimientos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="abilities.html"
+                    data-i18n="nav.abilities"
+                    >Habilidades</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="types.html"
+                    data-i18n="nav.types"
+                    >Tabla de Tipos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="natures.html"
+                    data-i18n="nav.natures"
+                    >Naturalezas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="machines.html"
+                    data-i18n="nav.machines"
+                    >Máquinas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="contests.html"
+                    data-i18n="nav.contests"
+                    >Concursos</a
+                  >
+                </li>
+              </ul>
+            </li>
+
+            <!-- Colección -->
+            <li class="nav-item dropdown d-inline-block">
+              <a
+                class="nav-link dropdown-toggle active"
+                href="#"
+                id="coleccionDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-i18n="footer.nav_collection"
+              >
+                Colección
+              </a>
+              <ul
+                class="dropdown-menu dex-dropdown-menu"
+                aria-labelledby="coleccionDropdown"
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="items.html"
+                    data-i18n="nav.items"
+                    >Objetos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="berries.html"
+                    data-i18n="nav.berries"
+                    >Bayas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item active"
+                    href="games.html"
+                    data-i18n="nav.games"
+                    >Juegos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="cards.html"
+                    data-i18n="nav.cards"
+                    >Cartas TCG</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="tcg-sets.html"
+                    data-i18n="nav.tcg_sets"
+                    >Sets TCG</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+      <div class="hero-content container">
+        <div class="row align-items-center">
+          <div class="col-lg-6 hero-text text-center text-lg-start">
+            <h2 class="hero-title" data-i18n="games.hero_title">
+              Explora la Historia
+            </h2>
+            <p class="hero-subtitle" data-i18n="games.hero_subtitle">
+              Doscientos años de aventuras, desde Kanto hasta Paldea. Descubre
+              cada consola y cada versión.
+            </p>
+            <div
+              class="hero-actions d-flex justify-content-center justify-content-lg-start"
+            >
+              <button
+                class="btn btn-primary dex-btn px-4"
+                id="exploreBtn"
+                data-i18n="games.explore"
+              >
+                Empezar aventura
+              </button>
+              <button
+                class="btn btn-outline-light dex-btn alt ms-3 px-4"
+                id="favoritesBtn"
+                data-i18n="games.my_favorites"
+              >
+                Mis Favoritos
+              </button>
+            </div>
+          </div>
+          <div class="col-lg-6 hero-image-container mt-5 mt-lg-0">
+            <div class="featured-card mx-auto" style="max-width: 500px">
+              <img
+                id="featuredGameImg"
+                src=""
+                alt="Featured Game"
+                class="featured-img skeleton"
+              />
+              <div class="featured-info">
+                <span class="badge mb-2" data-i18n="games.featured"
+                  >Destacado</span
+                >
+                <h3
+                  id="featuredGameTitle"
+                  class="mb-0"
+                >
+                  Cargando...
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <main class="inner container mt-5">
+      <!-- FILTROS Y CONTROLES -->
+      <div id="controlsPanel" class="controls-panel mb-5">
+        <div class="filters">
+          <div class="ctrl">
+            <label for="gameSearch" data-i18n="filters.search_label"
+              >Buscar</label
+            >
+            <input
+              type="search"
+              id="gameSearch"
+              data-i18n-placeholder="games.search_placeholder"
+              autocomplete="off"
+            />
+          </div>
+          <div class="ctrl">
+            <label for="genFilter" data-i18n="filters.gen_label"
+              >Generación</label
+            >
+            <select id="genFilter" class="dex-select">
+              <option value="all" data-i18n="games.all_generations">
+                Todas las Generaciones
+              </option>
+              <option value="1">Gen I</option>
+              <option value="2">Gen II</option>
+              <option value="3">Gen III</option>
+              <option value="4">Gen IV</option>
+              <option value="5">Gen V</option>
+              <option value="6">Gen VI</option>
+              <option value="7">Gen VII</option>
+              <option value="8">Gen VIII</option>
+              <option value="9">Gen IX</option>
+            </select>
+          </div>
+          <div class="ctrl">
+            <label for="platformFilter" data-i18n="games.platform"
+              >Plataforma</label
+            >
+            <select id="platformFilter" class="dex-select">
+              <option value="all" data-i18n="games.all_platforms">
+                Plataformas
+              </option>
+              <option value="boy">Game Boy</option>
+              <option value="ds">Nintendo DS</option>
+              <option value="3ds">Nintendo 3DS</option>
+              <option value="switch">Nintendo Switch</option>
+            </select>
+          </div>
+          <div class="ctrl">
+            <label data-i18n="games.view">Vista</label>
+            <div class="btn-group dex-btn-group">
+              <button
+                class="btn btn-sm btn-outline-light active"
+                id="viewGrid"
+                data-i18n-title="games.grid_view"
+                title="Cuadrícula"
+              >
+                <i data-lucide="layout-grid"></i>
+              </button>
+              <button
+                class="btn btn-sm btn-outline-light"
+                id="viewTimeline"
+                data-i18n-title="games.timeline_view"
+                title="Cronología"
+              >
+                <i data-lucide="calendar"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="gamesGrid" class="grid-v2"></div>
+      <div id="gamesTimeline" hidden class="timeline-container"></div>
+
+      <div id="gamesEmpty" hidden class="empty-state text-center py-5">
+        <h4 data-i18n="common.no_results">No hay resultados</h4>
+        <p class="text-muted" data-i18n="games.try_another_filter">
+          Intenta ajustar los filtros
+        </p>
+      </div>
+    </main>
+
+    <!-- Modal de Detalles V3 (CLEAN DUAL-PANE) -->
+    <dialog id="gameModal" class="dex-dialog v2-dialog">
+      <div class="modal-content-v2">
+        <button
+          id="closeModalBtn"
+          class="close-btn"
+          aria-label="Cerrar"
+          data-i18n-aria-label="modal.close_aria"
+          data-close-modal
+        >
+          <i data-lucide="x"></i>
+        </button>
+
+        <div class="modal-left">
+          <img id="modalBoxArt" src="" alt="Box Art" class="modal-box-art" />
+        </div>
+
+        <div class="modal-right">
+          <div id="modalLoading" class="loading-state text-center">
+            <div class="pokeball-loader"></div>
+            <p class="mt-3" data-i18n="games.connecting">
+              Conectando con el servidor...
+            </p>
+          </div>
+
+          <div id="modalData" hidden>
+            <h2 id="modalTitle" class="modal-title-clean">Nombre</h2>
+            <p id="modalSubtitle" class="modal-subtitle">Subtítulo</p>
+
+            <div class="info-grid-clean">
+              <div class="info-pill-clean">
+                <span class="label" data-i18n="games.platform" data-i18n="missing.plataforma">PLATAFORMA</span>
+                <span id="platformValue" class="value">-</span>
+              </div>
+              <div class="info-pill-clean">
+                <span class="label" data-i18n="games.launch_jp"
+                  >Lanzamiento JPN</span
+                >
+                <span id="launchJP" class="value">-</span>
+              </div>
+              <div class="info-pill-clean">
+                <span class="label" data-i18n="games.launch_int"
+                  >Lanzamiento INT</span
+                >
+                <span id="launchINT" class="value">-</span>
+              </div>
+            </div>
+
+            <section class="mb-4">
+              <span class="section-subtitle" data-i18n="games.synopsis"
+                >Sinopsis</span
+              >
+              <p id="gameSummary" class="text-description opacity-75"></p>
+            </section>
+
+            <section class="mb-4">
+              <span class="section-subtitle" data-i18n="games.starters"
+                >Pokémon Iniciales</span
+              >
+              <div id="startersContainer" class="sprite-grid-clean"></div>
+            </section>
+
+            <section class="mb-4">
+              <span class="section-subtitle" data-i18n="games.legendaries"
+                >Legendarios Destacados</span
+              >
+              <div id="legendariesContainer" class="sprite-grid-clean"></div>
+            </section>
+
+            <button class="btn btn-accent w-100 mt-2" id="favToggleBtn">
+              <i data-lucide="star"></i> Añadir a favoritos
+            </button>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <div id="footer-placeholder"></div>
+
+    <!-- Scripts -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../assets/js/games.js" defer></script>
+  </body>
+</html>

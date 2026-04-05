@@ -1,0 +1,581 @@
+/* Simulator - Stabilized visuals */
+.simulator-container {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.type-selector {
+  display: flex;
+  flex-wrap: wrap; /* Ensure they wrap and don't stack vertically unless necessary */
+  gap: 8px;
+  margin-bottom: 2.5rem;
+  flex-direction: row; /* Explicitly set row */
+}
+
+/* Types Page Styles - Professional & Repaired */
+.types-container {
+  padding: 1rem 0;
+}
+
+.type-chip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid var(--chip-color);
+  letter-spacing: 0.5px;
+  background: transparent !important;
+  color: var(--chip-color) !important;
+  opacity: 0.8;
+  filter: grayscale(0.2);
+}
+
+.type-chip-btn:hover,
+.type-chip-btn.active {
+  background: var(--chip-color) !important;
+  color: white !important;
+  opacity: 1;
+  filter: grayscale(0);
+}
+
+.type-chip-btn .type-icon-small {
+  filter: none;
+  transition: all 0.2s;
+}
+
+.type-chip-btn:hover .type-icon-small,
+.type-chip-btn.active .type-icon-small {
+  background: transparent !important;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Colores para variables de chip */
+.type-chip-btn.type-normal {
+  --chip-color: var(--tc-normal);
+}
+.type-chip-btn.type-fire {
+  --chip-color: var(--tc-fire);
+}
+.type-chip-btn.type-water {
+  --chip-color: var(--tc-water);
+}
+.type-chip-btn.type-electric {
+  --chip-color: var(--tc-electric);
+}
+.type-chip-btn.type-grass {
+  --chip-color: var(--tc-grass);
+}
+.type-chip-btn.type-ice {
+  --chip-color: var(--tc-ice);
+}
+.type-chip-btn.type-fighting {
+  --chip-color: var(--tc-fighting);
+}
+.type-chip-btn.type-poison {
+  --chip-color: var(--tc-poison);
+}
+.type-chip-btn.type-ground {
+  --chip-color: var(--tc-ground);
+}
+.type-chip-btn.type-flying {
+  --chip-color: var(--tc-flying);
+}
+.type-chip-btn.type-psychic {
+  --chip-color: var(--tc-psychic);
+}
+.type-chip-btn.type-bug {
+  --chip-color: var(--tc-bug);
+}
+.type-chip-btn.type-rock {
+  --chip-color: var(--tc-rock);
+}
+.type-chip-btn.type-ghost {
+  --chip-color: var(--tc-ghost);
+}
+.type-chip-btn.type-dragon {
+  --chip-color: var(--tc-dragon);
+}
+.type-chip-btn.type-dark {
+  --chip-color: var(--tc-dark);
+}
+.type-chip-btn.type-steel {
+  --chip-color: var(--tc-steel);
+}
+.type-chip-btn.type-fairy {
+  --chip-color: var(--tc-fairy);
+}
+
+.type-chart-wrapper {
+  background: var(--c-surface);
+  border-radius: 12px;
+  border: 1px solid var(--c-border);
+  padding: 1.5rem;
+  margin-bottom: 2.5rem;
+  overflow: auto;
+  box-shadow: 0 4px 20px var(--c-card-shadow);
+}
+
+.type-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 2px;
+  table-layout: auto; /* Allow flexible content expansion */
+}
+
+/* Corner Cell Alignment */
+.corner-cell {
+  background: transparent !important;
+  border: none !important;
+  min-width: 135px; /* Fits "Eléctrico" snugly */
+}
+
+.type-table th,
+.type-table td {
+  width: 44px; /* Default width for data cells */
+  height: 44px;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid var(--c-border); /* Visible borders for grid definition */
+  border-radius: 4px;
+  padding: 0;
+}
+
+/* Professional & Muted Type Palette */
+/* --- COLORES DE FONDO ESPECÍFICOS --- */
+/* Scoped to table headers and result badges to avoid leaking to buttons */
+.type-table .type-normal,
+.sim-badge.type-normal {
+  background-color: #9fa19f !important;
+  color: #fff !important;
+}
+.type-table .type-fire,
+.sim-badge.type-fire {
+  background-color: #e8853d !important;
+  color: #fff !important;
+}
+.type-table .type-water,
+.sim-badge.type-water {
+  background-color: #5185c5 !important;
+  color: #fff !important;
+}
+.type-table .type-electric,
+.sim-badge.type-electric {
+  background-color: #d4b121 !important;
+  color: #1a1f35 !important;
+}
+.type-table .type-grass,
+.sim-badge.type-grass {
+  background-color: #5ca044 !important;
+  color: #fff !important;
+}
+.type-table .type-ice,
+.sim-badge.type-ice {
+  background-color: #60b7da !important;
+  color: #fff !important;
+}
+.type-table .type-fighting,
+.sim-badge.type-fighting {
+  background-color: #a73023 !important;
+  color: #fff !important;
+}
+.type-table .type-poison,
+.sim-badge.type-poison {
+  background-color: #924fb1 !important;
+  color: #fff !important;
+}
+.type-table .type-ground,
+.sim-badge.type-ground {
+  background-color: #c8994e !important;
+  color: #fff !important;
+}
+.type-table .type-flying,
+.sim-badge.type-flying {
+  background-color: #8394e8 !important;
+  color: #fff !important;
+}
+.type-table .type-psychic,
+.sim-badge.type-psychic {
+  background-color: #e45e95 !important;
+  color: #fff !important;
+}
+.type-table .type-bug,
+.sim-badge.type-bug {
+  background-color: #8ea424 !important;
+  color: #fff !important;
+}
+.type-table .type-rock,
+.sim-badge.type-rock {
+  background-color: #a69f74 !important;
+  color: #fff !important;
+}
+.type-table .type-ghost,
+.sim-badge.type-ghost {
+  background-color: #6e5896 !important;
+  color: #fff !important;
+}
+.type-table .type-dragon,
+.sim-badge.type-dragon {
+  background-color: #5e53e5 !important;
+  color: #fff !important;
+}
+.type-table .type-dark,
+.sim-badge.type-dark {
+  background-color: #5e544a !important;
+  color: #fff !important;
+}
+.type-table .type-steel,
+.sim-badge.type-steel {
+  background-color: #8496a6 !important;
+  color: #fff !important;
+}
+.type-table .type-fairy,
+.sim-badge.type-fairy {
+  background-color: #e089ba !important;
+  color: #fff !important;
+}
+
+/* Headers Styling */
+.type-table th {
+  color: #fff !important; /* Default to white for most type backgrounds */
+  overflow: visible; /* Prevent text truncation */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* Specific contrast for light backgrounds */
+.type-table th.type-electric {
+  color: #1a1f35 !important;
+  text-shadow: none;
+}
+
+/* Column Headers (Top) - Repaired */
+.col-header {
+  height: 130px;
+  background: var(
+    --c-bg-lighter
+  ); /* Fallback, no !important to allow type overrides */
+  border-bottom: 2px solid var(--c-border) !important;
+}
+
+.col-header-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+  padding: 10px 0;
+  gap: 8px;
+}
+
+.vertical-text {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  display: inline-block;
+  white-space: nowrap;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  line-height: 1; /* Fixes text positioning */
+}
+
+/* Results Section */
+.res-section {
+  margin-bottom: 2rem;
+}
+.res-section h4 {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  font-weight: 800;
+  opacity: 0.8;
+  letter-spacing: 1px;
+  border-bottom: 1px solid var(--c-white-10);
+  padding-bottom: 0.5rem;
+}
+
+.res-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Increased gap */
+}
+
+.sim-badge {
+  padding: 6px 14px;
+  border-radius: 50px; /* Pill shape */
+  display: inline-flex; /* Force inline */
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  box-shadow: 0 4px 6px var(--c-black-20); /* Nicer shadow */
+  width: auto !important; /* Prevent full width */
+  flex: 0 0 auto; /* Prevent growing */
+  transition: transform 0.2s;
+  border: 1px solid var(--c-white-10);
+}
+
+.sim-badge:hover {
+  transform: translateY(-2px);
+  z-index: 10;
+}
+
+.sim-badge .type-icon-small {
+  width: 20px;
+  height: 20px;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.3));
+}
+
+.sim-badge .type-name {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.sim-badge .mult-label {
+  background: var(--c-black-20);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  min-width: 30px;
+  text-align: center;
+  color: #fff;
+  font-weight: 800;
+}
+
+/* Row Headers (Left) - Repaired */
+.row-header {
+  min-width: 135px;
+  background: var(
+    --c-bg-lighter
+  ); /* Fallback, no !important to allow type overrides */
+  border-right: 2px solid var(--c-border) !important;
+}
+
+.row-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 10px;
+  gap: 10px;
+  height: 100%;
+}
+
+.row-label {
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.type-icon-small {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* Table Cells Multipliers - Themed */
+.mult-0 {
+  background-color: var(--c-surface) !important;
+  color: var(--c-text-muted) !important;
+  opacity: 0.6;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 5px,
+    var(--c-white-05) 5px,
+    var(--c-white-05) 10px
+  ) !important;
+}
+.mult-05 {
+  background-color: rgba(239, 68, 68, 0.25) !important; /* Increased from 0.1 */
+  color: #ef4444 !important;
+  font-weight: 800;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+.mult-1 {
+  background-color: transparent !important;
+  color: transparent !important;
+}
+.mult-2 {
+  background-color: rgba(34, 197, 94, 0.25) !important; /* Increased from 0.1 */
+  color: #22c55e !important;
+  font-weight: 800;
+  border: 1px solid rgba(34, 197, 94, 0.4);
+}
+
+:root[data-theme="dark"] .mult-05 {
+  background-color: #2d1a1a !important;
+}
+:root[data-theme="dark"] .mult-2 {
+  background-color: #1a2d1a !important;
+}
+
+/* Legend Styling */
+.table-legend {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  background: var(--c-surface-light);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--c-border);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-item .box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  font-weight: 800;
+  font-size: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Axis Labels */
+.axis-label {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-weight: 800;
+  color: var(--c-text-muted);
+  opacity: 0.5;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.axis-label.vertical {
+  writing-mode: vertical-rl;
+  transform: translateY(-50%) rotate(180deg);
+  position: absolute;
+  left: -50px;
+  top: 50%;
+}
+
+/* Responsive: Enable scroll instead of shrinking */
+@media (max-width: 768px) {
+  .type-chart-wrapper {
+    /* Ensure the wrapper is the scroll container */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 1rem;
+    margin: 0 -1rem; /* Full width on mobile */
+    border-radius: 0;
+    width: calc(100% + 2rem);
+    border-right: none;
+    border-left: none;
+  }
+
+  .axis-label.vertical {
+    /* Hide vertical label on mobile as it complicates scrolling layout */
+    display: none;
+  }
+
+  .table-container-outer {
+    margin-left: 0 !important;
+    /* Ensure table has room to breathe */
+    min-width: 800px;
+  }
+
+  /* Keep cells large and readable */
+  .type-table th,
+  .type-table td {
+    width: 48px !important;
+    height: 48px !important;
+    font-size: 0.9rem !important;
+  }
+
+  .vertical-text {
+    font-size: 0.85rem !important;
+  }
+
+  /* Keep row headers visible and readable */
+  .type-table th.row-header {
+    position: sticky;
+    left: 0;
+    z-index: 5;
+    background: var(--c-surface); /* prevent transparency overlap */
+    border-right: 1px solid var(--c-border);
+    width: auto !important;
+    min-width: 120px !important;
+  }
+
+  /* Adjust sticky header shadow */
+  .type-table th.row-header::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -5px;
+    bottom: 0;
+    width: 5px;
+    background: linear-gradient(to right, var(--c-white-20), transparent);
+  }
+
+  /* Corner cell also sticky */
+  .corner-cell {
+    position: sticky !important;
+    left: 0 !important;
+    z-index: 6 !important;
+    background: var(--c-surface) !important;
+    min-width: 120px !important;
+  }
+
+  .col-header {
+    height: 140px; /* More height for vertical text */
+  }
+
+  .row-label {
+    display: inline-block !important; /* Force show text */
+  }
+}
+/* ===== NUEVAS SECCIONES TABLA DE TIPOS (Phase 2.4) ===== */
+
+.type-changes-section {
+  margin-top: -1.5rem;
+  margin-bottom: 2.5rem;
+  animation: fadeIn 0.4s ease;
+}
+
+.type-changes-card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 12px var(--c-black-20);
+}
+
+.text-accent {
+  color: var(--c-accent);
+}
+
+.changes-list {
+  padding-left: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--c-text-muted);
+}
+
+.changes-list li {
+  margin-bottom: 0.5rem;
+}
+
+.changes-list li:last-child {
+  margin-bottom: 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

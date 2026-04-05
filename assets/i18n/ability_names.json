@@ -1,0 +1,2636 @@
+{
+"drizzle": {
+"fr": "Crachin",
+"de": "Niesel",
+"es": "Llovizna",
+"it": "Piovischio",
+"en": "Drizzle",
+"ja": "あめふらし"
+},
+"limber": {
+"fr": "Échauffement",
+"de": "Flexibilität",
+"es": "Flexibilidad",
+"it": "Scioltezza",
+"en": "Limber",
+"ja": "じゅうなん"
+},
+"speed-boost": {
+"fr": "Turbo",
+"de": "Temposchub",
+"es": "Impulso",
+"it": "Acceleratore",
+"en": "Speed Boost",
+"ja": "かそく"
+},
+"sturdy": {
+"fr": "Fermeté",
+"de": "Robustheit",
+"es": "Robustez",
+"it": "Vigore",
+"en": "Sturdy",
+"ja": "がんじょう"
+},
+"damp": {
+"fr": "Moiteur",
+"de": "Feuchtigkeit",
+"es": "Humedad",
+"it": "Umidità",
+"en": "Damp",
+"ja": "しめりけ"
+},
+"static": {
+"fr": "Statik",
+"de": "Statik",
+"es": "Elec. Estática",
+"it": "Statico",
+"en": "Static",
+"ja": "せいでんき"
+},
+"volt-absorb": {
+"fr": "Absorbe-Volt",
+"de": "Voltabsorber",
+"es": "Absorbe Elec",
+"it": "Assorbivolt",
+"en": "Volt Absorb",
+"ja": "ちくでん"
+},
+"stench": {
+"fr": "Puanteur",
+"de": "Duftnote",
+"es": "Hedor",
+"it": "Tanfo",
+"en": "Stench",
+"ja": "あくしゅう"
+},
+"battle-armor": {
+"fr": "Armurbaston",
+"de": "Kampfpanzer",
+"es": "Armadura Batalla",
+"it": "Lottascudo",
+"en": "Battle Armor",
+"ja": "カブトアーマー"
+},
+"sand-veil": {
+"fr": "Voile Sable",
+"de": "Sandschleier",
+"es": "Velo Arena",
+"it": "Sabbiavelo",
+"en": "Sand Veil",
+"ja": "すながくれ"
+},
+"water-absorb": {
+"fr": "Absorbe-Eau",
+"de": "H2O-Absorber",
+"es": "Absorbe Agua",
+"it": "Assorbacqua",
+"en": "Water Absorb",
+"ja": "ちょすい"
+},
+"oblivious": {
+"fr": "Benêt",
+"de": "Dösigkeit",
+"es": "Despiste",
+"it": "Indifferenza",
+"en": "Oblivious",
+"ja": "どんかん"
+},
+"flash-fire": {
+"fr": "Torche",
+"de": "Feuerfänger",
+"es": "Absorbe Fuego",
+"it": "Fuocardore",
+"en": "Flash Fire",
+"ja": "もらいび"
+},
+"cloud-nine": {
+"fr": "Ciel Gris",
+"de": "Wolke Sieben",
+"es": "Aclimatación",
+"it": "Antimeteo",
+"en": "Cloud Nine",
+"ja": "ノーてんき"
+},
+"color-change": {
+"fr": "Homochromie",
+"de": "Farbwechsel",
+"es": "Cambio Color",
+"it": "Cambiacolore",
+"en": "Color Change",
+"ja": "へんしょく"
+},
+"compound-eyes": {
+"fr": "Œil Composé",
+"de": "Facettenauge",
+"es": "Ojo Compuesto",
+"it": "Insettocchi",
+"en": "Compound Eyes",
+"ja": "ふくがん"
+},
+"own-tempo": {
+"fr": "Tempo Perso",
+"de": "Tempomacher",
+"es": "Ritmo Propio",
+"it": "Mente Locale",
+"en": "Own Tempo",
+"ja": "マイペース"
+},
+"shield-dust": {
+"fr": "Écran Poudre",
+"de": "Puderabwehr",
+"es": "Polvo Escudo",
+"it": "Polvoscudo",
+"en": "Shield Dust",
+"ja": "りんぷん"
+},
+"immunity": {
+"fr": "Vaccin",
+"de": "Immunität",
+"es": "Inmunidad",
+"it": "Immunità",
+"en": "Immunity",
+"ja": "めんえき"
+},
+"insomnia": {
+"fr": "Insomnia",
+"de": "Insomnia",
+"es": "Insomnio",
+"it": "Insonnia",
+"en": "Insomnia",
+"ja": "ふみん"
+},
+"suction-cups": {
+"fr": "Ventouse",
+"de": "Saugnapf",
+"es": "Ventosas",
+"it": "Ventose",
+"en": "Suction Cups",
+"ja": "きゅうばん"
+},
+"rough-skin": {
+"fr": "Peau Dure",
+"de": "Rauhaut",
+"es": "Piel Tosca",
+"it": "Cartavetro",
+"en": "Rough Skin",
+"ja": "さめはだ"
+},
+"intimidate": {
+"fr": "Intimidation",
+"de": "Bedroher",
+"es": "Intimidación",
+"it": "Prepotenza",
+"en": "Intimidate",
+"ja": "いかく"
+},
+"effect-spore": {
+"fr": "Pose Spore",
+"de": "Sporenwirt",
+"es": "Efecto Espora",
+"it": "Spargispora",
+"en": "Effect Spore",
+"ja": "ほうし"
+},
+"levitate": {
+"fr": "Lévitation",
+"de": "Schwebe",
+"es": "Levitación",
+"it": "Levitazione",
+"en": "Levitate",
+"ja": "ふゆう"
+},
+"wonder-guard": {
+"fr": "Garde Mystik",
+"de": "Wunderwache",
+"es": "Superguarda",
+"it": "Magidifesa",
+"en": "Wonder Guard",
+"ja": "ふしぎなまもり"
+},
+"synchronize": {
+"fr": "Synchro",
+"de": "Synchro",
+"es": "Sincronía",
+"it": "Sincronismo",
+"en": "Synchronize",
+"ja": "シンクロ"
+},
+"shadow-tag": {
+"fr": "Marque Ombre",
+"de": "Wegsperre",
+"es": "Sombra Trampa",
+"it": "Pedinombra",
+"en": "Shadow Tag",
+"ja": "かげふみ"
+},
+"clear-body": {
+"fr": "Corps Sain",
+"de": "Neutraltorso",
+"es": "Cuerpo Puro",
+"it": "Corpochiaro",
+"en": "Clear Body",
+"ja": "クリアボディ"
+},
+"natural-cure": {
+"fr": "Médic Nature",
+"de": "Innere Kraft",
+"es": "Cura Natural",
+"it": "Alternacura",
+"en": "Natural Cure",
+"ja": "しぜんかいふく"
+},
+"lightning-rod": {
+"fr": "Paratonnerre",
+"de": "Blitzfänger",
+"es": "Pararrayos",
+"it": "Parafulmine",
+"en": "Lightning Rod",
+"ja": "ひらいしん"
+},
+"serene-grace": {
+"fr": "Sérénité",
+"de": "Edelmut",
+"es": "Dicha",
+"it": "Leggiadro",
+"en": "Serene Grace",
+"ja": "てんのめぐみ"
+},
+"swift-swim": {
+"fr": "Glissade",
+"de": "Wassertempo",
+"es": "Nado Rápido",
+"it": "Nuotovelox",
+"en": "Swift Swim",
+"ja": "すいすい"
+},
+"chlorophyll": {
+"fr": "Chlorophylle",
+"de": "Chlorophyll",
+"es": "Clorofila",
+"it": "Clorofilla",
+"en": "Chlorophyll",
+"ja": "ようりょくそ"
+},
+"poison-point": {
+"fr": "Point Poison",
+"de": "Giftdorn",
+"es": "Punto Tóxico",
+"it": "Velenopunto",
+"en": "Poison Point",
+"ja": "どくのトゲ"
+},
+"trace": {
+"fr": "Calque",
+"de": "Erfassen",
+"es": "Rastro",
+"it": "Traccia",
+"en": "Trace",
+"ja": "トレース"
+},
+"inner-focus": {
+"fr": "Attention",
+"de": "Konzentrator",
+"es": "Foco Interno",
+"it": "Forza Interiore",
+"en": "Inner Focus",
+"ja": "せいしんりょく"
+},
+"huge-power": {
+"fr": "Coloforce",
+"de": "Kraftkoloss",
+"es": "Potencia",
+"it": "Macroforza",
+"en": "Huge Power",
+"ja": "ちからもち"
+},
+"illuminate": {
+"fr": "Lumiattirance",
+"de": "Erleuchtung",
+"es": "Iluminación",
+"it": "Risplendi",
+"en": "Illuminate",
+"ja": "はっこう"
+},
+"magma-armor": {
+"fr": "Armumagma",
+"de": "Magmapanzer",
+"es": "Escudo Magma",
+"it": "Magmascudo",
+"en": "Magma Armor",
+"ja": "マグマのよろい"
+},
+"water-veil": {
+"fr": "Ignifu-Voile",
+"de": "Aquahülle",
+"es": "Velo Agua",
+"it": "Idrovelo",
+"en": "Water Veil",
+"ja": "みずのベール"
+},
+"magnet-pull": {
+"fr": "Magnépiège",
+"de": "Magnetfalle",
+"es": "Imán",
+"it": "Magnetismo",
+"en": "Magnet Pull",
+"ja": "じりょく"
+},
+"soundproof": {
+"fr": "Anti-Bruit",
+"de": "Lärmschutz",
+"es": "Insonorizar",
+"it": "Antisuono",
+"en": "Soundproof",
+"ja": "ぼうおん"
+},
+"rain-dish": {
+"fr": "Cuvette",
+"de": "Regengenuss",
+"es": "Cura Lluvia",
+"it": "Copripioggia",
+"en": "Rain Dish",
+"ja": "あめうけざら"
+},
+"pressure": {
+"fr": "Pression",
+"de": "Erzwinger",
+"es": "Presión",
+"it": "Pressione",
+"en": "Pressure",
+"ja": "プレッシャー"
+},
+"early-bird": {
+"fr": "Matinal",
+"de": "Frühwecker",
+"es": "Madrugar",
+"it": "Sveglialampo",
+"en": "Early Bird",
+"ja": "はやおき"
+},
+"sand-stream": {
+"fr": "Sable Volant",
+"de": "Sandsturm",
+"es": "Chorro Arena",
+"it": "Sabbiafiume",
+"en": "Sand Stream",
+"ja": "すなおこし"
+},
+"thick-fat": {
+"fr": "Isograisse",
+"de": "Speckschicht",
+"es": "Sebo",
+"it": "Grassospesso",
+"en": "Thick Fat",
+"ja": "あついしぼう"
+},
+"run-away": {
+"fr": "Fuite",
+"de": "Angsthase",
+"es": "Fuga",
+"it": "Fugafacile",
+"en": "Run Away",
+"ja": "にげあし"
+},
+"flame-body": {
+"fr": "Corps Ardent",
+"de": "Flammkörper",
+"es": "Cuerpo Llama",
+"it": "Corpodifuoco",
+"en": "Flame Body",
+"ja": "ほのおのからだ"
+},
+"keen-eye": {
+"fr": "Regard Vif",
+"de": "Adlerauge",
+"es": "Vista Lince",
+"it": "Sguardofermo",
+"en": "Keen Eye",
+"ja": "するどいめ"
+},
+"hyper-cutter": {
+"fr": "Hyper Cutter",
+"de": "Scherenmacht",
+"es": "Corte Fuerte",
+"it": "Ipertaglio",
+"en": "Hyper Cutter",
+"ja": "かいりきバサミ"
+},
+"pickup": {
+"fr": "Ramassage",
+"de": "Mitnahme",
+"es": "Recogida",
+"it": "Raccolta",
+"en": "Pickup",
+"ja": "ものひろい"
+},
+"truant": {
+"fr": "Absentéisme",
+"de": "Schnarchnase",
+"es": "Ausente",
+"it": "Pigrone",
+"en": "Truant",
+"ja": "なまけ"
+},
+"hustle": {
+"fr": "Agitation",
+"de": "Übereifer",
+"es": "Entusiasmo",
+"it": "Tuttafretta",
+"en": "Hustle",
+"ja": "はりきり"
+},
+"cute-charm": {
+"fr": "Joli Sourire",
+"de": "Charmebolzen",
+"es": "Gran Encanto",
+"it": "Incantevole",
+"en": "Cute Charm",
+"ja": "メロメロボディ"
+},
+"minus": {
+"fr": "Moins",
+"de": "Minus",
+"es": "Menos",
+"it": "Meno",
+"en": "Minus",
+"ja": "マイナス"
+},
+"plus": {
+"fr": "Plus",
+"de": "Plus",
+"es": "Más",
+"it": "Più",
+"en": "Plus",
+"ja": "プラス"
+},
+"forecast": {
+"fr": "Météo",
+"de": "Prognose",
+"es": "Predicción",
+"it": "Previsioni",
+"en": "Forecast",
+"ja": "てんきや"
+},
+"sticky-hold": {
+"fr": "Glu",
+"de": "Klebekörper",
+"es": "Viscosidad",
+"it": "Antifurto",
+"en": "Sticky Hold",
+"ja": "ねんちゃく"
+},
+"shed-skin": {
+"fr": "Mue",
+"de": "Expidermis",
+"es": "Mudar",
+"it": "Muta",
+"en": "Shed Skin",
+"ja": "だっぴ"
+},
+"guts": {
+"fr": "Cran",
+"de": "Adrenalin",
+"es": "Agallas",
+"it": "Dentistretti",
+"en": "Guts",
+"ja": "こんじょう"
+},
+"marvel-scale": {
+"fr": "Écaille Spéciale",
+"de": "Notschutz",
+"es": "Escama Especial",
+"it": "Pelledura",
+"en": "Marvel Scale",
+"ja": "ふしぎなうろこ"
+},
+"liquid-ooze": {
+"fr": "Suintement",
+"de": "Kloakensoße",
+"es": "Lodo Líquido",
+"it": "Melma",
+"en": "Liquid Ooze",
+"ja": "ヘドロえき"
+},
+"blaze": {
+"fr": "Brasier",
+"de": "Großbrand",
+"es": "Mar Llamas",
+"it": "Aiutofuoco",
+"en": "Blaze",
+"ja": "もうか"
+},
+"overgrow": {
+"fr": "Engrais",
+"de": "Notdünger",
+"es": "Espesura",
+"it": "Erbaiuto",
+"en": "Overgrow",
+"ja": "しんりょく"
+},
+"torrent": {
+"fr": "Torrent",
+"de": "Sturzbach",
+"es": "Torrente",
+"it": "Acquaiuto",
+"en": "Torrent",
+"ja": "げきりゅう"
+},
+"swarm": {
+"fr": "Essaim",
+"de": "Hexaplaga",
+"es": "Enjambre",
+"it": "Aiutinsetto",
+"en": "Swarm",
+"ja": "むしのしらせ"
+},
+"drought": {
+"fr": "Sécheresse",
+"de": "Dürre",
+"es": "Sequía",
+"it": "Siccità",
+"en": "Drought",
+"ja": "ひでり"
+},
+"rock-head": {
+"fr": "Tête de Roc",
+"de": "Steinhaupt",
+"es": "Cabeza Roca",
+"it": "Testadura",
+"en": "Rock Head",
+"ja": "いしあたま"
+},
+"arena-trap": {
+"fr": "Piège Sable",
+"de": "Ausweglos",
+"es": "Trampa Arena",
+"it": "Trappoarena",
+"en": "Arena Trap",
+"ja": "ありじごく"
+},
+"vital-spirit": {
+"fr": "Esprit Vital",
+"de": "Munterkeit",
+"es": "Espíritu Vital",
+"it": "Spiritovivo",
+"en": "Vital Spirit",
+"ja": "やるき"
+},
+"white-smoke": {
+"fr": "Écran Fumée",
+"de": "Pulverrauch",
+"es": "Humo Blanco",
+"it": "Fumochiaro",
+"en": "White Smoke",
+"ja": "しろいけむり"
+},
+"pure-power": {
+"fr": "Force Pure",
+"de": "Mentalkraft",
+"es": "Energía Pura",
+"it": "Forzapura",
+"en": "Pure Power",
+"ja": "ヨガパワー"
+},
+"air-lock": {
+"fr": "Air Lock",
+"de": "Klimaschutz",
+"es": "Bucle Aire",
+"it": "Riparo",
+"en": "Air Lock",
+"ja": "エアロック"
+},
+"shell-armor": {
+"fr": "Coque Armure",
+"de": "Panzerhaut",
+"es": "Caparazón",
+"it": "Guscioscudo",
+"en": "Shell Armor",
+"ja": "シェルアーマー"
+},
+"tangled-feet": {
+"fr": "Pieds Confus",
+"de": "Fußangel",
+"es": "Tumbos",
+"it": "Intricopiedi",
+"en": "Tangled Feet",
+"ja": "ちどりあし"
+},
+"motor-drive": {
+"fr": "Motorisé",
+"de": "Starthilfe",
+"es": "Electromotor",
+"it": "Elettrorapid",
+"en": "Motor Drive",
+"ja": "でんきエンジン"
+},
+"steadfast": {
+"fr": "Impassible",
+"de": "Felsenfest",
+"es": "Impasible",
+"it": "Cuordeciso",
+"en": "Steadfast",
+"ja": "ふくつのこころ"
+},
+"rivalry": {
+"fr": "Rivalité",
+"de": "Rivalität",
+"es": "Rivalidad",
+"it": "Antagonismo",
+"en": "Rivalry",
+"ja": "とうそうしん"
+},
+"snow-cloak": {
+"fr": "Rideau Neige",
+"de": "Schneemantel",
+"es": "Manto Níveo",
+"it": "Mantelneve",
+"en": "Snow Cloak",
+"ja": "ゆきがくれ"
+},
+"gluttony": {
+"fr": "Gloutonnerie",
+"de": "Völlerei",
+"es": "Gula",
+"it": "Voracità",
+"en": "Gluttony",
+"ja": "くいしんぼう"
+},
+"anger-point": {
+"fr": "Colérique",
+"de": "Kurzschluss",
+"es": "Irascible",
+"it": "Grancollera",
+"en": "Anger Point",
+"ja": "いかりのつぼ"
+},
+"heatproof": {
+"fr": "Ignifugé",
+"de": "Hitzeschutz",
+"es": "Ignífugo",
+"it": "Antifuoco",
+"en": "Heatproof",
+"ja": "たいねつ"
+},
+"dry-skin": {
+"fr": "Peau Sèche",
+"de": "Trockenheit",
+"es": "Piel Seca",
+"it": "Pellearsa",
+"en": "Dry Skin",
+"ja": "かんそうはだ"
+},
+"unburden": {
+"fr": "Délestage",
+"de": "Entlastung",
+"es": "Liviano",
+"it": "Agiltecnica",
+"en": "Unburden",
+"ja": "かるわざ"
+},
+"simple": {
+"fr": "Simple",
+"de": "Wankelmut",
+"es": "Simple",
+"it": "Disinvoltura",
+"en": "Simple",
+"ja": "たんじゅん"
+},
+"iron-fist": {
+"fr": "Poing de Fer",
+"de": "Eisenfaust",
+"es": "Puño Férreo",
+"it": "Ferropugno",
+"en": "Iron Fist",
+"ja": "てつのこぶし"
+},
+"download": {
+"fr": "Télécharge",
+"de": "Download",
+"es": "Descarga",
+"it": "Download",
+"en": "Download",
+"ja": "ダウンロード"
+},
+"poison-heal": {
+"fr": "Soin Poison",
+"de": "Aufheber",
+"es": "Antídoto",
+"it": "Velencura",
+"en": "Poison Heal",
+"ja": "ポイズンヒール"
+},
+"adaptability": {
+"fr": "Adaptabilité",
+"de": "Anpassung",
+"es": "Adaptable",
+"it": "Adattabilità",
+"en": "Adaptability",
+"ja": "てきおうりょく"
+},
+"skill-link": {
+"fr": "Multi-Coups",
+"de": "Wertelink",
+"es": "Encadenado",
+"it": "Abillegame",
+"en": "Skill Link",
+"ja": "スキルリンク"
+},
+"hydration": {
+"fr": "Hydratation",
+"de": "Hydration",
+"es": "Hidratación",
+"it": "Idratazione",
+"en": "Hydration",
+"ja": "うるおいボディ"
+},
+"solar-power": {
+"fr": "Force Soleil",
+"de": "Solarkraft",
+"es": "Poder Solar",
+"it": "Solarpotere",
+"en": "Solar Power",
+"ja": "サンパワー"
+},
+"normalize": {
+"fr": "Normalise",
+"de": "Regulierung",
+"es": "Normalidad",
+"it": "Normalità",
+"en": "Normalize",
+"ja": "ノーマルスキン"
+},
+"quick-feet": {
+"fr": "Pied Véloce",
+"de": "Rasanz",
+"es": "Pies Rápidos",
+"it": "Piedisvelti",
+"en": "Quick Feet",
+"ja": "はやあし"
+},
+"sniper": {
+"fr": "Sniper",
+"de": "Superschütze",
+"es": "Francotirador",
+"it": "Cecchino",
+"en": "Sniper",
+"ja": "スナイパー"
+},
+"magic-guard": {
+"fr": "Garde Magik",
+"de": "Magieschild",
+"es": "Muro Mágico",
+"it": "Magicscudo",
+"en": "Magic Guard",
+"ja": "マジックガード"
+},
+"no-guard": {
+"fr": "Annule Garde",
+"de": "Schildlos",
+"es": "Indefenso",
+"it": "Nullodifesa",
+"en": "No Guard",
+"ja": "ノーガード"
+},
+"stall": {
+"fr": "Frein",
+"de": "Zeitspiel",
+"es": "Rezagado",
+"it": "Rallentatore",
+"en": "Stall",
+"ja": "あとだし"
+},
+"technician": {
+"fr": "Technicien",
+"de": "Techniker",
+"es": "Experto",
+"it": "Tecnico",
+"en": "Technician",
+"ja": "テクニシャン"
+},
+"leaf-guard": {
+"fr": "Feuille Garde",
+"de": "Floraschild",
+"es": "Defensa Hoja",
+"it": "Fogliamanto",
+"en": "Leaf Guard",
+"ja": "リーフガード"
+},
+"klutz": {
+"fr": "Maladresse",
+"de": "Tollpatsch",
+"es": "Zoquete",
+"it": "Impaccio",
+"en": "Klutz",
+"ja": "ぶきよう"
+},
+"mold-breaker": {
+"fr": "Brise Moule",
+"de": "Überbrückung",
+"es": "Rompemoldes",
+"it": "Rompiforma",
+"en": "Mold Breaker",
+"ja": "かたやぶり"
+},
+"super-luck": {
+"fr": "Chanceux",
+"de": "Glückspilz",
+"es": "Afortunado",
+"it": "Supersorte",
+"en": "Super Luck",
+"ja": "きょううん"
+},
+"aftermath": {
+"fr": "Boom Final",
+"de": "Finalschlag",
+"es": "Detonación",
+"it": "Scoppio",
+"en": "Aftermath",
+"ja": "ゆうばく"
+},
+"anticipation": {
+"fr": "Anticipation",
+"de": "Vorahnung",
+"es": "Anticipación",
+"it": "Presagio",
+"en": "Anticipation",
+"ja": "きけんよち"
+},
+"forewarn": {
+"fr": "Prédiction",
+"de": "Vorwarnung",
+"es": "Alerta",
+"it": "Premonizione",
+"en": "Forewarn",
+"ja": "よちむ"
+},
+"tinted-lens": {
+"fr": "Lentiteintée",
+"de": "Aufwertung",
+"es": "Cromolente",
+"it": "Lentifumé",
+"en": "Tinted Lens",
+"ja": "いろめがね"
+},
+"unaware": {
+"fr": "Inconscient",
+"de": "Unkenntnis",
+"es": "Ignorante",
+"it": "Imprudenza",
+"en": "Unaware",
+"ja": "てんねん"
+},
+"filter": {
+"fr": "Filtre",
+"de": "Filter",
+"es": "Filtro",
+"it": "Filtro",
+"en": "Filter",
+"ja": "フィルター"
+},
+"slow-start": {
+"fr": "Début Calme",
+"de": "Saumselig",
+"es": "Inicio Lento",
+"it": "Lentoinizio",
+"en": "Slow Start",
+"ja": "スロースタート"
+},
+"scrappy": {
+"fr": "Querelleur",
+"de": "Rauflust",
+"es": "Intrépido",
+"it": "Nervisaldi",
+"en": "Scrappy",
+"ja": "きもったま"
+},
+"ice-body": {
+"fr": "Corps Gel",
+"de": "Eishaut",
+"es": "Gélido",
+"it": "Corpogelo",
+"en": "Ice Body",
+"ja": "アイスボディ"
+},
+"solid-rock": {
+"fr": "Solide Roc",
+"de": "Felskern",
+"es": "Roca Sólida",
+"it": "Solidroccia",
+"en": "Solid Rock",
+"ja": "ハードロック"
+},
+"storm-drain": {
+"fr": "Lavabo",
+"de": "Sturmsog",
+"es": "Colector",
+"it": "Acquascolo",
+"en": "Storm Drain",
+"ja": "よびみず"
+},
+"snow-warning": {
+"fr": "Alerte Neige",
+"de": "Hagelalarm",
+"es": "Nevada",
+"it": "Scendineve",
+"en": "Snow Warning",
+"ja": "ゆきふらし"
+},
+"honey-gather": {
+"fr": "Cherche Miel",
+"de": "Honigmaul",
+"es": "Recogemiel",
+"it": "Mielincetta",
+"en": "Honey Gather",
+"ja": "みつあつめ"
+},
+"reckless": {
+"fr": "Téméraire",
+"de": "Achtlos",
+"es": "Audaz",
+"it": "Temerarietà",
+"en": "Reckless",
+"ja": "すてみ"
+},
+"frisk": {
+"fr": "Fouille",
+"de": "Schnüffler",
+"es": "Cacheo",
+"it": "Indagine",
+"en": "Frisk",
+"ja": "おみとおし"
+},
+"multitype": {
+"fr": "Multi-Type",
+"de": "Variabilität",
+"es": "Multitipo",
+"it": "Multitipo",
+"en": "Multitype",
+"ja": "マルチタイプ"
+},
+"flower-gift": {
+"fr": "Don Floral",
+"de": "Pflanzengabe",
+"es": "Don Floral",
+"it": "Regalfiore",
+"en": "Flower Gift",
+"ja": "フラワーギフト"
+},
+"bad-dreams": {
+"fr": "Mauvais Rêve",
+"de": "Alptraum",
+"es": "Mal Sueño",
+"it": "Sogniamari",
+"en": "Bad Dreams",
+"ja": "ナイトメア"
+},
+"sheer-force": {
+"fr": "Sans Limite",
+"de": "Rohe Gewalt",
+"es": "Potencia Bruta",
+"it": "Forzabruta",
+"en": "Sheer Force",
+"ja": "ちからずく"
+},
+"contrary": {
+"fr": "Contestation",
+"de": "Umkehrung",
+"es": "Respondón",
+"it": "Inversione",
+"en": "Contrary",
+"ja": "あまのじゃく"
+},
+"pickpocket": {
+"fr": "Pickpocket",
+"de": "Langfinger",
+"es": "Hurto",
+"it": "Arraffalesto",
+"en": "Pickpocket",
+"ja": "わるいてぐせ"
+},
+"unnerve": {
+"fr": "Tension",
+"de": "Anspannung",
+"es": "Nerviosismo",
+"it": "Agitazione",
+"en": "Unnerve",
+"ja": "きんちょうかん"
+},
+"defiant": {
+"fr": "Acharné",
+"de": "Siegeswille",
+"es": "Competitivo",
+"it": "Agonismo",
+"en": "Defiant",
+"ja": "まけんき"
+},
+"defeatist": {
+"fr": "Défaitiste",
+"de": "Schwächling",
+"es": "Flaqueza",
+"it": "Sconforto",
+"en": "Defeatist",
+"ja": "よわき"
+},
+"cursed-body": {
+"fr": "Corps Maudit",
+"de": "Tastfluch",
+"es": "Cuerpo Maldito",
+"it": "Corpofunesto",
+"en": "Cursed Body",
+"ja": "のろわれボディ"
+},
+"healer": {
+"fr": "Cœur Soin",
+"de": "Heilherz",
+"es": "Alma Cura",
+"it": "Curacuore",
+"en": "Healer",
+"ja": "いやしのこころ"
+},
+"friend-guard": {
+"fr": "Garde-Ami",
+"de": "Freundeshut",
+"es": "Compiescolta",
+"it": "Amicoscudo",
+"en": "Friend Guard",
+"ja": "フレンドガード"
+},
+"weak-armor": {
+"fr": "Armurouillée",
+"de": "Bruchrüstung",
+"es": "Armadura Frágil",
+"it": "Sottilguscio",
+"en": "Weak Armor",
+"ja": "くだけるよろい"
+},
+"light-metal": {
+"fr": "Light Metal",
+"de": "Leichtmetall",
+"es": "Metal Liviano",
+"it": "Metalleggero",
+"en": "Light Metal",
+"ja": "ライトメタル"
+},
+"heavy-metal": {
+"fr": "Heavy Metal",
+"de": "Schwermetall",
+"es": "Metal Pesado",
+"it": "Metalpesante",
+"en": "Heavy Metal",
+"ja": "ヘヴィメタル"
+},
+"multiscale": {
+"fr": "Multiécaille",
+"de": "Multischuppe",
+"es": "Multiescamas",
+"it": "Multisquame",
+"en": "Multiscale",
+"ja": "マルチスケイル"
+},
+"toxic-boost": {
+"fr": "Rage Poison",
+"de": "Giftwahn",
+"es": "Ímpetu Tóxico",
+"it": "Velenimpeto",
+"en": "Toxic Boost",
+"ja": "どくぼうそう"
+},
+"flare-boost": {
+"fr": "Rage Brûlure",
+"de": "Hitzewahn",
+"es": "Ímpetu Ardiente",
+"it": "Bruciaimpeto",
+"en": "Flare Boost",
+"ja": "ねつぼうそう"
+},
+"telepathy": {
+"fr": "Télépathe",
+"de": "Telepathie",
+"es": "Telepatía",
+"it": "Telepatia",
+"en": "Telepathy",
+"ja": "テレパシー"
+},
+"harvest": {
+"fr": "Récolte",
+"de": "Reiche Ernte",
+"es": "Cosecha",
+"it": "Coglibacche",
+"en": "Harvest",
+"ja": "しゅうかく"
+},
+"moody": {
+"fr": "Lunatique",
+"de": "Gefühlswippe",
+"es": "Veleta",
+"it": "Altalena",
+"en": "Moody",
+"ja": "ムラっけ"
+},
+"overcoat": {
+"fr": "Envelocape",
+"de": "Partikelschutz",
+"es": "Funda",
+"it": "Copricapo",
+"en": "Overcoat",
+"ja": "ぼうじん"
+},
+"poison-touch": {
+"fr": "Toxitouche",
+"de": "Giftgriff",
+"es": "Toque Tóxico",
+"it": "Velentocco",
+"en": "Poison Touch",
+"ja": "どくしゅ"
+},
+"regenerator": {
+"fr": "Régé-Force",
+"de": "Belebekraft",
+"es": "Regeneración",
+"it": "Rigenergia",
+"en": "Regenerator",
+"ja": "さいせいりょく"
+},
+"big-pecks": {
+"fr": "Cœur de Coq",
+"de": "Brustbieter",
+"es": "Sacapecho",
+"it": "Pettinfuori",
+"en": "Big Pecks",
+"ja": "はとむね"
+},
+"sand-rush": {
+"fr": "Baigne Sable",
+"de": "Sandscharrer",
+"es": "Ímpetu Arena",
+"it": "Remasabbia",
+"en": "Sand Rush",
+"ja": "すなかき"
+},
+"wonder-skin": {
+"fr": "Peau Miracle",
+"de": "Wunderhaut",
+"es": "Piel Milagro",
+"it": "Splendicute",
+"en": "Wonder Skin",
+"ja": "ミラクルスキン"
+},
+"analytic": {
+"fr": "Analyste",
+"de": "Analyse",
+"es": "Cálculo Final",
+"it": "Ponderazione",
+"en": "Analytic",
+"ja": "アナライズ"
+},
+"illusion": {
+"fr": "Illusion",
+"de": "Trugbild",
+"es": "Ilusión",
+"it": "Illusione",
+"en": "Illusion",
+"ja": "イリュージョン"
+},
+"imposter": {
+"fr": "Imposteur",
+"de": "Doppelgänger",
+"es": "Impostor",
+"it": "Sosia",
+"en": "Imposter",
+"ja": "かわりもの"
+},
+"infiltrator": {
+"fr": "Infiltration",
+"de": "Schwebedurch",
+"es": "Allanamiento",
+"it": "Intrapasso",
+"en": "Infiltrator",
+"ja": "すりぬけ"
+},
+"mummy": {
+"fr": "Momie",
+"de": "Mumie",
+"es": "Momia",
+"it": "Mummia",
+"en": "Mummy",
+"ja": "ミイラ"
+},
+"moxie": {
+"fr": "Impudence",
+"de": "Hochmut",
+"es": "Autoestima",
+"it": "Arroganza",
+"en": "Moxie",
+"ja": "じしんかじょう"
+},
+"justified": {
+"fr": "Cœur Noble",
+"de": "Redlichkeit",
+"es": "Justiciero",
+"it": "Giustizia",
+"en": "Justified",
+"ja": "せいぎのこころ"
+},
+"rattled": {
+"fr": "Phobique",
+"de": "Hasenfuß",
+"es": "Cobardía",
+"it": "Paura",
+"en": "Rattled",
+"ja": "びびり"
+},
+"magic-bounce": {
+"fr": "Miroir Magik",
+"de": "Magiespiegel",
+"es": "Espejo Mágico",
+"it": "Magispecchio",
+"en": "Magic Bounce",
+"ja": "マジックミラー"
+},
+"sap-sipper": {
+"fr": "Herbivore",
+"de": "Vegetarier",
+"es": "Herbívoro",
+"it": "Mangiaerba",
+"en": "Sap Sipper",
+"ja": "そうしょく"
+},
+"prankster": {
+"fr": "Farceur",
+"de": "Strolch",
+"es": "Bromista",
+"it": "Burla",
+"en": "Prankster",
+"ja": "いたずらごころ"
+},
+"sand-force": {
+"fr": "Force Sable",
+"de": "Sandgewalt",
+"es": "Poder Arena",
+"it": "Silicoforza",
+"en": "Sand Force",
+"ja": "すなのちから"
+},
+"iron-barbs": {
+"fr": "Épine de Fer",
+"de": "Eisenstachel",
+"es": "Punta Acero",
+"it": "Spineferrate",
+"en": "Iron Barbs",
+"ja": "てつのトゲ"
+},
+"zen-mode": {
+"fr": "Mode Transe",
+"de": "Trance-Modus",
+"es": "Modo Daruma",
+"it": "Stato Zen",
+"en": "Zen Mode",
+"ja": "ダルマモード"
+},
+"victory-star": {
+"fr": "Victorieux",
+"de": "Triumphstern",
+"es": "Tinovictoria",
+"it": "Vittorstella",
+"en": "Victory Star",
+"ja": "しょうりのほし"
+},
+"teravolt": {
+"fr": "Téra-Voltage",
+"de": "Teravolt",
+"es": "Terravoltaje",
+"it": "Teravolt",
+"en": "Teravolt",
+"ja": "テラボルテージ"
+},
+"aroma-veil": {
+"fr": "Aroma-Voile",
+"de": "Dufthülle",
+"es": "Velo Aroma",
+"it": "Aromavelo",
+"en": "Aroma Veil",
+"ja": "アロマベール"
+},
+"turboblaze": {
+"fr": "Turbo Brasier",
+"de": "Turbobrand",
+"es": "Turbollama",
+"it": "Piroturbina",
+"en": "Turboblaze",
+"ja": "ターボブレイズ"
+},
+"flower-veil": {
+"fr": "Flora-Voile",
+"de": "Blütenhülle",
+"es": "Velo Flor",
+"it": "Fiorvelo",
+"en": "Flower Veil",
+"ja": "フラワーベール"
+},
+"cheek-pouch": {
+"fr": "Bajoues",
+"de": "Backentaschen",
+"es": "Carrillo",
+"it": "Guancegonfie",
+"en": "Cheek Pouch",
+"ja": "ほおぶくろ"
+},
+"protean": {
+"fr": "Protéen",
+"de": "Wandlungskunst",
+"es": "Mutatipo",
+"it": "Mutatipo",
+"en": "Protean",
+"ja": "へんげんじざい"
+},
+"fur-coat": {
+"fr": "Toison Épaisse",
+"de": "Fellkleid",
+"es": "Pelaje Recio",
+"it": "Foltopelo",
+"en": "Fur Coat",
+"ja": "ファーコート"
+},
+"magician": {
+"fr": "Magicien",
+"de": "Zauberer",
+"es": "Prestidigitador",
+"it": "Prestigiatore",
+"en": "Magician",
+"ja": "マジシャン"
+},
+"bulletproof": {
+"fr": "Pare-Balles",
+"de": "Kugelsicher",
+"es": "Antibalas",
+"it": "Antiproiettile",
+"en": "Bulletproof",
+"ja": "ぼうだん"
+},
+"competitive": {
+"fr": "Battant",
+"de": "Unbeugsamkeit",
+"es": "Tenacidad",
+"it": "Tenacia",
+"en": "Competitive",
+"ja": "かちき"
+},
+"strong-jaw": {
+"fr": "Prognathe",
+"de": "Titankiefer",
+"es": "Mandíbula Fuerte",
+"it": "Ferromascella",
+"en": "Strong Jaw",
+"ja": "がんじょうあご"
+},
+"stance-change": {
+"fr": "Déclic Tactique",
+"de": "Taktikwechsel",
+"es": "Cambio Táctico",
+"it": "Accendilotta",
+"en": "Stance Change",
+"ja": "バトルスイッチ"
+},
+"refrigerate": {
+"fr": "Peau Gelée",
+"de": "Frostschicht",
+"es": "Piel Helada",
+"it": "Pellegelo",
+"en": "Refrigerate",
+"ja": "フリーズスキン"
+},
+"sweet-veil": {
+"fr": "Gluco-Voile",
+"de": "Zuckerhülle",
+"es": "Velo Dulce",
+"it": "Dolcevelo",
+"en": "Sweet Veil",
+"ja": "スイートベール"
+},
+"gale-wings": {
+"fr": "Ailes Bourrasque",
+"de": "Orkanschwingen",
+"es": "Alas Vendaval",
+"it": "Aliraffica",
+"en": "Gale Wings",
+"ja": "はやてのつばさ"
+},
+"mega-launcher": {
+"fr": "Méga Blaster",
+"de": "Megawumme",
+"es": "Megadisparador",
+"it": "Megalancio",
+"en": "Mega Launcher",
+"ja": "メガランチャー"
+},
+"symbiosis": {
+"fr": "Symbiose",
+"de": "Nutznießer",
+"es": "Simbiosis",
+"it": "Simbiosi",
+"en": "Symbiosis",
+"ja": "きょうせい"
+},
+"grass-pelt": {
+"fr": "Toison Herbue",
+"de": "Pflanzenpelz",
+"es": "Manto Frondoso",
+"it": "Peloderba",
+"en": "Grass Pelt",
+"ja": "くさのけがわ"
+},
+"tough-claws": {
+"fr": "Griffe Dure",
+"de": "Krallenwucht",
+"es": "Garra Dura",
+"it": "Unghiedure",
+"en": "Tough Claws",
+"ja": "かたいツメ"
+},
+"pixilate": {
+"fr": "Peau Féérique",
+"de": "Feenschicht",
+"es": "Piel Feérica",
+"it": "Pellefolletto",
+"en": "Pixilate",
+"ja": "フェアリースキン"
+},
+"gooey": {
+"fr": "Poisseux",
+"de": "Viskosität",
+"es": "Baba",
+"it": "Viscosità",
+"en": "Gooey",
+"ja": "ぬめぬめ"
+},
+"fairy-aura": {
+"fr": "Aura Féérique",
+"de": "Feenaura",
+"es": "Aura Feérica",
+"it": "Aurafolletto",
+"en": "Fairy Aura",
+"ja": "フェアリーオーラ"
+},
+"aerilate": {
+"fr": "Peau Céleste",
+"de": "Zenithaut",
+"es": "Piel Celeste",
+"it": "Pellecielo",
+"en": "Aerilate",
+"ja": "スカイスキン"
+},
+"parental-bond": {
+"fr": "Amour Filial",
+"de": "Familienbande",
+"es": "Amor Filial",
+"it": "Amorefiliale",
+"en": "Parental Bond",
+"ja": "おやこあい"
+},
+"dark-aura": {
+"fr": "Aura Ténébreuse",
+"de": "Dunkelaura",
+"es": "Aura Oscura",
+"it": "Auratetra",
+"en": "Dark Aura",
+"ja": "ダークオーラ"
+},
+"aura-break": {
+"fr": "Aura Inversée",
+"de": "Aura-Umkehr",
+"es": "Rompeaura",
+"it": "Frangiaura",
+"en": "Aura Break",
+"ja": "オーラブレイク"
+},
+"primordial-sea": {
+"fr": "Mer Primaire",
+"de": "Urmeer",
+"es": "Mar del Albor",
+"it": "Mare Primordiale",
+"en": "Primordial Sea",
+"ja": "はじまりのうみ"
+},
+"desolate-land": {
+"fr": "Terre Finale",
+"de": "Endland",
+"es": "Tierra del Ocaso",
+"it": "Terra Estrema",
+"en": "Desolate Land",
+"ja": "おわりのだいち"
+},
+"stamina": {
+"fr": "Endurance",
+"de": "Zähigkeit",
+"es": "Firmeza",
+"it": "Sopportazione",
+"en": "Stamina",
+"ja": "じきゅうりょく"
+},
+"delta-stream": {
+"fr": "Souffle Delta",
+"de": "Delta-Wind",
+"es": "Ráfaga Delta",
+"it": "Flusso Delta",
+"en": "Delta Stream",
+"ja": "デルタストリーム"
+},
+"wimp-out": {
+"fr": "Escampette",
+"de": "Reißaus",
+"es": "Huida",
+"it": "Fuggifuggi",
+"en": "Wimp Out",
+"ja": "にげごし"
+},
+"emergency-exit": {
+"fr": "Repli Tactique",
+"de": "Rückzug",
+"es": "Retirada",
+"it": "Passoindietro",
+"en": "Emergency Exit",
+"ja": "ききかいひ"
+},
+"water-compaction": {
+"fr": "Sable Humide",
+"de": "Verklumpen",
+"es": "Hidrorrefuerzo",
+"it": "Idrorinforzo",
+"en": "Water Compaction",
+"ja": "みずがため"
+},
+"shields-down": {
+"fr": "Bouclier-Carcan",
+"de": "Limitschild",
+"es": "Escudo Limitado",
+"it": "Scudosoglia",
+"en": "Shields Down",
+"ja": "リミットシールド"
+},
+"merciless": {
+"fr": "Cruauté",
+"de": "Quälerei",
+"es": "Ensañamiento",
+"it": "Spietatezza",
+"en": "Merciless",
+"ja": "ひとでなし"
+},
+"stakeout": {
+"fr": "Filature",
+"de": "Beschattung",
+"es": "Vigilante",
+"it": "Sorveglianza",
+"en": "Stakeout",
+"ja": "はりこみ"
+},
+"water-bubble": {
+"fr": "Aquabulle",
+"de": "Wasserblase",
+"es": "Pompa",
+"it": "Bolladacqua",
+"en": "Water Bubble",
+"ja": "すいほう"
+},
+"steelworker": {
+"fr": "Expert Acier",
+"de": "Stahlprofi",
+"es": "Acero Templado",
+"it": "Tempracciaio",
+"en": "Steelworker",
+"ja": "はがねつかい"
+},
+"slush-rush": {
+"fr": "Chasse-Neige",
+"de": "Schneescharrer",
+"es": "Quitanieves",
+"it": "Spalaneve",
+"en": "Slush Rush",
+"ja": "ゆきかき"
+},
+"berserk": {
+"fr": "Folle Furie",
+"de": "Wutausbruch",
+"es": "Cólera",
+"it": "Furore",
+"en": "Berserk",
+"ja": "ぎゃくじょう"
+},
+"long-reach": {
+"fr": "Longue Portée",
+"de": "Langstrecke",
+"es": "Remoto",
+"it": "Distacco",
+"en": "Long Reach",
+"ja": "えんかく"
+},
+"liquid-voice": {
+"fr": "Hydrata-Son",
+"de": "Plätscherstimme",
+"es": "Voz Fluida",
+"it": "Idrovoce",
+"en": "Liquid Voice",
+"ja": "うるおいボイス"
+},
+"triage": {
+"fr": "Prioguérison",
+"de": "Heilwandel",
+"es": "Primer Auxilio",
+"it": "Primacura",
+"en": "Triage",
+"ja": "ヒーリングシフト"
+},
+"surge-surfer": {
+"fr": "Surf Caudal",
+"de": "Surf-Schweif",
+"es": "Cola Surf",
+"it": "Codasurf",
+"en": "Surge Surfer",
+"ja": "サーフテール"
+},
+"galvanize": {
+"fr": "Peau Électrique",
+"de": "Elektrohaut",
+"es": "Piel Eléctrica",
+"it": "Pellelettro",
+"en": "Galvanize",
+"ja": "エレキスキン"
+},
+"battle-bond": {
+"fr": "Synergie",
+"de": "Freundschaftsakt",
+"es": "Fuerte Afecto",
+"it": "Morfosintonia",
+"en": "Battle Bond",
+"ja": "きずなへんげ"
+},
+"disguise": {
+"fr": "Fantômasque",
+"de": "Kostümspuk",
+"es": "Disfraz",
+"it": "Fantasmanto",
+"en": "Disguise",
+"ja": "ばけのかわ"
+},
+"schooling": {
+"fr": "Banc",
+"de": "Fischschwarm",
+"es": "Banco",
+"it": "Banco",
+"en": "Schooling",
+"ja": "ぎょぐん"
+},
+"power-construct": {
+"fr": "Rassemblement",
+"de": "Scharwandel",
+"es": "Agrupamiento",
+"it": "Sciamefusione",
+"en": "Power Construct",
+"ja": "スワームチェンジ"
+},
+"corrosion": {
+"fr": "Corrosion",
+"de": "Korrosion",
+"es": "Corrosión",
+"it": "Corrosione",
+"en": "Corrosion",
+"ja": "ふしょく"
+},
+"comatose": {
+"fr": "Hypersommeil",
+"de": "Dauerschlaf",
+"es": "Letargo Perenne",
+"it": "Sonno Assoluto",
+"en": "Comatose",
+"ja": "ぜったいねむり"
+},
+"queenly-majesty": {
+"fr": "Prestance Royale",
+"de": "Majestät",
+"es": "Regia Presencia",
+"it": "Regalità",
+"en": "Queenly Majesty",
+"ja": "じょおうのいげん"
+},
+"innards-out": {
+"fr": "Expuls’Organes",
+"de": "Magenkrempler",
+"es": "Revés",
+"it": "Espellinterno",
+"en": "Innards Out",
+"ja": "とびだすなかみ"
+},
+"dancer": {
+"fr": "Danseuse",
+"de": "Tänzer",
+"es": "Pareja de Baile",
+"it": "Sincrodanza",
+"en": "Dancer",
+"ja": "おどりこ"
+},
+"battery": {
+"fr": "Batterie",
+"de": "Batterie",
+"es": "Batería",
+"it": "Batteria",
+"en": "Battery",
+"ja": "バッテリー"
+},
+"fluffy": {
+"fr": "Boule de Poils",
+"de": "Flauschigkeit",
+"es": "Peluche",
+"it": "Morbidone",
+"en": "Fluffy",
+"ja": "もふもふ"
+},
+"dazzling": {
+"fr": "Corps Coloré",
+"de": "Buntkörper",
+"es": "Cuerpo Vívido",
+"it": "Corposgargiante",
+"en": "Dazzling",
+"ja": "ビビッドボディ"
+},
+"soul-heart": {
+"fr": "Animacœur",
+"de": "Seelenherz",
+"es": "Coránima",
+"it": "Cuoreanima",
+"en": "Soul-Heart",
+"ja": "ソウルハート"
+},
+"tangling-hair": {
+"fr": "Mèche Rebelle",
+"de": "Lockenkopf",
+"es": "Rizos Rebeldes",
+"it": "Boccolidoro",
+"en": "Tangling Hair",
+"ja": "カーリーヘアー"
+},
+"receiver": {
+"fr": "Receveur",
+"de": "Receiver",
+"es": "Receptor",
+"it": "Ricezione",
+"en": "Receiver",
+"ja": "レシーバー"
+},
+"power-of-alchemy": {
+"fr": "Osmose",
+"de": "Chemiekraft",
+"es": "Reacción Química",
+"it": "Forza Chimica",
+"en": "Power of Alchemy",
+"ja": "かがくのちから"
+},
+"beast-boost": {
+"fr": "Boost Chimère",
+"de": "Bestien-Boost",
+"es": "Ultraimpulso",
+"it": "Ultraboost",
+"en": "Beast Boost",
+"ja": "ビーストブースト"
+},
+"rks-system": {
+"fr": "Système Alpha",
+"de": "Alpha-System",
+"es": "Sistema Alfa",
+"it": "Sistema Primevo",
+"en": "RKS System",
+"ja": "ＡＲシステム"
+},
+"psychic-surge": {
+"fr": "Créa-Psy",
+"de": "Psycho-Erzeuger",
+"es": "Psicogénesis",
+"it": "Psicogenesi",
+"en": "Psychic Surge",
+"ja": "サイコメイカー"
+},
+"electric-surge": {
+"fr": "Créa-Élec",
+"de": "Elektro-Erzeuger",
+"es": "Electrogénesis",
+"it": "Elettrogenesi",
+"en": "Electric Surge",
+"ja": "エレキメイカー"
+},
+"misty-surge": {
+"fr": "Créa-Brume",
+"de": "Nebel-Erzeuger",
+"es": "Nebulogénesis",
+"it": "Nebbiogenesi",
+"en": "Misty Surge",
+"ja": "ミストメイカー"
+},
+"grassy-surge": {
+"fr": "Créa-Herbe",
+"de": "Gras-Erzeuger",
+"es": "Herbogénesis",
+"it": "Erbogenesi",
+"en": "Grassy Surge",
+"ja": "グラスメイカー"
+},
+"full-metal-body": {
+"fr": "Métallo-Garde",
+"de": "Metallprotektor",
+"es": "Guardia Metálica",
+"it": "Metalprotezione",
+"en": "Full Metal Body",
+"ja": "メタルプロテクト"
+},
+"shadow-shield": {
+"fr": "Spectro-Bouclier",
+"de": "Phantomschutz",
+"es": "Guardia Espectro",
+"it": "Spettroguardia",
+"en": "Shadow Shield",
+"ja": "ファントムガード"
+},
+"prism-armor": {
+"fr": "Prisme-Armure",
+"de": "Prismarüstung",
+"es": "Armadura Prisma",
+"it": "Scudoprisma",
+"en": "Prism Armor",
+"ja": "プリズムアーマー"
+},
+"neuroforce": {
+"fr": "Cérébro-Force",
+"de": "Zerebralmacht",
+"es": "Fuerza Cerebral",
+"it": "Cerebroforza",
+"en": "Neuroforce",
+"ja": "ブレインフォース"
+},
+"intrepid-sword": {
+"fr": "Lame Indomptable",
+"de": "Kühnes Schwert",
+"es": "Espada Indómita",
+"it": "Spada Indomita",
+"en": "Intrepid Sword",
+"ja": "ふとうのけん"
+},
+"dauntless-shield": {
+"fr": "Égide Inflexible",
+"de": "Wackerer Schild",
+"es": "Escudo Recio",
+"it": "Scudo Saldo",
+"en": "Dauntless Shield",
+"ja": "ふくつのたて"
+},
+"libero": {
+"fr": "Libéro",
+"de": "Libero",
+"es": "Líbero",
+"it": "Libero",
+"en": "Libero",
+"ja": "リベロ"
+},
+"ball-fetch": {
+"fr": "Ramasse Ball",
+"de": "Apport",
+"es": "Recogebolas",
+"it": "Raccattapalle",
+"en": "Ball Fetch",
+"ja": "たまひろい"
+},
+"propeller-tail": {
+"fr": "Propulseur",
+"de": "Schraubflosse",
+"es": "Hélice Caudal",
+"it": "Elicopinna",
+"en": "Propeller Tail",
+"ja": "スクリューおびれ"
+},
+"cotton-down": {
+"fr": "Effilochage",
+"de": "Wollflaum",
+"es": "Pelusa",
+"it": "Lanugine",
+"en": "Cotton Down",
+"ja": "わたげ"
+},
+"mirror-armor": {
+"fr": "Armure Miroir",
+"de": "Spiegelrüstung",
+"es": "Coraza Reflejo",
+"it": "Blindospecchio",
+"en": "Mirror Armor",
+"ja": "ミラーアーマー"
+},
+"gulp-missile": {
+"fr": "Dégobage",
+"de": "Würggeschoss",
+"es": "Tragamisil",
+"it": "Inghiottimissile",
+"en": "Gulp Missile",
+"ja": "うのミサイル"
+},
+"stalwart": {
+"fr": "Nerfs d’Acier",
+"de": "Stahlrückgrat",
+"es": "Acérrimo",
+"it": "Volontà di Ferro",
+"en": "Stalwart",
+"ja": "すじがねいり"
+},
+"steam-engine": {
+"fr": "Turbine",
+"de": "Dampfantrieb",
+"es": "Combustible",
+"it": "Vapormacchina",
+"en": "Steam Engine",
+"ja": "じょうききかん"
+},
+"punk-rock": {
+"fr": "Punk Rock",
+"de": "Punk Rock",
+"es": "Punk Rock",
+"it": "Punk Rock",
+"en": "Punk Rock",
+"ja": "パンクロック"
+},
+"sand-spit": {
+"fr": "Expul’Sable",
+"de": "Sandspeier",
+"es": "Expulsarena",
+"it": "Sputasabbia",
+"en": "Sand Spit",
+"ja": "すなはき"
+},
+"ripen": {
+"fr": "Mûrissement",
+"de": "Heranreifen",
+"es": "Maduración",
+"it": "Maturazione",
+"en": "Ripen",
+"ja": "じゅくせい"
+},
+"ice-scales": {
+"fr": "Écailles Glacées",
+"de": "Eisflügelstaub",
+"es": "Escama de Hielo",
+"it": "Geloscaglie",
+"en": "Ice Scales",
+"ja": "こおりのりんぷん"
+},
+"power-spot": {
+"fr": "Cercle d’Énergie",
+"de": "Kraftquelle",
+"es": "Fuente Energía",
+"it": "Fonte Energetica",
+"en": "Power Spot",
+"ja": "パワースポット"
+},
+"mimicry": {
+"fr": "Mimétisme",
+"de": "Mimese",
+"es": "Mimetismo",
+"it": "Mimetismo",
+"en": "Mimicry",
+"ja": "ぎたい"
+},
+"ice-face": {
+"fr": "Tête de Gel",
+"de": "Tiefkühlkopf",
+"es": "Cara de Hielo",
+"it": "Gelofaccia",
+"en": "Ice Face",
+"ja": "アイスフェイス"
+},
+"screen-cleaner": {
+"fr": "Brise-Barrière",
+"de": "Hemmungslos",
+"es": "Antibarrera",
+"it": "Annullabarriere",
+"en": "Screen Cleaner",
+"ja": "バリアフリー"
+},
+"steely-spirit": {
+"fr": "Boost Acier",
+"de": "Stählerner Wille",
+"es": "Alma Acerada",
+"it": "Spiritoferreo",
+"en": "Steely Spirit",
+"ja": "はがねのせいしん"
+},
+"perish-body": {
+"fr": "Corps Condamné",
+"de": "Unheilskörper",
+"es": "Cuerpo Mortal",
+"it": "Ultimotocco",
+"en": "Perish Body",
+"ja": "ほろびのボディ"
+},
+"wandering-spirit": {
+"fr": "Âme Vagabonde",
+"de": "Rastlose Seele",
+"es": "Alma Errante",
+"it": "Anima Errante",
+"en": "Wandering Spirit",
+"ja": "さまようたましい"
+},
+"gorilla-tactics": {
+"fr": "Entêtement",
+"de": "Affenfokus",
+"es": "Monotema",
+"it": "Vigorilla",
+"en": "Gorilla Tactics",
+"ja": "ごりむちゅう"
+},
+"neutralizing-gas": {
+"fr": "Gaz Inhibiteur",
+"de": "Reaktionsgas",
+"es": "Gas Reactivo",
+"it": "Gas Reagente",
+"en": "Neutralizing Gas",
+"ja": "かがくへんかガス"
+},
+"pastel-veil": {
+"fr": "Voile Pastel",
+"de": "Pastellhülle",
+"es": "Velo Pastel",
+"it": "Pastelvelo",
+"en": "Pastel Veil",
+"ja": "パステルベール"
+},
+"quick-draw": {
+"fr": "Tir Vif",
+"de": "Schnellschuss",
+"es": "Mano Rápida",
+"it": "Colpolesto",
+"en": "Quick Draw",
+"ja": "クイックドロウ"
+},
+"hunger-switch": {
+"fr": "Déclic Fringale",
+"de": "Heißhunger",
+"es": "Mutapetito",
+"it": "Pancialterna",
+"en": "Hunger Switch",
+"ja": "はらぺこスイッチ"
+},
+"unseen-fist": {
+"fr": "Poing Invisible",
+"de": "Verborgene Faust",
+"es": "Puño Invisible",
+"it": "Pugni Invisibili",
+"en": "Unseen Fist",
+"ja": "ふかしのこぶし"
+},
+"curious-medicine": {
+"fr": "Breuvage Suspect",
+"de": "Kuriose Arznei",
+"es": "Medicina Extraña",
+"it": "Stranofarmaco",
+"en": "Curious Medicine",
+"ja": "きみょうなくすり"
+},
+"transistor": {
+"fr": "Transistor",
+"de": "Transistor",
+"es": "Transistor",
+"it": "Transistor",
+"en": "Transistor",
+"ja": "トランジスタ"
+},
+"dragons-maw": {
+"fr": "Dent de Dragon",
+"de": "Drachenkiefer",
+"es": "Mandíbula Dragón",
+"it": "Dragomascelle",
+"en": "Dragon’s Maw",
+"ja": "りゅうのあぎと"
+},
+"chilling-neigh": {
+"fr": "Blanche Ruade",
+"de": "Helles Wiehern",
+"es": "Relincho Blanco",
+"it": "Nitrito Bianco",
+"en": "Chilling Neigh",
+"ja": "しろのいななき"
+},
+"grim-neigh": {
+"fr": "Sombre Ruade",
+"de": "Dunkles Wiehern",
+"es": "Relincho Negro",
+"it": "Nitrito Nero",
+"en": "Grim Neigh",
+"ja": "くろのいななき"
+},
+"as-one-glastrier": {
+"fr": "Osmose Équine",
+"de": "Reitgespann",
+"es": "Unidad Ecuestre",
+"it": "Sintonia Equina",
+"en": "As One",
+"ja": "じんばいったい"
+},
+"as-one-spectrier": {
+"fr": "Osmose Équine",
+"de": "Reitgespann",
+"es": "Unidad Ecuestre",
+"it": "Sintonia Equina",
+"en": "As One",
+"ja": "じんばいったい"
+},
+"thermal-exchange": {
+"fr": "Thermodynamique",
+"de": "Thermowandel",
+"es": "Termoscambio",
+"it": "Termoscambio",
+"en": "Thermal Exchange",
+"ja": "ねつこうかん"
+},
+"seed-sower": {
+"fr": "Semencier",
+"de": "Streusaat",
+"es": "Disemillar",
+"it": "Spargisemi",
+"en": "Seed Sower",
+"ja": "こぼれダネ"
+},
+"lingering-aroma": {
+"fr": "Odeur Tenace",
+"de": "Duftschwade",
+"es": "Olor Persistente",
+"it": "Odore Tenace",
+"en": "Lingering Aroma",
+"ja": "とれないにおい"
+},
+"anger-shell": {
+"fr": "Courroupace",
+"de": "Wutpanzer",
+"es": "Coraza Ira",
+"it": "Iraguscio",
+"en": "Anger Shell",
+"ja": "いかりのこうら"
+},
+"purifying-salt": {
+"fr": "Sel Purificateur",
+"de": "Läutersalz",
+"es": "Sal Purificadora",
+"it": "Sale Purificante",
+"en": "Purifying Salt",
+"ja": "きよめのしお"
+},
+"well-baked-body": {
+"fr": "Bien Cuit",
+"de": "Knusperkruste",
+"es": "Cuerpo Horneado",
+"it": "Bentostato",
+"en": "Well-Baked Body",
+"ja": "こんがりボディ"
+},
+"wind-rider": {
+"fr": "Aéroporté",
+"de": "Windreiter",
+"es": "Surcavientos",
+"it": "Vento Propizio",
+"en": "Wind Rider",
+"ja": "かぜのり"
+},
+"guard-dog": {
+"fr": "Chien de Garde",
+"de": "Wachhund",
+"es": "Perro Guardián",
+"it": "Cane da Guardia",
+"en": "Guard Dog",
+"ja": "ばんけん"
+},
+"rocky-payload": {
+"fr": "Porte-Roche",
+"de": "Steinträger",
+"es": "Transportarrocas",
+"it": "Portamassi",
+"en": "Rocky Payload",
+"ja": "いわはこび"
+},
+"wind-power": {
+"fr": "Turbine Éolienne",
+"de": "Windkraft",
+"es": "Energía Eólica",
+"it": "Energia Eolica",
+"en": "Wind Power",
+"ja": "ふうりょくでんき"
+},
+"zero-to-hero": {
+"fr": "Supermutation",
+"de": "Superwechsel",
+"es": "Cambio Heroico",
+"it": "Supercambio",
+"en": "Zero to Hero",
+"ja": "マイティチェンジ"
+},
+"commander": {
+"fr": "Commandant",
+"de": "Kommandant",
+"es": "Comandar",
+"it": "Torre di Comando",
+"en": "Commander",
+"ja": "しれいとう"
+},
+"electromorphosis": {
+"fr": "Grecharge",
+"de": "Dynamo",
+"es": "Dinamo",
+"it": "Convertivolt",
+"en": "Electromorphosis",
+"ja": "でんきにかえる"
+},
+"protosynthesis": {
+"fr": "Paléosynthèse",
+"de": "Paläosynthese",
+"es": "Paleosíntesis",
+"it": "Paleoattivazione",
+"en": "Protosynthesis",
+"ja": "こだいかっせい"
+},
+"quark-drive": {
+"fr": "Charge Quantique",
+"de": "Quantenantrieb",
+"es": "Carga Cuark",
+"it": "Carica Quark",
+"en": "Quark Drive",
+"ja": "クォークチャージ"
+},
+"good-as-gold": {
+"fr": "Corps en Or",
+"de": "Goldkörper",
+"es": "Cuerpo Áureo",
+"it": "Corpo Aureo",
+"en": "Good as Gold",
+"ja": "おうごんのからだ"
+},
+"vessel-of-ruin": {
+"fr": "Urne du Fléau",
+"de": "Unheilsgefäß",
+"es": "Caldero Debacle",
+"it": "Vaso Nefasto",
+"en": "Vessel of Ruin",
+"ja": "わざわいのうつわ"
+},
+"sword-of-ruin": {
+"fr": "Épée du Fléau",
+"de": "Unheilsschwert",
+"es": "Espada Debacle",
+"it": "Spada Nefasta",
+"en": "Sword of Ruin",
+"ja": "わざわいのつるぎ"
+},
+"beads-of-ruin": {
+"fr": "Perles du Fléau",
+"de": "Unheilsjuwelen",
+"es": "Abalorio Debacle",
+"it": "Monile Nefasto",
+"en": "Beads of Ruin",
+"ja": "わざわいのたま"
+},
+"tablets-of-ruin": {
+"fr": "Bois du Fléau",
+"de": "Unheilstafeln",
+"es": "Tablilla Debacle",
+"it": "Amuleto Nefasto",
+"en": "Tablets of Ruin",
+"ja": "わざわいのおふだ"
+},
+"orichalcum-pulse": {
+"fr": "Pouls Orichalque",
+"de": "Orichalkum-Puls",
+"es": "Latido Oricalco",
+"it": "Ritmo d’Oricalco",
+"en": "Orichalcum Pulse",
+"ja": "ひひいろのこどう"
+},
+"opportunist": {
+"fr": "Opportuniste",
+"de": "Profiteur",
+"es": "Oportunista",
+"it": "Scrocco",
+"en": "Opportunist",
+"ja": "びんじょう"
+},
+"hadron-engine": {
+"fr": "Moteur à Hadrons",
+"de": "Hadronen-Motor",
+"es": "Motor Hadrónico",
+"it": "Motore Adronico",
+"en": "Hadron Engine",
+"ja": "ハドロンエンジン"
+},
+"sharpness": {
+"fr": "Incisif",
+"de": "Scharfkantig",
+"es": "Cortante",
+"it": "Affilama",
+"en": "Sharpness",
+"ja": "きれあじ"
+},
+"cud-chew": {
+"fr": "Ruminant",
+"de": "Wiederkäuer",
+"es": "Rumia",
+"it": "Ruminante",
+"en": "Cud Chew",
+"ja": "はんすう"
+},
+"supreme-overlord": {
+"fr": "Général Suprême",
+"de": "Feldherr",
+"es": "General Supremo",
+"it": "Generale Supremo",
+"en": "Supreme Overlord",
+"ja": "そうだいしょう"
+},
+"costar": {
+"fr": "Collab",
+"de": "Synchronauftritt",
+"es": "Unísono",
+"it": "Coprotagonismo",
+"en": "Costar",
+"ja": "きょうえん"
+},
+"toxic-debris": {
+"fr": "Dépôt Toxique",
+"de": "Giftbelag",
+"es": "Capa Tóxica",
+"it": "Mantossina",
+"en": "Toxic Debris",
+"ja": "どくげしょう"
+},
+"earth-eater": {
+"fr": "Absorbe-Terre",
+"de": "Bodenschmaus",
+"es": "Geofagia",
+"it": "Mangiaterra",
+"en": "Earth Eater",
+"ja": "どしょく"
+},
+"armor-tail": {
+"fr": "Armure Caudale",
+"de": "Schweifrüstung",
+"es": "Cola Armadura",
+"it": "Codarmatura",
+"en": "Armor Tail",
+"ja": "テイルアーマー"
+},
+"mycelium-might": {
+"fr": "Force Fongique",
+"de": "Myzelienkraft",
+"es": "Poder Fúngico",
+"it": "Micoforza",
+"en": "Mycelium Might",
+"ja": "きんしのちから"
+},
+"minds-eye": {
+"fr": "Œil Révélateur",
+"es": "Ojo Mental ",
+"it": "Occhio Interiore ",
+"en": "Mind’s Eye",
+"ja": "しんがん"
+},
+"supersweet-syrup": {
+"fr": "Nectar Mielleux",
+"de": "Süßer Nektar",
+"es": "Néctar Dulce",
+"it": "Sciroppo Sublime",
+"en": "Supersweet Syrup"
+},
+"toxic-chain": {
+"fr": "Chaîne Toxique",
+"de": "Giftkette",
+"es": "Cadena Tóxica",
+"it": "Catena Tossica",
+"en": "Toxic Chain",
+"ja": "どくのくさり"
+},
+"hospitality": {
+"fr": "Aux Petits Soins",
+"de": "Gastlichkeit",
+"es": "Hospitalidad",
+"it": "Ospitalità",
+"en": "Hospitality",
+"ja": "おもてなし"
+},
+"embody-aspect": {
+"fr": "Force Mémorielle",
+"de": "Erinnerungskraft",
+"es": "Evocarrecuerdos",
+"it": "Albergamemorie",
+"en": "Embody Aspect",
+"ja": "おもかげやどし"
+},
+"tera-shift": {
+"fr": "Téramorphose",
+"de": "Tera-Wandel",
+"es": "Teracambio",
+"it": "Teramorfosi",
+"en": "Tera Shift",
+"ja": "テラスチェンジ"
+},
+"tera-shell": {
+"fr": "Téra-Carapace",
+"de": "Tera-Panzer",
+"es": "Teracaparazón",
+"it": "Teraguscio",
+"en": "Tera Shell",
+"ja": "テラスシェル"
+},
+"teraform-zero": {
+"fr": "Téraformation 0",
+"de": "Teraforming Null",
+"es": "Teraformación 0",
+"it": "Zeroformazione",
+"en": "Teraform Zero",
+"ja": "ゼロフォーミング"
+},
+"poison-puppeteer": {
+"fr": "Emprise Toxique",
+"de": "Giftpuppenspiel",
+"es": "Títere Tóxico",
+"it": "Malia Tossica",
+"en": "Poison Puppeteer",
+"ja": "どくくぐつ"
+},
+"skater": {
+"en": "Skater"
+},
+"wave-rider": {
+"en": "Wave Rider"
+},
+"mountaineer": {
+"en": "Mountaineer"
+},
+"perception": {
+"en": "Perception"
+},
+"thrust": {
+"en": "Thrust"
+},
+"parry": {
+"en": "Parry"
+},
+"instinct": {
+"en": "Instinct"
+},
+"dodge": {
+"en": "Dodge"
+},
+"jagged-edge": {
+"en": "Jagged Edge"
+},
+"frostbite": {
+"en": "Frostbite"
+},
+"tenacity": {
+"en": "Tenacity"
+},
+"pride": {
+"en": "Pride"
+},
+"deep-sleep": {
+"en": "Deep Sleep"
+},
+"spirit": {
+"en": "Spirit"
+},
+"power-nap": {
+"en": "Power Nap"
+},
+"warm-blanket": {
+"en": "Warm Blanket"
+},
+"gulp": {
+"en": "Gulp"
+},
+"herbivore": {
+"en": "Herbivore"
+},
+"hot-blooded": {
+"en": "Hot Blooded"
+},
+"sandpit": {
+"en": "Sandpit"
+},
+"lunchbox": {
+"en": "Lunchbox"
+},
+"life-force": {
+"en": "Life Force"
+},
+"medic": {
+"en": "Medic"
+},
+"melee": {
+"en": "Melee"
+},
+"sponge": {
+"en": "Sponge"
+},
+"nurse": {
+"en": "Nurse"
+},
+"bodyguard": {
+"en": "Bodyguard"
+},
+"hero": {
+"en": "Hero"
+},
+"last-bastion": {
+"en": "Last Bastion"
+},
+"stealth": {
+"en": "Stealth"
+},
+"vanguard": {
+"en": "Vanguard"
+},
+"nomad": {
+"en": "Nomad"
+},
+"sequence": {
+"en": "Sequence"
+},
+"celebrate": {
+"en": "Celebrate"
+},
+"lullaby": {
+"en": "Lullaby"
+},
+"grass-cloak": {
+"en": "Grass Cloak"
+},
+"calming": {
+"en": "Calming"
+},
+"daze": {
+"en": "Daze"
+},
+"interference": {
+"en": "Interference"
+},
+"frighten": {
+"en": "Frighten"
+},
+"mood-maker": {
+"en": "Mood Maker"
+},
+"confidence": {
+"en": "Confidence"
+},
+"fortune": {
+"en": "Fortune"
+},
+"bonanza": {
+"en": "Bonanza"
+},
+"omnipotent": {
+"en": "Omnipotent"
+},
+"explode": {
+"en": "Explode"
+},
+"share": {
+"en": "Share"
+},
+"black-hole": {
+"en": "Black Hole"
+},
+"shadow-dash": {
+"en": "Shadow Dash"
+},
+"disgust": {
+"en": "Disgust"
+},
+"sprint": {
+"en": "Sprint"
+},
+"climber": {
+"en": "Climber"
+},
+"high-rise": {
+"en": "High-rise"
+},
+"flame-boost": {
+"en": "Flame Boost"
+},
+"conqueror": {
+"en": "Conqueror"
+},
+"run-up": {
+"en": "Run Up"
+},
+"aqua-boost": {
+"en": "Aqua Boost"
+},
+"shackle": {
+"en": "Shackle"
+},
+"decoy": {
+"en": "Decoy"
+},
+"shield": {
+"en": "Shield"
+}
+}

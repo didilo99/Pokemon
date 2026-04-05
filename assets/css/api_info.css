@@ -1,0 +1,157 @@
+.api-card {
+  background: #2a2a2a;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-color, #444);
+  height: 100%;
+}
+
+.api-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.api-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.api-card-header h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: var(--text-color, #fff);
+  font-weight: 700;
+}
+
+.api-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  font-size: 1.1rem;
+}
+
+.api-stat-label {
+  color: var(--text-muted, #aaa);
+  font-weight: 500;
+}
+
+.api-stat-value {
+  color: var(--text-color, #fff);
+  font-weight: 700;
+}
+
+/* Specific theme flavors */
+.pokeapi-card {
+  border-top: 4px solid #ef5350;
+  background: linear-gradient(
+    180deg,
+    rgba(239, 83, 80, 0.05) 0%,
+    rgba(42, 42, 42, 1) 40%
+  );
+}
+
+.tcgapi-card {
+  border-top: 4px solid #ffca28;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 202, 40, 0.05) 0%,
+    rgba(42, 42, 42, 1) 40%
+  );
+}
+
+.dark-card {
+  background: #222;
+  border-top: 4px solid #4db8ff;
+}
+
+/* Recent Sets Table/List */
+.recent-set-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  transition: background 0.2s ease;
+}
+.recent-set-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+.recent-set-row:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.set-logo {
+  max-height: 48px;
+  max-width: 120px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.8));
+}
+
+.set-info {
+  flex-grow: 1;
+  margin-left: 20px;
+}
+.set-name {
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  font-size: 1.15rem;
+}
+.set-series {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin: 0;
+  margin-top: 4px;
+}
+
+.set-dates {
+  text-align: right;
+  font-size: 0.9rem;
+  min-width: 160px;
+}
+.set-release {
+  color: #4db8ff;
+  font-weight: 600;
+  margin: 0;
+}
+.set-updated {
+  color: #ff9800;
+  margin: 0;
+  margin-top: 4px;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+  .recent-set-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .set-logo {
+    max-height: 40px;
+  }
+  .set-info {
+    margin-left: 0;
+    width: 100%;
+  }
+  .set-dates {
+    text-align: left;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+}

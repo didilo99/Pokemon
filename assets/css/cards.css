@@ -1,0 +1,1296 @@
+/* TCG Cards Specific Styles - Premium Overhaul */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr); /* Divisor of 50 */
+  gap: var(--sp-md);
+  padding: var(--sp-lg) 0;
+  justify-content: center;
+}
+
+@media (max-width: 1400px) {
+  .grid {
+    grid-template-columns: repeat(5, 1fr); /* Divisor of 50 */
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr); /* Divisor of 50 */
+    gap: var(--sp-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+/* --- FILTROS --- */
+/* The .filters class has been moved to styles.css for standardization */
+
+.last-updated {
+  font-size: 0.7rem;
+  color: var(--c-text-muted);
+  margin-top: 4px;
+  opacity: 0.8;
+}
+
+/* --- TCG CARDS --- */
+.tcg-card {
+  background: var(--c-surface);
+  border-radius: var(--radius-lg);
+  padding: var(
+    --sp-md
+  ); /* Increased from var(--sp-sm) for more breathing room */
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  border: 1px solid var(--c-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 6px var(--c-black-20);
+}
+
+/* Type Color Variables - Synced with Pokedex */
+:root {
+  --tcg-fire: var(--tc-fire);
+  --tcg-water: var(--tc-water);
+  --tcg-grass: var(--tc-grass);
+  --tcg-lightning: var(--tc-electric);
+  --tcg-psychic: var(--tc-psychic);
+  --tcg-fighting: var(--tc-fighting);
+  --tcg-darkness: var(--tc-dark);
+  --tcg-metal: var(--tc-steel);
+  --tcg-dragon: var(--tc-dragon);
+  --tcg-fairy: var(--tc-fairy);
+  --tcg-colorless: var(--tc-normal);
+  --tcg-stellar: #f8fafc;
+  --tcg-trainer: #4db6ac;
+  --tcg-energy: #9ccc65;
+}
+
+/* Stellar Type Effect */
+.tcg-card.type-stellar {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+.tcg-card.type-stellar:hover {
+  border-color: #fff;
+  box-shadow:
+    0 8px 20px rgba(255, 255, 255, 0.3),
+    0 0 15px rgba(255, 215, 0, 0.2);
+}
+.modal-theme-stellar .ability-item,
+.modal-theme-stellar .attack-item {
+  border-left: 4px solid #fff;
+}
+
+.tcg-card:hover {
+  transform: translateY(-8px);
+  background: var(--c-surface-hover);
+  border-color: var(--c-accent);
+  box-shadow:
+    0 12px 24px rgba(0, 0, 0, 0.5),
+    0 0 15px rgba(99, 102, 241, 0.2);
+  z-index: 2;
+}
+
+/* Type Borders/Glows */
+.tcg-card.type-fire {
+  border-color: rgba(239, 83, 80, 0.45); /* Increased from 0.3 */
+}
+.tcg-card.type-fire:hover {
+  border-color: var(--tcg-fire);
+  box-shadow: 0 8px 20px rgba(239, 83, 80, 0.4);
+}
+
+.tcg-card.type-water {
+  border-color: rgba(66, 165, 245, 0.45); /* Increased from 0.3 */
+}
+.tcg-card.type-water:hover {
+  border-color: var(--tcg-water);
+  box-shadow: 0 8px 20px rgba(66, 165, 245, 0.4);
+}
+
+.tcg-card.type-grass {
+  border-color: rgba(102, 187, 106, 0.45); /* Increased from 0.3 */
+}
+.tcg-card.type-grass:hover {
+  border-color: var(--tcg-grass);
+  box-shadow: 0 8px 20px rgba(102, 187, 106, 0.4);
+}
+
+.tcg-card.type-lightning {
+  border-color: rgba(255, 235, 59, 0.45); /* Increased from 0.3 */
+}
+.tcg-card.type-lightning:hover {
+  border-color: var(--tcg-lightning);
+  box-shadow: 0 8px 20px rgba(255, 235, 59, 0.4);
+}
+
+.tcg-card.type-psychic {
+  border-color: rgba(171, 71, 188, 0.45); /* Increased from 0.3 */
+}
+.tcg-card.type-psychic:hover {
+  border-color: var(--tcg-psychic);
+  box-shadow: 0 8px 20px rgba(171, 71, 188, 0.4);
+}
+
+.tcg-card.type-fighting {
+  border-color: rgba(255, 167, 38, 0.45); /* Increased from 0.3 */
+}
+.tcg-card.type-fighting:hover {
+  border-color: var(--tcg-fighting);
+  box-shadow: 0 8px 20px rgba(255, 167, 38, 0.4);
+}
+
+.tcg-card.type-darkness {
+  border-color: rgba(92, 107, 192, 0.3);
+}
+.tcg-card.type-darkness:hover {
+  border-color: var(--tcg-darkness);
+  box-shadow: 0 8px 20px rgba(92, 107, 192, 0.4);
+}
+
+.tcg-card.type-metal {
+  border-color: rgba(120, 144, 156, 0.3);
+}
+.tcg-card.type-metal:hover {
+  border-color: var(--tcg-metal);
+  box-shadow: 0 8px 20px rgba(120, 144, 156, 0.4);
+}
+
+.tcg-card.type-dragon {
+  border-color: rgba(212, 175, 55, 0.3);
+}
+.tcg-card.type-dragon:hover {
+  border-color: var(--tcg-dragon);
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+}
+
+.tcg-card.type-fairy {
+  border-color: rgba(236, 64, 122, 0.3);
+}
+.tcg-card.type-fairy:hover {
+  border-color: var(--tcg-fairy);
+  box-shadow: 0 8px 20px rgba(236, 64, 122, 0.4);
+}
+
+.tcg-card.type-colorless {
+  border-color: rgba(224, 224, 224, 0.3);
+}
+.tcg-card.type-colorless:hover {
+  border-color: var(--tcg-colorless);
+  box-shadow: 0 8px 20px rgba(224, 224, 224, 0.4);
+}
+
+.tcg-card.type-trainer {
+  border-color: rgba(77, 182, 172, 0.3);
+}
+.tcg-card.type-trainer:hover {
+  border-color: var(--tcg-trainer);
+  box-shadow: 0 8px 20px rgba(77, 182, 172, 0.4);
+}
+
+.tcg-card.type-energy {
+  border-color: rgba(156, 204, 101, 0.3);
+}
+.tcg-card.type-energy:hover {
+  border-color: var(--tcg-energy);
+  box-shadow: 0 8px 20px rgba(156, 204, 101, 0.4);
+}
+
+/* Rare Glow Effect (Subtle Golden Shine) */
+.tcg-card.rare-glow::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    transparent,
+    rgba(255, 203, 5, 0.1),
+    transparent 30%
+  );
+  animation: rotateGlow 8s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes rotateGlow {
+  0% {
+    transform: rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: rotate(360deg);
+    opacity: 0.3;
+  }
+}
+
+/* Specific Border for Rares in Grid */
+.tcg-card.rare-glow {
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  box-shadow:
+    0 0 10px rgba(255, 215, 0, 0.2),
+    0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.tcg-card.rare-glow:hover {
+  border-color: rgba(255, 215, 0, 0.8);
+  box-shadow:
+    0 0 20px rgba(255, 215, 0, 0.4),
+    0 12px 24px rgba(0, 0, 0, 0.5);
+}
+
+.tcg-card img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--sp-sm);
+  box-shadow: 0 4px 12px var(--c-black-20);
+  position: relative;
+  z-index: 1;
+}
+
+.tcg-card .card-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+  color: var(--c-text);
+  z-index: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.tcg-card .card-meta {
+  font-size: 0.7rem;
+  color: var(--c-text-muted);
+  z-index: 1;
+}
+
+/* Holo Effect & 3D Container */
+.card-holo-container {
+  position: relative;
+  /* NO overflow:hidden here, so box-shadow and 3D thickness aren't cut */
+  overflow: visible;
+  display: inline-block;
+  transition:
+    transform 0.1s ease-out,
+    box-shadow 0.1s ease-out;
+  transform-style: preserve-3d;
+  perspective: 1000px; /* Added for depth */
+  will-change: transform, box-shadow;
+  border-radius: var(--radius-lg);
+}
+
+/* Inner Layer for Precise Clipping of Shine and Image */
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  overflow: hidden;
+  /* Bulletproof clipping for 3D translations across all browsers */
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  mask-image: radial-gradient(white, black);
+  isolation: isolate; /* Create new stacking context */
+  transform-style: preserve-3d;
+  box-shadow:
+    var(--card-shadow, 0 10px 30px rgba(0, 0, 0, 0.5)),
+    /* Simulated 3D thickness (the "edge" of the card) */ 1px 1px 0px
+      rgba(255, 255, 255, 0.1),
+    2px 2px 0px rgba(0, 0, 0, 0.2);
+}
+
+/* Continuous Idle Float Animation */
+.card-idle-tilt {
+  animation: float3d 8s ease-in-out infinite;
+}
+
+@keyframes float3d {
+  0%,
+  100% {
+    transform: rotateX(0deg) rotateY(0deg) translateY(0);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+  25% {
+    transform: rotateX(5deg) rotateY(-5deg) translateY(-5px);
+    box-shadow: 10px 15px 40px var(--c-card-shadow);
+  }
+  50% {
+    transform: rotateX(-5deg) rotateY(5deg) translateY(-10px);
+    box-shadow: -10px 20px 50px var(--c-card-shadow);
+  }
+  75% {
+    transform: rotateX(5deg) rotateY(5deg) translateY(-5px);
+    box-shadow: -10px 15px 40px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* Standardize transformations in both modal and zoom */
+.card-holo-container .card-parallax-img,
+.zoom-overlay .card-holo-container img {
+  transform: translateZ(1px); /* Subtle depth */
+  display: block;
+  max-width: 100%;
+  border-radius: inherit;
+}
+
+/* Holo Effect & Modular Hybrid Layers */
+.holo-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 10;
+  transition: opacity 0.3s;
+  background-size: 150% 150%;
+  --mx: 50%;
+  --my: 50%;
+  background-position: var(--mx) var(--my);
+  border-radius: inherit;
+  transform: translateZ(2px); /* Shine sits slightly above image */
+}
+
+/* --- Rarity Layer Definitions (Master Rarity Guide: Layer Sandwich) --- */
+
+.holo-effect {
+  /* Sandwich Base & Common Props */
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 10;
+  overflow: hidden;
+  --mx: 50%;
+  --my: 50%;
+  background-position: var(--mx) var(--my);
+  border-radius: inherit;
+  transform: translateZ(2px);
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+
+  /* Level 1: Reflection Layers (Center) */
+  --layer-reflection: none;
+  /* Level 2: Texture Layers (Distributed) */
+  --layer-texture: none;
+  /* Level 3: Particles & Overlays (Top) */
+  --layer-overlay: none;
+
+  background-image: 
+    var(--layer-overlay), 
+    var(--layer-texture), 
+    var(--layer-reflection);
+}
+
+.card-holo-container:hover .holo-effect,
+.card-hero:hover .holo-effect,
+.zoom-overlay:hover .holo-effect {
+  opacity: 1;
+}
+
+/* 💎 Rarezas de Rombos y Estrellas (Reflejos de Superficie) */
+
+/* 1. Un Diamante / Infrecuente / Satin: Pulso de Claridad */
+.rarify-diamond-1 .holo-effect, .rarify-satin .holo-effect {
+  --layer-reflection: linear-gradient(0deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+  background-size: 100% 200%;
+  animation: clarityPulse 4s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+@keyframes clarityPulse {
+  0% { background-position: 50% 100%; }
+  100% { background-position: 50% -100%; }
+}
+
+/* 2. Dos Diamantes / Rara: Reflejo Satinado */
+.rarify-diamond-2 .holo-effect {
+  --layer-reflection: linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.2) 48%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.2) 52%, transparent 65%);
+  background-size: 300% 300%;
+  background-position: var(--mx) var(--my);
+  mix-blend-mode: screen;
+}
+
+/* 3. Tres Diamantes: Foco en Ilustración */
+.rarify-diamond-3 .card-parallax-img {
+  filter: contrast(1.1) brightness(1.05) saturate(1.1);
+}
+.rarify-diamond-3 .holo-effect {
+  --layer-overlay: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.3) 100%);
+  mix-blend-mode: multiply;
+}
+
+/* 4. Cuatro Diamantes: Barrido Plateado */
+.rarify-diamond-4 .holo-effect {
+  --layer-reflection: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(200,220,255,0.2) 12px, transparent 14px);
+  background-size: 200% 200%;
+  animation: silverSweep 3s linear infinite;
+  mix-blend-mode: color-dodge;
+}
+@keyframes silverSweep {
+  from { background-position: 0 0; }
+  to { background-position: 40px 40px; }
+}
+
+/* 5. Una Estrella: Gota de Luz */
+.rarify-star-1 .holo-effect {
+  --layer-reflection: radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,0.8) 0%, transparent 45%);
+  mix-blend-mode: color-dodge;
+}
+
+/* 6. Dos Estrellas: Polvo Estelar */
+.rarify-star-2 .holo-effect::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(1.5px 1.5px at 15% 25%, #fff 100%, transparent),
+    radial-gradient(2px 2px at 75% 35%, #fff 100%, transparent),
+    radial-gradient(1px 1px at 35% 75%, #fff 100%, transparent),
+    radial-gradient(1.5px 1.5px at 85% 90%, #fff 100%, transparent);
+  animation: stardustBlink 2s infinite alternate;
+  mix-blend-mode: screen;
+}
+@keyframes stardustBlink {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+
+/* 7. Tres Estrellas: Iridiscencia Tenue */
+.rarify-star-3 .holo-effect {
+  --layer-texture: linear-gradient(135deg, rgba(230,200,255,0.15), rgba(255,220,200,0.15));
+  mix-blend-mode: overlay;
+  opacity: 0.3;
+  transition: opacity 0.5s;
+}
+.card-holo-container:hover .rarify-star-3 .holo-effect {
+  opacity: 0.8;
+}
+
+/* ✨ Rarezas "Shiny" y Especiales (Efectos Reactivos) */
+
+/* Un Diamante Shiny / Rara Shiny: Chispas Cinéticas */
+.rarify-shiny .holo-effect::before, .rarify-rare-shiny .holo-effect::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 15px; height: 15px;
+  background: radial-gradient(circle, #fff 30%, transparent 70%);
+  box-shadow: 0 0 20px #fff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: kineticSparks 4s infinite ease-out;
+  opacity: 0;
+}
+@keyframes kineticSparks {
+  0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(25) rotate(90deg); opacity: 0; }
+}
+
+/* Dos Diamantes Shiny: Nácar Líquido */
+.rarify-diamond-2-shiny .holo-effect {
+  --layer-texture: linear-gradient(120deg, #ff00ff11, #00ffff11, #ffff0011, #ff00ff11);
+  background-size: 400% 400%;
+  animation: liquidNacre 10s linear infinite;
+  mix-blend-mode: overlay;
+}
+@keyframes liquidNacre {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Ultra Rara Shiny: Grabado Metálico */
+.rarify-ultra-rare-shiny .card-parallax-img {
+  filter: contrast(1.25) saturate(0.8);
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
+}
+.rarify-ultra-rare-shiny .holo-effect {
+  --layer-reflection: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  background-size: 200% 100%;
+  background-position: var(--mx) center;
+  mix-blend-mode: soft-light;
+}
+
+/* Rara Radiante: Red de Diamante */
+.rarify-radiant .holo-effect {
+  --layer-texture: 
+    repeating-linear-gradient(45deg, transparent, transparent 6px, rgba(255,255,255,0.08) 7px, transparent 8px),
+    repeating-linear-gradient(-45deg, transparent, transparent 6px, rgba(255,255,255,0.08) 7px, transparent 8px);
+  -webkit-mask-image: radial-gradient(circle at var(--mx) var(--my), #000 0%, transparent 35%);
+  mask-image: radial-gradient(circle at var(--mx) var(--my), #000 0%, transparent 35%);
+  mix-blend-mode: screen;
+}
+
+/* Increíble Rara: Pulso Neón */
+.rarify-amazing .holo-effect {
+  --layer-overlay: radial-gradient(circle at 30% 30%, hsla(300, 100%, 50%, 0.3), transparent),
+                   radial-gradient(circle at 70% 70%, hsla(190, 100%, 50%, 0.3), transparent);
+  animation: neonPulse Amazing 3s infinite alternate;
+}
+@keyframes neonPulseAmazing {
+  to { filter: brightness(1.8) saturate(2); }
+}
+
+/* ⚔️ Rarezas de Combate (Efectos Estructurales) */
+
+/* Rara Holo: Olas Verticales (Oil Slick) */
+.rarify-rare-holo .holo-effect {
+  --layer-texture: linear-gradient(90deg, #ff000015, #ffff0015, #00ff0015, #00ffff15, #0000ff15, #ff00ff15, #ff000015);
+  background-size: 300% 100%;
+  animation: oilSlick 12s linear infinite;
+  -webkit-mask-image: linear-gradient(90deg, transparent 40%, #000 50%, transparent 60%);
+  mask-image: linear-gradient(90deg, transparent 40%, #000 50%, transparent 60%);
+  mask-size: 200% 100%;
+  mask-position: var(--mx) center;
+  mix-blend-mode: color-dodge;
+}
+@keyframes oilSlick {
+  to { background-position: 300% 0; }
+}
+
+/* Rara Holo V / Shiny V: Fondo Activo */
+.rarify-rare-holo-v .holo-effect, .rarify-shiny-v .holo-effect {
+  --layer-texture: repeating-linear-gradient(0deg, #222 0px, #000 2px, #222 4px);
+  mix-blend-mode: multiply;
+  opacity: 0.4;
+}
+
+/* Rara Holo VMAX / Shiny VMAX: Aura de Poder */
+.rarify-rare-holo-vmax, .rarify-shiny-vmax {
+  animation: powerAuraVMAX 4s infinite alternate;
+}
+@keyframes powerAuraVMAX {
+  0% { box-shadow: 0 0 15px rgba(255,0,255,0.25); }
+  100% { box-shadow: 0 0 45px rgba(0,255,255,0.6); }
+}
+
+/* Rara Holo VSTAR: Supernova */
+.rarify-rare-holo-vstar .holo-effect {
+  --layer-reflection: linear-gradient(90deg, transparent 42%, #fff 50%, transparent 58%);
+  background-size: 250% 100%;
+  animation: vstarSupernova 5s infinite cubic-bezier(0.1, 0, 0.9, 1);
+  mix-blend-mode: screen;
+}
+@keyframes vstarSupernova {
+  0% { background-position: -150% center; filter: brightness(1); }
+  50% { filter: brightness(4); }
+  100% { background-position: 250% center; filter: brightness(1); }
+}
+
+/* Holo LV.X: Marco Flotante */
+.rarify-lvx .card-inner {
+  overflow: visible !important;
+}
+.rarify-lvx .card-parallax-img {
+  transform: translateZ(35px) scale(1.07);
+  filter: drop-shadow(0 20px 20px rgba(0,0,0,0.6));
+}
+.rarify-lvx .holo-effect {
+  --layer-reflection: radial-gradient(circle at center, rgba(255,255,255,0.3) 0%, transparent 70%);
+  mix-blend-mode: screen;
+}
+
+/* Prime / LEYENDA: Relieve Profundo */
+.rarify-prime-legend .card-parallax-img {
+  transform: translateZ(10px);
+}
+
+/* Blanco y Negro: Vigencia Retro */
+.rarify-bw .holo-effect {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' opacity='0.25'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.15;
+  animation: retroNoise 0.12s infinite alternate;
+}
+@keyframes retroNoise {
+  to { opacity: 0.08; background-position: 5px 5px; }
+}
+
+/* 🎨 Rarezas de Arte Completo (Textura y Profundidad) */
+
+/* Ilustración Rara / Arte Completo: Viento de Seda */
+.rarify-illustration .holo-effect {
+  --layer-reflection: linear-gradient(135deg, transparent 35%, rgba(200,230,255,0.3) 50%, transparent 65%);
+  background-size: 350% 350%;
+  animation: silkWindFlow 8s ease-in-out infinite alternate;
+  mix-blend-mode: screen;
+}
+@keyframes silkWindFlow {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+
+/* Ilustración Especial Rara: Paralaje Multicapa */
+.rarify-special-illustration .card-parallax-img {
+  transform: translateZ(25px) scale(1.02);
+}
+
+/* Entrenador Arte Completo: Brillo Satinado Premium */
+.rarify-full-art-trainer .holo-effect {
+  --layer-reflection: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.4) 50%, transparent 60%);
+  background-size: 200% 100%;
+  background-position: var(--mx) center;
+  mix-blend-mode: soft-light;
+}
+
+/* 👑 Rarezas Supremas (Lujo Total) */
+
+/* Rara Secreta (Dorada): Oro Líquido */
+.rarify-secret-gold .card-inner {
+  filter: saturate(1.4) brightness(1.05);
+}
+.rarify-secret-gold .holo-effect {
+  --layer-texture: linear-gradient(to bottom, #ffd70033, #daa52066);
+  mix-blend-mode: color-dodge;
+}
+.rarify-secret-gold::after {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  background-image: 
+    radial-gradient(1.5px 1.5px at 20% 10%, #ffd700 100%, transparent),
+    radial-gradient(1.2px 1.2px at 60% 40%, #ffd700 100%, transparent),
+    radial-gradient(1.5px 1.5px at 40% 70%, #ffd700 100%, transparent),
+    radial-gradient(1px 1px at 80% 90%, #ffd700 100%, transparent);
+  background-size: 40px 80px;
+  animation: goldenRainfall 6s linear infinite;
+  mix-blend-mode: screen;
+  opacity: 0.4;
+}
+@keyframes goldenRainfall {
+  from { background-position: 0 0; }
+  to { background-position: 0 80px; }
+}
+
+/* Híper Rara (Rainbow): Prisma Infinito */
+.rarify-hyper-rainbow .holo-effect {
+  --layer-texture: linear-gradient(45deg, hsla(0, 100%, 80%, 0.15), hsla(120, 100%, 80%, 0.15), hsla(240, 100%, 80%, 0.15));
+  --layer-overlay: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 0 L12 6 L6 12 L0 6 Z' fill='white' fill-opacity='0.1'/%3E%3C/svg%3E");
+  background-size: 300% 300%, 8px 8px;
+  animation: prismShift 20s linear infinite;
+  mix-blend-mode: color-dodge;
+}
+@keyframes prismShift {
+  to { background-position: 100% 100%, 32px 32px; filter: hue-rotate(360deg); }
+}
+
+/* Mega Híper Rara: Fractal de Energía */
+.rarify-mega-hyper .holo-effect {
+  --layer-reflection: conic-gradient(from 0deg at 50% 50%, transparent, rgba(200,240,255,0.3), transparent);
+  background-size: 100% 100%;
+  animation: energyFractalSpin 15s linear infinite;
+  filter: blur(1.5px) contrast(2.5);
+  mix-blend-mode: exclusion;
+}
+@keyframes energyFractalSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* ACE SPEC: Sobrecarga de Datos (Glitch) */
+.rarify-ace-spec .card-inner::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 4px solid #ff00ff;
+  border-radius: inherit;
+  animation: aceDataGlitch 0.4s steps(2) infinite;
+  box-shadow: 0 0 25px rgba(255,0,255,0.5);
+  pointer-events: none;
+  z-index: 10;
+}
+@keyframes aceDataGlitch {
+  0%, 100% { clip-path: inset(0 0 0 0); opacity: 0.7; transform: skew(0deg); }
+  25% { clip-path: inset(15% -20px 75% 0); opacity: 1; transform: skew(2deg); }
+  50% { clip-path: inset(60% 0 10% -20px); opacity: 0.8; transform: skew(-2deg); }
+  75% { clip-path: inset(0 -20px 90% 0); opacity: 0.5; }
+}
+
+/* Corona: Destello de Gema */
+.rarify-crown::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 500%; height: 2px;
+  background: radial-gradient(ellipse at center, rgba(230,240,255,0.9), transparent 85%);
+  transform: translate(-50%, -50%) rotate(calc(var(--mx-offset, 0) * 0.5deg + 45deg));
+  mix-blend-mode: screen;
+  z-index: 30;
+  animation: gemFlareShimmer 6s infinite alternate;
+}
+@keyframes gemFlareShimmer {
+  to { opacity: 0.4; transform: translate(-50%, -50%) rotate(calc(var(--mx-offset, 0) * 0.5deg + 60deg)) scaleY(2); }
+}
+
+/* Colección Clásica: Holograma de Puntos Vintage */
+.rarify-classic-collection .holo-effect {
+  --layer-texture: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 2 L22 18 L38 20 L22 22 L20 38 L18 22 L2 20 L18 18 Z' fill='white' fill-opacity='0.25'/%3E%3C/svg%3E");
+  background-size: 25px 25px;
+  animation: retroClassicRGB 8s linear infinite;
+  -webkit-mask-image: radial-gradient(circle at center, #000 0%, #000 100%);
+  mask-image: radial-gradient(circle at center, #000 0%, #000 100%);
+  mix-blend-mode: screen;
+}
+@keyframes retroClassicRGB {
+  0% { filter: hue-rotate(0deg); background-position: 0 0; }
+  100% { filter: hue-rotate(360deg); background-position: 50px 50px; }
+}
+
+/* Parallax Illustration Layer - Refined to avoid clipping */
+.parallax-wrapper {
+  position: relative;
+  /* Removed overflow:hidden to prevent cropping important card text */
+  border-radius: var(--radius-lg);
+  display: block;
+  transform-style: preserve-3d;
+}
+
+.card-parallax-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Use contain to ensure nothing is cut */
+  /* Remove translateZ if it causes projection issues, or use a very small value */
+  transform: translateZ(1px);
+  transition: transform 0.1s ease-out;
+  border-radius: var(--radius-lg);
+  overflow: clip; /* Modern alternative to visible for img tags if needed */
+}
+
+/* Detail Box Styling (Unified) */
+.detail-box {
+  background: var(--c-bg-lighter);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-box h5 {
+  font-size: 1rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: var(--c-text);
+  border-bottom: 1px solid var(--c-border);
+  padding-bottom: 0.5rem;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.stat-item .stat-label {
+  color: var(--c-text-muted) !important;
+}
+
+.stat-item .stat-value {
+  color: var(--c-text);
+}
+
+.price-source {
+  padding: 0.75rem;
+  background: var(--c-black-20);
+  border-radius: var(--radius-sm);
+}
+
+.price-source .text-muted {
+  color: var(--c-text-muted) !important;
+}
+
+.detail-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.detail-col {
+  flex: 1;
+}
+
+@media (max-width: 991px) {
+  .detail-row {
+    flex-direction: column;
+  }
+}
+
+/* --- MODAL REFINEMENT --- */
+.card-hero {
+  background: transparent;
+  border-bottom: 1px solid var(--c-border);
+  padding: 3rem !important; /* Increased padding for tilt room */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1200px; /* Added perspective for 3D effect */
+}
+
+.card-large-image {
+  max-width: 320px;
+  width: 100%;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 30px var(--c-modal-overlay);
+}
+
+.poke-modal-title {
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: var(--radius);
+  display: inline-block;
+  background: linear-gradient(
+    to bottom,
+    var(--c-title-top, var(--c-text)) 0%,
+    var(--c-title-bottom, var(--c-text-muted)) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 2rem;
+}
+
+.type-logo-container {
+  margin-top: -40px; /* Move UP */
+  position: relative;
+  z-index: 10;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
+}
+
+.genera-text {
+  font-style: italic;
+  color: var(--c-text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+}
+
+/* Modal Titles - Dynamic Theme-based */
+.poke-modal-title {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-shadow: 0 2px 4px var(--c-black-20);
+}
+
+/* Modal Themes - Color Accents on Content Items */
+.modal-theme-fire .ability-item,
+.modal-theme-fire .attack-item {
+  border-left: 4px solid var(--tcg-fire);
+}
+.modal-theme-fire .card-large-image {
+  box-shadow:
+    0 0 35px var(--tcg-fire),
+    0 0 70px rgba(239, 83, 80, 0.2);
+}
+
+.modal-theme-water .ability-item,
+.modal-theme-water .attack-item {
+  border-left: 4px solid var(--tcg-water);
+}
+.modal-theme-water .card-large-image {
+  box-shadow:
+    0 0 35px var(--tcg-water),
+    0 0 70px rgba(66, 165, 245, 0.2);
+}
+
+.modal-theme-grass .ability-item,
+.modal-theme-grass .attack-item {
+  border-left: 4px solid var(--tcg-grass);
+}
+.modal-theme-grass .card-large-image {
+  box-shadow:
+    0 0 35px var(--tcg-grass),
+    0 0 70px rgba(102, 187, 106, 0.2);
+}
+
+.modal-theme-lightning .ability-item,
+.modal-theme-lightning .attack-item {
+  border-left: 4px solid var(--tcg-lightning);
+}
+.modal-theme-lightning .card-large-image {
+  box-shadow:
+    0 0 35px var(--tcg-lightning),
+    0 0 70px rgba(255, 235, 59, 0.2);
+}
+
+.modal-theme-psychic .ability-item,
+.modal-theme-psychic .attack-item {
+  border-left: 4px solid var(--tcg-psychic);
+}
+.modal-theme-psychic .card-large-image {
+  box-shadow:
+    0 0 35px var(--tcg-psychic),
+    0 0 70px rgba(171, 71, 188, 0.2);
+}
+
+.modal-theme-fighting .ability-item,
+.modal-theme-fighting .attack-item {
+  border-left: 4px solid var(--tcg-fighting);
+}
+.modal-theme-fighting .card-large-image {
+  box-shadow:
+    0 0 35px var(--tcg-fighting),
+    0 0 70px rgba(255, 167, 38, 0.2);
+}
+
+.modal-theme-darkness .ability-item,
+.modal-theme-darkness .attack-item {
+  border-left: 4px solid var(--tcg-darkness);
+}
+.modal-theme-darkness .card-large-image {
+  box-shadow:
+    0 0 35px var(--tcg-darkness),
+    0 0 70px rgba(92, 107, 192, 0.2);
+}
+
+.modal-theme-metal .ability-item,
+.modal-theme-metal .attack-item {
+  border-left: 4px solid var(--tcg-metal);
+}
+.modal-theme-metal .card-large-image {
+  box-shadow:
+    0 0 35px var(--tcg-metal),
+    0 0 70px rgba(120, 144, 156, 0.2);
+}
+
+.modal-theme-dragon .ability-item,
+.modal-theme-dragon .attack-item {
+  border-left: 4px solid var(--tcg-dragon);
+}
+.modal-theme-dragon .card-large-image {
+  box-shadow:
+    0 0 35px var(--tcg-dragon),
+    0 0 70px rgba(212, 175, 55, 0.2);
+}
+
+.modal-theme-fairy .ability-item,
+.modal-theme-fairy .attack-item {
+  border-left: 4px solid var(--tcg-fairy);
+}
+.modal-theme-fairy .card-large-image {
+  box-shadow:
+    0 0 35px var(--tcg-fairy),
+    0 0 70px rgba(236, 64, 122, 0.2);
+}
+
+.modal-theme-colorless .ability-item,
+.modal-theme-colorless .attack-item {
+  border-left: 4px solid var(--tcg-colorless);
+}
+.modal-theme-colorless .card-large-image {
+  box-shadow:
+    0 0 35px var(--tcg-colorless),
+    0 0 70px rgba(224, 224, 224, 0.2);
+}
+
+.modal-theme-trainer .ability-item,
+.modal-theme-trainer .attack-item {
+  border-left: 4px solid var(--tcg-trainer);
+}
+.modal-theme-trainer .card-large-image {
+  box-shadow:
+    0 0 35px var(--tcg-trainer),
+    0 0 70px rgba(77, 182, 172, 0.2);
+}
+
+.modal-theme-energy .ability-item,
+.modal-theme-energy .attack-item {
+  border-left: 4px solid var(--tcg-energy);
+}
+.modal-theme-energy .card-large-image {
+  box-shadow:
+    0 0 35px var(--tcg-energy),
+    0 0 70px rgba(156, 204, 101, 0.2);
+}
+
+/* Details Section */
+.attack-item,
+.ability-item {
+  background: var(--c-bg-lighter);
+  padding: 1rem;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  border: 1px solid var(--c-border);
+  transition: border-color 0.3s;
+}
+
+.attack-item:hover,
+.ability-item:hover {
+  border-color: var(--c-accent);
+}
+
+.attack-header,
+.ability-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.attack-name,
+.ability-name {
+  font-weight: 800;
+  color: var(--c-text);
+  font-size: 1rem;
+}
+
+.attack-damage {
+  color: var(--tc-electric);
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+
+.attack-text,
+.ability-text {
+  font-size: 0.875rem;
+  color: var(--c-text-muted);
+  line-height: 1.6;
+}
+
+/* Energy Costs & Inline Icons */
+.costs {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.type-icon-inline {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  transition: transform 0.2s;
+}
+
+.type-icon-inline:hover {
+  transform: scale(1.2);
+}
+
+/* Set and Rarity Medatada */
+.set-icon-mini {
+  height: 20px;
+  width: auto;
+  margin-right: 8px;
+  vertical-align: middle;
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.2));
+}
+
+.holo-badge {
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  color: #000;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-left: 8px;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  vertical-align: middle;
+}
+
+.kvsmall span#modalCardRarity {
+  font-weight: 700;
+}
+
+/* Pricing Table */
+.table-responsive {
+  background: var(--c-bg-lighter);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--c-border);
+}
+
+.table-dark {
+  margin-bottom: 0;
+  --bs-table-bg: transparent;
+}
+
+.table th {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: var(--c-text-muted);
+  border-bottom-color: var(--c-border);
+}
+
+/* Error and Shimmer */
+.error-container {
+  background: rgba(220, 38, 38, 0.1);
+  border: 1px solid var(--tc-fighting);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  text-align: center;
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--c-surface) 25%,
+    var(--c-surface-hover) 50%,
+    var(--c-surface) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: 200% 0;
+  }
+}
+
+/* Modal Navigation Arrows */
+.nav-arrows {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1rem;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.nav-arrows .arrow {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  color: var(--c-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  font-size: 1.2rem;
+  backdrop-filter: blur(8px);
+}
+
+.nav-arrows .arrow:hover {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+  color: #fff;
+}
+
+.nav-arrows .arrow:active {
+  transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+  .nav-arrows {
+    top: auto;
+    bottom: -60px;
+    justify-content: center;
+    gap: 2rem;
+  }
+}
+
+.zoom-overlay[open] {
+  display: flex;
+}
+
+.zoom-overlay:not([open]) {
+  display: none !important;
+}
+
+.zoom-overlay {
+  border: none;
+  background: transparent;
+  padding: 0;
+  max-width: 100vw;
+  max-height: 100vh;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+}
+
+.zoom-overlay::backdrop {
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
+
+#zoomedImage {
+  max-width: 90vw; /* Slightly smaller to allow tilt room */
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: var(--card-shadow, 0 0 50px rgba(0, 0, 0, 1));
+  animation: zoomInDetailed 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: zoom-out;
+  transition:
+    transform 0.1s ease-out,
+    box-shadow 0.1s ease-out;
+  transform-style: preserve-3d;
+  will-change: transform, box-shadow;
+}
+
+.zoom-overlay {
+  perspective: 2000px; /* Larger perspective for larger image */
+}
+/* --- TYPE DROPDOWN ENHANCEMENTS --- */
+.type-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  font-weight: 600;
+  transition: all 0.2s;
+  color: var(--c-text);
+  text-decoration: none;
+}
+
+.type-dropdown-item:hover {
+  background: var(--c-surface-hover);
+  color: var(--c-accent);
+}
+
+.type-dropdown-item.active {
+  background: var(--c-accent);
+  color: white;
+}
+
+.type-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.type-dropdown-item .type-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+#typeDropdownBtn::after {
+  margin-left: auto;
+}
+
+#typeDropdownBtn {
+  text-align: left;
+}

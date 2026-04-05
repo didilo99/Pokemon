@@ -1,0 +1,722 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-i18n="nav.cards">Pokédex TCG</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../assets/css/styles.css?v=2" />
+    <link rel="stylesheet" href="../assets/css/cards.css?v=2" />
+    <link rel="icon" type="image/png" href="../assets/icon/favicon.png" />
+    <script src="../assets/js/cache.js"></script>
+    <script src="../assets/js/i18n.js"></script>
+    <link rel="stylesheet" href="../assets/css/a11y.css" />
+    <script src="../assets/js/a11y.js" defer></script>
+      <script src="https://unpkg.com/lucide@latest" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <header>
+      <div class="dex-top">
+        <div class="inner container-fluid">
+          <div class="d-flex align-items-center justify-content-between">
+            <a href="../index.html" class="brand">
+              <img src="../assets/icon/logo.png" alt="Logo" class="title-logo" />
+              <h1 class="title mb-0" data-i18n="nav.cards">Cartas TCG</h1>
+            </a>
+            <div class="d-flex align-items-center gap-2">
+              <div class="dropdown d-inline-block">
+                <button
+                  class="btn btn-sm dropdown-toggle dex-select d-flex align-items-center gap-2"
+                  type="button"
+                  id="langDropdown"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <img
+                    id="currentFlag"
+                    src="../assets/img/flags/espana.png"
+                    alt="ES"
+                    width="20"
+                    height="20"
+                  />
+                  <span id="currentLangLabel">ES</span>
+                </button>
+                <ul
+                  class="dropdown-menu dropdown-menu-end dex-dropdown-menu"
+                  aria-labelledby="langDropdown"
+                >
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="es"
+                      ><img
+                        src="../assets/img/flags/espana.png"
+                        width="20"
+                        height="20"
+                      />
+                      Español</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="en"
+                      ><img
+                        src="../assets/img/flags/reino-unido.png"
+                        width="20"
+                        height="20"
+                      />
+                      English</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="fr"
+                      ><img
+                        src="../assets/img/flags/francia.png"
+                        width="20"
+                        height="20"
+                      />
+                      Français</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="de"
+                      ><img
+                        src="../assets/img/flags/alemania.png"
+                        width="20"
+                        height="20"
+                      />
+                      Deutsch</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="it"
+                      ><img
+                        src="../assets/img/flags/italia.png"
+                        width="20"
+                        height="20"
+                      />
+                      Italiano</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="pt"
+                      ><img
+                        src="../assets/img/flags/portugal.png"
+                        width="20"
+                        height="20"
+                      />
+                      Português</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="ja"
+                      ><img
+                        src="../assets/img/flags/japon.png"
+                        width="20"
+                        height="20"
+                      />
+                      日本語</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="zh-tw"
+                      ><img
+                        src="../assets/img/flags/china.png"
+                        width="20"
+                        height="20"
+                      />
+                      中文</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="inner container-fluid">
+          <nav class="dex-nav">
+            <!-- Mundo Pokémon -->
+            <li class="nav-item dropdown d-inline-block">
+                <a class="nav-link dropdown-toggle " href="#" id="mundoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-i18n="footer.nav_world">
+                    Mundo Pokémon
+                </a>
+                <ul class="dropdown-menu dex-dropdown-menu" aria-labelledby="mundoDropdown">
+                    <li><a class="dropdown-item" href="../index.html" data-i18n="nav.pokemon">Pokémon</a></li>
+                    <li><a class="dropdown-item" href="regions.html" data-i18n="nav.regions">Regiones</a></li>
+                    <li><a class="dropdown-item" href="generations.html" data-i18n="nav.generations">Generaciones</a></li>
+                    <li><a class="dropdown-item" href="locations.html" data-i18n="nav.locations">Localizaciones</a></li>
+                    <li><a class="dropdown-item" href="breeding.html" data-i18n="nav.breeding">Crianza</a></li>
+                    <li><a class="dropdown-item" href="habitats.html" data-i18n="nav.habitats">Hábitats</a></li>
+                    <li><a class="dropdown-item" href="shapes.html" data-i18n="nav.shapes">Formas</a></li>
+                </ul>
+            </li>
+
+            <!-- Combate -->
+            <li class="nav-item dropdown d-inline-block">
+                <a class="nav-link dropdown-toggle " href="#" id="combateDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-i18n="footer.nav_combat">
+                    Combate
+                </a>
+                <ul class="dropdown-menu dex-dropdown-menu" aria-labelledby="combateDropdown">
+                    <li><a class="dropdown-item" href="moves.html" data-i18n="nav.moves">Movimientos</a></li>
+                    <li><a class="dropdown-item" href="abilities.html" data-i18n="nav.abilities">Habilidades</a></li>
+                    <li><a class="dropdown-item" href="types.html" data-i18n="nav.types">Tabla de Tipos</a></li>
+                    <li><a class="dropdown-item" href="natures.html" data-i18n="nav.natures">Naturalezas</a></li>
+                    <li><a class="dropdown-item" href="machines.html" data-i18n="nav.machines">Máquinas</a></li>
+                    <li><a class="dropdown-item" href="contests.html" data-i18n="nav.contests">Concursos</a></li>
+                </ul>
+            </li>
+
+            <!-- Colección -->
+            <li class="nav-item dropdown d-inline-block">
+                <a class="nav-link dropdown-toggle active" href="#" id="coleccionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-i18n="footer.nav_collection">
+                    Colección
+                </a>
+                <ul class="dropdown-menu dex-dropdown-menu" aria-labelledby="coleccionDropdown">
+                    <li><a class="dropdown-item" href="items.html" data-i18n="nav.items">Objetos</a></li>
+                    <li><a class="dropdown-item" href="berries.html" data-i18n="nav.berries">Bayas</a></li>
+                    <li><a class="dropdown-item" href="games.html" data-i18n="nav.games">Juegos</a></li>
+                    <li><a class="dropdown-item active" href="cards.html" data-i18n="nav.cards">Cartas TCG</a></li>
+                    <li><a class="dropdown-item" href="tcg-sets.html" data-i18n="nav.tcg_sets">Sets TCG</a></li>
+                </ul>
+            </li>
+          </nav>
+
+          <!-- Filters Toggle Button (Mobile) -->
+          <div class="filters-toggle">
+            <button
+              id="filtersBtn"
+              class="btn btn-light w-100 d-md-none fw-bold"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#filtersCollapse"
+              aria-expanded="false"
+              aria-controls="filtersCollapse"
+            >
+              <span data-i18n="filters.button"><i data-lucide="search"></i> Filtros</span>
+              <span id="filtersCount" class="badge text-bg-primary ms-2"
+                >0</span
+              >
+            </button>
+          </div>
+
+          <div id="filtersCollapse" class="collapse d-md-block">
+            <!-- FILA 1: FILTROS PRINCIPALES -->
+            <div class="filters" id="filtersContainer">
+              <!-- Search -->
+              <div class="ctrl">
+                <label data-i18n="filters.search">Buscar</label>
+                <input
+                  type="search"
+                  id="filterName"
+                  placeholder="Nombre de la carta..."
+                  data-i18n-placeholder="tcg.search_placeholder"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="ctrl">
+                <label for="perPage" data-i18n="filters.per_page_label">Por página</label>
+          <select id="perPage" class="dex-select">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+            <option value="50">50</option>
+            <option value="60" selected>60</option>
+            <option value="70">70</option>
+            <option value="80">80</option>
+            <option value="90">90</option>
+            <option value="100">100</option>
+          </select>
+              </div>
+
+              <!-- Series -->
+              <div class="ctrl">
+                <label data-i18n="filters.series_label">Serie</label>
+                <select id="filterSeries" class="dex-select">
+                  <option value="" selected data-i18n="tcg.all_series">
+                    Todas las Series
+                  </option>
+                </select>
+              </div>
+
+              <!-- Set -->
+              <div class="ctrl">
+                <label data-i18n="tcg.set">Expansión</label>
+                <select id="filterSet" class="dex-select" disabled>
+                  <option value="" selected data-i18n="tcg.all_sets">
+                    Todas las Expansiones
+                  </option>
+                </select>
+              </div>
+
+              <!-- Rarity -->
+              <div class="ctrl">
+                <label data-i18n="tcg.rarity">Rareza</label>
+                <select id="filterRarity" class="dex-select">
+                  <option value="" selected data-i18n="tcg.all_rarities">
+                    Todas las Rarezas
+                  </option>
+                </select>
+              </div>
+
+              <!-- HP -->
+              <div class="ctrl">
+                <label data-i18n="tcg.min_hp">HP Mínimo</label>
+                <input
+                  type="number"
+                  id="filterHp"
+                  placeholder="0"
+                  min="0"
+                  step="10"
+                />
+              </div>
+
+              <!-- Supertype -->
+              <div class="ctrl">
+                <label data-i18n="tcg.supertype" data-i18n="missing.supercategoria">Supercategoría</label>
+                <select id="filterSupertype" class="dex-select">
+                  <option value="" selected data-i18n="tcg.all_supertypes">
+                    Todas las Categorías
+                  </option>
+                </select>
+              </div>
+
+              <!-- Subtype -->
+              <div class="ctrl">
+                <label data-i18n="tcg.subtype" data-i18n="missing.subcategoria">Subcategoría</label>
+                <select id="filterSubtype" class="dex-select">
+                  <option value="" selected data-i18n="tcg.all_subtypes">
+                    Todas
+                  </option>
+                </select>
+              </div>
+
+              <!-- Stage -->
+              <div class="ctrl">
+                <label data-i18n="tcg.stage">Fase</label>
+                <select id="filterStage" class="dex-select">
+                  <option value="" data-i18n="tcg.all_stages">Todas las Fases</option>
+                  <option value="Basic" data-i18n="tcg.stages.basic">Básico</option>
+                  <option value="Stage1" data-i18n="tcg.stages.stage1">Fase 1</option>
+                  <option value="Stage2" data-i18n="tcg.stages.stage2">Fase 2</option>
+                  <option value="VMAX" data-i18n="tcg.stages.vmax">VMAX</option>
+                  <option value="VSTAR" data-i18n="tcg.stages.vstar">VSTAR</option>
+                  <option value="Mega" data-i18n="tcg.stages.mega">Mega</option>
+                </select>
+              </div>
+
+              <!-- Sort -->
+              <div class="ctrl">
+                <label data-i18n="filters.sort_label">Ordenar por</label>
+                <select id="filterSort" class="dex-select">
+                  <option value="name_asc" data-i18n="filters.sort_name_asc">
+                    Nombre A→Z
+                  </option>
+                  <option value="name_desc" data-i18n="filters.sort_name_desc">
+                    Nombre Z→A
+                  </option>
+                  <option value="set_newest" data-i18n="tcg.sort_newest">
+                    Set Más Nuevo
+                  </option>
+                  <option value="set_oldest" data-i18n="tcg.sort_oldest">
+                    Set Más Viejo
+                  </option>
+                  <option value="hp_desc" data-i18n="tcg.sort_hp_desc">
+                    HP Mayor
+                  </option>
+                  <option value="hp_asc" data-i18n="tcg.sort_hp_asc">
+                    HP Menor
+                  </option>
+                  <option
+                    value="price_desc"
+                    data-i18n="filters.sort_price_desc"
+                  >
+                    Precio Mayor
+                  </option>
+                  <option value="price_asc" data-i18n="filters.sort_price_asc">
+                    Precio Menor
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <!-- FILA 2: CHIPS DE TIPOS -->
+            <div
+              class="types-wrap"
+              id="typeChips"
+              role="group"
+              aria-label="Filtro por tipos"
+            ></div>
+            <input type="hidden" id="filterType" value="" />
+
+            <!-- FILA 3: TOGGLES -->
+            <div class="toggles-row">
+              <div class="pill" data-i18n-title="tcg.pocket_tooltip">
+                <label
+                  for="filterPocket"
+                  class="fw-bold mb-0"
+                  data-i18n="tcg.pocket_toggle"
+                  style="cursor: pointer"
+                  >TCG Pocket</label
+                >
+                <input
+                  id="filterPocket"
+                  type="checkbox"
+                  class="toggle"
+                  checked
+                />
+              </div>
+
+              <!-- Clear Action Button in Toggles Row Style -->
+              <button
+                id="clearFiltersBtn"
+                class="btn dex-btn"
+                style="height: auto; padding: 10px 20px"
+              >
+                <span data-i18n="tcg.clear_filters"><i data-lucide="trash-2"></i> Limpiar Filtros</span>
+              </button>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="inner">
+      <!-- Filter Panel -->
+      <section class="panel mt-3">
+        <div class="inner">
+          <!-- Page Title -->
+          <div
+            class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2"
+          >
+            <h1 class="title" style="font-size: 1.8rem" data-i18n="nav.cards">
+              <i data-lucide="square-stack"></i> Cartas TCG
+            </h1>
+            <div class="d-flex align-items-center gap-3 flex-wrap">
+              <span id="syncStatus" class="small text-muted"></span>
+              <button id="syncApiBtn" class="btn btn-primary dex-btn">
+                <span data-i18n="tcg.sync_api"><i data-lucide="refresh-cw"></i> Sincronizar API</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Sync Progress Bar (hidden by default) -->
+          <div id="syncProgressContainer" class="mb-3" style="display: none">
+            <div class="d-flex justify-content-between small mb-1">
+              <span id="syncProgressLabel" data-i18n="missing.sincronizando">Sincronizando...</span>
+              <span id="syncProgressPercent">0%</span>
+            </div>
+            <div class="progress" style="height: 20px">
+              <div
+                id="syncProgressBar"
+                class="progress-bar progress-bar-striped progress-bar-animated bg-info"
+                role="progressbar"
+                style="width: 0%"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="grid mt-4" id="cardGrid">
+        <!-- Cards will be rendered here -->
+      </div>
+
+      <nav class="pager mt-4 mb-5" aria-label="Paginación">
+        <button
+          class="btn btn-primary dex-btn alt"
+          id="prevBtn"
+          data-i18n="pagination.prev"
+        >
+          <i data-lucide="chevron-left"></i> Anterior
+        </button>
+        <span class="page-info" id="pageInfo" data-i18n="missing.pagina_1_1">Página 1 / 1</span>
+        <button
+          class="btn btn-primary dex-btn"
+          id="nextBtn"
+          data-i18n="pagination.next"
+        >
+          Siguiente <i data-lucide="chevron-right"></i>
+        </button>
+      </nav>
+    </main>
+
+    <!-- Card Detail Modal -->
+    <dialog
+      id="cardModal"
+      aria-labelledby="modalCardName"
+      aria-modal="true"
+      role="dialog"
+    >
+      <div class="poke-modal">
+        <div class="poke-modal-head">
+          <button class="close-btn" id="closeCardModal" aria-label="Cerrar" data-i18n-aria-label="modal.close_aria" data-close-modal><i data-lucide="x"></i></button>
+
+          <div class="modal-top-actions">
+            <a
+              href="#"
+              id="viewInPokedex"
+              class="btn btn-sm btn-info dex-btn"
+              target="_blank"
+              data-i18n="tcg.view_pokedex"
+            >
+              <i data-lucide="search"></i> Ver en Pokédex
+            </a>
+          </div>
+
+          <div class="nav-arrows">
+            <button class="arrow" id="prevCard" data-i18n-title="tcg.prev_card">
+              <i data-lucide="chevron-left"></i>
+            </button>
+            <button class="arrow" id="nextCard" data-i18n-title="tcg.next_card">
+              <i data-lucide="chevron-right"></i>
+            </button>
+          </div>
+
+          <div class="hero card-hero text-center">
+            <img
+              id="modalCardImage"
+              class="card-large-image"
+              alt="Imagen de la carta"
+            />
+            <div id="modalCardTypeLogo" class="type-logo-container mt-2"></div>
+          </div>
+          <div id="modalCardBadges" class="badges mt-2"></div>
+        </div>
+
+        <div class="poke-modal-main">
+          <header>
+            <h2 id="modalCardName" class="poke-modal-title"></h2>
+            <p id="modalCardSetInfo" class="genera-text"></p>
+          </header>
+
+          <!-- Single Column Layout for All Sections -->
+          <div class="d-flex flex-column gap-3">
+            <!-- General Info Section -->
+            <div class="detail-box">
+              <h5 data-i18n="tcg.general_info">Información General</h5>
+              <div class="kvsmall">
+                <span data-i18n="tcg.series" data-i18n="missing.serie">Serie:</span>
+                <span id="modalCardSeries">-</span>
+              </div>
+              <div class="kvsmall">
+                <span data-i18n="tcg.set" data-i18n="missing.expansion">Expansión:</span>
+                <span id="modalCardSetContainer">
+                  <img
+                    id="modalCardSetIcon"
+                    class="set-icon-mini"
+                    src=""
+                    alt=""
+                    style="display: none"
+                  />
+                  <span id="modalCardSet">-</span>
+                </span>
+              </div>
+              <div class="kvsmall">
+                <span data-i18n="tcg.release">Lanzamiento:</span>
+                <span id="modalCardRelease">-</span>
+              </div>
+              <div class="kvsmall">
+                <span data-i18n="tcg.rarity" data-i18n="missing.rareza">Rareza:</span>
+                <span id="modalCardRarityContainer">
+                  <span id="modalCardRarity">-</span>
+                  <span id="modalCardHolo" class="badge bg-warning text-dark shadow-sm" style="display: none;" data-i18n="tcg.variant_names.holo">Holo</span>
+                </span>
+              </div>
+              <div class="kvsmall">
+                <span data-i18n="tcg.number" data-i18n="missing.numero">Número:</span>
+                <span id="modalCardNumber">-</span>
+              </div>
+              <div class="kvsmall" id="modalCardStageRow">
+                <span data-i18n="tcg.stage" data-i18n="missing.fase">Fase:</span>
+                <span id="modalCardStageInfo">-</span>
+              </div>
+              <div class="kvsmall">
+                <span data-i18n="tcg.regulation" data-i18n="missing.regulacion">Regulación:</span>
+                <span id="modalCardRegMark" class="badge bg-info">-</span>
+                <span id="modalCardLegal" class="badge bg-success ms-1">-</span>
+              </div>
+              <div class="kvsmall">
+                <span data-i18n="tcg.artist" data-i18n="missing.artista">Artista:</span>
+                <span id="modalCardArtist">-</span>
+              </div>
+            </div>
+
+            <!-- Abilities Section -->
+            <div
+              id="modalCardAbilities"
+              class="detail-box"
+              style="display: none"
+            >
+              <h5 data-i18n="tcg.abilities">Habilidades</h5>
+              <div class="abilities-list text-start"></div>
+            </div>
+
+            <!-- Attacks Section -->
+            <div id="modalCardAttacks" class="detail-box">
+              <h5 data-i18n="tcg.attacks">Ataques</h5>
+              <div class="attacks-list text-start"></div>
+            </div>
+
+            <!-- Rules Section -->
+            <div id="modalCardRules" class="detail-box" style="display: none">
+              <h5 data-i18n="tcg.rules" data-i18n="missing.reglas">Reglas</h5>
+              <div class="rules-list text-start text-muted small"></div>
+            </div>
+
+            <!-- Battle Stats Section -->
+            <div id="modalCardBattleStats" class="detail-box">
+              <h5 data-i18n="tcg.battle_stats">Estadísticas de Combate</h5>
+              <div class="d-flex flex-wrap gap-3">
+                <div class="stat-item">
+                  <span
+                    class="stat-label small text-muted"
+                    data-i18n="tcg.weakness"
+                     data-i18n="missing.debilidad">Debilidad:</span
+                  >
+                  <span id="modalCardWeakness" class="stat-value fw-bold"
+                    >-</span
+                  >
+                </div>
+                <div class="stat-item">
+                  <span
+                    class="stat-label small text-muted"
+                    data-i18n="tcg.resistance"
+                     data-i18n="missing.resistencia">Resistencia:</span
+                  >
+                  <span id="modalCardResistance" class="stat-value fw-bold"
+                    >-</span
+                  >
+                </div>
+                <div class="stat-item">
+                  <span
+                    class="stat-label small text-muted"
+                    data-i18n="tcg.retreat"
+                     data-i18n="missing.retirada">Retirada:</span
+                  >
+                  <span id="modalCardRetreat" class="stat-value fw-bold"
+                    >-</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Variants Section -->
+            <div id="modalCardVariants" class="detail-box">
+              <h5 data-i18n="tcg.variants">Variantes Disponibles</h5>
+              <div
+                id="modalCardVariantsList"
+                class="d-flex flex-wrap gap-2"
+              ></div>
+            </div>
+
+            <!-- Pricing Section -->
+            <div id="modalCardPricing" class="detail-box">
+              <h5 data-i18n="tcg.market_prices">
+                Precios de Mercado (USD/EUR)
+              </h5>
+              <div class="d-flex flex-column gap-3">
+                <!-- CardMarket (EUR) -->
+                <div class="price-source">
+                  <div class="d-flex align-items-center mb-2">
+                    <strong>CardMarket</strong>
+                    <span class="badge bg-primary ms-2">EUR</span>
+                  </div>
+                    <div class="d-flex flex-wrap gap-3 small">
+                    <div>
+                      <span class="text-muted" data-i18n="tcg.price_low" data-i18n="missing.bajo">Bajo:</span>
+                      <span id="cmLow">-</span>
+                    </div>
+                    <div>
+                      <span class="text-muted" data-i18n="tcg.price_mid" data-i18n="missing.medio">Medio:</span>
+                      <span id="cmAvg">-</span>
+                    </div>
+                    <div>
+                      <span class="text-muted" data-i18n="tcg.price_trend" data-i18n="missing.tendencia">Tendencia:</span>
+                      <span id="cmTrend">-</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- TCGPlayer (USD) -->
+                <div class="price-source">
+                  <div class="d-flex align-items-center mb-2">
+                    <strong>TCGPlayer</strong>
+                    <span class="badge bg-success ms-2">USD</span>
+                  </div>
+                  <div class="d-flex flex-wrap gap-3 small">
+                    <div>
+                      <span class="text-muted" data-i18n="tcg.price_low" data-i18n="missing.bajo">Bajo:</span>
+                      <span id="tcgLow">-</span>
+                    </div>
+                    <div>
+                      <span class="text-muted" data-i18n="tcg.price_market" data-i18n="missing.mercado">Mercado:</span>
+                      <span id="tcgMarket">-</span>
+                    </div>
+                    <div>
+                      <span class="text-muted" data-i18n="tcg.price_high" data-i18n="missing.alto">Alto:</span>
+                      <span id="tcgHigh">-</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Card Zoom Overlay (Now as dialog to fix stacking) -->
+    <dialog id="zoomOverlay" class="zoom-overlay">
+      <div class="card-holo-container">
+        <div class="card-inner">
+          <img id="zoomedImage" />
+          <div class="holo-effect"></div>
+        </div>
+      </div>
+    </dialog>
+
+    <div id="footer-placeholder"></div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="../assets/js/cardStorage.js"></script>
+    <script src="../assets/js/cards.js"></script>
+  </body>
+</html>
+
+
+
+
+
+
+
+

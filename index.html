@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title data-i18n="nav.pokemon">Pokédex</title>
+
+    <!-- Bootstrap 5 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="assets/css/styles.css?v=11" />
+    <link rel="stylesheet" href="assets/css/index.css?v=11" />
+    <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
+    <link rel="stylesheet" href="assets/css/a11y.css" />
+    <script src="assets/js/cache.js" defer></script>
+    <script src="assets/js/i18n.js" defer></script>
+    <script src="assets/js/bulbapedia.js" defer></script>
+    <script src="assets/js/a11y.js" defer></script>
+    <script src="https://unpkg.com/lucide@latest" crossorigin="anonymous"></script>
+  </head>
+
+  <body>
+    <header>
+      <div class="dex-top">
+        <div class="inner container-fluid">
+          <div class="d-flex align-items-center justify-content-between">
+            <a href="index.html" class="brand">
+              <img src="assets/icon/logo.png" alt="Logo" class="title-logo">
+              <h1 class="title mb-0">Pokédex</h1>
+            </a>
+            <div class="d-flex align-items-center gap-2">
+              <div class="dropdown d-inline-block">
+                <button class="btn btn-sm dropdown-toggle dex-select d-flex align-items-center gap-2" type="button" id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img id="currentFlag" src="assets/img/flags/espana.png" alt="ES" width="20" height="20">
+                  <span id="currentLangLabel">ES</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end dex-dropdown-menu" aria-labelledby="langDropdown">
+                  <li><a class="dropdown-item d-flex align-items-center gap-2" href="#" data-lang="es"><img src="assets/img/flags/espana.png" width="20" height="20"> Español</a></li>
+                  <li><a class="dropdown-item d-flex align-items-center gap-2" href="#" data-lang="en"><img src="assets/img/flags/reino-unido.png" width="20" height="20"> English</a></li>
+                  <li><a class="dropdown-item d-flex align-items-center gap-2" href="#" data-lang="fr"><img src="assets/img/flags/francia.png" width="20" height="20"> Français</a></li>
+                  <li><a class="dropdown-item d-flex align-items-center gap-2" href="#" data-lang="de"><img src="assets/img/flags/alemania.png" width="20" height="20"> Deutsch</a></li>
+                  <li><a class="dropdown-item d-flex align-items-center gap-2" href="#" data-lang="it"><img src="assets/img/flags/italia.png" width="20" height="20"> Italiano</a></li>
+                  <li><a class="dropdown-item d-flex align-items-center gap-2" href="#" data-lang="pt"><img src="assets/img/flags/portugal.png" width="20" height="20"> Português</a></li>
+                  <li><a class="dropdown-item d-flex align-items-center gap-2" href="#" data-lang="ja"><img src="assets/img/flags/japon.png" width="20" height="20"> 日本語</a></li>
+                  <li><a class="dropdown-item d-flex align-items-center gap-2" href="#" data-lang="zh-tw"><img src="assets/img/flags/china.png" width="20" height="20"> 中文</a></li>
+                </ul>
+              </div>
+              </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="inner container-fluid">
+          <nav class="dex-nav">
+            <!-- Mundo Pokémon -->
+            <li class="nav-item dropdown d-inline-block">
+                <a class="nav-link dropdown-toggle active" href="#" id="mundoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-i18n="footer.nav_world">
+                    Mundo Pokémon
+                </a>
+                <ul class="dropdown-menu dex-dropdown-menu" aria-labelledby="mundoDropdown">
+                    <li><a class="dropdown-item active" href="index.html" data-i18n="nav.pokemon">Pokémon</a></li>
+                    <li><a class="dropdown-item" href="pages/regions.html" data-i18n="nav.regions">Regiones</a></li>
+                    <li><a class="dropdown-item" href="pages/generations.html" data-i18n="nav.generations">Generaciones</a></li>
+                    <li><a class="dropdown-item" href="pages/locations.html" data-i18n="nav.locations">Localizaciones</a></li>
+                    <li><a class="dropdown-item" href="pages/breeding.html" data-i18n="nav.breeding">Crianza</a></li>
+                    <li><a class="dropdown-item" href="pages/habitats.html" data-i18n="nav.habitats">Hábitats</a></li>
+                    <li><a class="dropdown-item" href="pages/shapes.html" data-i18n="nav.shapes">Formas</a></li>
+                </ul>
+            </li>
+
+            <!-- Combate -->
+            <li class="nav-item dropdown d-inline-block">
+                <a class="nav-link dropdown-toggle " href="#" id="combateDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-i18n="footer.nav_combat">
+                    Combate
+                </a>
+                <ul class="dropdown-menu dex-dropdown-menu" aria-labelledby="combateDropdown">
+                    <li><a class="dropdown-item" href="pages/moves.html" data-i18n="nav.moves">Movimientos</a></li>
+                    <li><a class="dropdown-item" href="pages/abilities.html" data-i18n="nav.abilities">Habilidades</a></li>
+                    <li><a class="dropdown-item" href="pages/types.html" data-i18n="nav.types">Tabla de Tipos</a></li>
+                    <li><a class="dropdown-item" href="pages/natures.html" data-i18n="nav.natures">Naturalezas</a></li>
+                    <li><a class="dropdown-item" href="pages/machines.html" data-i18n="nav.machines">Máquinas</a></li>
+                    <li><a class="dropdown-item" href="pages/contests.html" data-i18n="nav.contests">Concursos</a></li>
+                </ul>
+            </li>
+
+            <!-- Colección -->
+            <li class="nav-item dropdown d-inline-block">
+                <a class="nav-link dropdown-toggle " href="#" id="coleccionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-i18n="footer.nav_collection">
+                    Colección
+                </a>
+                <ul class="dropdown-menu dex-dropdown-menu" aria-labelledby="coleccionDropdown">
+                    <li><a class="dropdown-item" href="pages/items.html" data-i18n="nav.items">Objetos</a></li>
+                    <li><a class="dropdown-item" href="pages/berries.html" data-i18n="nav.berries">Bayas</a></li>
+                    <li><a class="dropdown-item" href="pages/games.html" data-i18n="nav.games">Juegos</a></li>
+                    <li><a class="dropdown-item" href="pages/cards.html" data-i18n="nav.cards">Cartas TCG</a></li>
+                    <li><a class="dropdown-item" href="pages/tcg-sets.html" data-i18n="nav.tcg_sets">Sets TCG</a></li>
+                </ul>
+            </li>
+          </nav>
+          <div class="filters-toggle">
+            <button
+              id="filtersBtn"
+              class="btn btn-light w-100 d-md-none fw-bold"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#filtersCollapse"
+              aria-expanded="false"
+              aria-controls="filtersCollapse"
+            >
+              <span data-i18n="filters.button"><i data-lucide="search"></i> Filtros</span>
+              <span id="filtersCount" class="badge text-bg-primary ms-2"
+                >0</span
+              >
+            </button>
+          </div>
+
+          <div id="filtersCollapse" class="collapse d-md-block">
+            <!-- FILA 1: FILTROS PRINCIPALES -->
+            <form class="filters" role="search" onsubmit="return false;">
+              <div class="ctrl">
+                <label for="search" data-i18n="filters.search_label">Buscar</label>
+                <input
+                  id="search"
+                  type="search"
+                  data-i18n-placeholder="filters.search_placeholder"
+                  autocomplete="off"
+                />
+              </div>
+
+              <div class="ctrl">
+                <label for="region" data-i18n="filters.region_label">Región</label>
+                <select id="region" class="dex-select form-select-sm">
+                  <option value="all" selected data-i18n="filters.region_all">Todas</option>
+                  <option value="kanto" data-i18n="regions.names.kanto">Kanto</option>
+                  <option value="johto" data-i18n="regions.names.johto">Johto</option>
+                  <option value="hoenn" data-i18n="regions.names.hoenn">Hoenn</option>
+                  <option value="sinnoh" data-i18n="regions.names.sinnoh">Sinnoh</option>
+                  <option value="unova" data-i18n="regions.names.unova">Teselia/Unova</option>
+                  <option value="kalos" data-i18n="regions.names.kalos">Kalos</option>
+                  <option value="alola" data-i18n="regions.names.alola">Alola</option>
+                  <option value="galar" data-i18n="regions.names.galar">Galar</option>
+                  <option value="hisui" data-i18n="regions.names.hisui">Hisui</option>
+                  <option value="paldea" data-i18n="regions.names.paldea">Paldea</option>
+                </select>
+              </div>
+
+              <div class="ctrl">
+                <label for="generation" data-i18n="filters.gen_label">Generación</label>
+                <select id="generation" class="dex-select form-select-sm">
+                  <option value="all" selected data-i18n="filters.gen_all">Todas</option>
+                  <option value="generation-i" data-i18n="regions.gen_names.gen1">Gen 1 (Kanto)</option>
+                  <option value="generation-ii" data-i18n="regions.gen_names.gen2">Gen 2 (Johto)</option>
+                  <option value="generation-iii" data-i18n="regions.gen_names.gen3">Gen 3 (Hoenn)</option>
+                  <option value="generation-iv" data-i18n="regions.gen_names.gen4">Gen 4 (Sinnoh)</option>
+                  <option value="generation-v" data-i18n="regions.gen_names.gen5" data-i18n="missing.gen_5_unova">Gen 5 (Unova)</option>
+                  <option value="generation-vi" data-i18n="regions.gen_names.gen6">Gen 6 (Kalos)</option>
+                  <option value="generation-vii" data-i18n="regions.gen_names.gen7">Gen 7 (Alola)</option>
+                  <option value="generation-viii" data-i18n="regions.gen_names.gen8">Gen 8 (Galar)</option>
+                  <option value="generation-ix" data-i18n="regions.gen_names.gen9">Gen 9 (Paldea)</option>
+                </select>
+              </div>
+
+              <div class="ctrl">
+                <label for="typeMode" data-i18n="filters.type_mode_label">Coincidencia de tipos</label>
+                <select id="typeMode" class="dex-select form-select-sm">
+                  <option value="or" data-i18n="filters.type_mode_or">Incluye alguno</option>
+                  <option value="and" data-i18n="filters.type_mode_and">Incluye todos</option>
+                  <option value="exact" data-i18n="filters.type_mode_exact">Exacto (mono/dual)</option>
+                </select>
+              </div>
+
+              <div class="ctrl">
+                <label for="sort" data-i18n="filters.sort_label">Ordenar por</label>
+                <select id="sort" class="dex-select form-select-sm">
+                  <option value="id-asc" selected data-i18n="filters.sort_id_asc">#ID ↑</option>
+                  <option value="id-desc" data-i18n="filters.sort_id_desc">#ID ↓</option>
+                  <option value="name-asc" data-i18n="filters.sort_name_asc">Nombre A→Z</option>
+                  <option value="name-desc" data-i18n="filters.sort_name_desc">Nombre Z→A</option>
+                  <option value="bst-desc" data-i18n="filters.sort_bst_desc">Total stats ↓</option>
+                  <option value="bst-asc" data-i18n="filters.sort_bst_asc">Total stats ↑</option>
+                </select>
+              </div>
+
+              <div class="ctrl">
+                <label for="perPage" data-i18n="filters.per_page_label">Por página</label>
+                <select
+                  id="perPage"
+                  class="dex-select form-select-sm"
+                  aria-label="Resultados por página"
+                >
+                  <option value="12">12</option>
+                  <option value="24">24</option>
+                  <option value="48" selected>48</option>
+                  <option value="60">60</option>
+                  <option value="102">102</option>
+                </select>
+              </div>
+            </form>
+
+            <!-- FILA 2: CHIPS DE TIPOS -->
+            <div
+              class="types-wrap"
+              id="typeChips"
+              role="group"
+              aria-label="Filtro por tipos"
+            ></div>
+
+            <!-- FILA 3: TOGGLES -->
+            <div class="toggles-row">
+              <div class="pill" data-i18n-title="filters.tooltip_forms">
+                <label for="includeForms" class="fw-bold mb-0" data-i18n="filters.include_forms">Incluir formas</label>
+                <input id="includeForms" type="checkbox" class="toggle" />
+              </div>
+
+              <div class="pill" data-i18n-title="filters.tooltip_shiny">
+                <label for="gridShiny" class="fw-bold mb-0" data-i18n="filters.grid_shiny">Ver shinies</label>
+                <input id="gridShiny" type="checkbox" class="toggle" />
+              </div>
+
+              <div class="pill" data-i18n-title="filters.tooltip_teams">
+                <label for="showTeams" class="fw-bold mb-0" data-i18n="filters.show_teams">Mostrar equipos</label>
+                <input id="showTeams" type="checkbox" class="toggle" checked />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="inner" id="pokedexGrid">
+
+        <!-- Win Probability Module -->
+        <section class="win-probability-box mb-3 p-3 text-center" id="winProbModule" style="display: none;">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="team-score-card user-score">
+              <span class="d-block small text-uppercase opacity-75" data-i18n="team.my_team">Mi Equipo</span>
+              <div class="h3 fw-bold mb-0" id="userWinProb">0%</div>
+            </div>
+            
+            <div class="vs-badge" data-i18n="team.vs">VS</div>
+            
+            <div class="team-score-card rival-score">
+              <span class="d-block small text-uppercase opacity-75" data-i18n="team.rival_team">Equipo Rival</span>
+              <div class="h3 fw-bold mb-0" id="rivalWinProb">0%</div>
+            </div>
+          </div>
+          <div class="progress team-comparison-bar" style="height: 10px; background: rgba(0,0,0,0.3);">
+            <div id="probBarUser" class="progress-bar bg-primary" role="progressbar" style="width: 50%"></div>
+            <div id="probBarRival" class="progress-bar bg-danger" role="progressbar" style="width: 50%"></div>
+          </div>
+        </section>
+        <section class="team-panel mb-2" aria-labelledby="teamHeader">
+          <!-- Team Switcher Tabs -->
+          <div class="team-tabs d-flex mb-3">
+            <button class="team-tab active" data-team="user" id="tabUserTeam">
+              <span data-i18n="team.my_team">Mi Equipo</span>
+              <span class="badge rounded-pill bg-primary ms-1" id="userTeamCountBadge">0</span>
+            </button>
+            <button class="team-tab" data-team="rival" id="tabRivalTeam">
+              <span data-i18n="team.rival_team">Equipo Rival</span>
+              <span class="badge rounded-pill bg-danger ms-1" id="rivalTeamCountBadge">0</span>
+            </button>
+          </div>
+          <div class="team-actions-top mb-2 d-flex gap-2">
+              <button id="exportTeam" class="btn btn-outline-light btn-sm" data-i18n="team.copy">
+                Copiar
+              </button>
+              <input
+                class="dex-select flex-grow-1"
+                data-i18n-placeholder="team.placeholder"
+              />
+              <button id="importTeam" class="btn btn-outline-info btn-sm" data-i18n="team.load">
+                Cargar
+              </button>
+              <button id="clearTeam" class="btn btn-outline-secondary btn-sm" data-i18n="team.clear">
+                Vaciar
+              </button>
+          </div>
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <h2 id="teamHeader" class="h6 fw-bold mb-0" data-i18n="team.header">Equipo (hasta 6)</h2>
+          </div>
+          <div class="team-row" id="teamSlots" role="list"></div>
+        </section>
+
+        <div class="d-flex flex-wrap gap-3 my-3">
+          <span class="badge text-bg-dark badge-compact"
+            ><span data-i18n="team.favs">Favoritos:</span> <span id="favCount">0</span></span
+          >
+          <span class="badge text-bg-dark badge-compact"
+            ><span data-i18n="team.team_count">Equipo:</span> <span id="teamCount">0</span>/ 6</span
+          >
+          <button id="filterFavs" class="btn btn-outline-danger btn-sm" data-i18n="team.only_favs">
+            Sólo favoritos
+          </button>
+        </div>
+
+        <!-- Aggregate team stats -->
+        <section
+          class="team-stats mb-2"
+          id="teamStats"
+          style="display: none"
+          aria-labelledby="statsHeader"
+        >
+          <h2 id="statsHeader" class="h6 fw-bold mb-2" data-i18n="team.stats_header">
+            Estadísticas del equipo
+          </h2>
+          <div class="team-stats-content">
+            <div class="table-responsive">
+              <table class="table table-sm table-dark align-middle mb-0" id="teamStatsTable">
+                <thead>
+                  <tr>
+                    <th style="width: 150px;"></th>
+                    <th scope="col" data-i18n="stats.hp">HP</th>
+                    <th scope="col" data-i18n="modal.atk">Atk</th>
+                    <th scope="col" data-i18n="modal.def">Def</th>
+                    <th scope="col" data-i18n="modal.spa">SpA</th>
+                    <th scope="col" data-i18n="modal.spd">SpD</th>
+                    <th scope="col" data-i18n="modal.spe">Spe</th>
+                    <th scope="col" data-i18n="modal.total">BST</th>
+                  </tr>
+                </thead>
+                <tbody id="teamMembersBody">
+                  <!-- Individual Pokémon rows will be injected here -->
+                </tbody>
+                <tfoot>
+                  <tr id="teamSum" class="table-group-divider">
+                    <th scope="row" data-i18n="team.sum">Suma</th>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                  </tr>
+                  <tr id="teamAvg">
+                    <th scope="row" data-i18n="team.avg">Media</th>
+                    <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+
+            <div class="team-analysis-grid mt-3">
+              <div class="analysis-section">
+                <h3 class="h7 fw-bold mb-2 d-flex align-items-center gap-2">
+                  <span class="dot bg-danger"></span>
+                  <span data-i18n="team.defense_analysis">Análisis Defensivo (Debilidades)</span>
+                </h3>
+                <div id="teamDefense" class="type-analysis-grid"></div>
+              </div>
+              <div class="analysis-section">
+                <h3 class="h7 fw-bold mb-2 d-flex align-items-center gap-2">
+                  <span class="dot bg-success"></span>
+                  <span data-i18n="team.offense_analysis">Análisis Ofensivo (Cobertura)</span>
+                </h3>
+                <div id="teamOffense" class="type-analysis-grid"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          class="grid"
+          id="grid"
+          aria-live="polite"
+          data-i18n-aria-label="common.pokemon_list"
+          aria-label="Lista de Pokémon"
+        ></section>
+        <br />
+
+        <!-- Pagination (Restored to bottom) -->
+        <nav class="pager mb-3" aria-label="Paginación">
+          <button
+            class="btn btn-primary dex-btn alt"
+            id="prevBtn"
+            data-i18n-aria-label="pagination.prev_aria"
+            data-i18n="pagination.prev"
+          >
+            <i data-lucide="chevron-left"></i> Anterior
+          </button>
+          <span class="page-info" id="pageInfo" aria-live="polite"></span>
+          <button
+            class="btn btn-primary dex-btn"
+            id="nextBtn"
+            data-i18n-aria-label="pagination.next_aria"
+            data-i18n="pagination.next"
+          >
+            Siguiente <i data-lucide="chevron-right"></i>
+          </button>
+          <div class="pager-jump">
+            <label for="pageJump" class="visually-hidden" data-i18n="pagination.go_aria">Ir a página</label>
+            <input
+              class="page-input"
+              id="pageJump"
+              type="number"
+              min="1"
+              step="1"
+              value="1"
+            />
+            <button
+              class="btn btn-secondary dex-btn"
+              id="goBtn"
+              data-i18n-aria-label="pagination.go_aria_btn"
+              data-i18n="pagination.go"
+            >
+              Ir
+            </button>
+          </div>
+        </nav>
+
+      </div>
+    </main>
+
+    <button
+      id="toTop"
+      class="btn btn-dark position-fixed"
+      style="right: 16px; bottom: 16px; z-index: 60; display: none"
+      aria-label="Volver arriba"
+      data-i18n="common.to_top"
+    >
+      <i data-lucide="arrow-up"></i> Arriba
+    </button>
+
+    <dialog
+      id="modal"
+      aria-labelledby="modalTitle"
+      aria-modal="true"
+      role="dialog"
+    >
+      <div class="poke-modal">
+        <div class="poke-modal-head">
+          <button
+            class="close-btn"
+            id="closeDetailBtn"
+            data-i18n-aria-label="modal.close_aria"
+            aria-label="Cerrar modal"
+            data-close-modal
+          ><i data-lucide="x"></i></button>
+          <div class="hero">
+            <img id="modalSprite" class="big-sprite" data-i18n-alt="modal.sprite" alt="Sprite del Pokémon" />
+            <div class="swapline">
+              <span class="pill">
+                <label for="spriteSelect" data-i18n="modal.sprite">Sprite</label>
+                <select
+                  id="spriteSelect"
+                  class="dex-select form-select-sm"
+                ></select>
+              </span>
+              <span class="pill">
+                <label for="shinyToggle" data-i18n="modal.shiny">Shiny</label>
+                <input id="shinyToggle" type="checkbox" class="toggle" />
+              </span>
+              <span class="pill">
+                <label for="genderSelect" data-i18n="modal.gender">Género</label>
+                <select id="genderSelect" class="dex-select form-select-sm">
+                  <option value="auto" data-i18n="modal.gender_auto">Auto</option>
+                  <option value="male">♂</option>
+                  <option value="female">♀</option>
+                </select>
+              </span>
+              <span class="pill">
+                <label for="formSelect" data-i18n="modal.form">Forma</label>
+                <select
+                  id="formSelect"
+                  class="dex-select form-select-sm"
+                ></select>
+              </span>
+              <span class="pill">
+                <button id="playCryBtn" class="pill-btn" data-i18n-title="modal.cry">
+                  <i data-lucide="volume-2" style="width:16px;height:16px;"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+          <div class="nav-arrows">
+            <button
+              class="arrow"
+              id="prevMon"
+              data-i18n-title="modal.prev_mon"
+              data-i18n-aria-label="common.prev"
+            >
+              <i data-lucide="chevron-left"></i>
+            </button>
+            <button
+              class="arrow"
+              id="nextMon"
+              data-i18n-title="modal.next_mon"
+              data-i18n-aria-label="common.next"
+            >
+              <i data-lucide="chevron-right"></i>
+            </button>
+          </div>
+        </div>
+        <div class="poke-modal-main">
+          <header>
+            <div class="header-kv">
+              <h2 id="modalTitle" class="poke-modal-title"></h2>
+              <p id="genera" class="genera-text"></p>
+              <div id="modalTypes" class="badges"></div>
+              <div id="pastTypes" class="past-types-section" style="display:none;">
+                <small class="past-types-label"></small>
+                <div class="past-types-list"></div>
+              </div>
+            </div>
+            <p id="flavor" class="flavor-text"></p>
+          </header>
+          <br>
+          <div class="modal-section-box mb-4" id="formChangeKV" style="display: none;"></div>
+
+          <div class="modal-section-box evo-kv">
+            <div class="evo-top">
+              <h3 class="h6 mb-0 fw-bold" data-i18n="modal.evolution">Cadena evolutiva</h3>
+              <div class="evo-stage" id="evoStage"></div>
+            </div>
+            <div class="evo-track" id="evoTrack"></div>
+          </div>
+
+          <div class="meta modal-section-box no-margin">
+            <div class="kv">
+              <h3 class="h6" data-i18n="modal.height">Altura</h3>
+              <p id="kvHeight">-</p>
+              <div class="kvsmall"><span data-i18n="modal.label_base_exp" data-i18n="missing.base_exp">Base EXP:</span> <span id="kvBaseExp">-</span></div>
+            </div>
+            <div class="kv">
+              <h3 class="h6" data-i18n="modal.weight">Peso</h3>
+              <p id="kvWeight">-</p>
+              <div class="kvsmall">
+                <span data-i18n="modal.label_capture" data-i18n="missing.captura">Captura:</span> <span id="kvCapture">-</span> | <span data-i18n="modal.label_happiness" data-i18n="missing.felicidad">Felicidad:</span>
+                <span id="kvHappiness">-</span>
+              </div>
+            </div>
+            <div class="kv">
+              <h3 class="h6" data-i18n="modal.abilities">Habilidades</h3>
+              <div id="kvAbilities" class="abilities"></div>
+              <div class="kvsmall"><span data-i18n="modal.label_items" data-i18n="missing.objetos">Objetos:</span> <span id="kvItems">-</span></div>
+            </div>
+            <div class="kv">
+              <h3 class="h6" data-i18n="modal.breeding">Cría y biología</h3>
+              <div class="kvsmall"><span data-i18n="modal.egg_group">Grupo huevo:</span> <span id="kvEgg">-</span></div>
+              <div class="kvsmall">
+                <span data-i18n="modal.growth">Crecimiento:</span> <span id="kvGrowth">-</span>
+              </div>
+              <div class="kvsmall"><span data-i18n="modal.habitat">Hábitat:</span> <span id="kvHabitat">-</span></div>
+              <div class="kvsmall">
+                <span data-i18n="modal.shape" data-i18n="missing.forma">Forma:</span> <span id="kvShape">-</span> | <span data-i18n="modal.color">Color:</span>
+                <span id="kvColor">-</span>
+              </div>
+              <div class="kvsmall"><span data-i18n="modal.label_gender" data-i18n="missing.genero">Género ♀:</span> <span id="kvGender">-</span></div>
+              <div class="kvsmall"><span data-i18n="modal.label_generation" data-i18n="missing.generacion">Generación:</span> <span id="kvGen">-</span></div>
+            </div>
+          </div>
+
+          <div class="stats modal-section-box mt-4">
+            <h3 class="section-title h5" data-i18n="modal.base_stats">Estadísticas base</h3>
+            <table id="statsTable" aria-label="Estadísticas"></table>
+          </div>
+
+          <div class="eff modal-section-box">
+            <h3 class="h6" data-i18n="modal.weakness" data-i18n="missing.tipo_de_dano">Tipo de daño</h3>
+            <div class="eff-row" id="effFrom"></div>
+            <h3 class="h6 mt-3" data-i18n="modal.strength">Hace más daño a</h3>
+            <div class="eff-row" id="effTo"></div>
+          </div>
+
+          <!-- Pokédex Numbers (Phase 2.1) -->
+          <div class="modal-section-box mt-4" id="pokedexNumbersSection" style="display:none;">
+            <h3 class="h6 fw-bold" data-i18n="modal.pokedex_numbers">Números de Pokédex</h3>
+            <div id="pokedexNumbersGrid" class="pokedex-numbers-grid"></div>
+          </div>
+
+
+          <p id="flavor" class="flavor"></p>
+
+          <div class="modal-tcg-section modal-section-box mt-4">
+            <div class="tcg-header-tab">
+              <span class="tcg-icon"><i data-lucide="square-stack"></i></span>
+              <span id="tcgCarouselTitle" data-i18n="modal.tcg_cards">Cartas TCG</span>
+            </div>
+            <div id="tcgCarousel" class="tcg-carousel">
+              <!-- Cards will be injected here -->
+              <div class="tcg-loading" data-i18n="common.loading">Cargando cartas...</div>
+            </div>
+          </div>
+
+          <!-- Bulbapedia Section -->
+          <div id="bulbapediaSection" class="mt-4"></div>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Team Edit Modal -->
+    <dialog
+      id="teamEditModal"
+      aria-labelledby="teamEditTitle"
+      aria-modal="true"
+    >
+      <div class="poke-modal team-edit-modal">
+        <div class="poke-modal-head team-edit-head">
+          <button class="close-btn" id="closeTeamEdit" aria-label="Cerrar" data-i18n-aria-label="modal.close_aria" data-close-modal><i data-lucide="x"></i></button>
+          <h2 id="teamEditTitle" class="h5 fw-bold mb-0 text-white" data-i18n="modal.edit_title">
+            Editar Pokémon
+          </h2>
+          <div class="team-edit-sprite-container">
+            <img id="teamEditSprite" src="" alt="Pokemon Sprite" />
+          </div>
+          <div id="teamEditSummary"></div> <!-- Summary container moved out -->
+        </div>
+        <div class="poke-modal-main">
+          <br class="team-edit-grid">
+            <div class="team-edit-main-grid">
+               <!-- Row 1: Form & Level --> 
+               <div class="edit-row">
+                  <div class="edit-section">
+                    <label for="teamForm" data-i18n="modal.form">Forma</label>
+                    <select id="teamForm" class="dex-select w-100"></select>
+                  </div>
+                  <div class="edit-section">
+                    <label for="teamLevel" data-i18n="modal.level">Nivel (1-100)</label>
+                    <input
+                      type="number"
+                      id="teamLevel"
+                      class="dex-select w-100"
+                      min="1"
+                      max="100"
+                    />
+                  </div>
+               </div>
+
+               <!-- Row 2: Item -->
+               <div class="edit-section full-width mt-2">
+                 <label data-i18n="modal.item">Objeto</label>
+                 <div id="teamItemControl" class="custom-dropdown-wrapper"></div>
+               </div>
+
+               <!-- Row 3: Ability & Nature -->
+               <div class="edit-row mt-2">
+                  <div class="edit-section">
+                    <label data-i18n="modal.ability">Habilidad</label>
+                    <div id="teamAbilityControl" class="custom-dropdown-wrapper"></div>
+                  </div>
+                  <div class="edit-section">
+                    <label data-i18n="modal.nature">Naturaleza</label>
+                    <div id="teamNatureControl" class="custom-dropdown-wrapper"></div>
+                  </div>
+               </div>
+
+               <!-- Row 4: Stats (IVs / EVs) -->
+               <div class="edit-section full-width mt-3">
+                 <h3 class="h6 fw-bold mb-3 d-flex justify-content-between align-items-center">
+                   <span data-i18n="modal.base_stats" data-i18n="missing.estadisticas">Estadísticas</span>
+                   <small class="text-muted"><span data-i18n="modal.ev_remaining">EVs Restantes</span>: <span id="evRemaining">510</span></small>
+                 </h3>
+                 <div class="table-responsive">
+                   <table class="table table-sm table-dark align-middle edit-stats-table">
+                     <thead>
+                       <tr>
+                         <th data-i18n="modal.stat">Stat</th>
+                         <th class="text-center" data-i18n="modal.stat_base">Base</th>
+                         <th class="text-center" data-i18n="modal.stat_iv">IV</th>
+                         <th class="text-center" data-i18n="modal.stat_ev">EV</th>
+                         <th class="text-center" data-i18n="modal.total">Total</th>
+                       </tr>
+                     </thead>
+                     <tbody id="editStatsBody">
+                       <!-- Stats will be injected here: HP, Atk, Def, SpA, SpD, Spe -->
+                     </tbody>
+                   </table>
+                 </div>
+               </div>
+                <!-- Row 5: Moves -->
+               <div class="edit-section full-width mt-2">
+                 <div class="moves-list">
+                   <!-- Move 1 -->
+                   <div class="move-group detailed-move">
+                     <label data-i18n="modal.label_move_1">Movimiento 1</label>
+                     <div id="teamMove1Control" class="custom-dropdown-wrapper mb-1"></div>
+                      <div class="move-details-grid d-flex gap-1">
+                        <input type="text" id="move1_power" class="dex-select text-center" data-i18n-placeholder="common.dash" placeholder="-" data-i18n-title="modal.label_power" title="Potencia" style="width: 50px;" readonly>
+                        <select id="move1_type" class="dex-select flex-grow-1" data-i18n-title="modal.label_type" title="Tipo" disabled>
+                            <option value="normal" data-i18n="types.normal">Normal</option>
+                            <option value="fire" data-i18n="types.fire">Fuego</option>
+                            <option value="water" data-i18n="types.water">Agua</option>
+                            <option value="electric" data-i18n="types.electric">Eléctrico</option>
+                            <option value="grass" data-i18n="types.grass">Planta</option>
+                            <option value="ice" data-i18n="types.ice">Hielo</option>
+                            <option value="fighting" data-i18n="types.fighting">Lucha</option>
+                            <option value="poison" data-i18n="types.poison">Veneno</option>
+                            <option value="ground" data-i18n="types.ground">Tierra</option>
+                            <option value="flying" data-i18n="types.flying">Volador</option>
+                            <option value="psychic" data-i18n="types.psychic">Psíquico</option>
+                            <option value="bug" data-i18n="types.bug">Bicho</option>
+                            <option value="rock" data-i18n="types.rock">Roca</option>
+                            <option value="ghost" data-i18n="types.ghost">Fantasma</option>
+                            <option value="dragon" data-i18n="types.dragon">Dragón</option>
+                            <option value="dark" data-i18n="types.dark">Siniestro</option>
+                            <option value="steel" data-i18n="types.steel">Acero</option>
+                            <option value="fairy" data-i18n="types.fairy">Hada</option>
+                        </select>
+                        <input type="text" id="move1_acc" class="dex-select text-center" data-i18n-placeholder="common.dash" placeholder="-" data-i18n-title="modal.label_accuracy" title="Precisión" style="width: 50px;" readonly>
+                        <select id="move1_cat" class="dex-select" data-i18n-title="modal.label_category" title="Categoría" style="width: 80px;" disabled>
+                              <option value="physical" data-i18n="modal.physical">Fís</option>
+                              <option value="special" data-i18n="modal.special">Esp</option>
+                              <option value="status" data-i18n="modal.status">Est</option>
+                        </select>
+                      </div>
+                   </div>
+
+                   <!-- Move 2 -->
+                   <div class="move-group detailed-move">
+                     <label data-i18n="modal.label_move_2">Movimiento 2</label>
+                     <div id="teamMove2Control" class="custom-dropdown-wrapper mb-1"></div>
+                     <div class="move-details-grid d-flex gap-1">
+                        <input type="text" id="move2_power" class="dex-select text-center" placeholder="-" title="Potencia" style="width: 50px;" readonly>
+                        <select id="move2_type" class="dex-select flex-grow-1" title="Tipo" disabled>
+                            <option value="normal">Normal</option>
+                            <option value="fire">Fuego</option>
+                            <option value="water">Agua</option>
+                            <option value="electric">Eléctrico</option>
+                            <option value="grass">Planta</option>
+                            <option value="ice">Hielo</option>
+                            <option value="fighting">Lucha</option>
+                            <option value="poison">Veneno</option>
+                            <option value="ground">Tierra</option>
+                            <option value="flying">Volador</option>
+                            <option value="psychic">Psíquico</option>
+                            <option value="bug">Bicho</option>
+                            <option value="rock">Roca</option>
+                            <option value="ghost">Fantasma</option>
+                            <option value="dragon">Dragón</option>
+                            <option value="dark">Siniestro</option>
+                            <option value="steel">Acero</option>
+                            <option value="fairy">Hada</option>
+                        </select>
+                        <input type="text" id="move2_acc" class="dex-select text-center" placeholder="-" title="Precisión" style="width: 50px;" readonly>
+                        <select id="move2_cat" class="dex-select" title="Categoría" style="width: 80px;" disabled>
+                              <option value="physical">Fís</option>
+                              <option value="special">Esp</option>
+                              <option value="status">Est</option>
+                        </select>
+                     </div>
+                   </div>
+
+                   <!-- Move 3 -->
+                   <div class="move-group detailed-move">
+                     <label data-i18n="modal.label_move_3">Movimiento 3</label>
+                     <div id="teamMove3Control" class="custom-dropdown-wrapper mb-1"></div>
+                     <div class="move-details-grid d-flex gap-1">
+                        <input type="text" id="move3_power" class="dex-select text-center" placeholder="-" title="Potencia" style="width: 50px;" readonly>
+                        <select id="move3_type" class="dex-select flex-grow-1" title="Tipo" disabled>
+                            <option value="normal">Normal</option>
+                            <option value="fire">Fuego</option>
+                            <option value="water">Agua</option>
+                            <option value="electric">Eléctrico</option>
+                            <option value="grass">Planta</option>
+                            <option value="ice">Hielo</option>
+                            <option value="fighting">Lucha</option>
+                            <option value="poison">Veneno</option>
+                            <option value="ground">Tierra</option>
+                            <option value="flying">Volador</option>
+                            <option value="psychic">Psíquico</option>
+                            <option value="bug">Bicho</option>
+                            <option value="rock">Roca</option>
+                            <option value="ghost">Fantasma</option>
+                            <option value="dragon">Dragón</option>
+                            <option value="dark">Siniestro</option>
+                            <option value="steel">Acero</option>
+                            <option value="fairy">Hada</option>
+                        </select>
+                        <input type="text" id="move3_acc" class="dex-select text-center" placeholder="-" title="Precisión" style="width: 50px;" readonly>
+                        <select id="move3_cat" class="dex-select" title="Categoría" style="width: 80px;" disabled>
+                              <option value="physical">Fís</option>
+                              <option value="special">Esp</option>
+                              <option value="status">Est</option>
+                        </select>
+                     </div>
+                   </div>
+
+                   <!-- Move 4 -->
+                   <div class="move-group detailed-move">
+                     <label data-i18n="modal.label_move_4">Movimiento 4</label>
+                     <div id="teamMove4Control" class="custom-dropdown-wrapper mb-1"></div>
+                     <div class="move-details-grid d-flex gap-1">
+                        <input type="text" id="move4_power" class="dex-select text-center" placeholder="-" title="Potencia" style="width: 50px;" readonly>
+                        <select id="move4_type" class="dex-select flex-grow-1" title="Tipo" disabled>
+                            <option value="normal">Normal</option>
+                            <option value="fire">Fuego</option>
+                            <option value="water">Agua</option>
+                            <option value="electric">Eléctrico</option>
+                            <option value="grass">Planta</option>
+                            <option value="ice">Hielo</option>
+                            <option value="fighting">Lucha</option>
+                            <option value="poison">Veneno</option>
+                            <option value="ground">Tierra</option>
+                            <option value="flying">Volador</option>
+                            <option value="psychic">Psíquico</option>
+                            <option value="bug">Bicho</option>
+                            <option value="rock">Roca</option>
+                            <option value="ghost">Fantasma</option>
+                            <option value="dragon">Dragón</option>
+                            <option value="dark">Siniestro</option>
+                            <option value="steel">Acero</option>
+                            <option value="fairy">Hada</option>
+                        </select>
+                        <input type="text" id="move4_acc" class="dex-select text-center" placeholder="-" title="Precisión" style="width: 50px;" readonly>
+                        <select id="move4_cat" class="dex-select" title="Categoría" style="width: 80px;" disabled>
+                              <option value="physical">Fís</option>
+                              <option value="special">Esp</option>
+                              <option value="status">Est</option>
+                        </select>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+            </div>
+          <div class="d-flex justify-content-end mt-3">
+            <button id="saveTeamMember" class="btn btn-primary dex-btn" data-i18n="modal.save">
+              Guardar cambios
+            </button>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <template id="card-tpl">
+      <article class="card" role="button" aria-haspopup="dialog" tabindex="0">
+        <span class="id">#000</span>
+        <div class="spritewrap">
+          <img class="sprite" loading="lazy" decoding="async" alt="Sprite" />
+        </div>
+        <h3 class="name h6">pokemon</h3>
+        <div class="card-controls"></div>
+        <div class="badges"></div>
+      </article>
+    </template>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="assets/js/cardStorage.js?v=14" defer></script>
+    <script src="assets/js/app.js?v=14" defer></script>
+
+    <div id="footer-placeholder"></div>
+  </body>
+</html>
+
+

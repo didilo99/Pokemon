@@ -1,0 +1,199 @@
+/* =============================================================================
+   POKÉDEX - ESTILOS PARA PÁGINA DE NATURALEZAS
+   Tabla premium con colores para aumentos y disminuciones
+   ============================================================================= */
+
+/* ===== TABLA DE NATURALEZAS ===== */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  margin: 2rem 0;
+  border-radius: var(--radius-lg);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  box-shadow: 0 4px 6px -1px var(--c-black-20);
+}
+
+.nature-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+/* Header de la tabla */
+.nature-table thead {
+  background: linear-gradient(
+    135deg,
+    var(--c-bg-lighter) 0%,
+    var(--c-surface) 100%
+  );
+  border-bottom: 2px solid var(--c-border);
+}
+
+.nature-table th {
+  padding: 1.25rem 1.5rem;
+  text-align: left;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  color: var(--c-text-muted);
+  white-space: nowrap;
+}
+
+.nature-table td {
+  white-space: nowrap;
+}
+
+/* Primera columna (Naturaleza) más destacada */
+.nature-table th:first-child {
+  color: var(--c-text);
+}
+
+/* Cuerpo de la tabla */
+.nature-table tbody tr {
+  border-bottom: 1px solid var(--c-border);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nature-table tbody tr:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(82, 222, 151, 0.05) 0%,
+    rgba(239, 83, 80, 0.05) 100%
+  );
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nature-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.nature-table td {
+  padding: 1rem 1.5rem;
+  color: var(--c-text);
+}
+
+/* Nombre de la naturaleza */
+.nature-table td:first-child {
+  font-weight: 700;
+  text-transform: capitalize;
+  font-size: 1rem;
+  color: var(--c-text);
+}
+
+/* Estadísticas que aumentan (+10%) */
+.nature-table .stat-up {
+  color: #52de97;
+  font-weight: 700;
+  position: relative;
+  padding-left: 2.5rem;
+}
+
+.nature-table .stat-up::before {
+  content: "▲";
+  position: absolute;
+  left: 1rem;
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+/* Estadísticas que disminuyen (-10%) */
+.nature-table .stat-down {
+  color: #ef5350;
+  font-weight: 700;
+  position: relative;
+  padding-left: 2.5rem;
+}
+
+.nature-table .stat-down::before {
+  content: "▼";
+  position: absolute;
+  left: 1rem;
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+/* Neutral (sin cambios) */
+.nature-table .neutral {
+  color: var(--c-text-muted);
+  font-style: italic;
+}
+
+/* Sabores (gustos) */
+.nature-table .flavor-like {
+  color: #a890f0;
+}
+
+.nature-table .flavor-dislike {
+  color: var(--c-text-muted);
+  opacity: 0.7;
+}
+
+/* Responsive: tabla más compacta en móvil */
+@media (max-width: 768px) {
+  .nature-table {
+    font-size: 0.85rem;
+  }
+
+  .nature-table th,
+  .nature-table td {
+    padding: 0.75rem 1rem;
+  }
+
+  .nature-table th {
+    font-size: 0.7rem;
+  }
+
+  .nature-table .stat-up::before,
+  .nature-table .stat-down::before {
+    left: 1rem;
+  }
+}
+
+/* Scroll horizontal suave en móvil si es necesario */
+.table-responsive::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  background: var(--c-black-20);
+  border-radius: 4px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background: var(--c-surface-hover);
+  border-radius: 4px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+  background: var(--c-accent);
+}
+
+/* Sorting styles */
+.nature-table th.sort-active {
+  color: var(--c-accent) !important;
+}
+
+.sort-icon {
+  width: 14px;
+  height: 14px;
+  margin-left: 8px;
+  opacity: 0.5;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  vertical-align: middle;
+}
+
+.nature-table th:hover .sort-icon {
+  opacity: 1;
+}
+
+.nature-table th.sort-active .sort-icon {
+  opacity: 1;
+  color: var(--c-accent);
+}
+
+.sort-asc .sort-icon {
+  transform: rotate(180deg);
+}

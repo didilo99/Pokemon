@@ -1,0 +1,241 @@
+/* Accessibility Panel Styles */
+.a11y-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  transform: translateX(100%);
+  width: 22rem;
+  max-width: 90vw;
+  height: 100vh;
+  background-color: var(--c-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-left: 1px solid var(--c-border);
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  transition: transform 0.3s ease-in-out;
+  color: var(--c-text);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.a11y-panel.open {
+  transform: translateX(0);
+}
+
+.a11y-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--c-border);
+  background: var(--c-black-20);
+}
+
+.a11y-header h2 {
+  font-size: 1.1rem;
+  margin: 0;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.a11y-close {
+  background: transparent;
+  border: none;
+  color: var(--c-text);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.a11y-close:hover {
+  background: var(--c-white-10);
+}
+
+.a11y-content {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.a11y-btn {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  color: var(--c-text);
+  padding: 0.875rem 1.25rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.a11y-btn:hover {
+  background: var(--c-surface-hover);
+  border-color: var(--c-accent);
+  transform: translateY(-2px);
+}
+
+.a11y-btn.active {
+  background: var(--c-accent-10);
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+
+.a11y-toggle-switch {
+  width: 36px;
+  height: 20px;
+  background: var(--c-border);
+  border-radius: 20px;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.a11y-toggle-switch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+
+.a11y-btn.active .a11y-toggle-switch {
+  background: var(--c-accent);
+}
+
+.a11y-btn.active .a11y-toggle-switch::after {
+  left: 18px;
+}
+
+.a11y-btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.a11y-btn-group .a11y-btn {
+  width: 100%;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.a11y-reset {
+  background: rgba(220, 53, 69, 0.2) !important;
+  border-color: rgba(220, 53, 69, 0.4) !important;
+  color: #ff8787 !important;
+  margin-top: 1rem;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.a11y-reset:hover {
+  background: rgba(220, 53, 69, 0.4) !important;
+}
+
+/* Accessibility Classes applied to body */
+
+/* Readable Font */
+body.a11y-readable-font {
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+body.a11y-readable-font * {
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+/* Grayscale: Applies to direct children to preserve fixed positioning constraints */
+body.a11y-grayscale > * {
+  filter: grayscale(100%) !important;
+}
+
+/* High Contrast: Applies to direct children */
+body.a11y-high-contrast > * {
+  filter: contrast(150%) saturate(200%) !important;
+}
+
+/* Underline Links */
+body.a11y-underline-links a {
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+}
+
+/* Highlight Links */
+body.a11y-highlight-links a {
+  background-color: #ffeb3b !important;
+  color: #000 !important;
+  padding: 0 4px;
+  border-radius: 2px;
+  font-weight: bold !important;
+  text-decoration: underline !important;
+}
+
+/* Overlay for clicking outside panel */
+.a11y-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.a11y-overlay.show {
+  display: block;
+  opacity: 1;
+}
+
+/* The header toggle button logic to fit */
+#a11yToggle {
+  cursor: pointer;
+  background: transparent !important;
+  border-color: transparent !important;
+  padding: 4px 8px !important;
+  height: 42px !important;
+  color: var(--c-text) !important;
+}
+
+#a11yToggle:hover {
+  background: var(--c-surface-hover) !important;
+  border-color: var(--c-border) !important;
+}
+
+#a11yToggle svg {
+  background: transparent !important;
+  display: block;
+  flex-shrink: 0;
+}
+
+#themeDropdown {
+  background: transparent !important;
+  border-color: transparent !important;
+  height: 42px !important;
+  padding: 4px 8px !important;
+  color: var(--c-text) !important;
+}
+
+#themeDropdown:hover {
+  background: var(--c-surface-hover) !important;
+  border-color: var(--c-border) !important;
+}
+
+#themeIconContainer svg {
+  background: transparent !important;
+  display: block;
+  flex-shrink: 0;
+}
