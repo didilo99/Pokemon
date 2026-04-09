@@ -114,23 +114,8 @@ const Bulbapedia = {
             `;
         }
 
-        // Render Images
-        if (data.images && data.images.length > 0) {
-            html += `
-                <div class="bulbapedia-content-block">
-                    <h4><i data-lucide="image"></i> Ilustraciones</h4>
-                    <div class="bulbapedia-images">
-                        ${data.images.map(img => `
-                            <div class="bulbapedia-img-wrapper">
-                                <a href="${img}" target="_blank">
-                                    <img src="${img}" alt="Bulbapedia illustration" loading="lazy">
-                                </a>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-        }
+        // Image rendering removed as per requirements
+
 
         if (!html) {
             html = '<p class="text-center text-muted">No se encontró contenido adicional detallado.</p>';

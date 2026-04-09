@@ -19,7 +19,8 @@
     "tcg_sets": "TCG Sets",
     "habitats": "Habitats",
     "berries": "Berries",
-    "shapes": "Shapes"
+    "shapes": "Shapes",
+    "capture_calc": "Capture Calculator"
   },
   "filters": {
     "button": "🔎 Filters",
@@ -1237,5 +1238,61 @@
     "ultima_sincronizacion_local": "Última sincronización local:",
     "ultimo_cambio": "Último cambio:",
     "ultimos_sets_anadidos_tcg": "Últimos Sets Añadidos (TCG)"
+  },
+  "capture_calc": {
+    "title": "Pokémon Capture Calculator",
+    "subtitle": "Enter the data and get the probability",
+    "pokemon_data": "Pokémon Data",
+    "generation": "Generation",
+    "search_pokemon": "Search Pokémon",
+    "search_placeholder": "Type Pokémon name...",
+    "select_pokemon": "Select a Pokémon",
+    "capture_rate": "Capture Rate",
+    "pokemon_status": "Pokémon Status",
+    "current_hp": "Current HP",
+    "total_hp": "Total HP",
+    "pokemon_level": "Pokémon Level",
+    "hp_proportion": "Proportion (%)",
+    "status_condition": "Status Condition",
+    "status": {
+      "none": "None",
+      "sleep": "Asleep",
+      "freeze": "Frozen",
+      "paralysis": "Paralyzed",
+      "burn": "Burned",
+      "poison": "Poison"
+    },
+    "pokeball_title": "Poké Ball",
+    "select_pokeball": "Select a Poké Ball",
+    "multiplier": "Multiplier",
+    "special_conditions": "Special Conditions",
+    "turn_count": "Current Turn",
+    "pokedex_caught": "Pokémon Caught",
+    "place_condition": "Place",
+    "places": {
+      "normal": "Normal",
+      "cave": "Cave",
+      "night": "Night"
+    },
+    "underwater": "Underwater / Fishing",
+    "already_caught": "Already caught in Pokédex",
+    "love_check": "Same species and opposite gender",
+    "nest_ball": "Nest Ball",
+    "level_ball": "Level Ball",
+    "my_pokemon_level": "My Pokémon Level",
+    "target_level_desc": "Effective against low-level Pokémon.",
+    "calculate": "Calculate Probability",
+    "result": "Result",
+    "combined_probability": "Combined Probability",
+    "captured": "GOTCHA!",
+    "prob_normal": "Normal Prob.:",
+    "prob_crit_success": "Crit. Prob.:",
+    "prob_crit_occur": "Crit. Occurrence:",
+    "expected_shakes": "Expected Shakes:",
+    "shake": "Shake",
+    "capture": "Capture",
+    "algo_details": "Algorithm Details",
+    "error_select_pokemon": "Please search and select a Pokémon first.",
+    "guaranteed": "Guaranteed"
   }
 }

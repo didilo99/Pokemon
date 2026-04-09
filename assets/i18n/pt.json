@@ -19,7 +19,8 @@
     "tcg_sets": "Conjuntos TCG",
     "habitats": "Habitats",
     "berries": "Bagas",
-    "shapes": "Formas"
+    "shapes": "Formas",
+    "capture_calc": "Calculadora de Captura"
   },
   "filters": {
     "button": "🔎 Filtros",
@@ -1084,5 +1085,61 @@
     "ultima_sincronizacion_local": "Última sincronización local:",
     "ultimo_cambio": "Último cambio:",
     "ultimos_sets_anadidos_tcg": "Últimos Sets Añadidos (TCG)"
+  },
+  "capture_calc": {
+    "title": "Calculadora de Captura de Pokémon",
+    "subtitle": "Insira os dados e obtenha a probabilidade",
+    "pokemon_data": "Dados do Pokémon",
+    "generation": "Geração",
+    "search_pokemon": "Procurar Pokémon",
+    "search_placeholder": "Digite o nome do Pokémon...",
+    "select_pokemon": "Selecione um Pokémon",
+    "capture_rate": "Taxa de Captura",
+    "pokemon_status": "Estado do Pokémon",
+    "current_hp": "HP Atual",
+    "total_hp": "HP Total",
+    "pokemon_level": "Nível do Pokémon",
+    "hp_proportion": "Proporção (%)",
+    "status_condition": "Condição de Status",
+    "status": {
+      "none": "Nenhum",
+      "sleep": "Dormindo",
+      "freeze": "Congelado",
+      "paralysis": "Paralisado",
+      "burn": "Queimado",
+      "poison": "Envenenado"
+    },
+    "pokeball_title": "Poké Ball",
+    "select_pokeball": "Selecione uma Poké Ball",
+    "multiplier": "Multiplicador",
+    "special_conditions": "Condições Especiais",
+    "turn_count": "Turno Atual",
+    "pokedex_caught": "Pokémon Capturados",
+    "place_condition": "Lugar",
+    "places": {
+      "normal": "Normal",
+      "cave": "Caverna",
+      "night": "Noite"
+    },
+    "underwater": "Debaixo d'água / Pesca",
+    "already_caught": "Já registrado na Pokédex",
+    "love_check": "Mesma espécie e sexo oposto",
+    "nest_ball": "Nest Ball",
+    "level_ball": "Level Ball",
+    "my_pokemon_level": "Nível do meu Pokémon",
+    "target_level_desc": "Eficaz contra Pokémon de nível baixo.",
+    "calculate": "Calcular Probabilidade",
+    "result": "Resultado",
+    "combined_probability": "Probabilidade Combinada",
+    "captured": "PEGUEI!",
+    "prob_normal": "Prob. Normal:",
+    "prob_crit_success": "Prob. Crítica:",
+    "prob_crit_occur": "Ocorrência Crítica:",
+    "expected_shakes": "Sacudidas Esperadas:",
+    "shake": "Sacudida",
+    "capture": "Captura",
+    "algo_details": "Detalhes do Algoritmo",
+    "error_select_pokemon": "Por favor, pesquise e selecione um Pokémon primeiro.",
+    "guaranteed": "Garantido"
   }
 }

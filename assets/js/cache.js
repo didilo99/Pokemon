@@ -257,12 +257,15 @@ const cacheManager = new CacheManager();
 
 /**
  * Fetches a URL, using the cache if available.
+ * Includes retry logic for network stability.
  * @param {string} url The URL to fetch.
  * @param {number} ttl Time to live in milliseconds (default 24h).
  * @param {boolean} force If true, bypass cache and force a new fetch.
+ * @param {number} retries Number of retry attempts.
+ * @param {number} delayMs Initial backoff delay.
  * @returns {Promise<any>} The JSON response.
  */
-async function fetchCached(url, ttl, force = false) {
+async function fetchCached(url, ttl, force = false, retries = 3, delayMs = 1000) {
   if (!force) {
     try {
       const cached = await cacheManager.get(url);
@@ -272,22 +275,46 @@ async function fetchCached(url, ttl, force = false) {
     } catch (e) {}
   }
 
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  for (let i = 0; i <= retries; i++) {
+    try {
+      const res = await fetch(url);
+      
+      if (!res.ok) {
+        // Don't retry on 404 as it's a permanent failure for that resource
+        if (res.status === 404) throw new Error(`HTTP 404`);
+        
+        if (i < retries) {
+          const backoff = delayMs * Math.pow(2, i);
+          console.warn(`Fetch failed (HTTP ${res.status}) for ${url}. Retrying in ${backoff}ms... (${i + 1}/${retries})`);
+          await new Promise(r => setTimeout(r, backoff));
+          continue;
+        }
+        throw new Error(`HTTP ${res.status}`);
+      }
 
-  // Check content type or try/catch json
-  const contentType = res.headers.get("content-type");
-  if (contentType && !contentType.includes("application/json")) {
-    throw new Error("Invalid API response format (not JSON)");
+      // Check content type or try/catch json
+      const contentType = res.headers.get("content-type");
+      if (contentType && !contentType.includes("application/json")) {
+        throw new Error("Invalid API response format (not JSON)");
+      }
+
+      const data = await res.json();
+
+      try {
+        await cacheManager.set(url, data, ttl);
+      } catch (e) {}
+
+      return data;
+    } catch (err) {
+      if (i < retries && err.name !== "AbortError") {
+        const backoff = delayMs * Math.pow(2, i);
+        console.warn(`Fetch error for ${url}: ${err.message}. Retrying in ${backoff}ms... (${i + 1}/${retries})`);
+        await new Promise(r => setTimeout(r, backoff));
+      } else {
+        throw err;
+      }
+    }
   }
-
-  const data = await res.json();
-
-  try {
-    await cacheManager.set(url, data, ttl);
-  } catch (e) {}
-
-  return data;
 }
 
 /**
@@ -442,9 +469,9 @@ async function deepSyncAllPokeAPI() {
 
   try {
     const syncedUrls = new Set();
-    const batchSize = 50; // Increased from 25 for faster syncing as requested
+    const batchSize = 25; // Adjusted from 50 to avoid connection limits
     const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-    const BATCH_DELAY = 100; // Reduced from 300ms
+    const BATCH_DELAY = 500; // Increased from 100ms for better stability
 
     // Process each category sequentially for "table separation" progress
     for (let c = 0; c < categories.length; c++) {

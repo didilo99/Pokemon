@@ -101,15 +101,27 @@ const I18n = {
     const bp = this.getBasePath();
     // Load all translations
     try {
+      const v = "?v=9"; // Force refresh for fixed JSON files
+      const loadJSON = async (lang) => {
+        try {
+          const response = await fetch(`${bp}assets/i18n/${lang}.json${v}`);
+          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+          return await response.json();
+        } catch (e) {
+          console.error(`Failed to load/parse ${lang}.json:`, e);
+          return null;
+        }
+      };
+
       const [es, en, fr, de, it, pt, ja, zhtw] = await Promise.all([
-        fetch(`${bp}assets/i18n/es.json`).then((r) => r.json()),
-        fetch(`${bp}assets/i18n/en.json`).then((r) => r.json()),
-        fetch(`${bp}assets/i18n/fr.json`).then((r) => r.json()),
-        fetch(`${bp}assets/i18n/de.json`).then((r) => r.json()),
-        fetch(`${bp}assets/i18n/it.json`).then((r) => r.json()),
-        fetch(`${bp}assets/i18n/pt.json`).then((r) => r.json()),
-        fetch(`${bp}assets/i18n/ja.json`).then((r) => r.json()),
-        fetch(`${bp}assets/i18n/zh.json`).then((r) => r.json()),
+        loadJSON("es"),
+        loadJSON("en"),
+        loadJSON("fr"),
+        loadJSON("de"),
+        loadJSON("it"),
+        loadJSON("pt"),
+        loadJSON("ja"),
+        loadJSON("zh")
       ]);
 
       this.translations = { es, en, fr, de, it, pt, ja, "zh-tw": zhtw };
@@ -133,7 +145,9 @@ const I18n = {
       window.dispatchEvent(
         new CustomEvent("languageChanged", { detail: this.currentLang }),
       );
-    } catch (error) {}
+    } catch (error) {
+      console.error("I18n Initialization Error:", error);
+    }
   },
 
   async loadFooter() {

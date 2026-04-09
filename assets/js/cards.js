@@ -175,34 +175,70 @@ async function initFilters() {
       });
     }
 
-    // Populate Series Dropdown
-    const uniqueSeries = [
-      ...new Set(
-        allSets
-          .map((s) => {
-            const raw =
-              s.serie?.name ||
-              s.series ||
-              (typeof s.serie === "string" ? s.serie : null);
-            if (!raw) return null;
-            // Capitalize first letter of each word
-            return raw
-              .split(" ")
-              .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
-              .join(" ");
-          })
-          .filter(Boolean),
-      ),
-    ].sort((a, b) => a.localeCompare(b));
-    populateDropdownSimple(filterSeries, uniqueSeries, "tcg.all_series", "");
+    // Define function to update dropdowns based on pocket filter
+    window.updateSeriesAndSetsDropdowns = () => {
+      const showPocket = filterPocket.checked;
+      
+      // Filter sets based on pocket status
+      const filteredSets = allSets.filter(s => {
+        const sId = s.id || "";
+        const rawSeries = s.serie?.name || s.series || (typeof s.serie === "string" ? s.serie : "");
+        const sLower = rawSeries.toLowerCase();
+        const isPocket = sLower.includes("tcg pocket") || 
+                         sLower.includes("pokémon pocket") || 
+                         sId.startsWith("a1") || sId.startsWith("a2") || sId.startsWith("p1");
+        
+        return showPocket ? true : !isPocket;
+      });
 
-    filterSet.disabled = false;
-    populateSetDropdown(filterSet, allSets, "tcg.all_sets");
+      // Get unique series from filtered sets
+      const uniqueSeries = [
+        ...new Set(
+          filteredSets
+            .map((s) => {
+              const raw = s.serie?.name || s.series || (typeof s.serie === "string" ? s.serie : null);
+              if (!raw) return null;
+              return raw.split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(" ");
+            })
+            .filter(Boolean),
+        ),
+      ].sort((a, b) => a.localeCompare(b));
+
+      // Populate Series Dropdown
+      const currentSeries = filterSeries.value;
+      populateDropdownSimple(filterSeries, uniqueSeries, "tcg.all_series", "");
+      if (uniqueSeries.includes(currentSeries)) {
+        filterSeries.value = currentSeries;
+      } else if (currentSeries) {
+        filterSeries.value = ""; // Reset if it was a pocket series and now hidden
+      }
+
+      // Populate Set Dropdown
+      const currentSet = filterSet.value;
+      const seriesValue = filterSeries.value;
+      let finalSetsForDropdown = filteredSets;
+      if (seriesValue) {
+        finalSetsForDropdown = filteredSets.filter((s) => {
+          const sName = s.serie?.name || s.series || (typeof s.serie === "string" ? s.serie : null);
+          return sName && sName.toLowerCase() === seriesValue.toLowerCase();
+        });
+      }
+      
+      filterSet.disabled = false;
+      populateSetDropdown(filterSet, finalSetsForDropdown, "tcg.all_sets");
+      
+      const opt = filterSet.querySelector(`option[value="${currentSet}"]`);
+      if (opt) filterSet.value = currentSet;
+      else if (currentSet) filterSet.value = "";
+    };
+
+    updateSeriesAndSetsDropdowns();
 
     // 5. Restore Filters (URL -> LocalStorage -> Groups)
     const params = new URLSearchParams(window.location.search);
     const storedFilters = loadSavedFilters();
 
+    // Helper to determine value: URL > Storage > Default ""
     // Helper to determine value: URL > Storage > Default ""
     const getValue = (key) => {
       if (params.has(key)) return params.get(key);
@@ -211,25 +247,24 @@ async function initFilters() {
       return "";
     };
 
+    const pocketVal = getValue("pocket");
+    if (pocketVal !== "" && pocketVal !== null) {
+      filterPocket.checked = pocketVal === "true" || pocketVal === true;
+    } else {
+      filterPocket.checked = true; // Default
+    }
+
+    // Now populate dropdowns based on pocket setting
+    if (window.updateSeriesAndSetsDropdowns) updateSeriesAndSetsDropdowns();
+
     filterName.value = getValue("name");
     filterSeries.value = getValue("series");
 
-    // For dependent dropdown (Set), we need to ensure options exist if a value is set
-    const setSeriesValue = filterSeries.value;
-    if (setSeriesValue) {
-      const filteredSets = allSets.filter((s) => {
-        const sName =
-          s.serie?.name ||
-          s.series ||
-          (typeof s.serie === "string" ? s.serie : null);
-        return sName && sName.toLowerCase() === setSeriesValue.toLowerCase();
-      });
-      populateSetDropdown(filterSet, filteredSets, "tcg.all_sets");
-    }
+    // Re-update dropdowns if a series was selected to show correct sets
+    if (filterSeries.value && window.updateSeriesAndSetsDropdowns) updateSeriesAndSetsDropdowns();
 
     const setValue = getValue("set");
     if (setValue) {
-      // safe to set value as populateSetDropdown was called above with allSets
       const opt = filterSet.querySelector(`option[value="${setValue}"]`);
       if (opt) filterSet.value = setValue;
     }
@@ -243,13 +278,6 @@ async function initFilters() {
     filterHp.value = getValue("hp");
     filterStage.value = getValue("stage");
     filterSort.value = getValue("sort") || "name_asc";
-
-    const pocketVal = getValue("pocket");
-    if (pocketVal !== "" && pocketVal !== null) {
-      filterPocket.checked = pocketVal === "true" || pocketVal === true;
-    } else {
-      filterPocket.checked = true; // Default
-    }
 
     currentPage = Number(getValue("page")) || 1;
 
@@ -567,25 +595,12 @@ function setupEventListeners() {
 
   filterName.addEventListener("input", debounce(handleFilterChange, 500));
   filterSeries.addEventListener("change", () => {
-    // When series changes, update sets dropdown
-    const seriesValue = filterSeries.value;
-    if (seriesValue) {
-      const filteredSets = allSets.filter((s) => {
-        const sName =
-          s.serie?.name ||
-          s.series ||
-          (typeof s.serie === "string" ? s.serie : null);
-        return sName && sName.toLowerCase() === seriesValue.toLowerCase();
-      });
-      populateSetDropdown(filterSet, filteredSets, "tcg.all_sets");
-    } else {
-      populateSetDropdown(filterSet, allSets, "tcg.all_sets");
-    }
-    filterSet.value = ""; // Reset set when series changes
+    if (window.updateSeriesAndSetsDropdowns) updateSeriesAndSetsDropdowns();
     handleFilterChange();
   });
 
   filterPocket.addEventListener("change", () => {
+    if (window.updateSeriesAndSetsDropdowns) updateSeriesAndSetsDropdowns();
     handleFilterChange();
   });
   filterSet.addEventListener("change", handleFilterChange);
@@ -610,8 +625,8 @@ function setupEventListeners() {
     if (filterSort) filterSort.value = "name_asc";
     if (filterPocket) filterPocket.checked = true; // Reset pocket to default
 
-    // Reset sets dropdown
-    populateSetDropdown(filterSet, allSets, "tcg.all_sets");
+    // Reset dropdowns based on pocket default (true)
+    if (window.updateSeriesAndSetsDropdowns) updateSeriesAndSetsDropdowns();
 
     // Reset type chips
     updateTypeChipsUI("");
@@ -922,9 +937,9 @@ async function syncCards(btnElement) {
       }
       const fullMsg = `${langProgressPrefix} ${msg}`;
       if (progressLabel) progressLabel.textContent = fullMsg;
-      if (statusEl) statusEl.textContent = fullMsg;
     };
 
+    if (statusEl) statusEl.textContent = I18n.t("missing.sincronizando") || "Sincronizando...";
     updateStatus("tcg.sync_initializing");
     updateGlobalProgress(0);
 
@@ -960,18 +975,35 @@ async function syncCards(btnElement) {
         await CardStorage.saveSetsBatch(syncDetailedSets, lang);
       }
 
-      // PHASE 1: Fetch all card summaries
+    // PHASE 1: Fetch all card summaries
       let page = 1;
       let keepFetching = true;
       let allCardSummaries = [];
-      const syncPageSize = 250;
+      const syncPageSize = 100; // Reduced from 250 to 100 to prevent API timeouts during Phase 1
 
       updateStatus("tcg.errors.sync_list");
 
       while (keepFetching) {
         const url = `${PROXY_URL}?endpoint=cards&page=${page}&pageSize=${syncPageSize}&lang=${lang}`;
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`Sync Fetch Error for ${lang}`);
+        let response = null;
+        let fetchSuccess = false;
+        let retries = 3;
+        
+        while (retries > 0 && !fetchSuccess) {
+            try {
+                response = await fetch(url);
+                if (!response.ok) throw new Error(`Status ${response.status}`);
+                fetchSuccess = true;
+            } catch (rErr) {
+                retries--;
+                if (retries > 0) {
+                    await new Promise(r => setTimeout(r, 2000));
+                } else {
+                    throw new Error(`Sync Fetch Error for ${lang} at page ${page}: ` + rErr.message);
+                }
+            }
+        }
+        
         const cards = await response.json();
         if (cards && cards.length > 0) {
           allCardSummaries = allCardSummaries.concat(cards);
@@ -986,7 +1018,7 @@ async function syncCards(btnElement) {
       // PHASE 2: Fetch full details
       const totalCardsLang = allCardSummaries.length;
       let synced = 0;
-      const BATCH_SIZE = 250; // Restored from 25 to 250 for faster sync as requested
+      const BATCH_SIZE = 100; // Reduced from 250 to 100 to prevent massive concurrent proxy timeouts
 
       const setDateMap = new Map();
       const setSeriesMap = new Map();

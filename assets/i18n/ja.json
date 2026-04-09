@@ -19,7 +19,8 @@
     "tcg_sets": "TCGセット",
     "habitats": "生息地",
     "berries": "きのみ",
-    "shapes": "形状"
+    "shapes": "形状",
+    "capture_calc": "捕獲率計算機"
   },
   "filters": {
     "button": "🔎 絞り込み",
@@ -1081,5 +1082,61 @@
     "ultima_sincronizacion_local": "Última sincronización local:",
     "ultimo_cambio": "Último cambio:",
     "ultimos_sets_anadidos_tcg": "Últimos Sets Añadidos (TCG)"
+  },
+  "capture_calc": {
+    "title": "ポケモン捕獲率計算機",
+    "subtitle": "データを入力して捕獲確率を計算します",
+    "pokemon_data": "ポケモンデータ",
+    "generation": "世代",
+    "search_pokemon": "ポケモン検索",
+    "search_placeholder": "ポケモン名を入力...",
+    "select_pokemon": "ポケモンを選択してください",
+    "capture_rate": "捕捉率",
+    "pokemon_status": "ポケモンの状態",
+    "current_hp": "現在のHP",
+    "total_hp": "最大HP",
+    "pokemon_level": "ポケモンのレベル",
+    "hp_proportion": "残りHP比率 (%)",
+    "status_condition": "状態異常",
+    "status": {
+      "none": "なし",
+      "sleep": "ねむり",
+      "freeze": "こおり",
+      "paralysis": "まひ",
+      "burn": "やけど",
+      "poison": "どく"
+    },
+    "pokeball_title": "モンスターボール",
+    "select_pokeball": "ボールを選択してください",
+    "multiplier": "倍率",
+    "special_conditions": "特殊条件",
+    "turn_count": "経過ターン",
+    "pokedex_caught": "捕まえたポケモンの数",
+    "place_condition": "場所",
+    "places": {
+      "normal": "通常",
+      "cave": "洞窟",
+      "night": "夜"
+    },
+    "underwater": "水中・釣り",
+    "already_caught": "図鑑に登録済み",
+    "love_check": "同種かつ異性",
+    "nest_ball": "ネストボール",
+    "level_ball": "レベルボール",
+    "my_pokemon_level": "自分のポケモンのレベル",
+    "target_level_desc": "レベルの低いポケモンに効果的。",
+    "calculate": "確率を計算する",
+    "result": "結果",
+    "combined_probability": "合計捕獲率",
+    "captured": "やったー！",
+    "prob_normal": "通常捕獲率:",
+    "prob_crit_success": "クリ捕獲率:",
+    "prob_crit_occur": "クリティカル発生率:",
+    "expected_shakes": "期待される揺れ:",
+    "shake": "揺れ",
+    "capture": "捕獲",
+    "algo_details": "アルゴリズム解説",
+    "error_select_pokemon": "まずポケモンを検索して選択してください。",
+    "guaranteed": "確定"
   }
 }

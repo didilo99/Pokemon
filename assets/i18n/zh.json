@@ -19,7 +19,8 @@
     "tcg_sets": "TCG套装",
     "habitats": "栖息地",
     "berries": "树果",
-    "shapes": "形状"
+    "shapes": "形状",
+    "capture_calc": "捕获率计算器"
   },
   "filters": {
     "button": "🔎 筛选",
@@ -1080,5 +1081,61 @@
     "ultima_sincronizacion_local": "Última sincronización local:",
     "ultimo_cambio": "Último cambio:",
     "ultimos_sets_anadidos_tcg": "Últimos Sets Añadidos (TCG)"
+  },
+  "capture_calc": {
+    "title": "宝可梦捕获率计算器",
+    "subtitle": "输入数据以获得捕获概率",
+    "pokemon_data": "宝可梦数据",
+    "generation": "世代",
+    "search_pokemon": "搜索宝可梦",
+    "search_placeholder": "输入宝可梦名称...",
+    "select_pokemon": "选择一只宝可梦",
+    "capture_rate": "捕获率",
+    "pokemon_status": "宝可梦状态",
+    "current_hp": "当前 HP",
+    "total_hp": "最大 HP",
+    "pokemon_level": "宝可梦等级",
+    "hp_proportion": "HP 比例 (%)",
+    "status_condition": "状态条件",
+    "status": {
+      "none": "无",
+      "sleep": "睡眠",
+      "freeze": "冰冻",
+      "paralysis": "麻痹",
+      "burn": "灼伤",
+      "poison": "中毒"
+    },
+    "pokeball_title": "精通球",
+    "select_pokeball": "选择一个精灵球",
+    "multiplier": "倍率",
+    "special_conditions": "特殊条件",
+    "turn_count": "当前回合",
+    "pokedex_caught": "已捕获宝可梦数",
+    "place_condition": "地点",
+    "places": {
+      "normal": "普通",
+      "cave": "洞穴",
+      "night": "夜晚"
+    },
+    "underwater": "水下 / 钓鱼",
+    "already_caught": "图鉴已登记",
+    "love_check": "同种且异性",
+    "nest_ball": "巢穴球",
+    "level_ball": "等级球",
+    "my_pokemon_level": "我方宝可梦等级",
+    "target_level_desc": "对等级低的宝可梦有效。",
+    "calculate": "计算概率",
+    "result": "结果",
+    "combined_probability": "综合概率",
+    "captured": "抓到了！",
+    "prob_normal": "普通概率:",
+    "prob_crit_success": "捕获概率:",
+    "prob_crit_occur": "晃动概率:",
+    "expected_shakes": "预期晃动次数:",
+    "shake": "晃动",
+    "capture": "捕获",
+    "algo_details": "算法详细信息",
+    "error_select_pokemon": "请先搜索并选择一只宝可梦。",
+    "guaranteed": "百分之百"
   }
 }

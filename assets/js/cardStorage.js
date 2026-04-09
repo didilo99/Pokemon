@@ -294,16 +294,25 @@
           return false;
       }
 
+      // TCG Pocket mutual exclusion logic
+      const cardSetId = card.set?.id;
+      const cardSeriesName =
+        setSeriesMap.get(cardSetId) ||
+        card.set?.serie?.name ||
+        card.set?.series ||
+        (typeof card.set?.serie === "string" ? card.set.serie : null);
+      
+      const cardSeriesLower = cardSeriesName?.toLowerCase() || "";
+      const isPocketCard = 
+        cardSeriesLower.includes("tcg pocket") || 
+        cardSeriesLower.includes("pokémon pocket") ||
+        (cardSetId && (cardSetId.startsWith("a1") || cardSetId.startsWith("p1") || cardSetId.startsWith("a2")));
+
       if (filters.pocket === false) {
-        const cardSetId = card.set?.id;
-        const cardSeriesName =
-          setSeriesMap.get(cardSetId) ||
-          card.set?.serie?.name ||
-          card.set?.series ||
-          (typeof card.set?.serie === "string" ? card.set.serie : null);
-        if (cardSeriesName?.toLowerCase() === "pokémon tcg pocket")
-          return false;
+        // Mode OFF: Hide Pocket cards
+        if (isPocketCard) return false;
       }
+      // Mode ON: Show everything (don't return false for non-pocket cards)
 
       if (filters.set && card.set?.id !== filters.set) return false;
       if (filters.rarity && card.rarity !== filters.rarity) return false;

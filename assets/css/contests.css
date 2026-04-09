@@ -166,10 +166,10 @@
   background: transparent;
   border: none;
   padding: 0;
-  max-width: 800px;
-  width: 90%;
+  max-width: 1600px;
+  width: 95vw;
   outline: none;
-  overflow: visible;
+  overflow: hidden;
 }
 
 #contestModal::backdrop {
@@ -190,6 +190,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  max-height: 90vh;
 }
 
 /* Modal Entry Animation */
@@ -278,6 +279,8 @@ dialog[open].modal-premium-container {
   display: flex;
   flex-direction: column;
   gap: 40px;
+  overflow-y: auto;
+  flex: 1;
 }
 
 /* Stats Cards */

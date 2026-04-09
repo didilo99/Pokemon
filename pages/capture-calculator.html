@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Calculadora de Captura — Pokédex</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../assets/css/styles.css?v=2" />
+    <link rel="stylesheet" href="../assets/css/capture-calculator.css?v=1" />
+    <link rel="icon" type="image/png" href="../assets/icon/favicon.png" />
+    <script src="../assets/js/cache.js"></script>
+    <script src="../assets/js/i18n.js"></script>
+    <link rel="stylesheet" href="../assets/css/a11y.css" />
+    <script src="../assets/js/a11y.js" defer></script>
+    <script
+      src="https://unpkg.com/lucide@latest"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <header>
+      <div class="dex-top">
+        <div class="inner container-fluid">
+          <div class="d-flex align-items-center justify-content-between">
+            <a href="../index.html" class="brand">
+              <img
+                src="../assets/icon/logo.png"
+                alt="Logo"
+                class="title-logo"
+              />
+              <h1 class="title mb-0" data-i18n="capture_calc.title">Calculadora de Captura</h1>
+            </a>
+            <div class="d-flex align-items-center gap-2">
+              <div class="dropdown d-inline-block">
+                <button
+                  class="btn btn-sm dropdown-toggle dex-select d-flex align-items-center gap-2"
+                  type="button"
+                  id="langDropdown"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <img
+                    id="currentFlag"
+                    src="../assets/img/flags/espana.png"
+                    alt="ES"
+                    width="20"
+                    height="20"
+                  />
+                  <span id="currentLangLabel">ES</span>
+                </button>
+                <ul
+                  class="dropdown-menu dropdown-menu-end dex-dropdown-menu"
+                  aria-labelledby="langDropdown"
+                >
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="es"
+                      ><img
+                        src="../assets/img/flags/espana.png"
+                        width="20"
+                        height="20"
+                      />
+                      Español</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="en"
+                      ><img
+                        src="../assets/img/flags/reino-unido.png"
+                        width="20"
+                        height="20"
+                      />
+                      English</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="fr"
+                      ><img
+                        src="../assets/img/flags/francia.png"
+                        width="20"
+                        height="20"
+                      />
+                      Français</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="de"
+                      ><img
+                        src="../assets/img/flags/alemania.png"
+                        width="20"
+                        height="20"
+                      />
+                      Deutsch</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="it"
+                      ><img
+                        src="../assets/img/flags/italia.png"
+                        width="20"
+                        height="20"
+                      />
+                      Italiano</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="pt"
+                      ><img
+                        src="../assets/img/flags/portugal.png"
+                        width="20"
+                        height="20"
+                      />
+                      Português</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="ja"
+                      ><img
+                        src="../assets/img/flags/japon.png"
+                        width="20"
+                        height="20"
+                      />
+                      日本語</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="zh-tw"
+                      ><img
+                        src="../assets/img/flags/china.png"
+                        width="20"
+                        height="20"
+                      />
+                      中文</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="inner container-fluid">
+          <nav class="dex-nav">
+            <li class="nav-item dropdown d-inline-block">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="mundoDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-i18n="footer.nav_world"
+              >
+                Mundo Pokémon
+              </a>
+              <ul
+                class="dropdown-menu dex-dropdown-menu"
+                aria-labelledby="mundoDropdown"
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="../index.html"
+                    data-i18n="nav.pokemon"
+                    >Pokémon</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="regions.html"
+                    data-i18n="nav.regions"
+                    >Regiones</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="generations.html"
+                    data-i18n="nav.generations"
+                    >Generaciones</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="locations.html"
+                    data-i18n="nav.locations"
+                    >Localizaciones</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="breeding.html"
+                    data-i18n="nav.breeding"
+                    >Crianza</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="habitats.html"
+                    data-i18n="nav.habitats"
+                    >Hábitats</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="shapes.html"
+                    data-i18n="nav.shapes"
+                    >Formas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item active"
+                    href="capture-calculator.html"
+                    data-i18n="nav.capture_calc"
+                    >Calculadora de Captura</a
+                  >
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item dropdown d-inline-block">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="combateDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-i18n="footer.nav_combat"
+              >
+                Combate
+              </a>
+              <ul
+                class="dropdown-menu dex-dropdown-menu"
+                aria-labelledby="combateDropdown"
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="moves.html"
+                    data-i18n="nav.moves"
+                    >Movimientos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="abilities.html"
+                    data-i18n="nav.abilities"
+                    >Habilidades</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="types.html"
+                    data-i18n="nav.types"
+                    >Tabla de Tipos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="natures.html"
+                    data-i18n="nav.natures"
+                    >Naturalezas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="machines.html"
+                    data-i18n="nav.machines"
+                    >Máquinas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="contests.html"
+                    data-i18n="nav.contests"
+                    >Concursos</a
+                  >
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item dropdown d-inline-block">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="coleccionDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-i18n="footer.nav_collection"
+              >
+                Colección
+              </a>
+              <ul
+                class="dropdown-menu dex-dropdown-menu"
+                aria-labelledby="coleccionDropdown"
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="items.html"
+                    data-i18n="nav.items"
+                    >Objetos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="berries.html"
+                    data-i18n="nav.berries"
+                    >Bayas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="games.html"
+                    data-i18n="nav.games"
+                    >Juegos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="cards.html"
+                    data-i18n="nav.cards"
+                    >Cartas TCG</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="tcg-sets.html"
+                    data-i18n="nav.tcg_sets"
+                    >Sets TCG</a
+                  >
+                </li>
+              </ul>
+            </li>
+
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main class="inner">
+      <div class="capture-hero">
+        <div class="capture-hero-icon">
+          <svg viewBox="0 0 100 100" width="72" height="72" class="poke-hero-svg">
+            <defs>
+              <linearGradient id="pokeGradRed" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#ef4444" />
+                <stop offset="100%" stop-color="#b91c1c" />
+              </linearGradient>
+              <linearGradient id="pokeGradWhite" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#ffffff" />
+                <stop offset="100%" stop-color="#e2e8f0" />
+              </linearGradient>
+              <radialGradient id="pokeGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.4" />
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+            <!-- Outer Glow -->
+            <circle cx="50" cy="50" r="50" fill="var(--c-accent-10)" opacity="0.3" />
+            <!-- Ball Shell -->
+            <circle cx="50" cy="50" r="48" fill="#1e293b" />
+            <path d="M2,50 A48,48 0 0,1 98,50" fill="url(#pokeGradRed)" />
+            <path d="M2,50 A48,48 0 0,0 98,50" fill="url(#pokeGradWhite)" />
+            <!-- Horizontal Band -->
+            <rect x="2" y="47" width="96" height="6" fill="#1e293b" />
+            <!-- Center Button Assembly -->
+            <circle cx="50" cy="50" r="16" fill="#1e293b" />
+            <circle cx="50" cy="50" r="12" fill="white" />
+            <circle cx="50" cy="50" r="8" stroke="#cbd5e1" stroke-width="1" fill="white" />
+            <circle cx="50" cy="50" r="5" fill="var(--c-accent)">
+              <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" />
+            </circle>
+            <!-- Gloss Shine -->
+            <path d="M25 22 Q 50 10 75 22" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.3" />
+            <circle cx="35" cy="25" r="12" fill="url(#pokeGlow)" />
+          </svg>
+        </div>
+        <h2 class="title capture-hero-title" data-i18n="capture_calc.title">Calculadora de Captura Pokémon</h2>
+        <p class="capture-hero-subtitle" data-i18n="capture_calc.subtitle">Introduce los datos y obtén la probabilidad</p>
+      </div>
+
+      <div class="capture-grid">
+        <section class="capture-section" id="sectionPokemon">
+          <div class="section-header d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-2">
+              <i data-lucide="search" class="section-icon"></i>
+              <h3 data-i18n="capture_calc.pokemon_data">Datos del Pokémon</h3>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <label for="calcGeneration" class="m-0 fs-7 fw-bold text-muted text-uppercase" data-i18n="capture_calc.generation">Generación</label>
+              <select id="calcGeneration" class="dex-select py-1 px-2" style="font-size: 0.8rem; width: auto; background-color: var(--c-surface-hover);">
+                <option value="gen8-9">Gen 8-9 (SwSh/SV)</option>
+                <option value="gen5-7">Gen 5-7 (BW/XY/SM)</option>
+                <option value="gen3-4">Gen 3-4 (RSE/DPP)</option>
+                <option value="gen2">Gen 2 (GSC)</option>
+                <option value="gen1">Gen 1 (RBY)</option>
+              </select>
+            </div>
+          </div>
+          <div class="section-body">
+            <div class="ctrl">
+              <label for="pokemonSearch" data-i18n="capture_calc.search_pokemon">Buscar Pokémon</label>
+              <input
+                type="search"
+                id="pokemonSearch"
+                placeholder="Escribe el nombre del Pokémon..."
+                data-i18n-placeholder="capture_calc.search_placeholder"
+                autocomplete="off"
+                data-source="pokeapi"
+                data-endpoint="https://pokeapi.co/api/v2/pokemon?limit=1025"
+              />
+            </div>
+            <div class="pokemon-preview" id="pokemonPreview">
+              <div class="pokemon-sprite-box" id="pokemonSpriteBox">
+                <div class="sprite-placeholder">
+                  <i data-lucide="help-circle"></i>
+                  <span data-i18n="capture_calc.select_pokemon">Selecciona un Pokémon</span>
+                </div>
+                <img
+                  id="pokemonSprite"
+                  src=""
+                  alt="Sprite del Pokémon"
+                  style="display: none"
+                />
+              </div>
+              <div class="pokemon-meta">
+                <div class="meta-item">
+                  <span class="meta-label" data-i18n="capture_calc.capture_rate">Ratio de captura</span>
+                  <span class="meta-value" id="captureRate">—</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="capture-section" id="sectionStatus">
+          <div class="section-header">
+            <i data-lucide="heart-pulse" class="section-icon"></i>
+            <h3 data-i18n="capture_calc.pokemon_status">Estado del Pokémon</h3>
+          </div>
+          <div class="section-body">
+            <div class="hp-bar-group" style="grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+              <div class="ctrl">
+                <label for="currentHp" data-i18n="capture_calc.current_hp">Vida Actual (HP)</label>
+                <div class="hp-input-row" style="display:flex; align-items:center; gap:8px;">
+                  <input
+                    type="number"
+                    id="currentHp"
+                    min="1"
+                    max="999"
+                    value="100"
+                    placeholder="—"
+                    class="hp-number w-100 locked-input"
+                    readonly
+                    tabindex="-1"
+                  />
+                </div>
+              </div>
+              <div class="ctrl">
+                <label for="totalHp" data-i18n="capture_calc.total_hp">Vida Total (HP)</label>
+                <input
+                  type="number"
+                  id="totalHp"
+                  min="1"
+                  max="999"
+                  value="100"
+                  placeholder="—"
+                  class="hp-number w-100 locked-input"
+                  readonly
+                  tabindex="-1"
+                />
+              </div>
+              <div class="ctrl">
+                <label for="pokemonLevel" data-i18n="capture_calc.pokemon_level">Nivel del Pokémon</label>
+                <input
+                  type="number"
+                  id="pokemonLevel"
+                  min="1"
+                  max="100"
+                  value="50"
+                  class="hp-number w-100"
+                />
+              </div>
+            </div>
+            
+            <div class="ctrl mt-3">
+              <label for="currentHpRange" data-i18n="capture_calc.hp_proportion">Proporción (%)</label>
+              <input
+                type="range"
+                id="currentHpRange"
+                min="0"
+                max="100"
+                value="100"
+                class="hp-slider w-100"
+              />
+            </div>
+            <div class="hp-visual">
+              <div class="hp-bar-track">
+                <div class="hp-bar-fill" id="hpBarFill" style="width: 50%"></div>
+              </div>
+              <span class="hp-bar-label" id="hpBarLabel">50 / 100</span>
+            </div>
+            <div class="ctrl">
+              <label for="statusCondition" data-i18n="capture_calc.status_condition">Estado alterado</label>
+              <select id="statusCondition" class="dex-select">
+                <option value="none" data-i18n="capture_calc.status.none">Ninguno</option>
+                <option value="sleep" data-i18n="capture_calc.status.sleep">Dormido</option>
+                <option value="freeze" data-i18n="capture_calc.status.freeze">Congelado</option>
+                <option value="paralysis" data-i18n="capture_calc.status.paralysis">Paralizado</option>
+                <option value="burn" data-i18n="capture_calc.status.burn">Quemado</option>
+                <option value="poison" data-i18n="capture_calc.status.poison">Envenenado</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <section class="capture-section" id="sectionBall">
+          <div class="section-header">
+            <i data-lucide="circle" class="section-icon"></i>
+            <h3 data-i18n="capture_calc.pokeball_title">Poké Ball</h3>
+          </div>
+          <div class="section-body">
+            <div class="ctrl">
+              <label for="pokeball" data-i18n="capture_calc.select_pokeball">Selecciona una Poké Ball</label>
+              <select
+                id="pokeball"
+                class="dex-select"
+                data-source="pokeapi"
+                data-endpoint="https://pokeapi.co/api/v2/item-category/34/"
+              >
+                <option value="poke-ball" data-multiplier="1" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png">Poké Ball</option>
+                <option value="great-ball" data-multiplier="1.5" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/great-ball.png">Super Ball</option>
+                <option value="ultra-ball" data-multiplier="2" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png">Ultra Ball</option>
+                <option value="master-ball" data-multiplier="255" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/master-ball.png">Master Ball</option>
+                
+                <option value="safari-ball" data-multiplier="1.5" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/safari-ball.png">Safari Ball</option>
+                <option value="sport-ball" data-multiplier="1.5" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/sport-ball.png">Competi Ball</option>
+                <option value="premier-ball" data-multiplier="1" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/premier-ball.png">Honor Ball</option>
+                <option value="luxury-ball" data-multiplier="1" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/luxury-ball.png">Lujo Ball</option>
+                <option value="heal-ball" data-multiplier="1" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/heal-ball.png">Sana Ball</option>
+                <option value="friend-ball" data-multiplier="1" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/friend-ball.png">Amigo Ball</option>
+
+                <!-- Conditional Multipliers -->
+                <option value="net-ball" data-multiplier="variable" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/net-ball.png">Malla Ball</option>
+                <option value="nest-ball" data-multiplier="variable" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nest-ball.png">Nido Ball</option>
+                <option value="repeat-ball" data-multiplier="variable" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/repeat-ball.png">Acopio Ball</option>
+                <option value="timer-ball" data-multiplier="variable" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/timer-ball.png">Turno Ball</option>
+                <option value="dusk-ball" data-multiplier="variable" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/dusk-ball.png">Ocaso Ball</option>
+                <option value="dive-ball" data-multiplier="variable" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/dive-ball.png">Buceo Ball</option>
+                <option value="quick-ball" data-multiplier="variable" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/quick-ball.png">Veloz Ball</option>
+                <option value="fast-ball" data-multiplier="variable" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/fast-ball.png">Rápida Ball</option>
+                <option value="level-ball" data-multiplier="variable" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/level-ball.png">Nivel Ball</option>
+                <option value="love-ball" data-multiplier="variable" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/love-ball.png">Amor Ball</option>
+                <option value="moon-ball" data-multiplier="variable" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/moon-ball.png">Luna Ball</option>
+                <option value="dream-ball" data-multiplier="variable" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/dream-ball.png">Gloria Ball</option>
+                <option value="beast-ball" data-multiplier="variable" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/beast-ball.png">Ente Ball</option>
+                
+                <!-- Modifiers (Aditive) -->
+                <option value="heavy-ball" data-multiplier="variable" data-sprite="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/heavy-ball.png">Peso Ball</option>
+              </select>
+            </div>
+            <div class="ball-preview">
+              <div class="ball-sprite-box">
+                <img
+                  id="ballSprite"
+                  src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png"
+                  alt="Poké Ball"
+                  class="ball-sprite"
+                />
+              </div>
+              <div class="ball-meta">
+                <div class="meta-item">
+                  <span class="meta-label" data-i18n="capture_calc.multiplier">Multiplicador</span>
+                  <span class="meta-value" id="ballMultiplier">×1</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="capture-section" id="sectionConditions">
+          <div class="section-header">
+            <i data-lucide="settings-2" class="section-icon"></i>
+            <h3 data-i18n="capture_calc.special_conditions">Condiciones especiales</h3>
+          </div>
+          <div class="section-body">
+            <div class="conditions-grid">
+              <div class="condition-card" id="condTimerBall">
+                <div class="condition-header">
+                  <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/timer-ball.png" alt="Turno Ball" width="24" height="24" style="image-rendering: pixelated"/>
+                  <span>Turno Ball</span>
+                </div>
+                <div class="ctrl">
+                  <label for="turnCount" data-i18n="capture_calc.turn_count">Turno actual</label>
+                  <input type="number" id="turnCount" min="1" max="99" value="1" />
+                </div>
+              </div>
+
+              <div class="condition-card" id="condPokedex" style="display: flex;">
+                <div class="condition-header">
+                  <i data-lucide="book-open" style="width:24px; height:24px; color:var(--c-accent)"></i>
+                  <span>Pokédex</span>
+                </div>
+                <div class="ctrl">
+                  <label for="pokedexCaught" data-i18n="capture_calc.pokedex_caught">Pokémon Atrapados</label>
+                  <input type="number" id="pokedexCaught" min="0" max="1025" value="0" />
+                </div>
+              </div>
+
+              <div class="condition-card" id="condDuskBall">
+                <div class="condition-header">
+                  <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/dusk-ball.png" alt="Ocaso Ball" width="24" height="24" style="image-rendering: pixelated"/>
+                  <span>Ocaso Ball</span>
+                </div>
+                <div class="ctrl">
+                  <label for="placeCondition" data-i18n="capture_calc.place_condition">Lugar</label>
+                  <select id="placeCondition" class="dex-select">
+                    <option value="normal" data-i18n="capture_calc.places.normal">Normal</option>
+                    <option value="cave" data-i18n="capture_calc.places.cave">Cueva</option>
+                    <option value="night" data-i18n="capture_calc.places.night">Noche</option>
+                  </select>
+                </div>
+              </div>
+              <div class="condition-card" id="condDiveBall">
+                <div class="condition-header">
+                  <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/dive-ball.png" alt="Buceo Ball" width="24" height="24" style="image-rendering: pixelated"/>
+                  <span>Buceo Ball</span>
+                </div>
+                <div class="condition-check">
+                  <label for="underwater" class="check-label">
+                    <input type="checkbox" id="underwater" class="toggle" />
+                    <span data-i18n="capture_calc.underwater">Bajo el agua / Pescando</span>
+                  </label>
+                </div>
+              </div>
+              <div class="condition-card" id="condRepeatBall">
+                <div class="condition-header">
+                  <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/repeat-ball.png" alt="Acopio Ball" width="24" height="24" style="image-rendering: pixelated"/>
+                  <span>Acopio Ball</span>
+                </div>
+                <div class="condition-check">
+                  <label for="alreadyCaught" class="check-label">
+                    <input type="checkbox" id="alreadyCaught" class="toggle" />
+                    <span data-i18n="capture_calc.already_caught">Ya registrado en la Pokédex</span>
+                  </label>
+                </div>
+              </div>
+              <div class="condition-card" id="condLoveBall">
+                <div class="condition-header">
+                  <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/love-ball.png" alt="Amor Ball" width="24" height="24" style="image-rendering: pixelated"/>
+                  <span>Amor Ball</span>
+                </div>
+                <div class="condition-check">
+                  <label for="loveCheck" class="check-label">
+                    <input type="checkbox" id="loveCheck" class="toggle" />
+                    <span data-i18n="capture_calc.love_check">Misma especie y género opuesto</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="condition-card" id="condTargetLevel">
+                <div class="condition-header">
+                  <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/nest-ball.png" alt="Nido Ball" width="24" height="24" style="image-rendering: pixelated"/>
+                  <span data-i18n="capture_calc.nest_ball">Nido Ball</span>
+                </div>
+                <div class="mt-2 small text-muted" data-i18n="capture_calc.target_level_desc">
+                  Efectiva contra Pokémon de nivel bajo.
+                </div>
+              </div>
+
+              <div class="condition-card" id="condMyLevel">
+                <div class="condition-header">
+                  <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/level-ball.png" alt="Nivel Ball" width="24" height="24" style="image-rendering: pixelated"/>
+                  <span data-i18n="capture_calc.level_ball">Nivel Ball</span>
+                </div>
+                <div class="ctrl">
+                  <label for="myPokemonLevel" data-i18n="capture_calc.my_pokemon_level">Nivel de mi Pokémon</label>
+                  <input type="number" id="myPokemonLevel" min="1" max="100" value="50" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="calculate-wrapper">
+        <button type="button" class="calculate-btn" id="calculateBtn">
+          <i data-lucide="calculator"></i>
+          <span data-i18n="capture_calc.calculate">Calcular probabilidad</span>
+        </button>
+      </div>
+
+      <section class="result-section" id="resultSection">
+        <div class="result-box">
+          <div class="result-header">
+            <i data-lucide="target" class="result-icon"></i>
+            <h3 data-i18n="capture_calc.result">Resultado</h3>
+          </div>
+          <div class="result-probability">
+            <span class="result-label" data-i18n="capture_calc.combined_probability">Probabilidad Combinada</span>
+            <div id="captureMessage" class="capture-toast" style="display: none;" data-i18n="capture_calc.captured">¡TE ATRAPÉ!</div>
+            <span class="result-value" id="resultValue">— %</span>
+          </div>
+          
+          <div class="detailed-results" id="detailedResults" style="display:none;">
+            <div class="results-grid">
+              <div class="res-item">
+                <span class="res-label text-muted" data-i18n="capture_calc.prob_normal">Prob. Normal:</span>
+                <span id="probNormal" class="fw-bold">0%</span>
+              </div>
+              <div class="res-item">
+                <span class="res-label text-muted" data-i18n="capture_calc.prob_crit_success">Prob. Crítica:</span>
+                <span id="probCritSuccess" class="fw-bold">0%</span>
+              </div>
+              <div class="res-item">
+                <span class="res-label text-muted" data-i18n="capture_calc.prob_crit_occur">Aparición Crítica:</span>
+                <span id="probCritOccur" class="fw-bold">0%</span>
+              </div>
+              <div class="res-item">
+                <span class="res-label text-muted" data-i18n="capture_calc.expected_shakes">Shakes esperados:</span>
+                <span id="expectedShakesDisplay" class="fw-bold">0</span>
+              </div>
+            </div>
+          </div>
+          <div class="result-bar-track">
+            <div class="result-bar-fill" id="resultBarFill" style="width: 0%"></div>
+          </div>
+          <div class="shake-checks" id="shakeChecks">
+            <div class="shake-check" id="shake1">
+              <div class="shake-ball"></div>
+              <span><span data-i18n="capture_calc.shake">Shake</span> 1</span>
+            </div>
+            <div class="shake-check" id="shake2">
+              <div class="shake-ball"></div>
+              <span><span data-i18n="capture_calc.shake">Shake</span> 2</span>
+            </div>
+            <div class="shake-check" id="shake3">
+              <div class="shake-ball"></div>
+              <span><span data-i18n="capture_calc.shake">Shake</span> 3</span>
+            </div>
+            <div class="shake-check" id="shake4">
+              <div class="shake-ball"></div>
+              <span data-i18n="capture_calc.capture">Captura</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 text-start font-monospace small" id="calcDetails" style="display: none; background: var(--c-black-20); border: 1px solid var(--c-border); border-radius: var(--radius-md); padding: var(--sp-lg); color: var(--c-text-muted);">
+          <div class="d-flex align-items-center gap-2 mb-3 pb-2" style="border-bottom: 1px solid var(--c-white-10); color: var(--c-text);">
+            <i data-lucide="info" style="width:16px; height:16px; color:var(--c-accent)"></i>
+            <strong class="text-uppercase" style="letter-spacing:1px; font-size:0.8rem;" data-i18n="capture_calc.algo_details">Detalles del Algoritmo</strong>
+          </div>
+          <div id="calcDetailsContent" style="white-space: pre-wrap; line-height: 1.6;"></div>
+        </div>
+      </section>
+    </main>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../assets/js/capture-calculator.js"></script>
+    <div id="footer-placeholder"></div>
+  </body>
+</html>

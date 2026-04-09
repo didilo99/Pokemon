@@ -121,24 +121,8 @@ $data = [
     "trivia" => []
 ];
 
-// Extract images
-$imageNodes = $xpath->query("//table[contains(@class, 'roundy')]//img | //div[contains(@class, 'thumb')]//img");
-$imageCount = 0;
-foreach ($imageNodes as $img) {
-    if ($img instanceof DOMElement) {
-        $src = $img->getAttribute('src');
-        if (empty($src)) $src = $img->getAttribute('data-src');
-        
-        if (!empty($src) && $imageCount < 5) {
-        // Ensure absolute URL
-        if (strpos($src, '//') === 0) $src = 'https:' . $src;
-        if (!in_array($src, $data['images'])) {
-            $data['images'][] = $src;
-            $imageCount++;
-        }
-    }
-}
-}
+// Image extraction removed as per requirements
+
 
 // Helper to extract text from a section
 function extractSection($xpath, $id, &$data) {

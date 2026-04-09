@@ -117,14 +117,14 @@
 
 /* Modal */
 #locationModal {
-  max-width: 800px;
-  width: 90%;
+  max-width: 1600px;
+  width: 95vw;
   border: none;
   border-radius: 24px;
   background: transparent;
   padding: 0;
   margin: auto;
-  overflow: visible;
+  overflow: hidden;
 }
 
 #locationModal::backdrop {
@@ -142,6 +142,9 @@
     inset 0 1px 0 var(--c-white-10);
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
 }
 
 .modal-header {
@@ -170,6 +173,8 @@
 
 .modal-body {
   padding: 2.5rem 3.5rem 3.5rem;
+  overflow-y: auto;
+  flex: 1;
 }
 
 .item-stats-row {
