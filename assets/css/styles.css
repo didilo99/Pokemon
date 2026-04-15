@@ -2385,6 +2385,9 @@ dialog::backdrop {
 .custom-dropdown-input.has-display {
   color: transparent; /* Hide text because the display div draws over it */
 }
+.custom-dropdown-input.has-display::selection {
+  background: transparent;
+}
 .custom-dropdown-input:focus {
   color: var(--c-text); /* Restore text when typing */
 }
@@ -2503,7 +2506,7 @@ dialog::backdrop {
   color: #172033;
 }
 
-.dropdown-option .item-icon-small {
+.item-icon-small {
   width: 24px;
   height: 24px;
   object-fit: contain;
@@ -2601,9 +2604,16 @@ dialog::backdrop {
 .team-summary-box .ts-move-row {
   display: flex;
   justify-content: space-between;
-  padding: 2px 0;
-  font-size: 0.85rem;
-  color: var(--c-text-secondary);
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.9rem;
+  color: var(--c-text);
+  gap: 12px;
+}
+
+.team-summary-box .ts-move-row:last-child {
+  border-bottom: none;
 }
 
 .team-summary-box .ts-pp {

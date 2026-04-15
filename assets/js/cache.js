@@ -5,8 +5,8 @@
  */
 
 const DB_NAME = "PokedexCacheDB";
-const DB_VERSION = 2;
-const APP_CACHE_VERSION = "2.2.0"; // Phase 3.1: Increment this to force a cache clear for all users
+const DB_VERSION = 4;
+const APP_CACHE_VERSION = "2.3.0"; // Increment to force clear
 
 // Category-specific object stores
 const STORE_NAMES = [
@@ -20,6 +20,7 @@ const STORE_NAMES = [
   "cache_regions",
   "cache_games",
   "cache_misc",
+  "cache_bulbapedia",
 ];
 
 /**
@@ -29,7 +30,11 @@ const STORE_NAMES = [
  */
 function getStoreForUrl(url) {
   try {
-    const path = new URL(url).pathname;
+    const path = new URL(url, window.location.origin).pathname;
+
+    if (/bulbapedia_proxy\.php/.test(url) || /bulbapedia_proxy\.php/.test(path)) {
+      return "cache_bulbapedia";
+    }
 
     if (
       /\/pokemon\//.test(path) ||
@@ -106,7 +111,11 @@ class CacheManager {
         const savedVersion = localStorage.getItem("pokedex_app_cache_version");
         if (savedVersion !== APP_CACHE_VERSION) {
           console.log(`Cache Version mismatch (${savedVersion} vs ${APP_CACHE_VERSION}). Clearing cache...`);
-          this._clearInternal();
+          try {
+            this._clearInternal();
+          } catch (e) {
+            console.error("Error clearing cache:", e);
+          }
           localStorage.setItem("pokedex_app_cache_version", APP_CACHE_VERSION);
         }
         
@@ -187,8 +196,11 @@ class CacheManager {
    */
   _clearInternal() {
     if (!this.db) return;
-    const transaction = this.db.transaction(STORE_NAMES, "readwrite");
-    for (const storeName of STORE_NAMES) {
+    const existingStores = STORE_NAMES.filter(name => this.db.objectStoreNames.contains(name));
+    if (existingStores.length === 0) return;
+    
+    const transaction = this.db.transaction(existingStores, "readwrite");
+    for (const storeName of existingStores) {
       transaction.objectStore(storeName).clear();
     }
     console.log("All cache stores cleared.");
@@ -284,8 +296,9 @@ async function fetchCached(url, ttl, force = false, retries = 3, delayMs = 1000)
         if (res.status === 404) throw new Error(`HTTP 404`);
         
         if (i < retries) {
-          const backoff = delayMs * Math.pow(2, i);
-          console.warn(`Fetch failed (HTTP ${res.status}) for ${url}. Retrying in ${backoff}ms... (${i + 1}/${retries})`);
+          // Add random jitter to backoff to prevent thundering herds
+          const backoff = delayMs * Math.pow(2, i) + Math.random() * 1000;
+          console.warn(`Fetch failed (HTTP ${res.status}) for ${url}. Retrying in ${Math.round(backoff)}ms... (${i + 1}/${retries})`);
           await new Promise(r => setTimeout(r, backoff));
           continue;
         }
@@ -307,8 +320,9 @@ async function fetchCached(url, ttl, force = false, retries = 3, delayMs = 1000)
       return data;
     } catch (err) {
       if (i < retries && err.name !== "AbortError") {
-        const backoff = delayMs * Math.pow(2, i);
-        console.warn(`Fetch error for ${url}: ${err.message}. Retrying in ${backoff}ms... (${i + 1}/${retries})`);
+        // Add random jitter to error retry backoff
+        const backoff = delayMs * Math.pow(2, i) + Math.random() * 1000;
+        console.warn(`Fetch error for ${url}: ${err.message}. Retrying in ${Math.round(backoff)}ms... (${i + 1}/${retries})`);
         await new Promise(r => setTimeout(r, backoff));
       } else {
         throw err;
@@ -469,9 +483,8 @@ async function deepSyncAllPokeAPI() {
 
   try {
     const syncedUrls = new Set();
-    const batchSize = 25; // Adjusted from 50 to avoid connection limits
     const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-    const BATCH_DELAY = 500; // Increased from 100ms for better stability
+    const API_DELAY = 150; // Stable delay between linear requests
 
     // Process each category sequentially for "table separation" progress
     for (let c = 0; c < categories.length; c++) {
@@ -489,57 +502,65 @@ async function deepSyncAllPokeAPI() {
       const catTotal = urls.length;
       let catCompleted = 0;
 
-      // Process urls for this category in batches
-      for (let i = 0; i < urls.length; i += batchSize) {
-        if (i > 0) await delay(BATCH_DELAY);
+      // Concurrency limit to speed up sync without getting IP banned or 504 errors
+      const CONCURRENCY_LIMIT = 5;
+      let currentIndex = 0;
 
-        const batch = urls.slice(i, i + batchSize);
+      const processUrl = async (url) => {
+        if (syncedUrls.has(url)) return;
+        syncedUrls.add(url);
 
-        await Promise.all(
-          batch.map(async (url) => {
-            if (syncedUrls.has(url)) return;
-            syncedUrls.add(url);
+        try {
+          // 1. Fetch Detail
+          const d = await fetchCached(url, undefined, true);
 
-            try {
-              // 1. Fetch Detail
-              const d = await fetchCached(url, undefined, true);
+          // 2. Special Logic for Pokemon: fetch species, forms, evolution chains
+          if (url.includes("/pokemon/")) {
+            if (d.species && d.species.url && !syncedUrls.has(d.species.url)) {
+              syncedUrls.add(d.species.url);
+              const spData = await fetchCached(d.species.url, undefined, true).catch(() => null);
+              
+              if (spData && spData.evolution_chain?.url && !syncedUrls.has(spData.evolution_chain.url)) {
+                syncedUrls.add(spData.evolution_chain.url);
+                await fetchCached(spData.evolution_chain.url, undefined, true).catch(() => null);
+              }
+            }
 
-              // 2. Special Logic for Pokemon: fetch species, forms, evolution chains
-              if (url.includes("/pokemon/")) {
-                if (d.species && d.species.url && !syncedUrls.has(d.species.url)) {
-                  syncedUrls.add(d.species.url);
-                  const spData = await fetchCached(d.species.url, undefined, true).catch(() => null);
-                  
-                  if (spData && spData.evolution_chain?.url && !syncedUrls.has(spData.evolution_chain.url)) {
-                    syncedUrls.add(spData.evolution_chain.url);
-                    await fetchCached(spData.evolution_chain.url, undefined, true).catch(() => null);
-                  }
-                }
-
-                if (d.forms && d.forms.length > 0) {
-                  for (const f of d.forms) {
-                    if (!syncedUrls.has(f.url)) {
-                      syncedUrls.add(f.url);
-                      await fetchCached(f.url, undefined, true).catch(() => null);
-                    }
-                  }
+            if (d.forms && d.forms.length > 0) {
+              for (const f of d.forms) {
+                if (!syncedUrls.has(f.url)) {
+                  syncedUrls.add(f.url);
+                  await fetchCached(f.url, undefined, true).catch(() => null);
                 }
               }
-            } catch (err) {
-              console.warn(`Error syncing detail: ${url}`, err);
             }
-          }),
-        );
+          }
+        } catch (err) {
+          console.warn(`Error syncing detail: ${url}`, err);
+        }
+      };
 
-        catCompleted += batch.length;
-        if (progressText) {
-          progressText.textContent = `[${c + 1}/${categories.length}] ${cat.label}: ${catCompleted} / ${catTotal}`;
+      const worker = async () => {
+        while (currentIndex < urls.length) {
+          const url = urls[currentIndex++];
+          await processUrl(url);
+          catCompleted++;
+
+          if (progressText) {
+            progressText.textContent = `[${c + 1}/${categories.length}] ${cat.label}: ${catCompleted} / ${catTotal}`;
+          }
+          if (ProgressBar) {
+            const percent = Math.round((catCompleted / catTotal) * 100);
+            ProgressBar.style.width = `${percent}%`;
+          }
+          
+          // Wait briefly between requests to ensure server stability
+          await delay(API_DELAY);
         }
-        if (ProgressBar) {
-          const percent = Math.round((catCompleted / catTotal) * 100);
-          ProgressBar.style.width = `${percent}%`;
-        }
-      }
+      };
+
+      const workers = Array.from({ length: CONCURRENCY_LIMIT }, () => worker());
+      await Promise.all(workers);
     }
 
     if (progressText)

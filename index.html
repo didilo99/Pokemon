@@ -270,21 +270,6 @@
               <span class="badge rounded-pill bg-danger ms-1" id="rivalTeamCountBadge">0</span>
             </button>
           </div>
-          <div class="team-actions-top mb-2 d-flex gap-2">
-              <button id="exportTeam" class="btn btn-outline-light btn-sm" data-i18n="team.copy">
-                Copiar
-              </button>
-              <input
-                class="dex-select flex-grow-1"
-                data-i18n-placeholder="team.placeholder"
-              />
-              <button id="importTeam" class="btn btn-outline-info btn-sm" data-i18n="team.load">
-                Cargar
-              </button>
-              <button id="clearTeam" class="btn btn-outline-secondary btn-sm" data-i18n="team.clear">
-                Vaciar
-              </button>
-          </div>
           <div class="d-flex align-items-center justify-content-between mb-2">
             <h2 id="teamHeader" class="h6 fw-bold mb-0" data-i18n="team.header">Equipo (hasta 6)</h2>
           </div>
@@ -677,141 +662,109 @@
                    <!-- Move 1 -->
                    <div class="move-group detailed-move">
                      <label data-i18n="modal.label_move_1">Movimiento 1</label>
-                     <div id="teamMove1Control" class="custom-dropdown-wrapper mb-1"></div>
+                     <div id="teamMove1Control" class="custom-dropdown-wrapper mb-1">
+                       <div class="search-autocomplete"></div>
+                     </div>
                       <div class="move-details-grid d-flex gap-1">
-                        <input type="text" id="move1_power" class="dex-select text-center" data-i18n-placeholder="common.dash" placeholder="-" data-i18n-title="modal.label_power" title="Potencia" style="width: 50px;" readonly>
-                        <select id="move1_type" class="dex-select flex-grow-1" data-i18n-title="modal.label_type" title="Tipo" disabled>
-                            <option value="normal" data-i18n="types.normal">Normal</option>
-                            <option value="fire" data-i18n="types.fire">Fuego</option>
-                            <option value="water" data-i18n="types.water">Agua</option>
-                            <option value="electric" data-i18n="types.electric">Eléctrico</option>
-                            <option value="grass" data-i18n="types.grass">Planta</option>
-                            <option value="ice" data-i18n="types.ice">Hielo</option>
-                            <option value="fighting" data-i18n="types.fighting">Lucha</option>
-                            <option value="poison" data-i18n="types.poison">Veneno</option>
-                            <option value="ground" data-i18n="types.ground">Tierra</option>
-                            <option value="flying" data-i18n="types.flying">Volador</option>
-                            <option value="psychic" data-i18n="types.psychic">Psíquico</option>
-                            <option value="bug" data-i18n="types.bug">Bicho</option>
-                            <option value="rock" data-i18n="types.rock">Roca</option>
-                            <option value="ghost" data-i18n="types.ghost">Fantasma</option>
-                            <option value="dragon" data-i18n="types.dragon">Dragón</option>
-                            <option value="dark" data-i18n="types.dark">Siniestro</option>
-                            <option value="steel" data-i18n="types.steel">Acero</option>
-                            <option value="fairy" data-i18n="types.fairy">Hada</option>
-                        </select>
-                        <input type="text" id="move1_acc" class="dex-select text-center" data-i18n-placeholder="common.dash" placeholder="-" data-i18n-title="modal.label_accuracy" title="Precisión" style="width: 50px;" readonly>
-                        <select id="move1_cat" class="dex-select" data-i18n-title="modal.label_category" title="Categoría" style="width: 80px;" disabled>
-                              <option value="physical" data-i18n="modal.physical">Fís</option>
-                              <option value="special" data-i18n="modal.special">Esp</option>
-                              <option value="status" data-i18n="modal.status">Est</option>
-                        </select>
+                        <div class="move-stat-box" title="Potencia" data-i18n-title="modal.label_power">
+                          <span id="move1_power_icon" class="ms-icon"></span>
+                          <span class="ms-label" data-i18n="modal.label_power">Pow</span>
+                          <span id="move1_power_val" class="ms-val">-</span>
+                        </div>
+                        <div id="move1_type_badge" class="move-type-badge type-normal" title="Tipo" data-i18n-title="modal.label_type">
+                          <span data-i18n="types.normal">Normal</span>
+                        </div>
+                        <div class="move-stat-box" title="Precisión" data-i18n-title="modal.label_accuracy">
+                          <span id="move1_acc_icon" class="ms-icon"></span>
+                          <span class="ms-label" data-i18n="modal.label_accuracy">Acc</span>
+                          <span id="move1_acc_val" class="ms-val">-</span>
+                        </div>
+                        <div id="move1_cat_badge" class="move-cat-badge status" title="Categoría" data-i18n-title="modal.label_category">
+                          <span class="cat-icon"></span>
+                          <span class="cat-text" data-i18n="modal.status">EST</span>
+                        </div>
                       </div>
                    </div>
 
                    <!-- Move 2 -->
                    <div class="move-group detailed-move">
                      <label data-i18n="modal.label_move_2">Movimiento 2</label>
-                     <div id="teamMove2Control" class="custom-dropdown-wrapper mb-1"></div>
-                     <div class="move-details-grid d-flex gap-1">
-                        <input type="text" id="move2_power" class="dex-select text-center" placeholder="-" title="Potencia" style="width: 50px;" readonly>
-                        <select id="move2_type" class="dex-select flex-grow-1" title="Tipo" disabled>
-                            <option value="normal">Normal</option>
-                            <option value="fire">Fuego</option>
-                            <option value="water">Agua</option>
-                            <option value="electric">Eléctrico</option>
-                            <option value="grass">Planta</option>
-                            <option value="ice">Hielo</option>
-                            <option value="fighting">Lucha</option>
-                            <option value="poison">Veneno</option>
-                            <option value="ground">Tierra</option>
-                            <option value="flying">Volador</option>
-                            <option value="psychic">Psíquico</option>
-                            <option value="bug">Bicho</option>
-                            <option value="rock">Roca</option>
-                            <option value="ghost">Fantasma</option>
-                            <option value="dragon">Dragón</option>
-                            <option value="dark">Siniestro</option>
-                            <option value="steel">Acero</option>
-                            <option value="fairy">Hada</option>
-                        </select>
-                        <input type="text" id="move2_acc" class="dex-select text-center" placeholder="-" title="Precisión" style="width: 50px;" readonly>
-                        <select id="move2_cat" class="dex-select" title="Categoría" style="width: 80px;" disabled>
-                              <option value="physical">Fís</option>
-                              <option value="special">Esp</option>
-                              <option value="status">Est</option>
-                        </select>
+                     <div id="teamMove2Control" class="custom-dropdown-wrapper mb-1">
+                       <div class="search-autocomplete"></div>
                      </div>
+                     <div class="move-details-grid d-flex gap-1">
+                        <div class="move-stat-box" title="Potencia" data-i18n-title="modal.label_power">
+                          <span id="move2_power_icon" class="ms-icon"></span>
+                          <span class="ms-label" data-i18n="modal.label_power">Pow</span>
+                          <span id="move2_power_val" class="ms-val">-</span>
+                        </div>
+                        <div id="move2_type_badge" class="move-type-badge type-normal" title="Tipo" data-i18n-title="modal.label_type">
+                          <span data-i18n="types.normal">Normal</span>
+                        </div>
+                        <div class="move-stat-box" title="Precisión" data-i18n-title="modal.label_accuracy">
+                          <span id="move2_acc_icon" class="ms-icon"></span>
+                          <span class="ms-label" data-i18n="modal.label_accuracy">Acc</span>
+                          <span id="move2_acc_val" class="ms-val">-</span>
+                        </div>
+                        <div id="move2_cat_badge" class="move-cat-badge status" title="Categoría" data-i18n-title="modal.label_category">
+                          <span class="cat-icon"></span>
+                          <span class="cat-text" data-i18n="modal.status">EST</span>
+                        </div>
+                      </div>
                    </div>
 
                    <!-- Move 3 -->
                    <div class="move-group detailed-move">
                      <label data-i18n="modal.label_move_3">Movimiento 3</label>
-                     <div id="teamMove3Control" class="custom-dropdown-wrapper mb-1"></div>
-                     <div class="move-details-grid d-flex gap-1">
-                        <input type="text" id="move3_power" class="dex-select text-center" placeholder="-" title="Potencia" style="width: 50px;" readonly>
-                        <select id="move3_type" class="dex-select flex-grow-1" title="Tipo" disabled>
-                            <option value="normal">Normal</option>
-                            <option value="fire">Fuego</option>
-                            <option value="water">Agua</option>
-                            <option value="electric">Eléctrico</option>
-                            <option value="grass">Planta</option>
-                            <option value="ice">Hielo</option>
-                            <option value="fighting">Lucha</option>
-                            <option value="poison">Veneno</option>
-                            <option value="ground">Tierra</option>
-                            <option value="flying">Volador</option>
-                            <option value="psychic">Psíquico</option>
-                            <option value="bug">Bicho</option>
-                            <option value="rock">Roca</option>
-                            <option value="ghost">Fantasma</option>
-                            <option value="dragon">Dragón</option>
-                            <option value="dark">Siniestro</option>
-                            <option value="steel">Acero</option>
-                            <option value="fairy">Hada</option>
-                        </select>
-                        <input type="text" id="move3_acc" class="dex-select text-center" placeholder="-" title="Precisión" style="width: 50px;" readonly>
-                        <select id="move3_cat" class="dex-select" title="Categoría" style="width: 80px;" disabled>
-                              <option value="physical">Fís</option>
-                              <option value="special">Esp</option>
-                              <option value="status">Est</option>
-                        </select>
+                     <div id="teamMove3Control" class="custom-dropdown-wrapper mb-1">
+                       <div class="search-autocomplete"></div>
                      </div>
+                     <div class="move-details-grid d-flex gap-1">
+                        <div class="move-stat-box" title="Potencia" data-i18n-title="modal.label_power">
+                          <span id="move3_power_icon" class="ms-icon"></span>
+                          <span class="ms-label" data-i18n="modal.label_power">Pow</span>
+                          <span id="move3_power_val" class="ms-val">-</span>
+                        </div>
+                        <div id="move3_type_badge" class="move-type-badge type-normal" title="Tipo" data-i18n-title="modal.label_type">
+                          <span data-i18n="types.normal">Normal</span>
+                        </div>
+                        <div class="move-stat-box" title="Precisión" data-i18n-title="modal.label_accuracy">
+                          <span id="move3_acc_icon" class="ms-icon"></span>
+                          <span class="ms-label" data-i18n="modal.label_accuracy">Acc</span>
+                          <span id="move3_acc_val" class="ms-val">-</span>
+                        </div>
+                        <div id="move3_cat_badge" class="move-cat-badge status" title="Categoría" data-i18n-title="modal.label_category">
+                          <span class="cat-icon"></span>
+                          <span class="cat-text" data-i18n="modal.status">EST</span>
+                        </div>
+                      </div>
                    </div>
 
                    <!-- Move 4 -->
                    <div class="move-group detailed-move">
                      <label data-i18n="modal.label_move_4">Movimiento 4</label>
-                     <div id="teamMove4Control" class="custom-dropdown-wrapper mb-1"></div>
-                     <div class="move-details-grid d-flex gap-1">
-                        <input type="text" id="move4_power" class="dex-select text-center" placeholder="-" title="Potencia" style="width: 50px;" readonly>
-                        <select id="move4_type" class="dex-select flex-grow-1" title="Tipo" disabled>
-                            <option value="normal">Normal</option>
-                            <option value="fire">Fuego</option>
-                            <option value="water">Agua</option>
-                            <option value="electric">Eléctrico</option>
-                            <option value="grass">Planta</option>
-                            <option value="ice">Hielo</option>
-                            <option value="fighting">Lucha</option>
-                            <option value="poison">Veneno</option>
-                            <option value="ground">Tierra</option>
-                            <option value="flying">Volador</option>
-                            <option value="psychic">Psíquico</option>
-                            <option value="bug">Bicho</option>
-                            <option value="rock">Roca</option>
-                            <option value="ghost">Fantasma</option>
-                            <option value="dragon">Dragón</option>
-                            <option value="dark">Siniestro</option>
-                            <option value="steel">Acero</option>
-                            <option value="fairy">Hada</option>
-                        </select>
-                        <input type="text" id="move4_acc" class="dex-select text-center" placeholder="-" title="Precisión" style="width: 50px;" readonly>
-                        <select id="move4_cat" class="dex-select" title="Categoría" style="width: 80px;" disabled>
-                              <option value="physical">Fís</option>
-                              <option value="special">Esp</option>
-                              <option value="status">Est</option>
-                        </select>
+                     <div id="teamMove4Control" class="custom-dropdown-wrapper mb-1">
+                       <div class="search-autocomplete"></div>
                      </div>
+                     <div class="move-details-grid d-flex gap-1">
+                        <div class="move-stat-box" title="Potencia" data-i18n-title="modal.label_power">
+                          <span id="move4_power_icon" class="ms-icon"></span>
+                          <span class="ms-label" data-i18n="modal.label_power">Pow</span>
+                          <span id="move4_power_val" class="ms-val">-</span>
+                        </div>
+                        <div id="move4_type_badge" class="move-type-badge type-normal" title="Tipo" data-i18n-title="modal.label_type">
+                          <span data-i18n="types.normal">Normal</span>
+                        </div>
+                        <div class="move-stat-box" title="Precisión" data-i18n-title="modal.label_accuracy">
+                          <span id="move4_acc_icon" class="ms-icon"></span>
+                          <span class="ms-label" data-i18n="modal.label_accuracy">Acc</span>
+                          <span id="move4_acc_val" class="ms-val">-</span>
+                        </div>
+                        <div id="move4_cat_badge" class="move-cat-badge status" title="Categoría" data-i18n-title="modal.label_category">
+                          <span class="cat-icon"></span>
+                          <span class="cat-text" data-i18n="modal.status">EST</span>
+                        </div>
+                      </div>
                    </div>
                  </div>
                </div>

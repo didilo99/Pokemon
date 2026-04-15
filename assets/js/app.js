@@ -9,6 +9,14 @@ const fmtId = (i) => "#" + String(i).padStart(4, "0");
 const toTitle = (s) =>
   s.replace(/[-_]/g, " ").replace(/\b\w/g, (m) => m.toUpperCase());
 
+document.addEventListener("error", function(e) {
+  if (e.target && e.target.tagName && e.target.tagName.toLowerCase() === "img") {
+    if (e.target.classList.contains("item-icon-small") || e.target.classList.contains("ts-icon")) {
+      e.target.style.display = "none";
+    }
+  }
+}, true);
+
 // --- Constants ---
 const CONSTANTS = {
   API_URL: "https://pokeapi.co/api/v2",
@@ -119,6 +127,7 @@ const state = {
   minSpeed: 0,
   generation: "all",
   genSets: new Map(),
+  indexData: [], // Initialized
 };
 
 // Default GEN_KEYS (fallback) — dynamically updated at init
@@ -1161,9 +1170,10 @@ function createControlBtn(name, type) {
 
 // --- Asset Helpers (pokesprite) ---
 function getPokespriteTypeIcon(name) {
-  // Using msikma/pokesprite for type icons as requested.
-  // Path: misc/types/gen8/{name}.png
-  return `https://raw.githubusercontent.com/msikma/pokesprite/master/misc/types/gen8/${name}.png`;
+  // Normalize type names (electric vs lightning etc)
+  const n = name.toLowerCase();
+  // Using pokesprite gen8 types path
+  return `https://raw.githubusercontent.com/msikma/pokesprite/master/misc/types/gen8/${n}.png`;
 }
 
 function getPokespritePokemon(name) {
@@ -1175,8 +1185,9 @@ function getPokespritePokemon(name) {
 }
 
 function svgType(name) {
+  if (!name) return "";
   const url = getPokespriteTypeIcon(name);
-  return `<img src="${url}" alt="${name}" class="type-icon" width="24" height="24">`;
+  return `<img src="${url}" alt="${name}" class="type-icon" width="24" height="24" onerror="this.style.display='none'">`;
 }
 
 function typeBadge(t) {
@@ -2375,13 +2386,10 @@ async function init() {
 
     const searchEl = $("#search");
     if (searchEl) {
-      searchEl.addEventListener(
-        "input",
-        debounce(() => {
-          state.search = searchEl.value;
-          buildFilteredList();
-        }, 300),
-      );
+      searchEl.addEventListener("input", debounce(() => {
+        state.search = searchEl.value;
+        buildFilteredList();
+      }, 300));
     }
 
     const regionEl = $("#region");
@@ -3340,6 +3348,7 @@ async function updateTeamPanel() {
       } else {
         div.classList.add("empty");
         div.innerHTML = `<div class="slot-body"><span class="opacity-25">+</span></div>`;
+        div.onclick = () => showQuickAddInput(div, i);
         container.appendChild(div);
       }
     }
@@ -3351,6 +3360,156 @@ async function updateTeamPanel() {
   } finally {
     teamRenderingLock = false;
   }
+}
+
+/**
+ * Shows an inline search input in a team slot for quick adding.
+ */
+function showQuickAddInput(slotEl, index) {
+  if (slotEl.querySelector(".quick-add-container")) return;
+
+  slotEl.classList.add("slot-open");
+
+  const container = document.createElement("div");
+  container.className = "quick-add-container";
+  container.onclick = (e) => e.stopPropagation();
+
+  const input = document.createElement("input");
+  input.type = "text";
+  input.className = "quick-add-input";
+  input.placeholder = I18n.t("filters.search_placeholder") || "Nombre...";
+  input.autocomplete = "off";
+
+  const resultsList = document.createElement("ul");
+  resultsList.className = "quick-add-results";
+  resultsList.style.display = "none";
+
+  // APPEND TO BODY to bypass ANY possible CSS overflow/clipping bugs
+  document.body.appendChild(resultsList);
+
+  container.appendChild(input);
+  slotEl.appendChild(container);
+
+  input.focus();
+
+  let selectedIndex = -1;
+  let currentMatches = [];
+
+  const updatePosition = () => {
+    const rect = input.getBoundingClientRect();
+    resultsList.style.position = "absolute";
+    resultsList.style.top = `${rect.bottom + window.scrollY}px`;
+    resultsList.style.left = `${rect.left + window.scrollX}px`;
+    resultsList.style.width = `${rect.width}px`;
+    resultsList.style.zIndex = "99999";
+  };
+
+  const updateMatches = () => {
+    updatePosition(); // Ensure it stays attached to the input visually
+    const q = input.value.toLowerCase().trim();
+    if (q.length < 1) {
+      resultsList.style.display = "none";
+      resultsList.innerHTML = "";
+      return;
+    }
+
+    resultsList.style.display = "block";
+    resultsList.innerHTML = `<li class="quick-add-info">${I18n.t("common.searching") || "Buscando..."}</li>`;
+
+    // Fallback logic: Try indexData first, then state.index
+    let matches = [];
+    if (state.indexData && state.indexData.length > 0) {
+      matches = state.indexData
+        .filter(p => p.name.toLowerCase().includes(q))
+        .slice(0, 10);
+    } else if (state.index && state.index.length > 0) {
+      matches = state.index
+        .filter(n => n.toLowerCase().includes(q))
+        .slice(0, 10)
+        .map(n => ({ name: n, id: null })); // Minimal object
+    }
+
+    if (matches.length === 0) {
+      resultsList.innerHTML = `<li class="quick-add-info">${I18n.t("filters.no_results") || "No hay resultados"}</li>`;
+      return;
+    }
+
+    resultsList.innerHTML = matches
+      .map((m, idx) => {
+        const idHtml = m.id ? `<span class="mon-id">${fmtId(m.id)}</span>` : "";
+        const spriteUrl = m.id ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${m.id}.png` : "";
+        const iconHtml = spriteUrl ? `<img src="${spriteUrl}" class="mon-icon" alt="" />` : "";
+        return `
+          <li class="quick-add-result-item" data-name="${m.name}" data-index="${idx}">
+            ${iconHtml}
+            ${idHtml}
+            <span class="mon-name">${toTitle(m.name)}</span>
+          </li>
+        `;
+      })
+      .join("");
+    selectedIndex = -1;
+  };
+
+  const selectPokemon = (name) => {
+    if (resultsList.parentNode) resultsList.parentNode.removeChild(resultsList);
+    toggleTeam(name).then(() => {
+      updateTeamPanel();
+    });
+  };
+
+  input.oninput = () => {
+    selectedIndex = -1;
+    updateMatches();
+  };
+
+  input.onkeydown = (e) => {
+    const items = resultsList.querySelectorAll(".quick-add-result-item");
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
+      items.forEach((item, idx) => item.classList.toggle("selected", idx === selectedIndex));
+      if (selectedIndex !== -1) items[selectedIndex].scrollIntoView({ block: "nearest" });
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      selectedIndex = Math.max(selectedIndex - 1, 0);
+      items.forEach((item, idx) => item.classList.toggle("selected", idx === selectedIndex));
+      if (selectedIndex !== -1) items[selectedIndex].scrollIntoView({ block: "nearest" });
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (selectedIndex !== -1) {
+        selectPokemon(items[selectedIndex].dataset.name);
+      } else if (items.length > 0) {
+        selectPokemon(items[0].dataset.name);
+      }
+    } else if (e.key === "Escape") {
+      slotEl.classList.remove("slot-open");
+      container.remove();
+      if (resultsList.parentNode) resultsList.parentNode.removeChild(resultsList);
+    }
+  };
+
+  // Ensure position updates if window resizes while open
+  window.addEventListener("resize", updatePosition);
+
+  // Close when clicking outside
+  const clickHandler = (e) => {
+    if (!container.contains(e.target) && !resultsList.contains(e.target)) {
+      slotEl.classList.remove("slot-open");
+      container.remove();
+      if (resultsList.parentNode) resultsList.parentNode.removeChild(resultsList);
+      document.removeEventListener("mousedown", clickHandler);
+      window.removeEventListener("resize", updatePosition);
+    }
+  };
+  setTimeout(() => document.addEventListener("mousedown", clickHandler), 10);
+
+  resultsList.onclick = (e) => {
+    const item = e.target.closest(".quick-add-result-item");
+    if (item) {
+      selectPokemon(item.dataset.name);
+    }
+  };
 }
 
 async function openTeamEditModal(index) {
@@ -3395,14 +3554,15 @@ async function openTeamEditModal(index) {
   if (!modal.open) {
     modal.showModal();
   }
+  
+  // Force translation of modal content to ensure labels are correct
+  if (window.I18n) I18n.translateElement(modalContainer);
 
   try {
     // 1. Fetch Basic Data in parallel
-    const [pokemonData, speciesData] = await Promise.all([
-      getPokemon(member.name),
-      getSpecies(member.name.split("-")[0]), // Use species name or split name
-    ]);
-    const d = pokemonData;
+    const pokemonData = await getPokemon(member.name);
+    const speciesData = await getSpecies(pokemonData.species.name);
+    let d = pokemonData;
     const sp = speciesData;
 
   // Store references to our dropdown instances to get values later
@@ -3458,40 +3618,39 @@ async function openTeamEditModal(index) {
     const currentMoves = [1, 2, 3, 4]
       .map((i) => {
         const val = $(`#teamMove${i}Control input`)?.getAttribute("data-value");
-        // Also grab details from our new inputs if available to avoid fetch?
-        // Accessing type directly from the select
-        const typeEl = $(`#move${i}_type`);
-        const type = typeEl ? typeEl.value : "normal";
-
-        return val ? { name: val, type: type } : null;
+        return val ? { name: val } : null;
       })
       .filter(Boolean);
 
-    // Fetch PP for moves (since we don't have an input for it)
+    // Fetch PP and type for moves from the API/cache
     const moveDetails = await Promise.all(
       currentMoves.map(async (m) => {
         try {
           let pp = "--";
-          // Check cache first
+          let type = "normal";
+
+          // Check moveMetaMap cache first
           if (window.moveMetaMap && window.moveMetaMap[m.name]) {
             pp = window.moveMetaMap[m.name].pp || "--";
+            type = window.moveMetaMap[m.name].type || "normal";
           }
 
-          // If we need PP and don't have it, fetch.
-          // Note: we trust the Type from the DOM input which we just auto-filled.
-          if (pp === "--") {
+          // If we still need PP or type, fetch from API
+          if (pp === "--" || type === "normal") {
             try {
               const data = await window.fetchCached(
                 `${CONSTANTS.API_URL}/move/${m.name}`,
               );
-              pp = data.pp;
+              pp = data.pp || pp;
+              type = (data.type && data.type.name) || type;
               // Update cache
               if (!window.moveMetaMap[m.name]) window.moveMetaMap[m.name] = {};
               window.moveMetaMap[m.name].pp = pp;
+              window.moveMetaMap[m.name].type = type;
             } catch (e) {}
           }
 
-          return { name: m.name, pp, type: m.type };
+          return { name: m.name, pp, type };
         } catch {
           return { name: m.name, pp: "--", type: "normal" };
         }
@@ -3715,7 +3874,9 @@ async function openTeamEditModal(index) {
         renderStatRows(d); // Refresh table rows with new base stats
         updateModalStats(); // Recalculate based on new base stats
         updateSummary(); // Refresh left panel summary
-      } catch (err) {}
+      } catch (err) {
+        console.error("Error in form change:", err);
+      }
     }
   };
 
@@ -3961,7 +4122,7 @@ async function openTeamEditModal(index) {
       if (opt.isHeader)
         return `<div class="dropdown-header">${opt.label}</div>`;
       const apiIcon = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${opt.value}.png`;
-      return `<img src="${apiIcon}" class="item-icon-small">
+      return `<img src="${apiIcon}" class="item-icon-small" onerror="this.style.display='none'">
               <span>${opt.label}</span>`;
     },
     onSelect: updateSummary,
@@ -4063,30 +4224,68 @@ async function openTeamEditModal(index) {
       const currentMoveStub = member.moves[i - 1]; // This is now an object or null
       const currentMoveName = currentMoveStub ? currentMoveStub.name : null;
 
+      // Update display fields (New badges/boxes)
+      const updateMoveStats = (index, m) => {
+        const powerEl = $(`#move${index}_power_val`);
+        const pwrIcon = $(`#move${index}_power_icon`);
+        const typeEl = $(`#move${index}_type_badge`);
+        const accEl = $(`#move${index}_acc_val`);
+        const accIcon = $(`#move${index}_acc_icon`);
+        const catEl = $(`#move${index}_cat_badge`);
+
+        if (powerEl) {
+          powerEl.textContent = m ? (m.power || "—") : "—";
+          if (pwrIcon) pwrIcon.innerHTML = "💥";
+        }
+        
+        if (accEl) {
+          accEl.textContent = m ? (m.accuracy || "—") : "—";
+          if (accIcon) accIcon.innerHTML = "🎯";
+        }
+        
+        if (typeEl) {
+          const type = m ? (m.type.name || m.type) : "normal";
+          typeEl.className = `move-type-badge type-${type}`;
+          typeEl.innerHTML = `${svgType(type)}<span data-i18n="types.${type}">${I18n.t(`types.${type}`) || toTitle(type)}</span>`;
+        }
+
+        if (catEl) {
+          const cat = m ? (m.damage_class?.name || m.category) : "status";
+          catEl.className = `move-cat-badge ${cat}`;
+          
+          let iconHtml = "🛡️";
+          if (cat === "physical") iconHtml = "⚔️";
+          if (cat === "special") iconHtml = "✨";
+          
+          const iconSpan = catEl.querySelector(".cat-icon");
+          if (iconSpan) {
+            iconSpan.innerHTML = iconHtml;
+            iconSpan.style.fontStyle = "normal";
+          }
+
+          const catSpan = catEl.querySelector(".cat-text");
+          if (catSpan) {
+            const translationKey = `modal.${cat.toLowerCase()}`;
+            catSpan.textContent = I18n.t(translationKey) || toTitle(cat);
+          }
+        }
+      };
+
       // Fill secondary inputs if data exists
       if (currentMoveStub && currentMoveStub.name) {
         // Always fetch fresh data to ensure accuracy
         window
           .fetchCached(`${CONSTANTS.API_URL}/move/${currentMoveStub.name}`)
           .then((m) => {
-            $(`#move${i}_power`).value = m.power || "";
-            $(`#move${i}_type`).value = m.type.name;
-            $(`#move${i}_acc`).value = m.accuracy || "";
-            $(`#move${i}_cat`).value = m.damage_class.name;
+             updateMoveStats(i, m);
           })
           .catch((e) => {
             // Fallback to stored data if fetch fails
-            $(`#move${i}_power`).value = currentMoveStub.power || "";
-            $(`#move${i}_type`).value = currentMoveStub.type || "normal";
-            $(`#move${i}_acc`).value = currentMoveStub.accuracy || "";
-            $(`#move${i}_cat`).value = currentMoveStub.category || "status";
+            updateMoveStats(i, currentMoveStub);
           });
       } else {
         // Clear inputs
-        $(`#move${i}_power`).value = "";
-        $(`#move${i}_type`).value = "normal";
-        $(`#move${i}_acc`).value = "";
-        $(`#move${i}_cat`).value = "status";
+        updateMoveStats(i, null);
       }
 
       dropdowns.moves[i - 1] = setupCustomDropdown({
@@ -4116,16 +4315,10 @@ async function openTeamEditModal(index) {
               const m = await window.fetchCached(
                 `${CONSTANTS.API_URL}/move/${val}`,
               );
-              $(`#move${i}_power`).value = m.power || "";
-              $(`#move${i}_type`).value = m.type.name;
-              $(`#move${i}_acc`).value = m.accuracy || "";
-              $(`#move${i}_cat`).value = m.damage_class.name;
+              updateMoveStats(i, m);
             } catch (e) {}
           } else {
-            $(`#move${i}_power`).value = "";
-            $(`#move${i}_type`).value = "normal";
-            $(`#move${i}_acc`).value = "";
-            $(`#move${i}_cat`).value = "status";
+            updateMoveStats(i, null);
           }
           updateSummary();
         },
@@ -4170,12 +4363,19 @@ async function openTeamEditModal(index) {
       member.moves = [1, 2, 3, 4].map((i) => {
         const val = $(`#teamMove${i}Control input`).getAttribute("data-value");
         if (!val) return null;
+        
+        // Extract values from the display badges/spans
+        const extractNum = (id) => {
+          const txt = $(id)?.textContent || "";
+          return parseInt(txt.replace(/\D/g, "")) || 0;
+        };
+
         return {
           name: val,
-          power: Number($(`#move${i}_power`).value) || 0,
-          type: $(`#move${i}_type`).value,
-          accuracy: Number($(`#move${i}_acc`).value) || 100,
-          category: $(`#move${i}_cat`).value,
+          power: extractNum(`#move${i}_power_val`),
+          type: $(`#move${i}_type_badge`).className.split("type-")[1] || "normal",
+          accuracy: extractNum(`#move${i}_acc_val`) || 100,
+          category: $(`#move${i}_cat_badge`).className.split(" ")[1] || "status",
         };
       });
       ["hp", "atk", "def", "spa", "spd", "spe"].forEach((s) => {
@@ -4754,30 +4954,41 @@ function filterItemsForPokemon(d, items) {
 }
 
 async function getPokemonLearnset(pokemonData) {
-  // Filter moves that the pokemon can learn from the "moves" array in the data.
-  // The API returns all moves, including past gens. We might want to filter by current gen?
-  // User asked: "la lista de movimientos no sera la competa si no unicamente los movimientos que el pokekon puede aprender"
-  // The API `pokemonData.moves` *IS* the list of moves the pokemon can learn.
-  // However, it includes transfer moves from old gens.
-  // We can filter by "version_group_details" if we want to be strict for the current gen (e.g. implementation-ix).
-  // For now, using the full list is safer than showing nothing.
+  // Enrichment of move data with Types and Categories.
+  // We use the moveMetaMap for speed, but for accuracy we ensure the current pokemon's moves are fetched.
+  if (!window.moveMetaMap) window.moveMetaMap = {};
 
-  // We want to enrich this with Type and Category (Status/Physical/Special) for the UI.
-  // We need to fetch move details. This is expensive for 100 moves.
-  // We have `window.moveMetaMap` from `preloadMoveMetadata` which covers type/class for ALL moves?
-  // No, `preloadMoveMetadata` fetches type/class lists and maps them.
-  // So we SHOULD have data for every move if we call `preloadMoveMetadata` first.
+  const moveList = pokemonData.moves.map(m => m.move);
+  
+  // To avoid hundreds of requests, we only fetch what we don't have.
+  const unknownMoves = moveList.filter(m => !window.moveMetaMap[m.name]);
+  
+  if (unknownMoves.length > 0) {
+    // Limit parallel fetches to batches to avoid overwhelming the browser/API
+    const batchSize = 25;
+    for (let i = 0; i < unknownMoves.length; i += batchSize) {
+      const batch = unknownMoves.slice(i, i + batchSize);
+      await Promise.all(batch.map(async (m) => {
+        try {
+          const d = await window.fetchCached(m.url);
+          window.moveMetaMap[m.name] = {
+            type: d.type.name,
+            class: d.damage_class?.name || "status"
+          };
+        } catch (e) {
+          window.moveMetaMap[m.name] = { type: "normal", class: "status" };
+        }
+      }));
+    }
+  }
 
-  await preloadMoveMetadata();
-
-  return pokemonData.moves
+  return moveList
     .map((m) => {
-      const name = m.move.name;
-      const meta = window.moveMetaMap?.[name] || {};
+      const meta = window.moveMetaMap[m.name] || {};
       return {
-        name: name,
-        type: meta.type || "normal", // fallback
-        category: meta.class || "status", // fallback
+        name: m.name,
+        type: meta.type || "normal",
+        category: meta.class || "status",
       };
     })
     .sort((a, b) => a.name.localeCompare(b.name));

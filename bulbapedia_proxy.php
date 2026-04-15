@@ -66,17 +66,9 @@ function normalizeBulbapediaName($name, $type) {
 }
 
 $normalizedName = normalizeBulbapediaName($query, $type);
-$cacheFile = __DIR__ . "/assets/cache/bulbapedia/" . md5($normalizedName) . ".json";
-$cacheTime = 7 * 24 * 60 * 60; // 7 days
 
-// 2. Check Cache
-if (file_exists($cacheFile) && (time() - filemtime($cacheFile) < $cacheTime)) {
-    echo file_get_contents($cacheFile);
-    exit;
-}
-
-// 3. Rate Limiting (File-based lock for 5s delay as per robots.txt)
-$lockFile = __DIR__ . "/assets/cache/bulbapedia/last_request.lock";
+// 2. Rate Limiting (File-based lock for 5s delay as per robots.txt)
+$lockFile = sys_get_temp_dir() . "/bulbapedia_last_request.lock";
 $now = microtime(true);
 if (file_exists($lockFile)) {
     $lastRequest = (float)file_get_contents($lockFile);
@@ -162,7 +154,6 @@ if (empty($data['sections'])) {
     }
 }
 
-// 6. Save and Return
+// 6. Return Data
 $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-file_put_contents($cacheFile, $json);
 echo $json;

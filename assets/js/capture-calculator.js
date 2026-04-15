@@ -147,6 +147,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Calculate Button triggers the full animation
     calculateBtn.addEventListener("click", () => calculateCatchProbability(false));
+
+    // Inline search on sprite box click
+    spriteBox.addEventListener("click", () => showQuickAddInput(spriteBox));
   }
 
   function updateHpVisuals() {

@@ -64,10 +64,10 @@ const Bulbapedia = {
             const isSubpage = window.location.pathname.includes('/pages/');
             const proxyPath = isSubpage ? '../bulbapedia_proxy.php' : 'bulbapedia_proxy.php';
 
-            const response = await fetch(`${proxyPath}?query=${encodeURIComponent(query)}&type=${type}`);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const url = `${proxyPath}?query=${encodeURIComponent(query)}&type=${type}`;
+            const ttl = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+            const data = await window.fetchCached(url, ttl);
             
-            const data = await response.json();
             this.renderContent(body, data);
             
             // Hide button after success

@@ -11,28 +11,12 @@
   - rgba(30, 41, 59, 0.2) = más transparente
 */
 .team-panel {
-  background: var(--c-surface); /* Fondo del panel */
-  padding: var(--spacing-lg); /* Espacio interno - usar variables de spacing */
-  border-radius: var(--radius-lg); /* Redondeo de esquinas */
-  border: 1px solid var(--c-border); /* Color de borde */
-  backdrop-filter: blur(
-    10px
-  ); /* Efecto de desenfoque - MODIFICAR: 10px más/menos = más/menos blur */
-}
-
-.team-actions-top {
-  display: flex;
-  gap: var(--spacing-sm);
-  align-items: center;
-}
-
-#importTeamInput {
-  flex: 1;
-  padding: var(--spacing-sm);
   background: var(--c-surface);
-  color: var(--c-text);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
   border: 1px solid var(--c-border);
-  border-radius: var(--radius-sm);
+  backdrop-filter: blur(10px);
+  overflow: visible !important; /* Allow search results to leak out */
 }
 
 .team-row {
@@ -40,6 +24,7 @@
   grid-template-columns: repeat(6, 1fr);
   gap: var(--spacing-md);
   margin-top: var(--spacing-md);
+  overflow: visible !important;
 }
 
 /* ===== SLOT DE EQUIPO ===== */
@@ -172,6 +157,107 @@
   color: var(--c-text-muted);
   font-size: 0.875rem;
   text-align: center;
+}
+
+/* ===== QUICK ADD FEATURE ===== */
+.team-slot.slot-open {
+  overflow: visible !important;
+  z-index: 100;
+}
+
+.quick-add-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-sm);
+  background: var(--c-surface);
+  border-radius: var(--radius-md);
+  z-index: 10;
+  overflow: visible !important;
+}
+
+.quick-add-input {
+  width: 100%;
+  padding: var(--spacing-sm);
+  background: var(--c-surface-hover);
+  color: var(--c-text);
+  border: 1px solid var(--c-accent);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  outline: none;
+}
+
+.quick-add-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--c-surface-hover);
+  border: 1px solid var(--c-accent);
+  border-top: none;
+  border-bottom-left-radius: var(--radius-sm);
+  border-bottom-right-radius: var(--radius-sm);
+  max-height: 250px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  z-index: 9999 !important; /* Stay above everything */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6); /* Sharper shadow for visibility */
+  display: none;
+}
+
+.quick-add-results li, .quick-add-result-item, .quick-add-info {
+  padding: 8px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid var(--c-white-05);
+  background: var(--c-surface);
+  color: var(--c-text);
+}
+
+.quick-add-info {
+  cursor: default;
+  color: var(--c-text-muted);
+  font-style: italic;
+  justify-content: center;
+}
+
+.quick-add-results li:last-child, .quick-add-result-item:last-child {
+  border-bottom: none;
+}
+
+.quick-add-results li:hover,
+.quick-add-results li.active,
+.quick-add-result-item:hover,
+.quick-add-result-item.selected {
+  background: var(--c-accent-20);
+  color: white;
+}
+
+.quick-add-result-item .mon-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.quick-add-result-item .mon-id {
+  font-family: monospace;
+  font-weight: 700;
+  color: var(--c-accent);
+  min-width: 45px;
+  font-size: 0.8rem;
+}
+
+.quick-add-result-item .mon-name {
+  font-weight: 600;
+  text-transform: capitalize;
 }
 
 /* ===== ESTADÍSTICAS DE EQUIPO ===== */
@@ -383,4 +469,111 @@
 dialog#modal .poke-modal, dialog#teamEditModal .poke-modal {
     position: relative;
     overflow: hidden; /* Ensure overlay covers perfectly */
+}
+/* Autocomplete shared styles preserved for potential future use or specific components */
+
+/* ===== REDESIGNED MOVE DETAILS ===== */
+.detailed-move {
+  background: var(--c-white-05);
+  padding: 12px;
+  border-radius: var(--radius-md);
+  margin-bottom: 12px;
+  border: 1px solid var(--c-white-05);
+}
+
+.move-details-grid {
+  display: grid !important;
+  grid-template-columns: 75px 1fr 75px 85px;
+  gap: 8px !important;
+  margin-top: 8px;
+}
+
+.move-stat-box, .move-cat-badge {
+  background: var(--c-surface-hover);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 4px;
+  min-height: 52px;
+  transition: all 0.2s ease;
+}
+
+.move-stat-box:hover, .move-cat-badge:hover {
+  background: var(--c-surface);
+  border-color: var(--c-accent);
+}
+
+.ms-label {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: var(--c-text-muted);
+  line-height: 1;
+  margin-bottom: 2px;
+  text-align: center;
+}
+
+.ms-icon, .cat-icon {
+  font-size: 1.1rem;
+  margin-bottom: 2px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ms-val {
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.move-type-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: var(--radius-sm);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+  padding: 4px;
+  line-height: 1.1;
+}
+
+/* Merged into .move-stat-box above */
+
+.move-cat-badge .cat-text {
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 1.1;
+  display: block;
+}
+
+.move-cat-badge .cat-icon {
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.move-type-badge, .move-cat-badge {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Dual Column Layout for moves */
+@media (min-width: 900px) {
+  .moves-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
 }

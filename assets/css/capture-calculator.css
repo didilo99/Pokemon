@@ -213,11 +213,87 @@
   border: 2px dashed var(--c-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  transition: border-color 0.3s;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+  position: relative;
+}
+
+.pokemon-sprite-box.slot-open {
+  overflow: visible !important;
+  z-index: 100;
+  border-color: var(--c-accent);
+}
+
+.quick-add-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background: var(--c-surface);
+  border-radius: var(--radius-lg);
+  z-index: 110;
+}
+
+.quick-add-input {
+  width: 100%;
+  padding: 8px;
+  background: var(--c-surface-hover);
+  color: var(--c-text);
+  border: 1px solid var(--c-accent);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.quick-add-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--c-surface-hover);
+  border: 1px solid var(--c-border);
+  border-top: none;
+  border-bottom-left-radius: var(--radius-sm);
+  border-bottom-right-radius: var(--radius-sm);
+  max-height: 150px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  z-index: 120;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.quick-add-results li {
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+  transition: background 0.2s;
+  color: var(--c-text);
+  text-align: left;
+}
+
+.quick-add-results li:hover,
+.quick-add-results li.active {
+  background: var(--c-accent);
+  color: white;
 }
 
 .pokemon-sprite-box:hover {
   border-color: var(--c-accent);
+  background: linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.12) 0%,
+    rgba(99, 102, 241, 0.12) 100%
+  );
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.pokemon-sprite-box:active {
+  transform: scale(0.95);
 }
 
 .sprite-placeholder {
