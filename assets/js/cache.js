@@ -685,9 +685,34 @@ window.initFooterLogic = function () {
   }
 };
 
+/**
+ * Automatically trigger a deep sync once per day.
+ */
+async function autoDeepSyncDaily() {
+  const lastSyncStr = localStorage.getItem("pokedex_last_auto_deepsync");
+  const now = Date.now();
+  const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
+
+  // If there's no previous sync, or it's been 24+ hours (also handles old YYYY-MM-DD format gracefully)
+  if (!lastSyncStr || (now - parseInt(lastSyncStr, 10)) >= TWENTY_FOUR_HOURS) {
+    console.log("Iniciando sincronización profunda automática (pasaron > 24h)...");
+    try {
+      // Wait a moment before starting to allow the UI to finish rendering
+      await new Promise(r => setTimeout(r, 5000));
+      await deepSyncAllPokeAPI();
+      localStorage.setItem("pokedex_last_auto_deepsync", now.toString());
+    } catch (e) {
+      console.error("Error en sincronización automática:", e);
+    }
+  }
+}
+
 // Run cache status update when DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
   window.initFooterLogic();
+  
+  // Attempt daily auto-sync
+  autoDeepSyncDaily();
 });
 
 // Export for use in other files

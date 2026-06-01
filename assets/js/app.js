@@ -532,9 +532,9 @@ async function _getPokemonFallback(name, originalError = new Error('Not found'))
 
       for (let i = 1; i <= parts.length; i++) {
         const candidate = parts.slice(0, i).join("-");
-        const suffix = parts[i] || "";
+        const lastPart = parts[i - 1]; // Check if the candidate's last part is a variety suffix
         
-        if (varietyOnlySuffixes.includes(suffix)) continue;
+        if (varietyOnlySuffixes.includes(lastPart)) continue;
 
         // Quick check against state.index if available
         if (state.index.length > 0 && !state.index.includes(candidate) && !knownHyphenatedSpecies.includes(candidate)) continue;
@@ -606,7 +606,7 @@ async function _getPokemonFallback(name, originalError = new Error('Not found'))
         
         if (!hasSprite && name.includes('-')) {
           const baseVariety = sp.varieties?.find(v => v.is_default)?.pokemon?.name || baseNameUsed;
-          console.warn(`Ghost form detected for ${name}, falling back to ${baseVariety}`);
+          // console.debug(`Ghost form detected for ${name}, falling back to ${baseVariety}`);
           if (baseVariety !== name) {
             return getPokemon(baseVariety);
           }
@@ -925,18 +925,102 @@ async function applySort() {
     return;
   }
 
-  // For BST sorting, we need details.
-  const details = await Promise.all(
-    state.filteredNames.map(async (n) => ({
-      name: n,
-      data: await getPokemon(n),
-    })),
+  // For BST, stat, weight, or height sorting, we need details.
+  // Show visual loading spinner in grid if there are uncached items
+  const grid = $("#grid");
+  let progressIndicator = null;
+  const uncachedNames = state.filteredNames.filter((n) => !state.details.has(n));
+
+  if (uncachedNames.length > 0 && grid) {
+    grid.innerHTML = `
+      <div class="grid-loading-container" style="grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4rem 2rem; color: var(--c-text-muted); width: 100%;">
+        <div class="modal-spinner" style="border: 4px solid var(--c-white-20); border-top: 4px solid var(--c-accent); border-radius: 50%; width: 45px; height: 45px; animation: spin 1s linear infinite; margin-bottom: 1.5rem;"></div>
+        <div class="grid-loading-text" style="font-weight: 700; font-size: 1.1rem; color: var(--c-text); text-align: center;" data-i18n="filters.loading_sort_data">Cargando datos para ordenar...</div>
+        <div class="grid-loading-progress" style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.8; font-family: monospace;">0%</div>
+      </div>
+    `;
+    progressIndicator = grid.querySelector(".grid-loading-progress");
+    if (window.I18n && typeof I18n.translateElement === "function") {
+      I18n.translateElement(grid);
+    }
+  }
+
+  const details = new Array(state.filteredNames.length);
+  const CONCURRENCY = 15;
+  let completed = 0;
+  let nextTaskIndex = 0;
+
+  const worker = async () => {
+    while (nextTaskIndex < state.filteredNames.length) {
+      const currentIdx = nextTaskIndex++;
+      const name = state.filteredNames[currentIdx];
+      try {
+        const data = await getPokemon(name);
+        details[currentIdx] = { name, data };
+      } catch (e) {
+        console.warn(`Failed to fetch ${name} for sorting:`, e);
+        details[currentIdx] = { name, data: null };
+      }
+      completed++;
+      if (progressIndicator) {
+        const pct = Math.round((completed / state.filteredNames.length) * 100);
+        progressIndicator.textContent = `${pct}% (${completed}/${state.filteredNames.length})`;
+      }
+    }
+  };
+
+  const workers = Array.from(
+    { length: Math.min(CONCURRENCY, state.filteredNames.length) },
+    () => worker()
   );
+  await Promise.all(workers);
 
   if (mode.startsWith("bst")) {
     const dir = mode.endsWith("asc") ? 1 : -1;
     details.sort((a, b) => (bstOf(b.data) - bstOf(a.data)) * dir * -1);
   }
+
+  // Individual stat sorting: hp, atk, def, spa, spd, spe
+  const statSortMap = {
+    "hp": "hp",
+    "atk": "attack",
+    "def": "defense",
+    "spa": "special-attack",
+    "spd": "special-defense",
+    "spe": "speed",
+  };
+
+  const sortKey = mode.replace(/-(?:asc|desc)$/, "");
+  if (statSortMap[sortKey]) {
+    const statName = statSortMap[sortKey];
+    const dir = mode.endsWith("asc") ? 1 : -1;
+    details.sort((a, b) => {
+      const aVal = a.data?.stats?.find(s => s.stat?.name === statName)?.base_stat || 0;
+      const bVal = b.data?.stats?.find(s => s.stat?.name === statName)?.base_stat || 0;
+      return (aVal - bVal) * dir;
+    });
+  }
+
+  // Weight sorting
+  if (sortKey === "weight") {
+    const dir = mode.endsWith("asc") ? 1 : -1;
+    details.sort((a, b) => {
+      const aVal = a.data?.weight || 0;
+      const bVal = b.data?.weight || 0;
+      return (aVal - bVal) * dir;
+    });
+  }
+
+  // Height sorting
+  if (sortKey === "height") {
+    const dir = mode.endsWith("asc") ? 1 : -1;
+    details.sort((a, b) => {
+      const aVal = a.data?.height || 0;
+      const bVal = b.data?.height || 0;
+      return (aVal - bVal) * dir;
+    });
+  }
+
   state.filteredNames = details.map((x) => x.name);
 }
 
@@ -1227,9 +1311,12 @@ function createTypeFilters() {
     btn.className = `type-chip type-${t}`;
     if (state.selectedTypes.has(t)) btn.classList.add("active");
 
+    const typeSet = state.typeSets.get(t);
+    const count = typeSet ? state.index.filter(n => typeSet.has(n)).length : 0;
+
     btn.innerHTML = `${svgType(t)}<span>${
       I18n.t(`types.${t}`) || toTitle(t)
-    }</span>`;
+    }</span><span class="type-chip-count">${count}</span>`;
 
     btn.onclick = () => {
       if (state.selectedTypes.has(t)) {
@@ -2667,14 +2754,25 @@ async function init() {
 
     // Global Keyboard Navigation
     document.addEventListener("keydown", (e) => {
+      if (e.repeat) return;
+      const active = document.activeElement;
+      if (active && (active.tagName === 'INPUT' || active.tagName === 'SELECT' || active.tagName === 'TEXTAREA')) {
+        return;
+      }
       const modal = document.getElementById("modal");
       if (modal && modal.open) {
         if (e.key === "ArrowLeft") {
           const prev = document.getElementById("prevMon");
-          if (prev && !prev.disabled) prev.click();
+          if (prev && !prev.disabled) {
+            e.preventDefault();
+            prev.click();
+          }
         } else if (e.key === "ArrowRight") {
           const next = document.getElementById("nextMon");
-          if (next && !next.disabled) next.click();
+          if (next && !next.disabled) {
+            e.preventDefault();
+            next.click();
+          }
         }
       }
     });
@@ -5534,16 +5632,45 @@ async function renderTeamTypeAnalysis(teamData) {
 }
 
 function syncModalIndex(baseName) {
-  let idx = state.filteredNames.indexOf(state.lastOpenedName);
+  const openedName = state.lastOpenedName;
+  if (!openedName) {
+    $("#prevMon").disabled = true;
+    $("#nextMon").disabled = true;
+    return;
+  }
+
+  // If baseName was not provided (e.g. called from buildFilteredList after filter change),
+  // try to extract it from lastOpenedName by looking for a matching base species in the list
+  if (!baseName && openedName) {
+    // Try to find the base species: look for the name before any form suffix
+    const parts = openedName.split("-");
+    for (let i = parts.length; i >= 1; i--) {
+      const candidate = parts.slice(0, i).join("-");
+      if (state.filteredNames.includes(candidate)) {
+        baseName = candidate;
+        break;
+      }
+    }
+    // If still not found, try using the pokemon details cache to find the base species
+    if (!baseName && state.details.has(openedName)) {
+      const d = state.details.get(openedName);
+      if (d && d.species && d.species.name) baseName = d.species.name;
+    }
+  }
+
+  let idx = state.filteredNames.indexOf(openedName);
   // Fallback: if current form is not in list, try base species
   if (idx === -1 && baseName) {
     idx = state.filteredNames.indexOf(baseName);
   }
 
-  // Calculate current suffix (form) to preserve it on navigation
+  // Calculate current suffix (form) to preserve it on navigation,
+  // but ONLY when includeForms is ON (forms are individual entries in the list).
+  // When includeForms is OFF, navigation should move between base species
+  // without trying to apply form suffixes to unrelated Pokémon.
   let suffix = "";
-  if (baseName && state.lastOpenedName.startsWith(baseName)) {
-    suffix = state.lastOpenedName.slice(baseName.length);
+  if (state.includeForms && baseName && openedName !== baseName && openedName.startsWith(baseName)) {
+    suffix = openedName.slice(baseName.length);
   }
 
   $("#prevMon").disabled = idx <= 0;
@@ -5552,33 +5679,44 @@ function syncModalIndex(baseName) {
   $("#prevMon").onclick = () => navigateModal(-1, baseName, suffix);
   $("#nextMon").onclick = () => navigateModal(1, baseName, suffix);
 }
-
+let isNavigating = false;
 async function navigateModal(direction, baseName, preferredSuffix) {
-  let idx = state.filteredNames.indexOf(state.lastOpenedName);
+  if (isNavigating) return;
+  isNavigating = true;
+  try {
+    let idx = state.filteredNames.indexOf(state.lastOpenedName);
 
-  if (idx === -1 && baseName) {
-    idx = state.filteredNames.indexOf(baseName);
-  }
-
-  if (idx === -1) return; // Can't navigate if we don't know where we are
-
-  const max = state.filteredNames.length;
-  let nextIdx = idx + direction;
-  let attempts = 0;
-
-  // Preserve shiny state
-  const isShiny = $("#shinyToggle").checked;
-
-  // Try to find the next valid pokemon
-  while (nextIdx >= 0 && nextIdx < max && attempts < max) {
-    const nextName = state.filteredNames[nextIdx];
-    try {
-      await openModal(nextName, preferredSuffix, isShiny);
-      return; // Success!
-    } catch (e) {
-      nextIdx += direction;
-      attempts++;
+    if (idx === -1 && baseName) {
+      idx = state.filteredNames.indexOf(baseName);
     }
+
+    if (idx === -1) return; // Can't navigate if we don't know where we are
+
+    const max = state.filteredNames.length;
+    let nextIdx = idx + direction;
+
+    // Preserve shiny state
+    const isShiny = $("#shinyToggle").checked;
+
+    // When includeForms is OFF, don't propagate form suffixes to avoid
+    // unnecessary API calls for forms that don't exist on other species
+    const suffix = state.includeForms ? preferredSuffix : "";
+
+    // Try to find the next valid pokemon (limit attempts to avoid infinite loop)
+    const maxAttempts = Math.min(10, max);
+    let attempts = 0;
+    while (nextIdx >= 0 && nextIdx < max && attempts < maxAttempts) {
+      const nextName = state.filteredNames[nextIdx];
+      try {
+        await openModal(nextName, suffix, isShiny);
+        return; // Success!
+      } catch (e) {
+        nextIdx += direction;
+        attempts++;
+      }
+    }
+  } finally {
+    isNavigating = false;
   }
 }
 

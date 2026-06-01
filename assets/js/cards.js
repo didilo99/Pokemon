@@ -418,7 +418,14 @@ function populateTypeChips(types) {
     btn.dataset.value = type;
 
     // Use svgType for consistency (uses gen8 pokesprite icons internally)
-    btn.innerHTML = `${svgType(config.icon)}<span>${displayName}</span>`;
+    btn.innerHTML = `${svgType(config.icon)}<span>${displayName}</span><span class="type-chip-count">-</span>`;
+
+    if (window.CardStorage) {
+      window.CardStorage.getCards({ type: type, pocket: true }, "en", 1, 1).then(res => {
+         const countEl = btn.querySelector('.type-chip-count');
+         if (countEl) countEl.textContent = res.total;
+      }).catch(() => {});
+    }
 
     btn.onclick = () => {
       const currentVal = input.value;

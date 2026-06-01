@@ -860,6 +860,15 @@ select.form-select,
   box-shadow: none;
 }
 
+.type-chip-count {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 2px 6px;
+  font-size: 0.85em;
+  font-weight: 600;
+  margin-left: 4px;
+}
+
 /* Colores de tipo (Badges) */
 
 .type-badge.type-normal {
