@@ -1,7 +1,16 @@
 /* =============================================================================
    POKÉDEX - ESTILOS GLOBALES (REDISEÑADOS)
    Diseño limpio, moderno y funcional
-   ============================================================================= */
+
+   =============================================================================
+   GUÍA RÁPIDA DE PERSONALIZACIÓN PARA EL USUARIO:
+   - Para cambiar el fondo principal oscuro: modifica '--c-bg' y '--c-bg-lighter'
+   - Para cambiar el fondo claro (modo claro): modifica las mismas variables pero
+     dentro del bloque ':root[data-theme="light"]' más abajo.
+   - Para cambiar el color de acento (botones, links): modifica '--c-accent'
+   - Para cambiar colores de tipos de Pokémon: modifica las variables '--tc-...'
+   =============================================================================
+*/
 
 /* --- VARIABLES GLOBALES --- */
 /* 

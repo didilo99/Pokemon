@@ -6,6 +6,14 @@
 
 const DB_NAME = "PokedexCacheDB";
 const DB_VERSION = 4;
+/*
+  =============================================================================
+  SISTEMA DE CACHÉ
+  Si haces cambios importantes en los datos o en la API y quieres que todos 
+  los usuarios descarguen la nueva versión (borrando su caché local), 
+  simplemente incrementa el número de APP_CACHE_VERSION (ej. de "2.3.0" a "2.3.1").
+  =============================================================================
+*/
 const APP_CACHE_VERSION = "2.3.0"; // Increment to force clear
 
 // Category-specific object stores

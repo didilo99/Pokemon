@@ -54,6 +54,14 @@ const I18n = {
   getBasePath() {
     return this.isSubPage ? "../" : "";
   },
+  /*
+    =============================================================================
+    SISTEMA DE TRADUCCIÓN
+    Aquí se guardarán en memoria los diccionarios cargados. Si necesitas modificar
+    alguna palabra o frase de la web, edita directamente los archivos JSON dentro
+    de la carpeta "assets/i18n/", por ejemplo "es.json" para español.
+    =============================================================================
+  */
   translations: {},
   currentModalTitle: null,
   basePageTitle: "",

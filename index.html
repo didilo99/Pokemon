@@ -27,11 +27,22 @@
 
   <body>
     <header>
+      <!-- 
+        ========================================================================================
+        CÓMO CAMBIAR LOS TEXTOS: 
+        Este proyecto usa un sistema de traducción (i18n). Si ves atributos como data-i18n="..."
+        en las etiquetas, significa que el texto es reemplazado automáticamente según el idioma.
+        Si quieres cambiar los nombres de los menús u otros textos, no los cambies aquí. 
+        En su lugar, edita el archivo "assets/i18n/es.json" (para español).
+        ========================================================================================
+      -->
       <div class="dex-top">
         <div class="inner container-fluid">
           <div class="d-flex align-items-center justify-content-between">
             <a href="index.html" class="brand">
+              <!-- Cambia la ruta del atributo src para poner tu propio logo (ej. "assets/icon/mi-logo.png") -->
               <img src="assets/icon/logo.png" alt="Logo" class="title-logo">
+              <!-- El texto principal de la web. Puedes cambiarlo editando "Pokédex" -->
               <h1 class="title mb-0">Pokédex</h1>
             </a>
             <div class="d-flex align-items-center gap-2">
@@ -59,6 +70,14 @@
       <div class="panel">
         <div class="inner container-fluid">
           <nav class="dex-nav">
+            <!-- 
+              =============================================================================
+              MENÚ DE NAVEGACIÓN PRINCIPAL
+              Si deseas agregar, eliminar o modificar los enlaces del menú superior, 
+              hazlo en esta sección de código. 
+              Recuerda revisar también los archivos JSON de idioma si usas data-i18n.
+              =============================================================================
+            -->
             <!-- Mundo Pokémon -->
             <li class="nav-item dropdown d-inline-block">
                 <a class="nav-link dropdown-toggle active" href="#" id="mundoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-i18n="footer.nav_world">

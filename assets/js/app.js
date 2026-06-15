@@ -18,6 +18,14 @@ document.addEventListener("error", function(e) {
 }, true);
 
 // --- Constants ---
+/* 
+  =============================================================================
+  CONFIGURACIÓN PRINCIPAL DE JAVASCRIPT
+  - API_URL: Cambia esta URL si tienes tu propio servidor de PokeAPI local 
+             o quieres apuntar a una versión diferente de la API.
+  - FALLBACK_IMAGE: Imagen mostrada por defecto si un Pokémon no tiene sprite.
+  =============================================================================
+*/
 const CONSTANTS = {
   API_URL: "https://pokeapi.co/api/v2",
   STORAGE_KEY: "pokedex_ui_v3",

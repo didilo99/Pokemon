@@ -439,6 +439,15 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ALGORITMO DE CAPTURA
+  /*
+    =============================================================================
+    FÓRMULA DE CAPTURA
+    Esta es la función principal que calcula el porcentaje de captura según
+    la generación seleccionada, la vida, la ball y los modificadores de estado.
+    Si deseas alterar qué tan fácil es capturar a un Pokémon, debes modificar
+    las fórmulas matemáticas a continuación.
+    =============================================================================
+  */
   function calculateCatchProbability(isQuiet = false) {
     if (!currentPokemon) {
       alert(I18n.t("capture_calc.error_select_pokemon"));

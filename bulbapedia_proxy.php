@@ -4,6 +4,17 @@
  * Handles fetching and parsing data from Bulbapedia with local caching.
  */
 
+/*
+  =============================================================================
+  PROXY DE BULBAPEDIA (PHP)
+  Este archivo se encarga de hacer peticiones a Bulbapedia (Wiki de Pokémon en inglés)
+  para extraer información adicional. Actúa como intermediario para evitar problemas
+  de CORS en el navegador. 
+  - Si deseas extraer datos de otra Wiki (ej. Wikidex en español), deberás cambiar 
+    la URL base ($url) más abajo y ajustar la lógica de extracción DOM (XPath).
+  =============================================================================
+*/
+
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET");
 header("Content-Type: application/json; charset=utf-8");

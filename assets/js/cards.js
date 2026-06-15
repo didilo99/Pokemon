@@ -2,6 +2,13 @@
  * Pokémon TCG Section Logic
  */
 
+/*
+  =============================================================================
+  CARTAS TCG (TRADING CARD GAME)
+  Si necesitas modificar cuántas cartas por página se muestran por defecto, 
+  puedes cambiar la variable CARDS_PER_PAGE.
+  =============================================================================
+*/
 const PROXY_URL = (window.I18n ? I18n.getBasePath() : "") + "proxy.php";
 let CARDS_PER_PAGE = 60;
 
