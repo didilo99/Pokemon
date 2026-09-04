@@ -20,7 +20,8 @@
     "habitats": "Habitat",
     "berries": "Bacche",
     "shapes": "Forme",
-    "capture_calc": "Calcolatore di Cattura"
+    "capture_calc": "Calcolatore di Cattura",
+    "my_album": "Il mio Album"
   },
   "filters": {
     "button": "🔎 Filtri",

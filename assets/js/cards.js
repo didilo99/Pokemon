@@ -1032,7 +1032,7 @@ async function syncCards(btnElement) {
       // PHASE 2: Fetch full details
       const totalCardsLang = allCardSummaries.length;
       let synced = 0;
-      const BATCH_SIZE = 100; // Reduced from 250 to 100 to prevent massive concurrent proxy timeouts
+      const BATCH_SIZE = 500;
 
       const setDateMap = new Map();
       const setSeriesMap = new Map();

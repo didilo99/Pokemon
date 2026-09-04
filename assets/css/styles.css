@@ -350,11 +350,9 @@ main {
 
 /* --- HEADER --- */
 header {
-  position: sticky;
-  top: 0;
+  position: relative;
   z-index: 100;
   background: var(--c-bg-lighter);
-  border-bottom: 1px solid var(--c-border);
 }
 
 .text-muted {
@@ -370,8 +368,13 @@ header {
 }
 
 .dex-top {
-  padding: var(--sp-lg);
-  background: transparent;
+  position: sticky;
+  top: 0;
+  z-index: 1050;
+  padding: var(--sp-md) var(--sp-lg);
+  background: var(--c-bg-lighter);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .brand {
@@ -585,10 +588,10 @@ h6 {
   font-size: 0.875rem;
   transition: all 0.2s cubic-bezier(0.4, 0, 1);
   min-height: 40px;
-  width: auto; /* Changed from 100% to auto for better containment in header */
-  display: inline-flex; /* Changed from flex to inline-flex */
+  width: auto;
+  display: inline-flex;
   align-items: center;
-  gap: 8px; /* Standard gap for all items including arrow */
+  gap: 8px;
   line-height: normal;
   appearance: none;
   -webkit-appearance: none;
@@ -744,8 +747,57 @@ select.form-select,
   color: white !important;
 }
 
+/* ===== BOTÓN Y COMPONENTES DE FILTROS (PREMIUM) ===== */
+.filters-toggle {
+  margin-bottom: 12px;
+}
+
+.filters-toggle .btn-filter-toggle {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  color: var(--c-text);
+  padding: 10px 18px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  letter-spacing: 0.3px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+.filters-toggle .btn-filter-toggle:hover {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(99, 102, 241, 0.1) 100%);
+  border-color: var(--c-accent);
+  color: #ffffff;
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
+  transform: translateY(-1px);
+}
+
+.filter-chevron {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button[aria-expanded="false"] .filter-chevron {
+  transform: rotate(-90deg);
+}
+
+button[aria-expanded="true"] .filter-chevron {
+  transform: rotate(0deg);
+}
+
+#filtersCount {
+  background: var(--c-accent) !important;
+  color: #ffffff !important;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px var(--c-accent-30);
+}
+
 /* ===== TOGGLES (PILLS) ===== */
-/* Contenedor de la fila de toggles */
 .toggles-row {
   display: flex;
   gap: var(--sp-md);
@@ -3614,40 +3666,30 @@ dialog::backdrop {
     padding-bottom: 40px;
   }
 
-  /* Fix Filter Bar Overflow in Sticky Header */
-  /* Force vertical layout for consistent scrolling */
+  /* Responsive Filter Collapse */
   #filtersCollapse {
-    max-height: calc(
-      100dvh - 120px
-    ); /* Dynamic viewport height minus header space */
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-right: 4px;
-    padding-bottom: 100px; /* Enough padding to ensure all toggles are visible */
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    margin-bottom: var(--sp-sm);
   }
 
-  /* Only apply flex layout when the menu is OPEN (.show) to allow Bootstrap to hide it otherwise */
   #filtersCollapse.show {
     display: flex;
     flex-direction: column;
-    gap: var(--sp-md);
+    gap: 10px;
   }
 
-  /* Stack toggles vertically on mobile for easier access */
+  /* Stack toggles cleanly on mobile */
   .toggles-row {
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-    gap: 12px;
-    margin-bottom: 40px; /* Extra margin to ensure last toggles are visible */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
   }
 
   .toggles-row .pill {
-    width: 100%; /* Full width toggles */
+    flex: 1 1 calc(50% - 8px);
+    min-width: 140px;
     justify-content: space-between;
-    height: 50px; /* Tappable height */
-    flex-shrink: 0; /* Prevent pills from shrinking */
+    height: 42px;
   }
 
   /* Moves list stacked on mobile */

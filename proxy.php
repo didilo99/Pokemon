@@ -148,10 +148,28 @@ $headers = [
 ];
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-// Ejecutar request
-$response = curl_exec($ch);
-$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-$error_msg = curl_error($ch);
+// Ejecutar request con reintentos
+$maxRetries = 3;
+$attempt = 0;
+$retryDelayMs = 1000;
+
+do {
+    $attempt++;
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $error_msg = curl_error($ch);
+    
+    // Si la petición fue exitosa o es un error cliente (ej. 404), salimos del bucle
+    if ($response !== false && $httpCode < 500 && $httpCode != 429) {
+        break;
+    }
+    
+    // Esperar antes del siguiente intento si quedan más
+    if ($attempt < $maxRetries) {
+        usleep($retryDelayMs * 1000);
+    }
+} while ($attempt < $maxRetries);
+
 curl_close($ch);
 
 if ($httpCode >= 400 || $response === false) {

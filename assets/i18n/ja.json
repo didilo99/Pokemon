@@ -20,7 +20,8 @@
     "habitats": "生息地",
     "berries": "きのみ",
     "shapes": "形状",
-    "capture_calc": "捕獲率計算機"
+    "capture_calc": "捕獲率計算機",
+    "my_album": "マイアルバム"
   },
   "filters": {
     "button": "🔎 絞り込み",

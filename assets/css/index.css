@@ -27,6 +27,28 @@
   overflow: visible !important;
 }
 
+@media (max-width: 991px) {
+  .team-row {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-sm);
+  }
+}
+
+@media (max-width: 576px) {
+  .team-row {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-xs);
+  }
+  .team-slot {
+    min-height: 120px !important;
+    padding: var(--spacing-xs) !important;
+  }
+  .team-slot .team-sprite {
+    width: 60px !important;
+    height: 60px !important;
+  }
+}
+
 /* ===== SLOT DE EQUIPO ===== */
 /* 
   MODIFICAR min-height para cambiar altura de slots:

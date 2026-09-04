@@ -20,7 +20,8 @@
     "habitats": "Lebensräume",
     "berries": "Beeren",
     "shapes": "Formen",
-    "capture_calc": "Fangrechner"
+    "capture_calc": "Fangrechner",
+    "my_album": "Mein Album"
   },
   "filters": {
     "button": "🔎 Filter",

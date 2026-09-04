@@ -20,7 +20,8 @@
     "habitats": "栖息地",
     "berries": "树果",
     "shapes": "形状",
-    "capture_calc": "捕获率计算器"
+    "capture_calc": "捕获率计算器",
+    "my_album": "我的相册"
   },
   "filters": {
     "button": "🔎 筛选",

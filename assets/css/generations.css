@@ -10,7 +10,7 @@
     minmax(320px, 1fr)
   ); /* Slightly larger cards for wide screens */
   gap: 32px;
-  padding: 20px 0;
+  padding: 20px clamp(20px, 4vw, 48px);
 }
 
 #generationsGrid .card {

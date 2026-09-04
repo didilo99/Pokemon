@@ -20,7 +20,8 @@
     "habitats": "Habitats",
     "berries": "Baies",
     "shapes": "Formes",
-    "capture_calc": "Calculateur de Capture"
+    "capture_calc": "Calculateur de Capture",
+    "my_album": "Mon Album"
   },
   "filters": {
     "button": "🔎 Filtres",

@@ -3,8 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <title data-i18n="nav.regions">Mapa de Regiones — Pokédex</title>
+    <title data-i18n="nav.my_album">Mi Álbum — Pokédex</title>
     <!-- Bootstrap 5 -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -13,7 +12,7 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="../assets/css/styles.css?v=2" />
-    <link rel="stylesheet" href="../assets/css/regions.css" />
+    <link rel="stylesheet" href="../assets/css/my-album.css?v=1" />
     <link rel="icon" type="image/png" href="../assets/icon/favicon.png" />
     <script src="../assets/js/cache.js"></script>
     <script src="../assets/js/i18n.js"></script>
@@ -26,14 +25,14 @@
   </head>
 
   <body>
-    <!-- Cabecera rojo Pokédex -->
+    <!-- Cabecera -->
     <header>
       <div class="dex-top">
         <div class="inner container-fluid">
           <div class="d-flex align-items-center justify-content-between">
             <a href="../index.html" class="brand">
               <img src="../assets/icon/logo.png" alt="Logo" class="title-logo" />
-              <h1 class="title mb-0" data-i18n="regions.title">Regiones</h1>
+              <h1 class="title mb-0" data-i18n="nav.my_album">Mi Álbum</h1>
             </a>
             <div class="d-flex align-items-center gap-2">
               <div class="dropdown d-inline-block">
@@ -174,7 +173,7 @@
             <!-- Mundo Pokémon -->
             <li class="nav-item dropdown d-inline-block">
               <a
-                class="nav-link dropdown-toggle active"
+                class="nav-link dropdown-toggle"
                 href="#"
                 id="mundoDropdown"
                 role="button"
@@ -198,7 +197,7 @@
                 </li>
                 <li>
                   <a
-                    class="dropdown-item active"
+                    class="dropdown-item"
                     href="regions.html"
                     data-i18n="nav.regions"
                     >Regiones</a
@@ -326,7 +325,7 @@
             <!-- Colección -->
             <li class="nav-item dropdown d-inline-block">
               <a
-                class="nav-link dropdown-toggle"
+                class="nav-link dropdown-toggle active"
                 href="#"
                 id="coleccionDropdown"
                 role="button"
@@ -374,9 +373,9 @@
                 </li>
                 <li>
                   <a
-                    class="dropdown-item"
+                    class="dropdown-item active"
                     href="tcg-sets.html"
-                    data-i18n="nav.tcg_sets"
+                    data-i18n="nav.my_album"
                     >Sets TCG</a
                   >
                 </li>
@@ -391,102 +390,121 @@
     </header>
 
     <main class="inner">
-      <div class="hero-section">
-        <h2 class="title section-title" data-i18n="regions.map_title">
-          Mapa del Mundo Pokémon
-        </h2>
-        <div class="world-map-container">
-          <img id="globalMap" class="world-map" alt="Mapa del mundo Pokémon" />
+      <h2 class="title section-title">
+        <span data-i18n="nav.my_album">Mi Álbum</span>
+      </h2>
+      <p class="text-center mb-4 text-muted">
+        Lleva un registro de las cartas que posees en tu colección física. Haz clic en una expansión para gestionar tus cartas.
+      </p>
+
+      <div class="filters">
+        <div class="ctrl">
+          <label for="searchSet">Buscar expansión</label>
+          <input
+            type="search"
+            id="searchSet"
+            placeholder="Buscar expansión..."
+            autocomplete="off"
+          />
+        </div>
+        <div class="ctrl">
+          <label for="perPage" data-i18n="filters.per_page_label">Por página</label>
+          <select id="perPage" class="dex-select">
+            <option value="12">12</option>
+            <option value="24">24</option>
+            <option value="48">48</option>
+            <option value="96" selected>96</option>
+          </select>
+        </div>
+        <div class="ctrl">
+          <label for="sortSets" data-i18n="filters.sort_label">Ordenar por</label>
+          <select id="sortSets" class="dex-select">
+            <option value="release_desc" data-i18n="filters.sort_release_desc">Más recientes</option>
+            <option value="release_asc" data-i18n="filters.sort_release_asc">Más antiguos</option>
+            <option value="name_asc" data-i18n="filters.sort_name_asc">Nombre A→Z</option>
+            <option value="name_desc" data-i18n="filters.sort_name_desc">Nombre Z→A</option>
+            <option value="progress_desc">Mayor % completado</option>
+            <option value="progress_asc">Menor % completado</option>
+            <option value="missing_price_desc">Mayor precio restante</option>
+            <option value="missing_price_asc">Menor precio restante</option>
+          </select>
         </div>
       </div>
+      <br />
 
-      <div id="regionsGrid" class="grid"></div>
+      <!-- Grid de expansiones -->
+      <div id="albumGrid" class="grid"></div>
 
-      <div id="regionsEmpty" hidden class="empty-state">
-        <div
-          class="ball"
-          style="width: 60px; height: 60px; opacity: 0.2; margin-bottom: 1rem"
-        ></div>
-        <p data-i18n="common.no_results">No hay resultados</p>
+      <div id="setsEmpty" hidden class="empty-state" data-i18n="common.no_results">
+        No hay resultados
       </div>
+
+      <nav class="pager" id="pager" aria-label="Paginación">
+        <button class="btn btn-primary dex-btn alt" id="prevBtn" data-i18n="pagination.prev">
+          <i data-lucide="chevron-left"></i> Anterior
+        </button>
+        <span class="page-info" id="pageInfo">Página 1</span>
+        <button class="btn btn-primary dex-btn" id="nextBtn" data-i18n="pagination.next">
+          Siguiente <i data-lucide="chevron-right"></i>
+        </button>
+      </nav>
     </main>
 
-    <!-- Modal Rediseñado (Standard Poke-Modal Structure) -->
-    <dialog id="regionModal">
-      <div class="poke-modal">
-        <!-- Columna Izquierda: Visual/Header with background -->
-        <div class="poke-modal-head" id="modalHeaderCol">
-          <div class="modal-head-overlay"></div>
-          <div class="modal-head-content">
-            <button
-              class="close-btn"
-              id="closeModalBtn"
-              aria-label="Cerrar"
-              data-i18n-aria-label="modal.close_aria"
-              data-close-modal
-            >
-              <i data-lucide="x"></i>
-            </button>
+    <!-- Modal de cartas del set -->
+    <dialog id="albumModal">
+      <div class="modal-content">
+        <header class="modal-header">
+          <div class="header-left">
+            <img id="modalSetSymbol" src="" alt="Symbol" width="36" height="auto" />
+            <h2 id="modalTitle" class="modal-title">Set</h2>
+          </div>
+          <button class="close-btn" id="closeAlbumModal" aria-label="Cerrar" data-close-modal>
+            <i data-lucide="x"></i>
+          </button>
+        </header>
 
-            <div class="modal-top-actions">
-              <span id="modalSubtitle" class="type-badge">Generación</span>
-            </div>
-
-            <div class="hero">
-              <h2 id="modalTitle" class="name">Región</h2>
-            </div>
+        <!-- Estadísticas del set -->
+        <div class="album-modal-stats">
+          <div class="album-stat-box stat-progress">
+            <div class="stat-label">Progreso</div>
+            <div class="stat-val" id="modalProgress">0 / 0</div>
+          </div>
+          <div class="album-stat-box stat-spent">
+            <div class="stat-label">Gastado</div>
+            <div class="stat-val" id="modalSpent">0.00 €</div>
+          </div>
+          <div class="album-stat-box stat-remaining">
+            <div class="stat-label">Falta</div>
+            <div class="stat-val" id="modalRemaining">0.00 €</div>
           </div>
         </div>
 
-        <!-- Columna Derecha: Datos/Listado -->
-        <div class="poke-modal-main">
-          <div id="modalLoading" class="loading-state">
-            <div class="spinner"></div>
-            <p data-i18n="common.loading">Cargando...</p>
+        <!-- Barra de progreso visual -->
+        <div class="album-modal-progress-wrap">
+          <div class="album-modal-progress-bar-bg">
+            <div class="album-modal-progress-bar-fill" id="modalProgressBar"></div>
           </div>
+          <div class="album-modal-progress-text">
+            <span id="modalProgressPercent">0%</span>
+            <span id="modalProgressLabel">0 de 0 cartas</span>
+          </div>
+        </div>
 
-          <div id="modalData" hidden>
-            <!-- Stats -->
-            <div class="stats-grid">
-              <div class="stat-box">
-                <span class="label" data-i18n="regions.locations">Lugares</span>
-                <span class="value" id="locCount">0</span>
-              </div>
-              <div class="stat-box">
-                <span class="label" data-i18n="regions.pokedexes"
-                  >Pokédexes</span
-                >
-                <span class="value" id="pokedexCount">0</span>
-              </div>
-            </div>
+        <!-- Buscador dentro del modal -->
+        <div class="album-modal-search">
+          <input
+            type="search"
+            id="modalSearchCards"
+            placeholder="Buscar carta en esta expansión..."
+            autocomplete="off"
+          />
+        </div>
 
-            <h3 class="section-title" data-i18n="regions.encounters">
-              Lugares y Encuentros
-            </h3>
-
-            <div class="d-flex gap-2 mb-4">
-              <input
-                type="search"
-                id="locationSearch"
-                class="page-input flex-grow-1"
-                data-i18n-placeholder="regions.search_placeholder"
-                placeholder="Buscar lugar..."
-                autocomplete="off"
-              />
-              <select id="locationTypeFilter" class="dex-select">
-                <option value="all" data-i18n="common.all">Todos</option>
-                <option value="city" data-i18n="regions.city">
-                  Ciudades y Pueblos
-                </option>
-                <option value="route" data-i18n="regions.route">Rutas</option>
-                <option value="special" data-i18n="regions.special">
-                  Especiales
-                </option>
-              </select>
-            </div>
-            <div id="locationsList" class="locations-list-premium">
-              <!-- Dinámico -->
-            </div>
+        <!-- Grid de cartas -->
+        <div class="album-modal-body" id="modalCardsBody">
+          <div class="album-loading">
+            <div class="spinner"></div>
+            <p>Cargando cartas...</p>
           </div>
         </div>
       </div>
@@ -495,10 +513,10 @@
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       crossorigin="anonymous"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
     ></script>
-    <script src="../assets/js/regions.js" defer></script>
+    <script src="../assets/js/cardStorage.js"></script>
+    <script src="../assets/js/collectionStorage.js"></script>
+    <script src="../assets/js/my-album.js" defer></script>
     <div id="footer-placeholder"></div>
   </body>
 </html>

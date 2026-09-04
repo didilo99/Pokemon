@@ -152,7 +152,14 @@
       const groupRes = await window.fetchCached(
         `${API}/version-group?limit=100`,
       );
-      const dlcBlacklist = ["the-hidden-treasure-of-area-zero"];
+      const dlcBlacklist = [
+        "the-hidden-treasure-of-area-zero",
+        "the-isle-of-armor",
+        "the-crown-tundra",
+        "the-teal-mask",
+        "the-indigo-disk",
+        "champions",
+      ];
 
       const groupDetailPromises = groupRes.results
         .filter((vg) => !dlcBlacklist.includes(vg.name))
@@ -193,25 +200,35 @@
 
       STATE.allGames = versionsList;
 
-      // Inyectar manualmente juegos que solo existen en local (como remakes exclusivos, green-japan, legends-za...)
+      // Inyectar manualmente juegos que solo existen en local (como remakes exclusivos, green-japan, legends-za, DLCs...)
       if (window.RICH_GAMES_DATA) {
+        // Mapa de generación para juegos manuales
+        const manualGenMap = {
+          "red-japan": { name: "generation-i", url: "https://pokeapi.co/api/v2/generation/1/" },
+          "green-japan": { name: "generation-i", url: "https://pokeapi.co/api/v2/generation/1/" },
+          "blue-japan": { name: "generation-i", url: "https://pokeapi.co/api/v2/generation/1/" },
+          "the-isle-of-armor": { name: "generation-viii", url: "https://pokeapi.co/api/v2/generation/8/" },
+          "the-crown-tundra": { name: "generation-viii", url: "https://pokeapi.co/api/v2/generation/8/" },
+          "the-teal-mask": { name: "generation-ix", url: "https://pokeapi.co/api/v2/generation/9/" },
+          "the-indigo-disk": { name: "generation-ix", url: "https://pokeapi.co/api/v2/generation/9/" },
+          "legends-za": { name: "generation-ix", url: "https://pokeapi.co/api/v2/generation/9/" },
+          "mega-dimension": { name: "generation-ix", url: "https://pokeapi.co/api/v2/generation/9/" },
+          "colosseum": { name: "generation-iii", url: "https://pokeapi.co/api/v2/generation/3/" },
+          "xd": { name: "generation-iii", url: "https://pokeapi.co/api/v2/generation/3/" },
+        };
+
         Object.keys(window.RICH_GAMES_DATA).forEach((key, idx) => {
           if (!STATE.allGames.find((g) => g.name === key)) {
             const extra = window.RICH_GAMES_DATA[key];
-            const isGen1 = ["red-japan", "green-japan", "blue-japan"].includes(
-              key,
-            );
+            const isGen1 = ["red-japan", "green-japan", "blue-japan"].includes(key);
 
             STATE.allGames.push({
               ...extra,
-              id: isGen1 ? idx / 1000 : 9000 + idx, // IDs artificiales menores a 1 para asegurar que Gen 1 JPN vaya primero en empates de fecha
+              id: isGen1 ? idx / 1000 : 9000 + idx,
               name: key,
               groupName: key,
               localizedName: window.I18n ? window.I18n.toTitle(key) : key,
-              generation: {
-                name: isGen1 ? "generation-i" : "generation-unknown",
-                url: isGen1 ? "https://pokeapi.co/api/v2/generation/1/" : "",
-              },
+              generation: manualGenMap[key] || { name: "generation-unknown", url: "" },
               boxArt: getLocalBoxArt(key) || extra.boxArt || "",
             });
           }
@@ -429,8 +446,6 @@
     } else {
       renderTimeline(filtered);
     }
-
-    emptyState.hidden = filtered.length > 0;
 
     emptyState.hidden = filtered.length > 0;
   }
