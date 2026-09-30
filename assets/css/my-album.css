@@ -9,22 +9,27 @@
 /* ===== GRID DE EXPANSIONES ===== */
 #albumGrid.grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(10, 1fr);
   gap: 20px;
   padding: 10px 0;
 }
 
 @media (max-width: 1400px) {
   #albumGrid.grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 @media (max-width: 992px) {
   #albumGrid.grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  #albumGrid.grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 480px) {
   #albumGrid.grid {
     grid-template-columns: repeat(1, 1fr);
   }
@@ -37,7 +42,11 @@
   border-radius: var(--radius-lg);
   padding: 1.2rem;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s ease, box-shadow 0.25s ease;
+  will-change: transform;
+  transform: translateZ(0);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 220px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -55,7 +64,7 @@
   height: 4px;
   background: var(--item-album-color);
   opacity: 0.8;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.3s ease;
 }
 
 .album-set-card::before {
@@ -67,7 +76,7 @@
   height: 100%;
   background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
   transform: skewX(-20deg);
-  transition: all 0.6s ease;
+  transition: left 0.6s ease;
   z-index: 10;
   pointer-events: none;
 }
@@ -93,6 +102,9 @@
 .album-set-card .set-logo-wrap img {
   max-height: 70px;
   max-width: 90%;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 200 / 70; /* reserve space before load */
   object-fit: contain;
 }
 
@@ -158,8 +170,7 @@
 }
 
 #albumModal::backdrop {
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(10px);
+  background: rgba(10, 15, 26, 0.75);
 }
 
 #albumModal .modal-content {
@@ -350,6 +361,7 @@
 .album-card-img {
   width: 100%;
   height: auto;
+  aspect-ratio: 245 / 342; /* reserve space before load (prevents CLS) */
   border-radius: 10px;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);

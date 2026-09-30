@@ -34,7 +34,7 @@
     let ALL_SETS = [];
     let DISPLAY_SETS = [];
     let PAGE = 1;
-    let PER_PAGE = 96;
+    let PER_PAGE = 60;
     let currentModalSetId = null;
     // Cache: setId -> {owned, total, spent, remaining} for progress on grid cards
     const setProgressCache = {};
@@ -229,6 +229,8 @@
         card.innerHTML = `
           <div class="set-logo-wrap">
             <img src="${logoUrl}" alt="${set.name}" loading="lazy"
+              width="200" height="70"
+              style="aspect-ratio: 200 / 70; max-height: 70px; max-width: 90%; object-fit: contain;"
               onerror="this.onerror=null; this.src=(window.I18n ? window.I18n.getBasePath() : '') + 'assets/img/fallback/fallback.png';">
           </div>
           <div class="set-name">${set.name}</div>
@@ -253,7 +255,7 @@
       albumGrid.appendChild(frag);
 
       // Re-init Lucide icons if available
-      if (window.lucide) lucide.createIcons();
+      if (window.lucide) lucide.createIcons({ root: albumGrid });
     }
 
     // ===== MODAL: OPEN SET =====
@@ -261,10 +263,20 @@
       currentModalSetId = set.id;
       modalTitle.textContent = set.name;
 
-      const symbolUrl = set.symbol
-        ? `${set.symbol}.png`
-        : set.images?.symbol ||
-          (window.I18n ? I18n.getBasePath() : "") + "assets/img/fallback/fallback.png";
+      // TCGdex CDN returns 400 for ALL symbol.png URLs — always use logo instead
+      modalSymbol.onerror = function () {
+        this.onerror = null;
+        this.src =
+          (window.I18n ? I18n.getBasePath() : "") +
+          "assets/img/fallback/fallback.png";
+      };
+
+      const symbolUrl = set.logo
+        ? set.logo.endsWith(".png")
+          ? set.logo
+          : `${set.logo}.png`
+        : (window.I18n ? I18n.getBasePath() : "") +
+          "assets/img/fallback/fallback.png";
       modalSymbol.src = symbolUrl;
 
       // Reset stats
@@ -284,7 +296,7 @@
       `;
 
       dlg.showModal();
-      if (window.lucide) lucide.createIcons();
+      if (window.lucide) lucide.createIcons({ root: dlg });
 
       // Load cards
       try {
@@ -313,9 +325,11 @@
           let imageHtml;
           if (card.image) {
             imageHtml = `<img src="${card.image}/low.png" alt="${safeName}" class="album-card-img" loading="lazy"
+              width="245" height="342" style="aspect-ratio: 245 / 342;"
               onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'album-card-fallback\\'>${safeName}</div>';">`;
           } else if (card.images?.small) {
             imageHtml = `<img src="${card.images.small}" alt="${safeName}" class="album-card-img" loading="lazy"
+              width="245" height="342" style="aspect-ratio: 245 / 342;"
               onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'album-card-fallback\\'>${safeName}</div>';">`;
           } else {
             imageHtml = `<div class="album-card-fallback">${safeName}</div>`;

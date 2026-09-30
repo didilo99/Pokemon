@@ -249,9 +249,21 @@
         </div>
 
         <div id="syncProgressRow" class="sync-progress-row" hidden>
-          <span id="syncProgressText" class="sync-progress-text"
-            >Sincronizando...</span
-          >
+          <div class="sync-progress-header">
+            <span id="syncProgressText" class="sync-progress-text"
+              >Sincronizando...</span
+            >
+            <button
+              id="stopSyncBtn"
+              class="dex-btn-stop"
+              type="button"
+              title="Detener sincronización"
+              style="display: none"
+            >
+              <i data-lucide="square"></i>
+              <span data-i18n="footer.stop_sync">Detener</span>
+            </button>
+          </div>
           <div class="sync-progress-bar-container">
             <div
               id="syncProgressBar"
@@ -269,7 +281,7 @@
 
     <div class="footer-bottom">
       <div class="copyright">
-        <span data-i18n="footer.copyright">© {year} Pokédex App</span>
+        <span data-i18n="footer.copyright" data-i18n-html="footer.copyright"><a href="https://example.com" target="_blank" rel="noopener noreferrer">Poke App</a> © 2026 by <a href="https://example.com" target="_blank" rel="noopener noreferrer">Diego Diaz</a> is licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="license noopener noreferrer">CC BY-NC-ND 4.0</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/nd.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"></span>
       </div>
     </div>
   </div>

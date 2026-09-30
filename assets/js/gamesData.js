@@ -423,4 +423,12 @@ window.RICH_GAMES_DATA = {
     releaseDate: { jpn: "2005-08-04", int: "2005-10-03" },
     platform: "GameCube",
   },
+  champions: {
+    summary:
+      "A special digital release.",
+    starters: [],
+    legendaries: [],
+    releaseDate: { jpn: "2026", int: "2026" },
+    platform: "Nintendo Switch (eShop)",
+  },
 };

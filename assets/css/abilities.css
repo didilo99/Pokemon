@@ -6,18 +6,18 @@
 /* ===== GRID DE HABILIDADES ===== */
 #abilitiesGrid.grid {
   display: grid;
-  grid-template-columns: repeat(10, 1fr); /* Divisor of 60 */
+  grid-template-columns: repeat(10, 1fr);
   gap: 16px;
   padding: 10px 0;
 }
 
 @media (max-width: 1400px) {
   #abilitiesGrid.grid {
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 992px) {
   #abilitiesGrid.grid {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -26,6 +26,12 @@
 @media (max-width: 768px) {
   #abilitiesGrid.grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  #abilitiesGrid.grid {
+    grid-template-columns: repeat(1, 1fr);
   }
 }
 
@@ -143,8 +149,7 @@
 }
 
 #abilityModal::backdrop {
-  background: var(--c-modal-overlay);
-  backdrop-filter: blur(8px);
+  background: rgba(10, 15, 26, 0.75);
 }
 
 .modal-content {

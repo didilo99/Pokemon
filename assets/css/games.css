@@ -149,14 +149,33 @@ body.v2-theme {
 /* Grid & Cards V2 */
 .grid-v2 {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 32px;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 20px;
   padding: 20px 0;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 1200px) {
   .grid-v2 {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .grid-v2 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-v2 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-v2 {
+    grid-template-columns: repeat(1, 1fr);
     gap: 12px;
   }
 }

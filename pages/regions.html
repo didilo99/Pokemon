@@ -13,7 +13,7 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="../assets/css/styles.css?v=2" />
-    <link rel="stylesheet" href="../assets/css/regions.css" />
+    <link rel="stylesheet" href="../assets/css/regions.css?v=2" />
     <link rel="icon" type="image/png" href="../assets/icon/favicon.png" />
     <script src="../assets/js/cache.js"></script>
     <script src="../assets/js/i18n.js"></script>
@@ -396,7 +396,15 @@
           Mapa del Mundo Pokémon
         </h2>
         <div class="world-map-container">
-          <img id="globalMap" class="world-map" alt="Mapa del mundo Pokémon" />
+          <img
+            id="globalMap"
+            class="world-map"
+            alt="Mapa del mundo Pokémon"
+            width="800"
+            height="451"
+            loading="eager"
+            fetchpriority="high"
+          />
         </div>
       </div>
 
@@ -498,7 +506,7 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
-    <script src="../assets/js/regions.js" defer></script>
+    <script src="../assets/js/regions.js?v=2" defer></script>
     <div id="footer-placeholder"></div>
   </body>
 </html>

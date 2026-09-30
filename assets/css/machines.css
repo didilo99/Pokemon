@@ -19,22 +19,22 @@
 
 @media (max-width: 1400px) {
   #machinesGrid.grid {
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 @media (max-width: 992px) {
   #machinesGrid.grid {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 @media (max-width: 768px) {
   #machinesGrid.grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 @media (max-width: 480px) {
   #machinesGrid.grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
   }
 }
 
@@ -157,8 +157,7 @@
 }
 
 #machineModal::backdrop {
-  background: var(--c-modal-overlay);
-  backdrop-filter: blur(10px);
+  background: rgba(10, 15, 26, 0.75);
 }
 
 .modal-content {
@@ -297,19 +296,16 @@
 
 #machineModal .badge.bg-dark {
   background: rgba(15, 23, 42, 0.6) !important;
-  backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--c-text) !important;
 }
 
 #machineModal .badge.bg-secondary {
   background: rgba(71, 85, 105, 0.6) !important;
-  backdrop-filter: blur(8px);
 }
 
 #machineModal .item-description {
   background: rgba(15, 23, 42, 0.3);
-  backdrop-filter: blur(12px);
   border: 1px solid var(--c-white-10);
   border-radius: 20px;
   padding: 2rem;

@@ -14,8 +14,8 @@
       crossorigin="anonymous"
     />
 
-    <link rel="stylesheet" href="assets/css/styles.css?v=11" />
-    <link rel="stylesheet" href="assets/css/index.css?v=11" />
+    <link rel="stylesheet" href="assets/css/styles.css?v=14" />
+    <link rel="stylesheet" href="assets/css/index.css?v=12" />
     <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
     <link rel="stylesheet" href="assets/css/a11y.css" />
     <script src="assets/js/cache.js" defer></script>
@@ -128,7 +128,7 @@
           </nav>
           <div id="filtersCollapse">
             <!-- FILA 1: FILTROS PRINCIPALES -->
-            <form class="filters" role="search" onsubmit="return false;">
+            <form class="filters" role="search" onsubmit="return false;" autocomplete="off">
               <div class="ctrl">
                 <label for="search" data-i18n="filters.search_label">Buscar</label>
                 <input
@@ -141,7 +141,7 @@
 
               <div class="ctrl">
                 <label for="region" data-i18n="filters.region_label">Región</label>
-                <select id="region" class="dex-select form-select-sm">
+                <select id="region" class="dex-select form-select-sm" autocomplete="off">
                   <option value="all" selected data-i18n="filters.region_all">Todas</option>
                   <option value="kanto" data-i18n="regions.names.kanto">Kanto</option>
                   <option value="johto" data-i18n="regions.names.johto">Johto</option>
@@ -158,7 +158,7 @@
 
               <div class="ctrl">
                 <label for="generation" data-i18n="filters.gen_label">Generación</label>
-                <select id="generation" class="dex-select form-select-sm">
+                <select id="generation" class="dex-select form-select-sm" autocomplete="off">
                   <option value="all" selected data-i18n="filters.gen_all">Todas</option>
                   <option value="generation-i" data-i18n="regions.gen_names.gen1">Gen 1 (Kanto)</option>
                   <option value="generation-ii" data-i18n="regions.gen_names.gen2">Gen 2 (Johto)</option>
@@ -174,7 +174,7 @@
 
               <div class="ctrl">
                 <label for="typeMode" data-i18n="filters.type_mode_label">Coincidencia de tipos</label>
-                <select id="typeMode" class="dex-select form-select-sm">
+                <select id="typeMode" class="dex-select form-select-sm" autocomplete="off">
                   <option value="or" data-i18n="filters.type_mode_or">Incluye alguno</option>
                   <option value="and" data-i18n="filters.type_mode_and">Incluye todos</option>
                   <option value="exact" data-i18n="filters.type_mode_exact">Exacto (mono/dual)</option>
@@ -183,7 +183,7 @@
 
               <div class="ctrl">
                 <label for="sort" data-i18n="filters.sort_label">Ordenar por</label>
-                <select id="sort" class="dex-select form-select-sm">
+                <select id="sort" class="dex-select form-select-sm" autocomplete="off">
                   <option value="id-asc" selected data-i18n="filters.sort_id_asc">#ID ↑</option>
                   <option value="id-desc" data-i18n="filters.sort_id_desc">#ID ↓</option>
                   <option value="name-asc" data-i18n="filters.sort_name_asc">Nombre A→Z</option>
@@ -215,12 +215,13 @@
                   id="perPage"
                   class="dex-select form-select-sm"
                   aria-label="Resultados por página"
+                  autocomplete="off"
                 >
-                  <option value="12">12</option>
-                  <option value="24">24</option>
-                  <option value="48" selected>48</option>
-                  <option value="60">60</option>
-                  <option value="102">102</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                  <option value="60" selected>60</option>
+                  <option value="100">100</option>
                 </select>
               </div>
             </form>
@@ -404,6 +405,7 @@
               min="1"
               step="1"
               value="1"
+              autocomplete="off"
             />
             <button
               class="btn btn-secondary dex-btn"
@@ -452,6 +454,7 @@
                 <select
                   id="spriteSelect"
                   class="dex-select form-select-sm"
+                  autocomplete="off"
                 ></select>
               </span>
               <span class="pill">
@@ -460,7 +463,7 @@
               </span>
               <span class="pill">
                 <label for="genderSelect" data-i18n="modal.gender">Género</label>
-                <select id="genderSelect" class="dex-select form-select-sm">
+                <select id="genderSelect" class="dex-select form-select-sm" autocomplete="off">
                   <option value="auto" data-i18n="modal.gender_auto">Auto</option>
                   <option value="male">♂</option>
                   <option value="female">♀</option>
@@ -471,6 +474,7 @@
                 <select
                   id="formSelect"
                   class="dex-select form-select-sm"
+                  autocomplete="off"
                 ></select>
               </span>
               <span class="pill">
@@ -512,8 +516,6 @@
             </div>
             <p id="flavor" class="flavor-text"></p>
           </header>
-          <br>
-          <div class="modal-section-box mb-4" id="formChangeKV" style="display: none;"></div>
 
           <div class="modal-section-box evo-kv">
             <div class="evo-top">
@@ -620,7 +622,7 @@
                <div class="edit-row">
                   <div class="edit-section">
                     <label for="teamForm" data-i18n="modal.form">Forma</label>
-                    <select id="teamForm" class="dex-select w-100"></select>
+                    <select id="teamForm" class="dex-select w-100" autocomplete="off"></select>
                   </div>
                   <div class="edit-section">
                     <label for="teamLevel" data-i18n="modal.level">Nivel (1-100)</label>
@@ -630,25 +632,32 @@
                       class="dex-select w-100"
                       min="1"
                       max="100"
+                      autocomplete="off"
                     />
                   </div>
                </div>
 
                <!-- Row 2: Item -->
                <div class="edit-section full-width mt-2">
-                 <label data-i18n="modal.item">Objeto</label>
-                 <div id="teamItemControl" class="custom-dropdown-wrapper"></div>
+                 <label for="teamItemInput" data-i18n="modal.item">Objeto</label>
+                 <div id="teamItemControl" class="custom-dropdown-wrapper">
+                   <input type="text" id="teamItemInput" class="custom-dropdown-input" placeholder="Buscar..." autocomplete="off" />
+                 </div>
                </div>
 
                <!-- Row 3: Ability & Nature -->
                <div class="edit-row mt-2">
                   <div class="edit-section">
-                    <label data-i18n="modal.ability">Habilidad</label>
-                    <div id="teamAbilityControl" class="custom-dropdown-wrapper"></div>
+                    <label for="teamAbilityInput" data-i18n="modal.ability">Habilidad</label>
+                    <div id="teamAbilityControl" class="custom-dropdown-wrapper">
+                      <input type="text" id="teamAbilityInput" class="custom-dropdown-input" placeholder="Buscar..." autocomplete="off" />
+                    </div>
                   </div>
                   <div class="edit-section">
-                    <label data-i18n="modal.nature">Naturaleza</label>
-                    <div id="teamNatureControl" class="custom-dropdown-wrapper"></div>
+                    <label for="teamNatureInput" data-i18n="modal.nature">Naturaleza</label>
+                    <div id="teamNatureControl" class="custom-dropdown-wrapper">
+                      <input type="text" id="teamNatureInput" class="custom-dropdown-input" placeholder="Buscar..." autocomplete="off" />
+                    </div>
                   </div>
                </div>
 
@@ -680,9 +689,9 @@
                  <div class="moves-list">
                    <!-- Move 1 -->
                    <div class="move-group detailed-move">
-                     <label data-i18n="modal.label_move_1">Movimiento 1</label>
+                     <label for="teamMove1Input" data-i18n="modal.label_move_1">Movimiento 1</label>
                      <div id="teamMove1Control" class="custom-dropdown-wrapper mb-1">
-                       <div class="search-autocomplete"></div>
+                       <input type="text" id="teamMove1Input" class="custom-dropdown-input" placeholder="Buscar..." autocomplete="off" />
                      </div>
                       <div class="move-details-grid d-flex gap-1">
                         <div class="move-stat-box" title="Potencia" data-i18n-title="modal.label_power">
@@ -707,9 +716,9 @@
 
                    <!-- Move 2 -->
                    <div class="move-group detailed-move">
-                     <label data-i18n="modal.label_move_2">Movimiento 2</label>
+                     <label for="teamMove2Input" data-i18n="modal.label_move_2">Movimiento 2</label>
                      <div id="teamMove2Control" class="custom-dropdown-wrapper mb-1">
-                       <div class="search-autocomplete"></div>
+                       <input type="text" id="teamMove2Input" class="custom-dropdown-input" placeholder="Buscar..." autocomplete="off" />
                      </div>
                      <div class="move-details-grid d-flex gap-1">
                         <div class="move-stat-box" title="Potencia" data-i18n-title="modal.label_power">
@@ -734,9 +743,9 @@
 
                    <!-- Move 3 -->
                    <div class="move-group detailed-move">
-                     <label data-i18n="modal.label_move_3">Movimiento 3</label>
+                     <label for="teamMove3Input" data-i18n="modal.label_move_3">Movimiento 3</label>
                      <div id="teamMove3Control" class="custom-dropdown-wrapper mb-1">
-                       <div class="search-autocomplete"></div>
+                       <input type="text" id="teamMove3Input" class="custom-dropdown-input" placeholder="Buscar..." autocomplete="off" />
                      </div>
                      <div class="move-details-grid d-flex gap-1">
                         <div class="move-stat-box" title="Potencia" data-i18n-title="modal.label_power">
@@ -761,9 +770,9 @@
 
                    <!-- Move 4 -->
                    <div class="move-group detailed-move">
-                     <label data-i18n="modal.label_move_4">Movimiento 4</label>
+                     <label for="teamMove4Input" data-i18n="modal.label_move_4">Movimiento 4</label>
                      <div id="teamMove4Control" class="custom-dropdown-wrapper mb-1">
-                       <div class="search-autocomplete"></div>
+                       <input type="text" id="teamMove4Input" class="custom-dropdown-input" placeholder="Buscar..." autocomplete="off" />
                      </div>
                      <div class="move-details-grid d-flex gap-1">
                         <div class="move-stat-box" title="Potencia" data-i18n-title="modal.label_power">
@@ -816,7 +825,7 @@
     ></script>
 
     <script src="assets/js/cardStorage.js?v=14" defer></script>
-    <script src="assets/js/app.js?v=14" defer></script>
+    <script src="assets/js/app.js?v=15" defer></script>
 
     <div id="footer-placeholder"></div>
   </body>

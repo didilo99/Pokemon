@@ -8,7 +8,7 @@
 
 #breedingGrid.grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 20px;
   padding: 10px 0;
 }
@@ -21,11 +21,13 @@
 @media (max-width: 768px) {
   #breedingGrid.grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
   }
 }
 @media (max-width: 480px) {
   #breedingGrid.grid {
     grid-template-columns: repeat(1, 1fr);
+    gap: 12px;
   }
 }
 
@@ -36,9 +38,13 @@
   padding: 1.5rem;
   cursor: pointer;
   transition:
-    transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
-    border-color 0.3s,
-    box-shadow 0.3s;
+    transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.2s ease,
+    box-shadow 0.25s ease;
+  will-change: transform;
+  transform: translateZ(0);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 120px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -136,8 +142,7 @@
 }
 
 #breedingModal::backdrop {
-  background: var(--c-modal-overlay);
-  backdrop-filter: blur(10px);
+  background: rgba(10, 15, 26, 0.75);
 }
 
 .modal-content {

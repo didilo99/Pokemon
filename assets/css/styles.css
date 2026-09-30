@@ -37,32 +37,84 @@
   --c-accent-30: rgba(99, 102, 241, 0.3);
   --c-accent-10: rgba(99, 102, 241, 0.1);
 
-  /* ===== COLORES DE TIPOS POKÉMON ===== */
+  /* ===== COLORES DE TIPOS POKÉMON (OFICIALES BULBAPEDIA MODERNOS) ===== */
   /* 
-    MODIFICAR: Personaliza los colores de cada tipo Pokémon
-    Estos colores se usan en badges, degradados de cards y efectividad de tipos
-    Formato recomendado: hexadecimal (#RRGGBB)
+    Colores base oficiales según la enciclopedia Bulbapedia (Gen IX / SV / HOME)
+    Formato hexadecimal (#RRGGBB)
   */
-  --tc-normal: #a8a77a;
-  --tc-fire: #ee8130;
-  --tc-water: #6390f0;
-  --tc-electric: #f7d02c;
-  --tc-grass: #7ac74c;
-  --tc-ice: #96d9d6;
-  --tc-fighting: #c22e28;
-  --tc-poison: #a33ea1;
-  --tc-ground: #e2bf65;
-  --tc-flying: #a98ff3;
-  --tc-psychic: #f95587;
-  --tc-bug: #a6b91a;
-  --tc-rock: #b6a136;
-  --tc-ghost: #735797;
-  --tc-dragon: #6f35fc;
-  --tc-dark: #705746;
-  --tc-steel: #b7b7ce;
-  --tc-fairy: #d685ad;
-  --tc-stellar: #41b6cc;
-  /* Tipo Hada - Rosa claro */
+  --tc-normal: #9fa19f;
+  --tc-fire: #e62829;
+  --tc-water: #2980ef;
+  --tc-electric: #fac000;
+  --tc-grass: #3fa129;
+  --tc-ice: #3dcef3;
+  --tc-fighting: #ff8000;
+  --tc-poison: #9141cb;
+  --tc-ground: #915121;
+  --tc-flying: #81b9ef;
+  --tc-psychic: #ef4179;
+  --tc-bug: #91a119;
+  --tc-rock: #afa981;
+  --tc-ghost: #704170;
+  --tc-dragon: #5060e1;
+  --tc-dark: #624d4e;
+  --tc-steel: #60a1b8;
+  --tc-fairy: #ef70ef;
+  --tc-stellar: #40b5a5;
+  --tc-unknown: #68a090;
+
+  /* Variantes oscuras oficiales Bulbapedia (Bordes, sombras, acentos) */
+  --tc-normal-dark: #676967;
+  --tc-fire-dark: #961a1b;
+  --tc-water-dark: #1b539b;
+  --tc-electric-dark: #a37d00;
+  --tc-grass-dark: #29691b;
+  --tc-ice-dark: #28869e;
+  --tc-fighting-dark: #a65300;
+  --tc-poison-dark: #5e2a84;
+  --tc-ground-dark: #5e3515;
+  --tc-flying-dark: #54789b;
+  --tc-psychic-dark: #9b2a4f;
+  --tc-bug-dark: #5e6910;
+  --tc-rock-dark: #726e54;
+  --tc-ghost-dark: #492a49;
+  --tc-dragon-dark: #343e92;
+  --tc-dark-dark: #403233;
+  --tc-steel-dark: #3e6978;
+  --tc-fairy-dark: #9b499b;
+  --tc-stellar-dark: #2a766b;
+  --tc-unknown-dark: #44685e;
+
+  /* Variantes claras oficiales Bulbapedia (Highlights, brillos, fondos) */
+  --tc-normal-light: #c1c2c1;
+  --tc-fire-light: #ef7374;
+  --tc-water-light: #74acf5;
+  --tc-electric-light: #fcd659;
+  --tc-grass-light: #82c274;
+  --tc-ice-light: #81dff7;
+  --tc-fighting-light: #ffac59;
+  --tc-poison-light: #b884dd;
+  --tc-ground-light: #b88e6f;
+  --tc-flying-light: #add2f5;
+  --tc-psychic-light: #f584a8;
+  --tc-bug-light: #b8c26a;
+  --tc-rock-light: #cbc7ad;
+  --tc-ghost-light: #a284a2;
+  --tc-dragon-light: #8d98ec;
+  --tc-dark-light: #998b8c;
+  --tc-steel-light: #98c2d1;
+  --tc-fairy-light: #f5a2f5;
+  --tc-stellar-light: #83cfc5;
+  --tc-unknown-light: #9dc1b7;
+
+  /* Color de texto óptimo y accesible para cada tipo (WCAG AA) */
+  --tc-electric-text: #1a1f35;
+  --tc-ice-text: #1a1f35;
+  --tc-flying-text: #1a1f35;
+  --tc-default-text: #ffffff;
+
+  /* Degradado prismático característico para el tipo Estelar (Gen IX) */
+  --tc-stellar-gradient: linear-gradient(135deg, #40b5a5 0%, #3fa129 20%, #fac000 40%, #e62829 60%, #ef4179 80%, #5060e1 100%);
 
   /* ===== ESPACIADO ===== */
   /* 
@@ -219,6 +271,7 @@
 
 html {
   color-scheme: dark light;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -234,7 +287,7 @@ body {
   display: flex;
   flex-direction: column;
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.15s ease;
 }
 
 body.page-loaded {
@@ -464,7 +517,7 @@ h6 {
   border-radius: var(--radius-sm);
   font-weight: 600;
   font-size: 0.875rem;
-  transition: all 0.2s;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
   border: 1px solid transparent;
   line-height: 1.2;
 }
@@ -523,8 +576,6 @@ h6 {
   padding: var(--sp-lg);
   border-radius: var(--radius-lg);
   border: 1px solid var(--c-border);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   margin-bottom: var(--sp-xl);
   box-shadow: 0 8px 32px var(--c-card-shadow);
   position: relative;
@@ -563,7 +614,8 @@ h6 {
   width: 100%; /* Ocupa todo el ancho de su celda en el grid */
 }
 
-.ctrl label {
+.ctrl label,
+.ctrl .ctrl-label {
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--c-text-muted);
@@ -586,7 +638,7 @@ h6 {
   border: 1px solid var(--c-border);
   border-radius: var(--radius-sm);
   font-size: 0.875rem;
-  transition: all 0.2s cubic-bezier(0.4, 0, 1);
+  transition: border-color 0.2s cubic-bezier(0.4, 0, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 1), background 0.2s cubic-bezier(0.4, 0, 1);
   min-height: 40px;
   width: auto;
   display: inline-flex;
@@ -676,7 +728,8 @@ select.form-select,
   background: var(--c-surface-hover);
 }
 
-:root[data-theme="light"] .ctrl label {
+:root[data-theme="light"] .ctrl label,
+:root[data-theme="light"] .ctrl .ctrl-label {
   color: #172033;
 }
 
@@ -733,7 +786,7 @@ select.form-select,
   color: var(--c-text) !important;
   padding: 10px 16px !important;
   border-radius: var(--radius-sm) !important;
-  transition: all 0.2s ease !important;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease !important;
 }
 
 .dex-dropdown-menu .dropdown-item:hover {
@@ -763,7 +816,7 @@ select.form-select,
   letter-spacing: 0.3px;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
 }
 
@@ -893,7 +946,7 @@ button[aria-expanded="true"] .filter-chevron {
   font-weight: 700;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background 0.2s, color 0.2s, text-shadow 0.2s;
   border: 2px solid var(--chip-color);
   letter-spacing: 0.5px;
   background: transparent !important; /* Force transparent outline */
@@ -908,17 +961,85 @@ button[aria-expanded="true"] .filter-chevron {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-.type-chip .type-icon {
-  filter: none;
-  transition: all 0.2s;
+.type-chip.type-electric:hover,
+.type-chip.type-electric.active,
+.type-chip.type-ice:hover,
+.type-chip.type-ice.active,
+.type-chip.type-flying:hover,
+.type-chip.type-flying.active {
+  color: #1a1f35 !important;
+  text-shadow: none !important;
+}
+
+.type-chip.type-electric:hover .type-chip-count,
+.type-chip.type-electric.active .type-chip-count,
+.type-chip.type-ice:hover .type-chip-count,
+.type-chip.type-ice.active .type-chip-count,
+.type-chip.type-flying:hover .type-chip-count,
+.type-chip.type-flying.active .type-chip-count {
+  background: rgba(0, 0, 0, 0.15) !important;
+  color: #1a1f35 !important;
+}
+
+.type-chip.type-stellar:hover,
+.type-chip.type-stellar.active {
+  background: var(--tc-stellar-gradient, var(--tc-stellar)) !important;
+  color: #ffffff !important;
+}
+
+.type-chip .type-icon,
+.type-chip .type-icon-inline {
+  width: 22px;
+  height: 22px;
+  padding: 3px;
+  border-radius: 50%;
+  background: var(--chip-color);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  object-fit: contain;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.type-chip.type-stellar .type-icon,
+.type-chip.type-stellar .type-icon-inline {
+  background: var(--tc-stellar-gradient, var(--tc-stellar));
 }
 
 .type-chip:hover .type-icon,
-.type-chip.active .type-icon {
-  background: transparent !important;
-  padding: 0;
-  border-radius: 0;
-  box-shadow: none;
+.type-chip.active .type-icon,
+.type-chip:hover .type-icon-inline,
+.type-chip.active .type-icon-inline {
+  background: rgba(0, 0, 0, 0.25) !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(255, 255, 255, 0.15);
+}
+
+.type-chip.type-electric:hover .type-icon,
+.type-chip.type-electric.active .type-icon,
+.type-chip.type-ice:hover .type-icon,
+.type-chip.type-ice.active .type-icon,
+.type-chip.type-flying:hover .type-icon,
+.type-chip.type-flying.active .type-icon,
+.type-chip.type-electric:hover .type-icon-inline,
+.type-chip.type-electric.active .type-icon-inline,
+.type-chip.type-ice:hover .type-icon-inline,
+.type-chip.type-ice.active .type-icon-inline,
+.type-chip.type-flying:hover .type-icon-inline,
+.type-chip.type-flying.active .type-icon-inline {
+  background: rgba(0, 0, 0, 0.18) !important;
+}
+
+.type-chip:hover .type-icon,
+.type-chip:hover .type-icon-inline {
+  transform: scale(1.06);
+}
+
+.type-chip .type-icon-inline:hover {
+  transform: none; /* Avoid unaligned scaling when hovering directly on icon */
 }
 
 .type-chip-count {
@@ -934,74 +1055,83 @@ button[aria-expanded="true"] .filter-chevron {
 
 .type-badge.type-normal {
   background: var(--tc-normal);
-  color: white;
+  color: var(--tc-default-text, white);
 }
 .type-badge.type-fire {
   background: var(--tc-fire);
-  color: white;
+  color: var(--tc-default-text, white);
 }
 .type-badge.type-water {
   background: var(--tc-water);
-  color: white;
+  color: var(--tc-default-text, white);
 }
 .type-badge.type-electric {
   background: var(--tc-electric);
-  color: #1a1f35;
+  color: var(--tc-electric-text, #1a1f35);
 }
 .type-badge.type-grass {
   background: var(--tc-grass);
-  color: white;
+  color: var(--tc-default-text, white);
 }
 .type-badge.type-ice {
   background: var(--tc-ice);
-  color: white;
+  color: var(--tc-ice-text, #1a1f35);
 }
 .type-badge.type-fighting {
   background: var(--tc-fighting);
-  color: white;
+  color: var(--tc-default-text, white);
 }
 .type-badge.type-poison {
   background: var(--tc-poison);
-  color: white;
+  color: var(--tc-default-text, white);
 }
 .type-badge.type-ground {
   background: var(--tc-ground);
-  color: white;
+  color: var(--tc-default-text, white);
 }
 .type-badge.type-flying {
   background: var(--tc-flying);
-  color: white;
+  color: var(--tc-flying-text, #1a1f35);
 }
 .type-badge.type-psychic {
   background: var(--tc-psychic);
-  color: white;
+  color: var(--tc-default-text, white);
 }
 .type-badge.type-bug {
   background: var(--tc-bug);
-  color: white;
+  color: var(--tc-default-text, white);
 }
 .type-badge.type-rock {
   background: var(--tc-rock);
-  color: white;
+  color: var(--tc-default-text, white);
 }
 .type-badge.type-ghost {
   background: var(--tc-ghost);
-  color: white;
+  color: var(--tc-default-text, white);
 }
 .type-badge.type-dragon {
   background: var(--tc-dragon);
-  color: white;
+  color: var(--tc-default-text, white);
 }
 .type-badge.type-dark {
   background: var(--tc-dark);
-  color: white;
+  color: var(--tc-default-text, white);
 }
 .type-badge.type-steel {
   background: var(--tc-steel);
-  color: white;
+  color: var(--tc-default-text, white);
 }
 .type-badge.type-fairy {
   background: var(--tc-fairy);
+  color: var(--tc-default-text, white);
+}
+.type-badge.type-stellar {
+  background: var(--tc-stellar-gradient, var(--tc-stellar));
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+.type-badge.type-unknown {
+  background: var(--tc-unknown);
   color: white;
 }
 
@@ -1063,6 +1193,21 @@ button[aria-expanded="true"] .filter-chevron {
 .type-chip.type-stellar {
   --chip-color: var(--tc-stellar);
 }
+.type-chip.type-unknown {
+  --chip-color: var(--tc-unknown);
+}
+.type-chip.type-colorless {
+  --chip-color: var(--tc-normal);
+}
+.type-chip.type-lightning {
+  --chip-color: var(--tc-electric);
+}
+.type-chip.type-darkness {
+  --chip-color: var(--tc-dark);
+}
+.type-chip.type-metal {
+  --chip-color: var(--tc-steel);
+}
 
 .type-badge {
   display: inline-flex;
@@ -1084,34 +1229,26 @@ button[aria-expanded="true"] .filter-chevron {
 
 /* --- GRID DE POKÉMON --- */
 /* 
-  MODIFICAR grid-template-columns para cambiar el número de columnas:
-  - repeat(6, 1fr) = 6 columnas fijas (ACTUAL)
-  - repeat(4, 1fr) = 4 columnas
-  - repeat(auto-fill, minmax(150px, 1fr)) = auto-ajustable según ancho
-  
-  MODIFICAR gap para el espacio entre cards:
-  - var(--sp-sm) = menos espacio
-  - var(--sp-lg) = más espacio
+  Configuración responsiva para el grid principal de la Pokédex:
+  - 10 columnas fijas en pantallas grandes (independiente de Pokémon por página)
+  - Reducción progresiva y adaptativa en pantallas más pequeñas
 */
 .grid {
   display: grid;
-  grid-template-columns: repeat(
-    var(--grid-cols, 6),
-    1fr
-  ); /* Dynamic: set by JS based on perPage */
+  grid-template-columns: repeat(10, 1fr);
   gap: var(--sp-lg);
   padding: var(--sp-lg) 0;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1400px) {
   .grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 
 @media (max-width: 992px) {
   .grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: var(--sp-md);
   }
 }
@@ -1136,7 +1273,7 @@ button[aria-expanded="true"] .filter-chevron {
   border-radius: var(--radius-lg);
   padding: var(--sp-lg);
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s ease;
   border: 1px solid var(--c-border);
   position: relative;
   overflow: hidden;
@@ -1147,6 +1284,10 @@ button[aria-expanded="true"] .filter-chevron {
   flex-direction: column;
   align-items: center;
   gap: 12px; /* Increased gap for better spacing */
+  will-change: transform;
+  transform: translateZ(0);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 240px;
 }
 
 .card .badges {
@@ -1173,7 +1314,7 @@ button[aria-expanded="true"] .filter-chevron {
 }
 
 .card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-6px) translateZ(0);
   box-shadow:
     0 12px 24px -8px var(--c-black-20),
     0 4px 12px -4px var(--c-black-20);
@@ -1186,11 +1327,13 @@ button[aria-expanded="true"] .filter-chevron {
   height: 96px;
   object-fit: contain;
   image-rendering: pixelated;
-  transition: transform 0.2s;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .card:hover .sprite {
-  transform: scale(1.15);
+  transform: scale(1.15) translateZ(0);
 }
 
 /* Dynamic Gradient Background */
@@ -1283,7 +1426,7 @@ button[aria-expanded="true"] .filter-chevron {
   opacity: 0;
   overflow: hidden;
   margin: 0;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: max-height 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s ease, margin 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .card:hover .card-controls {
@@ -1303,7 +1446,7 @@ button[aria-expanded="true"] .filter-chevron {
   font-weight: 600;
   font-size: 0.875rem;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s ease, color 0.2s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1354,7 +1497,7 @@ button[aria-expanded="true"] .filter-chevron {
   border-radius: var(--radius-sm);
   cursor: pointer;
   color: var(--c-text-muted);
-  transition: 0.2s;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .card-controls .small-btn {
@@ -1443,9 +1586,12 @@ dialog {
   margin: auto;
 }
 
+body:has(dialog[open]) {
+  overflow: hidden;
+}
+
 dialog::backdrop {
-  background: var(--c-modal-overlay);
-  backdrop-filter: blur(8px);
+  background: rgba(10, 15, 26, 0.75);
 }
 
 /* 
@@ -1534,10 +1680,8 @@ dialog::backdrop {
   font-weight: 600;
   font-size: 1.1rem;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.2s ease;
   z-index: 100;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   padding: 0;
   line-height: 1;
   pointer-events: auto !important;
@@ -1590,7 +1734,6 @@ dialog::backdrop {
   padding: var(--sp-md);
   padding-bottom: 40px; /* Space for dropdown menus */
   border-radius: var(--radius);
-  backdrop-filter: blur(10px);
 }
 
 .swapline label {
@@ -1874,11 +2017,9 @@ dialog::backdrop {
   cursor: pointer;
   padding: var(--sp-md);
   border-radius: var(--radius-lg);
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.2s ease, border-color 0.2s ease, box-shadow 0.25s ease;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   position: relative;
   z-index: 1;
 }
@@ -1937,9 +2078,8 @@ dialog::backdrop {
   background: rgba(99, 102, 241, 0.15);
   border-color: var(--c-accent);
   box-shadow:
-    0 0 25px rgba(99, 102, 241, 0.3),
+    0 0 20px rgba(99, 102, 241, 0.4),
     inset 0 0 10px rgba(99, 102, 241, 0.2);
-  animation: evo-pulse 2s infinite ease-in-out;
 }
 
 @keyframes evo-pulse {
@@ -1979,7 +2119,6 @@ dialog::backdrop {
   font-weight: 700;
   text-align: center;
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(4px);
   padding: 4px 10px;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -2093,6 +2232,14 @@ dialog::backdrop {
   border-color: var(--tc-fairy);
   color: var(--tc-fairy);
 }
+.eff-badge.type-stellar {
+  border-color: var(--tc-stellar);
+  color: var(--tc-stellar);
+}
+.eff-badge.type-unknown {
+  border-color: var(--tc-unknown);
+  color: var(--tc-unknown);
+}
 .eff-badge .type-icon {
   width: 14px;
   height: 14px;
@@ -2145,7 +2292,7 @@ dialog::backdrop {
   flex-direction: column;
   position: relative;
   min-height: 200px;
-  transition: all 0.2s;
+  transition: transform 0.2s, border-color 0.2s;
   cursor: pointer;
   overflow: hidden;
 }
@@ -2216,7 +2363,6 @@ dialog::backdrop {
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(2px);
   border: 1px solid var(--c-white-20);
 }
 
@@ -2338,7 +2484,7 @@ dialog::backdrop {
   font-weight: 700;
   font-size: 0.85rem;
   color: var(--c-text-muted);
-  transition: all 0.2s;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
 }
 
 .team-tab:hover {
@@ -2377,7 +2523,6 @@ dialog::backdrop {
   border-radius: 50%;
   border: 2px solid var(--c-white-10);
   margin-top: var(--sp-lg);
-  backdrop-filter: blur(5px);
 }
 
 .team-edit-sprite-container img {
@@ -2438,7 +2583,7 @@ dialog::backdrop {
   color: var(--c-text);
   font-size: 0.9rem;
   cursor: text;
-  transition: all 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 10px center;
@@ -2603,7 +2748,6 @@ dialog::backdrop {
   background: var(--c-surface);
   border-radius: var(--radius-sm);
   border: 1px solid var(--c-border);
-  backdrop-filter: blur(var(--blur-md));
   width: 100%;
   color: var(--c-text-primary);
   border-collapse: separate;
@@ -2757,7 +2901,7 @@ dialog::backdrop {
   font-size: 0.85rem;
   text-align: center;
   padding: 2px 4px;
-  transition: all 0.2s;
+  transition: border-color 0.2s, background 0.2s;
 }
 
 .edit-stat-input:focus {
@@ -2795,8 +2939,8 @@ dialog::backdrop {
 .dex-footer {
   background: var(--c-bg-lighter, #1a1e2e);
   border-top: 1px solid var(--c-border, rgba(255, 255, 255, 0.08));
-  padding: 4rem 0 3rem;
-  margin-top: 6rem;
+  padding: 2.25rem 0 1.5rem;
+  margin-top: 3rem;
   color: var(--c-text-muted, #94a3b8);
   font-family: "Inter", sans-serif;
 }
@@ -2862,7 +3006,7 @@ dialog::backdrop {
   color: var(--c-text-muted, #94a3b8);
   text-decoration: none;
   font-size: 0.88rem;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, transform 0.2s ease;
   display: inline-block;
 }
 
@@ -2934,7 +3078,7 @@ dialog::backdrop {
   color: #fff;
   border: none;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background 0.2s, filter 0.2s, opacity 0.2s;
 }
 
 .dex-btn-sync:hover:not(:disabled) {
@@ -2961,7 +3105,7 @@ dialog::backdrop {
   color: #fff;
   border: none;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
@@ -2999,7 +3143,7 @@ dialog::backdrop {
   padding: 0.4rem;
   border-radius: 0.4rem;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
   text-align: center;
 }
 
@@ -3016,10 +3160,54 @@ dialog::backdrop {
   gap: 0.5rem;
 }
 
+.sync-progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.dex-btn-stop {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  border-radius: 0.4rem;
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+  line-height: 1.2;
+}
+
+.dex-btn-stop:hover {
+  background: rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  border-color: rgba(239, 68, 68, 0.6);
+  transform: translateY(-1px);
+}
+
+.dex-btn-stop:active {
+  transform: translateY(0);
+}
+
+.dex-btn-stop i,
+.dex-btn-stop svg {
+  width: 12px;
+  height: 12px;
+}
+
 .sync-progress-text {
   font-size: 0.75rem;
   color: var(--c-accent, #3b82f6);
   font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .sync-progress-bar-container {
@@ -3037,8 +3225,8 @@ dialog::backdrop {
 }
 
 .footer-bottom {
-  margin-top: 4rem;
-  padding-top: 2rem;
+  margin-top: 2rem;
+  padding-top: 1.25rem;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
@@ -3057,7 +3245,36 @@ dialog::backdrop {
 
 .copyright {
   font-size: 0.8rem;
-  opacity: 0.8;
+  opacity: 0.85;
+  line-height: 1.6;
+}
+
+.copyright a {
+  color: var(--c-accent, #60a5fa);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+.copyright a:hover {
+  text-decoration: underline;
+  color: #93c5fd;
+}
+
+.copyright img {
+  width: 1.15em;
+  height: 1.15em;
+  max-width: 1.15em;
+  max-height: 1.15em;
+  margin-left: 0.25em;
+  vertical-align: -0.2em;
+  display: inline-block;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.copyright img:hover {
+  transform: scale(1.15);
 }
 
 /* --- Team Statistics Improvements --- */
@@ -3281,9 +3498,8 @@ dialog::backdrop {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 10;
   flex-shrink: 0; /* Prevent shrinking */
-  transition: all 0.2s;
+  transition: background 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
   font-weight: bold;
   font-size: 1.2rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -3384,7 +3600,7 @@ dialog::backdrop {
 .edit-stats-table tbody tr {
   background: var(--c-surface);
   border-radius: var(--radius-sm);
-  transition: all 0.2s ease;
+  transition: background 0.2s ease;
 }
 
 .edit-stats-table tbody tr:hover {
@@ -3429,7 +3645,7 @@ dialog::backdrop {
   font-size: 0.85rem !important;
   font-weight: 600;
   text-align: center !important;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   appearance: textfield;
   -moz-appearance: textfield;
 }
@@ -3498,7 +3714,7 @@ dialog::backdrop {
   border-radius: var(--radius-sm);
   background: rgba(16, 185, 129, 0.15);
   color: #10b981;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease, background 0.3s ease;
 }
 
 /* Responsive adjustments */
@@ -3716,7 +3932,7 @@ dialog::backdrop {
 /* --- TCG MODAL ENHANCEMENTS --- */
 .poke-modal {
   /* Removed colored border and glow per user request */
-  transition: all 0.4s ease;
+  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .modal-theme-fire {
@@ -3913,7 +4129,7 @@ dialog::backdrop {
 }
 
 #modalCardImage {
-  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
@@ -3952,9 +4168,8 @@ dialog::backdrop {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   user-select: none;
-  backdrop-filter: blur(4px);
 }
 
 .tcg-nav-btn:hover {
@@ -4096,13 +4311,13 @@ dialog::backdrop {
   100% { background-position: 200% 0; }
 }
 
-.fade-in { animation: fadeIn 0.4s ease forwards; }
-.slide-up { animation: slideUp 0.4s ease-out forwards; }
-.zoom-in { animation: zoomIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+.fade-in { animation: fadeIn 0.3s ease-out forwards; }
+.slide-up { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.zoom-in { animation: zoomIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
 /* Transiciones de cuadrícula */
 .grid-item-enter {
-  animation: slideUp 0.4s ease forwards;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Skeleton loader premium */
@@ -4137,41 +4352,50 @@ dialog::backdrop {
   opacity: 0.4;
   pointer-events: none;
   filter: blur(2px);
-  transition: all 0.2s ease;
+  transition: opacity 0.2s ease, filter 0.2s ease;
 }
 
-/* Modal Animations */
+/* Modal Animations (Ultra Smooth & Hardware Accelerated) */
 dialog {
   opacity: 0;
-  transform: scale(0.95);
-  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), display 0.3s allow-discrete;
+  transform: translateY(14px) scale(0.985);
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              overlay 0.25s allow-discrete,
+              display 0.25s allow-discrete;
+  will-change: transform, opacity;
+  transform-origin: center center;
 }
 
 dialog[open] {
   opacity: 1;
-  transform: scale(1);
+  transform: translateY(0) scale(1);
 }
 
 @starting-style {
   dialog[open] {
     opacity: 0;
-    transform: scale(0.95);
+    transform: translateY(14px) scale(0.985);
   }
 }
 
 /* Backdrop */
 dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0);
-  transition: background-color 0.3s ease, display 0.3s allow-discrete;
+  background-color: rgba(10, 15, 26, 0.75);
+  opacity: 0;
+  transition: opacity 0.25s ease-out,
+              overlay 0.25s allow-discrete,
+              display 0.25s allow-discrete;
+  will-change: opacity;
 }
 
 dialog[open]::backdrop {
-  background-color: rgba(0, 0, 0, 0.6);
+  opacity: 1;
 }
 
 @starting-style {
   dialog[open]::backdrop {
-    background-color: rgba(0, 0, 0, 0);
+    opacity: 0;
   }
 }
 
@@ -4269,7 +4493,7 @@ dialog[open]::backdrop {
   border-left: 6px solid #6366f1 !important; /* Thick accent bar */
   border-radius: 12px !important;
   padding: 18px !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease !important;
   display: flex !important;
   flex-direction: column !important;
   gap: 15px !important;
@@ -4350,10 +4574,8 @@ dialog[open]::backdrop {
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg);
   margin-top: var(--spacing-xl);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 8px 32px var(--c-card-shadow);
-  transition: all var(--transition-normal);
+  transition: border-color var(--transition-normal, 0.3s), box-shadow var(--transition-normal, 0.3s), background var(--transition-normal, 0.3s);
 }
 
 .bulbapedia-header {
@@ -4388,7 +4610,7 @@ dialog[open]::backdrop {
   font-weight: 600;
   font-size: 0.875rem;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: transform var(--transition-fast, 0.2s), box-shadow var(--transition-fast, 0.2s), background var(--transition-fast, 0.2s);
   display: flex;
   align-items: center;
   gap: 8px;

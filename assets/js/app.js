@@ -114,7 +114,7 @@ const state = {
   typeMode: "or",
   region: "all",
   search: "",
-  perPage: 102,
+  perPage: 60,
   page: 1,
   filteredNames: [],
   details: new Map(),
@@ -333,8 +333,8 @@ function loadSettings() {
 
 // --- API Layer ---
 
-// Simple Request Queue to prevent rate limiting
-const MAX_CONCURRENT_REQUESTS = 3;
+// Simple Request Queue to prevent rate limiting on actual network calls
+const MAX_CONCURRENT_REQUESTS = 10;
 let activeRequests = 0;
 const requestQueue = [];
 
@@ -362,14 +362,15 @@ function enqueueRequest(task) {
 }
 
 async function fetchJSON(url, tries = 3, delay = 500) {
-  // Use the new caching layer
-  // We wrap it in the retry logic just in case, but fetchCached handles the fetch.
-  // Actually, fetchCached doesn't have retry logic built-in for network errors,
-  // but for now let's trust the cache or single fetch.
-  // If we want to keep retry logic, we should move it inside fetchCached or wrap it here.
-  // For simplicity and performance, let's use fetchCached directly for most things.
-  // However, existing code expects fetchJSON to handle retries.
+  // FAST PATH: If data is already in L1/L2 cache, return instantly without waiting in queue!
+  if (window.cacheManager) {
+    try {
+      const cached = await window.cacheManager.get(url);
+      if (cached) return cached;
+    } catch (e) {}
+  }
 
+  // Network queue for uncached remote requests
   return enqueueRequest(async () => {
     for (let i = 0; i < tries; i++) {
       try {
@@ -500,12 +501,26 @@ async function _getPokemonFallback(name, originalError = new Error('Not found'))
        const formRes = await fetchJSON(`${API_URL}/pokemon-form/${name}`).catch(() => null);
        if (formRes) {
          const basePoke = await getPokemon(formRes.pokemon.name);
-         // Inject form sprites
+         const formPoke = JSON.parse(JSON.stringify(basePoke));
+         formPoke.name = formRes.name || name;
+         formPoke.form_id = formRes.id;
+         formPoke.is_morphological = true;
+         // Inject form sprites without inheriting base animated sprites
          if (formRes.sprites) {
-           basePoke.sprites = { ...basePoke.sprites, ...formRes.sprites };
+           formPoke.sprites = {
+             ...formRes.sprites,
+             other: { ...(formRes.sprites.other || {}) },
+             versions: { ...(formRes.sprites.versions || {}) },
+           };
          }
-         state.details.set(name, basePoke);
-         return basePoke;
+         if (formRes.types && formRes.types.length > 0) {
+           formPoke.types = formRes.types;
+         }
+         if (formRes.names && formRes.names.length > 0) {
+           formPoke.form_specific_names = formRes.names;
+         }
+         state.details.set(name, formPoke);
+         return formPoke;
        }
     }
 
@@ -562,7 +577,7 @@ async function _getPokemonFallback(name, originalError = new Error('Not found'))
         const d = await fetchJSON(`${API_URL}/pokemon/${defaultVar}`);
         
         // 3. Find if requested 'name' exists as a variety OR a form of this pokemon
-        const varietyMatch = sp.varieties.find(v => v.pokemon.name === name);
+        const varietyMatch = sp.varieties?.find(v => v.pokemon.name === name);
         if (varietyMatch && name !== defaultVar) {
             // Avoid infinite loop: only fetch if variety is different from default and we were searching for it
             return fetchJSON(`${API_URL}/pokemon/${name}`).then(res => {
@@ -571,33 +586,36 @@ async function _getPokemonFallback(name, originalError = new Error('Not found'))
             });
         }
 
-        const formMatch = d.forms.find(f => f.name === name);
+        // Clone base data so we do NOT destructively mutate the shared cached default variety
+        let resultObj = JSON.parse(JSON.stringify(d));
+
+        const formMatch = d.forms?.find(f => f.name === name) || d.forms?.find(f => f.name.startsWith(name + "-") || name.startsWith(f.name + "-"));
         if (formMatch) {
           try {
             const formData = await fetchJSON(formMatch.url);
             if (formData) {
-              // Important: set name and ID to the specific form requested
-              d.name = name;
-              d.id = formData.id; // Use form-specific ID for sprite lookups
-              d.is_morphological = true;
+              resultObj.name = name;
+              resultObj.form_id = formData.id;
+              resultObj.is_morphological = true;
 
               if (formData.sprites) {
-                if (formData.is_default) {
-                  // If it's the default form, MERGE to keep animations/other sources from the variety
-                  d.sprites = { ...d.sprites, ...formData.sprites };
-                } else {
-                  // For non-default forms (morphological variants), REPLACE/PRIORITIZE form sprites
-                  // variety sprites (like animations) are usually for the wrong visual
-                  d.sprites = { ...formData.sprites };
-                }
+                // Form-specific sprites: do NOT inherit base variety's animated showdown / versions / artwork
+                // which depict the base form (e.g. Unown A) instead of this specific form
+                resultObj.sprites = {
+                  ...formData.sprites,
+                  other: {
+                    ...(formData.sprites.other || {}),
+                  },
+                  versions: {
+                    ...(formData.sprites.versions || {}),
+                  },
+                };
               }
-              if (formData.types) {
-                // Ensure form-specific types override variety types if different
-                d.types = formData.types;
+              if (formData.types && formData.types.length > 0) {
+                resultObj.types = formData.types;
               }
-              // Store form-specific names for UI labels
               if (formData.names && formData.names.length > 0) {
-                d.form_specific_names = formData.names;
+                resultObj.form_specific_names = formData.names;
               }
             }
           } catch (e) {
@@ -606,31 +624,25 @@ async function _getPokemonFallback(name, originalError = new Error('Not found'))
         }
         
         // 4. Sprite-Based Validation for Ghost Forms (e.g., Mothim Trash has no sprites in PokeAPI)
-        const hasSprite = d.sprites && (
-          d.sprites.front_default || 
-          d.sprites.other?.home?.front_default || 
-          d.sprites.other?.['official-artwork']?.front_default
+        const hasSprite = resultObj.sprites && (
+          resultObj.sprites.front_default || 
+          resultObj.sprites.other?.home?.front_default || 
+          resultObj.sprites.other?.['official-artwork']?.front_default
         );
         
         if (!hasSprite && name.includes('-')) {
           const baseVariety = sp.varieties?.find(v => v.is_default)?.pokemon?.name || baseNameUsed;
-          // console.debug(`Ghost form detected for ${name}, falling back to ${baseVariety}`);
           if (baseVariety !== name) {
             return getPokemon(baseVariety);
           }
         }
 
-        state.details.set(name, d);
-        
-        // Ensure the returned data has the requested name even if it's a fallback 
-        // to avoid incorrect labels in UI
-        if (d.name !== name && name.includes('-')) {
-            const cloned = { ...d, name: name };
-            state.details.set(name, cloned);
-            return cloned;
+        if (resultObj.name !== name && name.includes('-')) {
+          resultObj.name = name;
         }
 
-        return d;
+        state.details.set(name, resultObj);
+        return resultObj;
       }
     }
   } catch (e2) {}
@@ -1040,21 +1052,14 @@ function bstOf(d) {
   return v;
 }
 
-// --- Dynamic Grid Columns ---
-// Calculates the largest divisor of `perPage` that is <= maxCols,
-// ensuring the last row of the grid is always completely filled.
-function updateGridColumns(perPage) {
+// --- Grid Columns ---
+// Layout is 6 columns on desktop and adapts via CSS media queries,
+// independent of how many items are per page.
+function updateGridColumns() {
   const grid = document.getElementById("pokedexGrid");
-  if (!grid) return;
-  const maxCols = 10;
-  let best = 1;
-  for (let c = maxCols; c >= 2; c--) {
-    if (perPage % c === 0) {
-      best = c;
-      break;
-    }
+  if (grid) {
+    grid.style.removeProperty("--grid-cols");
   }
-  grid.style.setProperty("--grid-cols", best);
 }
 
 // --- UI Rendering ---
@@ -1083,7 +1088,9 @@ function renderPage() {
     frag.appendChild(createCard(name));
   }
   grid.appendChild(frag);
-  if (typeof lucide !== "undefined") lucide.createIcons();
+  if (typeof lucide !== "undefined") {
+    lucide.createIcons({ root: grid });
+  }
   updateFavTeamBadges();
   updateTeamPanel();
   saveSettings();
@@ -1100,7 +1107,7 @@ const cardObserver = new IntersectionObserver((entries, observer) => {
       }
     }
   });
-}, { rootMargin: "200px" });
+}, { rootMargin: "800px" });
 
 function createCard(name) {
   const tpl = document.getElementById("card-tpl");
@@ -1115,9 +1122,15 @@ function createCard(name) {
   idEl.textContent = "…";
   img.alt = `${I18n.t("modal.sprite")} ${name}`;
   img.classList.add("skeleton");
-  img.addEventListener("load", () => img.classList.remove("skeleton"), {
-    once: true,
-  });
+  
+  const removeSkel = () => img.classList.remove("skeleton");
+  img.addEventListener("load", removeSkel, { once: true });
+  img.addEventListener("error", () => {
+    removeSkel();
+    if (!img.src.includes("fallback.png")) {
+      img.src = CONSTANTS.FALLBACK_IMAGE;
+    }
+  }, { once: true });
 
   const favBtn = createControlBtn(name, "fav");
   const teamBtn = createControlBtn(name, "team");
@@ -1168,8 +1181,11 @@ function loadCardData(node, name) {
       badges.innerHTML = tps.map(typeBadge).join("");
 
       const shiny = state.gridShiny;
-      const fallback = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${d.id}.png`;
-      img.src = getGridSprite(d, shiny) || fallbackArt(d) || fallback;
+      const spriteUrl = getGridSprite(d, shiny) || fallbackArt(d) || CONSTANTS.FALLBACK_IMAGE;
+      img.src = spriteUrl;
+      if (img.complete && img.naturalWidth > 0) {
+        img.classList.remove("skeleton");
+      }
 
       // Fetch Species for Localized Name and correct ID
       getSpecies(d.species.name)
@@ -1212,6 +1228,7 @@ function loadCardData(node, name) {
     .catch((e) => {
       idEl.textContent = "ERR";
       img.src = CONSTANTS.FALLBACK_IMAGE;
+      img.classList.remove("skeleton");
       node.style.opacity = "0.5";
       node.style.pointerEvents = "none"; // Disable interaction on error
     });
@@ -1260,12 +1277,12 @@ function createControlBtn(name, type) {
   return btn;
 }
 
-// --- Asset Helpers (pokesprite) ---
+// --- Asset Helpers (Bulbapedia official type icons) ---
 function getPokespriteTypeIcon(name) {
-  // Normalize type names (electric vs lightning etc)
+  // Normalize type names
   const n = name.toLowerCase();
-  // Using pokesprite gen8 types path
-  return `https://raw.githubusercontent.com/msikma/pokesprite/master/misc/types/gen8/${n}.png`;
+  const bp = window.I18n ? I18n.getBasePath() : '';
+  return `${bp}assets/img/types/${n}.png`;
 }
 
 function getPokespritePokemon(name) {
@@ -1542,90 +1559,51 @@ async function openModal(name, preferredSuffix = "", keepShiny = false) {
       ? I18n.t("modal.genderless")
       : (femaleRate * 12.5).toFixed(1) + "%";
 
-  // Items with icons and translations
+  // Items that appear on the Pokemon in the wild (held_items)
   const itemContainer = $("#kvItems");
   itemContainer.innerHTML = "";
 
-  // Combine wild held items with special usable items
   const displayItems = new Set();
   const itemInfos = [];
 
-  // 1. Wild Held Items
+  // Wild Held Items only (no special/mega items)
   if (data.held_items && data.held_items.length > 0) {
     for (const h of data.held_items) {
+      if (!h || !h.item || !h.item.name) continue;
       if (!displayItems.has(h.item.name)) {
         displayItems.add(h.item.name);
-        itemInfos.push({ name: h.item.name, url: h.item.url, source: "wild" });
+
+        let rarityText = "";
+        if (h.version_details && h.version_details.length > 0) {
+          const rarities = [...new Set(h.version_details.map((v) => v.rarity).filter((r) => r != null))];
+          if (rarities.length === 1) {
+            rarityText = `${rarities[0]}%`;
+          } else if (rarities.length > 1) {
+            const min = Math.min(...rarities);
+            const max = Math.max(...rarities);
+            rarityText = min === max ? `${min}%` : `${min}%-${max}%`;
+          }
+        }
+
+        itemInfos.push({
+          name: h.item.name,
+          url: h.item.url,
+          rarity: rarityText,
+        });
       }
     }
   }
-
-  // 2. Special Usable Items (Species specific, Mega stones, etc.)
-  const allPossibleItems = await loadItems();
-  const specialItems = (allPossibleItems || []).filter((item) => {
-    const itemName = item.name.toLowerCase();
-    const speciesName = data.species.name.toLowerCase();
-
-    // Only pick truly special items for Pokedex view
-    if (itemName === "light-ball" && speciesName === "pikachu") return true;
-    if (
-      itemName === "thick-club" &&
-      (speciesName === "cubone" || speciesName === "marowak")
-    )
-      return true;
-    if (itemName === "metal-powder" && speciesName === "ditto") return true;
-    if (itemName === "quick-powder" && speciesName === "ditto") return true;
-    if (itemName === "lucky-punch" && speciesName === "chansey") return true;
-    if (
-      itemName === "stick" &&
-      (speciesName === "farfetchd" || speciesName === "sirfetchd")
-    )
-      return true;
-    if (
-      itemName === "leek" &&
-      (speciesName === "farfetchd" || speciesName === "sirfetchd")
-    )
-      return true;
-    if (itemName === "deep-sea-scale" && speciesName === "clamperl")
-      return true;
-    if (itemName === "deep-sea-tooth" && speciesName === "clamperl")
-      return true;
-
-    // Mega Stones
-    if (
-      itemName.endsWith("-ite") &&
-      itemName.includes(
-        speciesName
-          .replace("nidoran-m", "nidoran")
-          .replace("nidoran-f", "nidoran"),
-      )
-    )
-      return true;
-
-    // Memories, Drives, Masks
-    if (itemName.endsWith("-memory") && speciesName === "silvally") return true;
-    if (itemName.endsWith("-drive") && speciesName === "genesect") return true;
-    if (itemName.endsWith("-mask") && speciesName === "ogerpon") return true;
-
-    return false;
-  });
-
-  specialItems.forEach((si) => {
-    if (!displayItems.has(si.name)) {
-      displayItems.add(si.name);
-      itemInfos.push({ name: si.name, url: si.url, source: "special" });
-    }
-  });
 
   if (itemInfos.length > 0) {
     for (const info of itemInfos) {
       const itemName = info.name;
       const localizedItemName = await getLocalizedName(info.url, "item");
+      const displayName = localizedItemName || toTitle(itemName);
+      const raritySuffix = info.rarity ? ` (${info.rarity})` : "";
+
       const itemSpan = document.createElement("span");
-      itemSpan.className =
-        "item-badge" + (info.source === "special" ? " special-item" : "");
-      itemSpan.title =
-        localizedItemName + (info.source === "special" ? " (Especial)" : "");
+      itemSpan.className = "item-badge";
+      itemSpan.title = `${displayName}${raritySuffix}`;
 
       const icon = document.createElement("img");
       const apiIcon = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${itemName}.png`;
@@ -1644,7 +1622,7 @@ async function openModal(name, preferredSuffix = "", keepShiny = false) {
 
       itemSpan.appendChild(icon);
       const nameSpan = document.createElement("span");
-      nameSpan.textContent = toTitle(itemName);
+      nameSpan.textContent = `${displayName}${raritySuffix}`;
       itemSpan.appendChild(nameSpan);
       itemContainer.appendChild(itemSpan);
     }
@@ -1821,16 +1799,16 @@ async function openModal(name, preferredSuffix = "", keepShiny = false) {
   renderEffectiveness(tps);
   renderPastTypes(data);
   renderPokedexNumbers(sp);
+
   renderTcgCarousel(data.name);
-  // renderEncounterLocations(data.id); // Removed: encounter section disabled
   if (typeof Bulbapedia !== "undefined") {
     Bulbapedia.renderSection('bulbapediaSection', data.name, 'pokemon');
   }
   await buildEvolutionUI(data.name);
 
-  if (typeof lucide !== "undefined") lucide.createIcons();
+  if (typeof lucide !== "undefined") lucide.createIcons({ root: modal });
 
-  // Hide loading overlay
+  // Hide loading overlay once all content is assembled
   if (overlay) overlay.classList.remove("active");
 
   // Accessibility: Focus Trap
@@ -1860,13 +1838,20 @@ async function openModal(name, preferredSuffix = "", keepShiny = false) {
       }
     };
 
+    if (modal._trapFocus) {
+      modal.removeEventListener("keydown", modal._trapFocus);
+    }
+    modal._trapFocus = trapFocus;
     modal.addEventListener("keydown", trapFocus);
 
     // Restore focus on close
     modal.addEventListener(
       "close",
       () => {
-        modal.removeEventListener("keydown", trapFocus);
+        if (modal._trapFocus) {
+          modal.removeEventListener("keydown", modal._trapFocus);
+          modal._trapFocus = null;
+        }
         history.replaceState(null, "", " "); // Clear hash without reloading
         I18n.clearModalTitle();
       },
@@ -1890,12 +1875,29 @@ function updateSpriteDisplay(d) {
     lookupSpriteByKey(d, key, { shiny, gender }) ||
     chooseSprite(d, { shiny, gender }) ||
     fallbackArt(d) ||
-    `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${d.id}.png`;
+    CONSTANTS.FALLBACK_IMAGE;
 
   const img = $("#modalSprite");
   if (img) {
+    img.classList.add("skeleton");
+    const removeSkel = () => img.classList.remove("skeleton");
+    img.onload = removeSkel;
+    img.onerror = () => {
+      removeSkel();
+      const staticFallback = (shiny ? d.sprites?.front_shiny : d.sprites?.front_default) || d.sprites?.front_default;
+      if (staticFallback && img.src !== staticFallback) {
+        img.src = staticFallback;
+        return;
+      }
+      if (!img.src.includes("fallback.png")) {
+        img.src = CONSTANTS.FALLBACK_IMAGE;
+      }
+    };
     img.src = url;
     img.alt = `${I18n.t("modal.sprite")} ${toTitle(d.name)}`;
+    if (img.complete && img.naturalWidth > 0) {
+      removeSkel();
+    }
   }
 
   // Sync with team edit if relevant
@@ -1943,18 +1945,14 @@ async function renderTcgCarousel(pokemonName) {
 
     // Determine query for TCG API based on form
     const searchQuery = getTcgSearchQuery(pokemonName);
-
-    // Fetch cards using existing API
-    // We request a batch of 50 to have enough variety for carousel
-    // Sort by "set_newest" (assuming API supports it or we sort client side)
     const { cards: allCards } = await CardStorage.getCards(
       { name: searchQuery, sort: "set_newest" },
       "en",
       1,
-      200,
+      30,
     );
 
-    let cards = allCards || [];
+    let cards = (allCards || []).slice(0, 24);
 
     // Client-side Strict Filtering for forms
     const lowerName = pokemonName.toLowerCase();
@@ -2053,6 +2051,7 @@ async function renderTcgCarousel(pokemonName) {
       if (isComplete) return cardIsComplete;
       if (isSchool) return cardIsSchool;
       if (isMidnight) return cardIsMidnight;
+      if (isDusk2) return n.includes("dusk");
       if (isBlade) return cardIsBlade;
       if (isPirouette) return cardIsPirouette;
       if (isAria) return cardIsAria;
@@ -2080,6 +2079,8 @@ async function renderTcgCarousel(pokemonName) {
         cardIsEternal ||
         cardIsAsh ||
         cardIsResolute ||
+        cardIsComplete ||
+        cardIsSchool ||
         cardIsMidnight ||
         cardIsBlade ||
         cardIsPirouette ||
@@ -2104,14 +2105,12 @@ async function renderTcgCarousel(pokemonName) {
     // Build Carousel
     container.innerHTML = "";
 
-    // -- Manual Infinite Scroll Logic --
-    // 1. Create duplication for infinite feel (e.g., 4 copies)
-    // We use enough copies so the user never hits the edge easily
+    // 1. Safe duplication (4 copies so user never hits boundaries unexpectedly)
     const isSmallSet = cards.length < 6;
     const copies = isSmallSet ? 1 : 4;
     let infiniteList = [];
     for (let i = 0; i < copies; i++) {
-      infiniteList = [...infiniteList, ...cards];
+      infiniteList = infiniteList.concat(cards);
     }
 
     // 2. Create Outer Wrapper with Arrows
@@ -2142,6 +2141,7 @@ async function renderTcgCarousel(pokemonName) {
       img.className = "tcg-card-img loading";
       img.alt = card.name;
       img.loading = "lazy";
+      img.decoding = "async";
 
       let src = "assets/img/fallback/fallback.png";
       if (card.images && card.images.small) {
@@ -2207,22 +2207,17 @@ async function renderTcgCarousel(pokemonName) {
     outerWrapper.appendChild(scrollContainer);
     outerWrapper.appendChild(controlsBottom);
     container.appendChild(outerWrapper);
-    if (typeof lucide !== "undefined") lucide.createIcons();
+    if (typeof lucide !== "undefined") {
+      lucide.createIcons({ root: container });
+    }
 
     // 4. Infinite Scroll & Button Logic
     // Wait for render to calculate widths
     requestAnimationFrame(() => {
       if (cards.length > 0) {
-        // Calculate width of one set
-        // We can approximate or measure. Since cards are consistent width (140px + gap 16px?)
-        // Better to measure:
-        const singleSetCount = cards.length;
         const approximateCardWidth = 140 + 16; // width + gap
-        const singleSetWidth = singleSetCount * approximateCardWidth;
+        const singleSetWidth = cards.length * approximateCardWidth;
 
-        // Start in the middle set (index 1 of 0..3)
-        // copies = 4. Middle is start of copy 1 or 2.
-        // Let's start at the beginning of the second copy (index 1)
         const startScroll = isSmallSet ? 0 : singleSetWidth;
         scrollContainer.scrollLeft = startScroll;
 
@@ -2231,24 +2226,18 @@ async function renderTcgCarousel(pokemonName) {
           scrollContainer.style.justifyContent = "center";
         }
 
-        // Infinite Loop Handler
+        // Stable Infinite Loop Handler (prevents oscillating rAF scroll events)
         const handleScroll = () => {
           if (isSmallSet) return;
           const scrollLeft = scrollContainer.scrollLeft;
-          const scrollWidth = scrollContainer.scrollWidth;
-          const clientWidth = scrollContainer.clientWidth;
-
-          // If we are near the start (first copy), jump to corresponding position in 3rd copy
           if (scrollLeft < 100) {
             scrollContainer.scrollLeft = scrollLeft + singleSetWidth * 2;
-          }
-          // If we are near the end (4th copy), jump to corresponding position in 2nd copy
-          else if (scrollLeft > singleSetWidth * 3) {
+          } else if (scrollLeft > singleSetWidth * 3) {
             scrollContainer.scrollLeft = scrollLeft - singleSetWidth * 2;
           }
         };
 
-        scrollContainer.addEventListener("scroll", handleScroll);
+        scrollContainer.addEventListener("scroll", handleScroll, { passive: true });
 
         // Button Click Handlers
         btnPrev.onclick = () => {
@@ -2528,7 +2517,7 @@ async function init() {
       perPageEl.addEventListener("change", (e) => {
         state.perPage = Number(e.target.value);
         state.page = 1;
-        updateGridColumns(state.perPage);
+        updateGridColumns();
         updatePager();
         renderPage();
         saveSettings();
@@ -2675,7 +2664,7 @@ async function init() {
       loadItems(); // Pre-load items list
       ensureNaturesLoaded();
       buildFilteredList();
-      updateGridColumns(state.perPage);
+      updateGridColumns();
 
       window.addEventListener("languageChanged", () => {
         // Update Type Chips
@@ -2976,20 +2965,24 @@ function chooseSprite(d, { shiny = false, gender = "auto" } = {}) {
 }
 
 function fallbackArt(d) {
+  if (!d) return CONSTANTS.FALLBACK_IMAGE;
   return (
-    d.sprites.other?.["official-artwork"]?.front_default ||
-    d.sprites.front_default ||
-    ""
+    d.sprites?.other?.["official-artwork"]?.front_default ||
+    d.sprites?.other?.home?.front_default ||
+    d.sprites?.front_default ||
+    CONSTANTS.FALLBACK_IMAGE
   );
 }
 
 function collectSpriteOptions(d) {
-  const o = [],
-    s = d.sprites,
-    add = (k, l, u) => {
-      // ALWAYS add options, even if 'u' (url) is missing
+  const o = [];
+  const s = d?.sprites || {};
+  const add = (k, l, u) => {
+    // Only present sprite option if the asset URL exists
+    if (u) {
       o.push({ key: k, label: l });
-    };
+    }
+  };
   add("front_default", I18n.t("modal.sprite_front"), s.front_default);
   add("back_default", I18n.t("modal.sprite_back"), s.back_default);
   add("front_shiny", I18n.t("modal.sprite_front_shiny"), s.front_shiny);
@@ -3061,29 +3054,26 @@ function lookupSpriteByKey(d, key, { shiny, gender }) {
 }
 
 function getGridSprite(d, shiny) {
-  const s = d.sprites;
+  const s = d?.sprites;
   if (!s) return "";
 
-  // 1. Standard (Pixel)
-  let url = shiny ? s.front_shiny : s.front_default;
-  if (url) return url;
-
-  // 2. Home (High Qual Static)
-  if (s.other?.home) {
-    url = shiny ? s.other.home.front_shiny : s.other.home.front_default;
-    if (url) return url;
+  if (shiny) {
+    if (s.front_shiny) return s.front_shiny;
+    if (s.other?.home?.front_shiny) return s.other.home.front_shiny;
+    if (s.other?.["official-artwork"]?.front_shiny) return s.other["official-artwork"].front_shiny;
+    if (s.other?.showdown?.front_shiny) return s.other.showdown.front_shiny;
+    // Fallback to non-shiny if shiny is unavailable
+    if (s.front_default) return s.front_default;
+    if (s.other?.home?.front_default) return s.other.home.front_default;
+    if (s.other?.["official-artwork"]?.front_default) return s.other["official-artwork"].front_default;
+    if (s.other?.showdown?.front_default) return s.other.showdown.front_default;
+  } else {
+    if (s.front_default) return s.front_default;
+    if (s.other?.home?.front_default) return s.other.home.front_default;
+    if (s.other?.["official-artwork"]?.front_default) return s.other["official-artwork"].front_default;
+    if (s.other?.showdown?.front_default) return s.other.showdown.front_default;
+    if (s.front_shiny) return s.front_shiny;
   }
-
-  // 3. Official Artwork (Static)
-  if (s.other?.["official-artwork"]) {
-    url = shiny
-      ? s.other["official-artwork"].front_shiny
-      : s.other["official-artwork"].front_default;
-    if (url) return url;
-  }
-
-  // 4. Fallback to default if shiny was requested but missing
-  if (shiny && s.front_default) return s.front_default;
 
   return "";
 }
@@ -3461,7 +3451,7 @@ async function updateTeamPanel() {
 
     calculateWinRate();
     if (window.calculateWinProbability) calculateWinProbability();
-    if (typeof lucide !== "undefined") lucide.createIcons();
+    if (typeof lucide !== "undefined") lucide.createIcons({ root: container });
   } catch (e) {
   } finally {
     teamRenderingLock = false;
@@ -3557,8 +3547,16 @@ function showQuickAddInput(slotEl, index) {
     selectedIndex = -1;
   };
 
-  const selectPokemon = (name) => {
+  const cleanup = () => {
+    slotEl.classList.remove("slot-open");
+    container.remove();
     if (resultsList.parentNode) resultsList.parentNode.removeChild(resultsList);
+    document.removeEventListener("mousedown", clickHandler);
+    window.removeEventListener("resize", updatePosition);
+  };
+
+  const selectPokemon = (name) => {
+    cleanup();
     toggleTeam(name).then(() => {
       updateTeamPanel();
     });
@@ -3589,9 +3587,7 @@ function showQuickAddInput(slotEl, index) {
         selectPokemon(items[0].dataset.name);
       }
     } else if (e.key === "Escape") {
-      slotEl.classList.remove("slot-open");
-      container.remove();
-      if (resultsList.parentNode) resultsList.parentNode.removeChild(resultsList);
+      cleanup();
     }
   };
 
@@ -3601,11 +3597,7 @@ function showQuickAddInput(slotEl, index) {
   // Close when clicking outside
   const clickHandler = (e) => {
     if (!container.contains(e.target) && !resultsList.contains(e.target)) {
-      slotEl.classList.remove("slot-open");
-      container.remove();
-      if (resultsList.parentNode) resultsList.parentNode.removeChild(resultsList);
-      document.removeEventListener("mousedown", clickHandler);
-      window.removeEventListener("resize", updatePosition);
+      cleanup();
     }
   };
   setTimeout(() => document.addEventListener("mousedown", clickHandler), 10);
@@ -3937,8 +3929,9 @@ async function openTeamEditModal(index) {
             shiny: state.gridShiny,
             gender: member.gender || "auto",
           }) ||
-          d.sprites.front_default ||
-          "";
+          d.sprites?.front_default ||
+          fallbackArt(d) ||
+          CONSTANTS.FALLBACK_IMAGE;
 
         // Update name in modal title
         title.textContent = `${I18n.t("modal.edit_title")} ${toTitle(d.name)}`;
@@ -4559,8 +4552,8 @@ async function openTeamEditModal(index) {
           <tr>
             <td><span class="stat-badge">${localizedStatName}</span></td>
             <td class="text-center"><strong>${st.base_stat}</strong></td>
-            <td><input type="number" id="iv_${key}" class="stat-input" data-stat="${key}" data-type="iv" value="${member.ivs[key]}" min="0" max="31"></td>
-            <td><input type="number" id="ev_${key}" class="stat-input" data-stat="${key}" data-type="ev" value="${member.evs[key]}" min="0" max="252"></td>
+            <td><input type="number" id="iv_${key}" class="stat-input" data-stat="${key}" data-type="iv" value="${member.ivs[key]}" min="0" max="31" autocomplete="off" aria-label="${localizedStatName} IV"></td>
+            <td><input type="number" id="ev_${key}" class="stat-input" data-stat="${key}" data-type="ev" value="${member.evs[key]}" min="0" max="252" autocomplete="off" aria-label="${localizedStatName} EV"></td>
             <td class="text-center"><span id="total_${key}" class="stat-total">0</span></td>
           </tr>
           <tr style="border:none;">
@@ -4605,10 +4598,6 @@ async function openTeamEditModal(index) {
     renderStatRows(d);
     updateModalStats();
 
-    // Check if buildFormChangeUI exists before calling
-    if (window.buildFormChangeUI) {
-      await buildFormChangeUI(d.name);
-    }
 
     modal.onclick = (e) => {
       if (e.target === modal) modal.close();
@@ -4730,7 +4719,6 @@ function setupFormSelect(formSel, sp, member) {
     const scrollPos = document.getElementById("modal").scrollTop;
     await openModal(newName);
     document.getElementById("modal").scrollTop = scrollPos;
-    // buildFormChangeUI is called inside openModal
   };
 }
 
@@ -4745,8 +4733,9 @@ async function createEvoMon(targetName, currentName, options = {}) {
 
   const sprite =
     chooseSprite(pd, { shiny, gender }) ||
-    pd.sprites.other["official-artwork"].front_default ||
-    pd.sprites.front_default ||
+    pd.sprites?.other?.["official-artwork"]?.front_default ||
+    pd.sprites?.other?.home?.front_default ||
+    pd.sprites?.front_default ||
     CONSTANTS.FALLBACK_IMAGE;
 
   el.innerHTML = `
@@ -4757,87 +4746,6 @@ async function createEvoMon(targetName, currentName, options = {}) {
   return el;
 }
 
-async function buildFormChangeUI(name) {
-  const container = $("#formChangeKV");
-  if (!container) return;
-
-  container.style.display = "none";
-  container.innerHTML = "";
-
-  // 1. Check if it's a special form
-  const isMega = name.includes("-mega");
-  const isGmax = name.includes("-gmax");
-  const isAlola = name.includes("-alola");
-  const isGalar = name.includes("-galar");
-  const isHisui = name.includes("-hisui");
-  const isPaldea = name.includes("-paldea");
-
-  if (!isMega && !isGmax && !isAlola && !isGalar && !isHisui && !isPaldea)
-    return;
-
-  // 2. Get requirement text
-  const key = name;
-  let req = I18n.t(`forms.requirements_data.${key}`);
-  if (!req || req === `forms.requirements_data.${key}`) {
-    if (isGmax) req = I18n.t("forms.requirements_data.gmax") || "Maxisopa";
-    else if (isAlola) req = I18n.t("regions.names.alola") || "Alola";
-    else if (isGalar) req = I18n.t("regions.names.galar") || "Galar";
-    else if (isHisui) req = I18n.t("regions.names.hisui") || "Hisui";
-    else if (isPaldea) req = I18n.t("regions.names.paldea") || "Paldea";
-  }
-
-  if (!req || req.includes("forms.requirements_data")) return;
-
-  // 3. Build UI v2 (Evolution Style)
-  const baseName = name.split("-")[0];
-  let title = I18n.t("modal.form_transformation") || "Transformación";
-  let icon = "sparkles";
-
-  if (isMega) {
-    title = I18n.t("modal.form_mega") || "Megaevolución";
-    icon = "zap";
-  } else if (isGmax) {
-    title = I18n.t("modal.form_gmax") || "Gigantamax";
-    icon = "flame";
-  } else {
-    title = I18n.t("modal.form_regional") || "Forma Regional";
-    icon = "map-pin";
-  }
-
-  container.innerHTML = `
-    <div class="form-change-header">
-      <i data-lucide="${icon}" style="width:16px;height:16px;color:var(--c-accent);"></i>
-      <span class="form-change-title">${title}</span>
-    </div>
-    <div class="form-change-content" id="formChangeContent">
-      <div class="form-change-loading">${I18n.t("common.loading") || "Cargando..."}</div>
-    </div>
-  `;
-
-  container.style.display = "block";
-  if (typeof lucide !== "undefined") lucide.createIcons();
-
-  // Load Sprites for the mini-evolution chain
-  const isShiny = $("#shinyToggle").checked;
-  const gender = $("#genderSelect").value;
-
-  const content = $("#formChangeContent");
-  const baseMon = await createEvoMon(baseName, "", { shiny: isShiny, gender });
-  const targetMon = await createEvoMon(name, name, { shiny: isShiny, gender }); // Highlight target
-
-  content.innerHTML = "";
-  content.appendChild(baseMon);
-
-  const arrowBox = document.createElement("div");
-  arrowBox.className = "form-change-arrow-box";
-  arrowBox.innerHTML = `
-    <div class="form-change-req">${req}</div>
-    <div class="evo-arrow">→</div>
-  `;
-  content.appendChild(arrowBox);
-
-  content.appendChild(targetMon);
-}
 
 // --- Logic Helpers ---
 
@@ -5122,6 +5030,10 @@ function setupCustomDropdown({
   input.type = "text";
   input.className = "custom-dropdown-input";
   input.placeholder = placeholder;
+  input.autocomplete = "off";
+  if (container.id) {
+    input.id = container.id.replace("Control", "Input");
+  }
 
   const displayEl = document.createElement("div");
   displayEl.className = "custom-dropdown-display";
@@ -5734,7 +5646,8 @@ function updateFiltersCount() {
     (state.search ? 1 : 0) +
     (state.region !== "all" ? 1 : 0) +
     (state.generation !== "all" ? 1 : 0);
-  $("#filtersCount").textContent = count;
+  const el = $("#filtersCount");
+  if (el) el.textContent = count;
 }
 
 async function buildEvolutionUI(name) {
@@ -6227,14 +6140,18 @@ async function calculateCombatScore(member) {
 
   // 1. Base Stats Contribution
   const finalStats = {};
+  const ivs = member.ivs || {};
+  const evs = member.evs || {};
+  const level = member.level || 50;
   for (const s of d.stats) {
     const key = STAT_MAP[s.stat.name];
+    if (!key) continue;
     const mod = getNatureModifier(member.nature, s.stat.name);
     finalStats[key] = calculateStat(
       s.base_stat,
-      member.ivs[key],
-      member.evs[key],
-      member.level,
+      ivs[key] ?? 31,
+      evs[key] ?? 0,
+      level,
       mod,
       key === "hp"
     );

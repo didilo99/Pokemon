@@ -5,12 +5,22 @@
 
 /* ===== GRID DE GENERACIONES ===== */
 #generationsGrid.grid {
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(320px, 1fr)
-  ); /* Slightly larger cards for wide screens */
-  gap: 32px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
   padding: 20px clamp(20px, 4vw, 48px);
+}
+
+@media (max-width: 1100px) {
+  #generationsGrid.grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+@media (max-width: 640px) {
+  #generationsGrid.grid {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 16px;
+  }
 }
 
 #generationsGrid .card {
@@ -91,8 +101,7 @@
 }
 
 #generationModal::backdrop {
-  background: var(--c-modal-overlay);
-  backdrop-filter: blur(5px);
+  background: rgba(10, 15, 26, 0.75);
 }
 
 .modal-content {

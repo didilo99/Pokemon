@@ -84,8 +84,16 @@
         return;
       }
 
-      // Load World Map
-      if (globalMap) setImg(globalMap, GLOBAL_MAP_LOCAL);
+      // Load World Map (Hero banner: eager loading with explicit dimensions)
+      if (globalMap) {
+        globalMap.loading = "eager";
+        globalMap.decoding = "async";
+        globalMap.src = GLOBAL_MAP_LOCAL || FALLBACK_IMG;
+        globalMap.onerror = () => {
+          globalMap.onerror = null;
+          globalMap.src = FALLBACK_IMG;
+        };
+      }
 
       // Fetch Regions
       const res = await window.fetchCached(`${API}/region?limit=50`);
@@ -161,6 +169,8 @@
       media.className = "region-card-media";
       const img = document.createElement("img");
       img.alt = `Mapa de ${toTitle(r.name)}`;
+      img.width = 300;
+      img.height = 200;
       setImg(img, REGION_IMG_LOCAL[r.name]);
       media.appendChild(img);
 

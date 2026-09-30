@@ -125,6 +125,7 @@
       "green-japan": "250px-Green_JP_boxart.png",
       "blue-japan": "250px-Blue_JP_boxart.png",
       "mega-dimension": "250px-LZA_MD_KO.png",
+      "champions": "250px-Pokémon_Champions_eShop.jpg",
     };
 
     return mapping[name] ? `${base}/${mapping[name]}` : null;
@@ -168,8 +169,19 @@
 
       // 2. Flatten into individual versions (WITHOUT fetching 80 details up front)
       const versionsList = [];
+      const dlcDuplicates = [
+        "the-teal-mask-scarlet",
+        "the-teal-mask-violet",
+        "the-indigo-disk-scarlet",
+        "the-indigo-disk-violet",
+        "the-isle-of-armor-sword",
+        "the-isle-of-armor-shield",
+        "the-crown-tundra-sword",
+        "the-crown-tundra-shield"
+      ];
       groups.forEach((group) => {
         group.versions.forEach((v) => {
+          if (dlcDuplicates.includes(v.name)) return;
           try {
             // RICH_GAMES_DATA still keys off group name or version name
             const extra =
@@ -488,7 +500,7 @@
     });
     
     grid.appendChild(frag);
-    if (typeof lucide !== "undefined") lucide.createIcons();
+    if (typeof lucide !== "undefined") lucide.createIcons({ root: grid });
   }
 
   function renderTimeline(list) {
@@ -605,7 +617,7 @@
     favToggleBtn.className = isFav
       ? "btn btn-outline-danger w-100 mt-4"
       : "btn btn-accent w-100 mt-4";
-    if (typeof lucide !== "undefined") lucide.createIcons();
+    if (typeof lucide !== "undefined") lucide.createIcons({ root: favToggleBtn });
   }
 
   function toggleFavorite(name) {

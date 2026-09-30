@@ -12,7 +12,7 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="../assets/css/styles.css?v=2" />
-    <link rel="stylesheet" href="../assets/css/tcg-sets.css?v=1" />
+    <link rel="stylesheet" href="../assets/css/tcg-sets.css?v=2" />
     <link rel="icon" type="image/png" href="../assets/icon/favicon.png" />
     <script src="../assets/js/cache.js"></script>
     <script src="../assets/js/i18n.js"></script>
@@ -413,10 +413,11 @@
             >Por página</label
           >
           <select id="perPage" class="dex-select">
-            <option value="12">12</option>
-            <option value="24">24</option>
-            <option value="48">48</option>
-            <option value="96" selected>96</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="60" selected>60</option>
+            <option value="100">100</option>
           </select>
         </div>
         <div class="ctrl">
@@ -483,7 +484,8 @@
               src=""
               alt="Set Symbol"
               width="40"
-              height="auto"
+              height="40"
+              style="display:none"
             />
           </div>
           <button
@@ -502,6 +504,8 @@
             id="modalSetLogo"
             src=""
             alt="Set Logo"
+            width="300"
+            height="120"
             style="
               max-height: 120px;
               max-width: 100%;
@@ -549,7 +553,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="../assets/js/cardStorage.js"></script>
-    <script src="../assets/js/tcg-sets.js" defer></script>
+    <script src="../assets/js/tcg-sets.js?v=2" defer></script>
     <div id="footer-placeholder"></div>
   </body>
 </html>

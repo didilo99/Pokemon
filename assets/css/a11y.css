@@ -8,8 +8,6 @@
   max-width: 90vw;
   height: 100vh;
   background-color: var(--c-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   border-left: 1px solid var(--c-border);
   box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
   z-index: 9999;

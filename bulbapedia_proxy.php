@@ -1,7 +1,7 @@
 <?php
 /**
  * Bulbapedia Proxy & Scraper
- * Handles fetching and parsing data from Bulbapedia with local caching.
+ * Handles fetching and parsing data from Bulbapedia (caching handled client-side in IndexedDB).
  */
 
 /*
@@ -14,6 +14,11 @@
     la URL base ($url) más abajo y ajustar la lógica de extracción DOM (XPath).
   =============================================================================
 */
+
+// Enable output compression if supported
+if (!ob_start("ob_gzhandler")) {
+    ob_start();
+}
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET");
@@ -29,7 +34,7 @@ if (empty($query)) {
 }
 
 // 1. Normalize query for Bulbapedia URLs
-function normalizeBulbapediaName($name, $type) {
+function normalizeBulbapediaName(string $name, string $type): string {
     // Replace hyphens with underscores, except for special cases
     $name = str_replace('-', '_', $name);
     // Capitalize each word (Bulbapedia style)
@@ -50,6 +55,11 @@ function normalizeBulbapediaName($name, $type) {
         'Jangmo_O' => 'Jangmo-o',
         'Hakamo_O' => 'Hakamo-o',
         'Kommo_O' => 'Kommo-o',
+        'Nidoran_F' => 'Nidoran%E2%99%80',
+        'Nidoran_M' => 'Nidoran%E2%99%82',
+        'Flabebe' => 'Flab%C3%A9b%C3%A9',
+        'Farfetchd' => 'Farfetch%27d',
+        'Sirfetchd' => 'Sirfetch%27d',
     ];
     
     if (isset($specialPokes[$name])) {
@@ -78,6 +88,18 @@ function normalizeBulbapediaName($name, $type) {
 
 $normalizedName = normalizeBulbapediaName($query, $type);
 
+function sendBulbapediaResponse(string $jsonStr): void {
+    $etag = '"' . md5($jsonStr) . '"';
+    header("ETag: " . $etag);
+    header("Cache-Control: public, max-age=604800");
+    if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim($_SERVER['HTTP_IF_NONE_MATCH']) === $etag) {
+        http_response_code(304);
+        exit;
+    }
+    echo $jsonStr;
+    exit;
+}
+
 // 2. Rate Limiting (File-based lock for 5s delay as per robots.txt)
 $lockFile = sys_get_temp_dir() . "/bulbapedia_last_request.lock";
 $now = microtime(true);
@@ -102,7 +124,7 @@ curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 $html = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-curl_close($ch);
+unset($ch);
 
 if ($httpCode !== 200 || !$html) {
     http_response_code($httpCode === 404 ? 404 : 500);
@@ -126,9 +148,8 @@ $data = [
 
 // Image extraction removed as per requirements
 
-
 // Helper to extract text from a section
-function extractSection($xpath, $id, &$data) {
+function extractSection(\DOMXPath $xpath, string $id, array &$data): void {
     $header = $xpath->query("//h2[span[@id='$id']] | //h2[@id='$id']")->item(0);
     if ($header) {
         $content = "";
@@ -138,7 +159,7 @@ function extractSection($xpath, $id, &$data) {
                 if ($node->nodeName === 'p') {
                     $text = trim(preg_replace('/\[\d+\]/', '', $node->textContent)); // Remove references [1]
                     if (!empty($text)) $content .= $text . "\n\n";
-                } elseif ($node->nodeName === 'ul' && $id === 'Trivia') {
+                } elseif ($node instanceof \DOMElement && $node->nodeName === 'ul' && $id === 'Trivia') {
                     foreach ($node->getElementsByTagName('li') as $li) {
                         $data['trivia'][] = trim(preg_replace('/\[\d+\]/', '', $li->textContent));
                     }
@@ -165,6 +186,7 @@ if (empty($data['sections'])) {
     }
 }
 
-// 6. Return Data
+// 6. Return Data (Client caches in IndexedDB)
 $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-echo $json;
+sendBulbapediaResponse($json);
+?>

@@ -252,7 +252,7 @@
     "all": "全部"
   },
   "footer": {
-    "copyright": "© {year} Pokédex App",
+    "copyright": "<a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Poke App</a> © {year} 由 <a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Diego Diaz</a> 創作，採用 <a href=\"https://creativecommons.org/licenses/by-nc-nd/4.0/\" target=\"_blank\" rel=\"license noopener noreferrer\">CC BY-NC-ND 4.0</a> 授權<img src=\"https://mirrors.creativecommons.org/presskit/icons/cc.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/by.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/nc.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/nd.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\">",
     "pokemon": "宝可梦",
     "generations": "世代",
     "items": "道具",
@@ -268,6 +268,9 @@
     "cached_data": "缓存数据",
     "deep_sync_btn": "深度同步",
     "deep_sync_warning": "这需要几分钟。",
+    "stop_sync": "停止",
+    "sync_stopped": "同步已停止",
+    "deep_sync_starting": "正在启动深度同步...",
     "nav_combat": "战斗",
     "clear_cache": "清除缓存",
     "nav_world": "宝可梦世界",

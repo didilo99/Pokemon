@@ -71,7 +71,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: all var(--transition-normal);
+  transition: border-color var(--transition-normal, 0.3s), transform var(--transition-normal, 0.3s), box-shadow var(--transition-normal, 0.3s);
   cursor: pointer;
   box-shadow: 0 4px 12px var(--c-card-shadow);
 }
@@ -167,7 +167,7 @@
   border: 1px solid var(--c-border);
   border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: background var(--transition-fast, 0.2s), transform var(--transition-fast, 0.2s);
 }
 
 .team-slot .team-btn:hover {
@@ -237,7 +237,7 @@
   align-items: center;
   gap: 12px;
   font-size: 0.9rem;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
   border-bottom: 1px solid var(--c-white-05);
   background: var(--c-surface);
   color: var(--c-text);
@@ -440,17 +440,17 @@
   height: 100%;
   background: var(--c-bg); /* Opaque background to hide uninitialized content */
   z-index: 100;
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   border-radius: inherit;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease;
 }
 
 .modal-loading-overlay.active {
+  display: flex;
   opacity: 1;
   pointer-events: all;
 }
@@ -520,7 +520,7 @@ dialog#modal .poke-modal, dialog#teamEditModal .poke-modal {
   justify-content: center;
   padding: 6px 4px;
   min-height: 52px;
-  transition: all 0.2s ease;
+  transition: background 0.2s ease, border-color 0.2s ease;
 }
 
 .move-stat-box:hover, .move-cat-badge:hover {

@@ -109,7 +109,7 @@ const I18n = {
     const bp = this.getBasePath();
     // Load all translations
     try {
-      const v = "?v=9"; // Force refresh for fixed JSON files
+      const v = "?v=10"; // Force refresh for fixed JSON files
       const loadJSON = async (lang) => {
         try {
           const response = await fetch(`${bp}assets/i18n/${lang}.json${v}`);
@@ -198,7 +198,7 @@ const I18n = {
       }
 
       // Render Lucide icons in the newly loaded footer
-      if (typeof lucide !== "undefined") lucide.createIcons();
+      if (typeof lucide !== "undefined") lucide.createIcons({ root: footerPlaceholder });
     } catch (error) {
       console.error("Error loading footer:", error);
     }
@@ -307,9 +307,18 @@ const I18n = {
         if (!el.hasAttribute("data-i18n-placeholder")) {
           el.placeholder = translation;
         }
+      } else if (el.hasAttribute("data-i18n-html") || /<[a-z][\s\S]*>/i.test(translation)) {
+        el.innerHTML = translation;
       } else {
         el.textContent = translation;
       }
+    });
+
+    // 1b. HTML CONTENT (data-i18n-html)
+    document.querySelectorAll("[data-i18n-html]").forEach((el) => {
+      const key = el.getAttribute("data-i18n-html");
+      const translation = this.t(key);
+      el.innerHTML = translation;
     });
 
     // 2. ATTRIBUTES (data-i18n-attr="key")
@@ -344,15 +353,34 @@ const I18n = {
   translateElement(root = document) {
     if (!root) return;
 
-    // 1. TEXT CONTENT
+    // 1. TEXT / HTML CONTENT
     root.querySelectorAll("[data-i18n]").forEach((el) => {
       const key = el.getAttribute("data-i18n");
-      el.textContent = this.t(key);
+      const translation = this.t(key);
+      if (el.hasAttribute("data-i18n-html") || /<[a-z][\s\S]*>/i.test(translation)) {
+        el.innerHTML = translation;
+      } else {
+        el.textContent = translation;
+      }
     });
     
     // Also check the root itself
     if (root.hasAttribute && root.hasAttribute("data-i18n")) {
-      root.textContent = this.t(root.getAttribute("data-i18n"));
+      const translation = this.t(root.getAttribute("data-i18n"));
+      if (root.hasAttribute("data-i18n-html") || /<[a-z][\s\S]*>/i.test(translation)) {
+        root.innerHTML = translation;
+      } else {
+        root.textContent = translation;
+      }
+    }
+
+    // 1b. HTML CONTENT
+    root.querySelectorAll("[data-i18n-html]").forEach((el) => {
+      const key = el.getAttribute("data-i18n-html");
+      el.innerHTML = this.t(key);
+    });
+    if (root.hasAttribute && root.hasAttribute("data-i18n-html")) {
+      root.innerHTML = this.t(root.getAttribute("data-i18n-html"));
     }
 
     // 2. ATTRIBUTES

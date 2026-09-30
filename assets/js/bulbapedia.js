@@ -34,7 +34,7 @@ const Bulbapedia = {
         `;
 
         // Refresh icons
-        if (window.lucide) lucide.createIcons();
+        if (window.lucide) lucide.createIcons({ root: container });
         
         // Translate if I18n is available
         if (window.I18n) I18n.translateElement(container);
@@ -81,7 +81,7 @@ const Bulbapedia = {
                     <p class="small mb-0">${error.message}</p>
                 </div>
             `;
-            if (window.lucide) lucide.createIcons();
+            if (window.lucide) lucide.createIcons({ root: body });
             if (window.I18n) I18n.translateElement(body);
             btn.disabled = false;
         }
@@ -122,7 +122,7 @@ const Bulbapedia = {
         }
 
         container.innerHTML = html;
-        if (window.lucide) lucide.createIcons();
+        if (window.lucide) lucide.createIcons({ root: container });
     }
 };
 

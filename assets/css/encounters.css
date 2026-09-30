@@ -72,8 +72,7 @@
 }
 
 #methodModal::backdrop {
-  background: var(--c-modal-overlay);
-  backdrop-filter: blur(10px);
+  background: rgba(10, 15, 26, 0.75);
 }
 
 .modal-content {

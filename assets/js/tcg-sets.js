@@ -45,7 +45,7 @@
   let ALL_SETS = [];
   let DISPLAY_SETS = [];
   let PAGE = 1;
-  let PER_PAGE = 96;
+  let PER_PAGE = 60;
 
   // Init
   if (I18n.translations[I18n.currentLang]) {
@@ -331,7 +331,8 @@
 
         card.innerHTML = `
           <div class="item-info p-2 d-flex flex-column align-items-center justify-content-center">
-              <img src="${logoUrl}" alt="${d.name}" style="max-height: 80px; max-width:90%; object-fit:contain; margin-bottom:1rem;" loading="lazy">
+              <img src="${logoUrl}" alt="${d.name}" loading="lazy" width="200" height="80"
+                style="aspect-ratio: 200 / 80; max-height: 80px; max-width:90%; object-fit:contain; margin-bottom:1rem;">
               <div class="item-name mb-1" style="font-size: 1.1rem; text-align:center;">${d.name}</div>
               <div class="text-center mt-1">
                   <span class="badge bg-secondary">${sName}</span>
@@ -376,12 +377,14 @@
   async function openSetModal(d) {
     modalTitle.textContent = d.name;
     I18n.setModalTitle(d.name);
-    modalSetSymbol.src = d.symbol
-      ? `${d.symbol}.png`
-      : (window.I18n ? I18n.getBasePath() : "") +
-        "assets/img/fallback/fallback.png";
+
+    // TCGdex CDN returns 400 for ALL symbol.png URLs — never request them
+    modalSetSymbol.style.display = "none";
+
     modalSetLogo.src = d.logo
-      ? `${d.logo}.png`
+      ? d.logo.endsWith(".png")
+        ? d.logo
+        : `${d.logo}.png`
       : (window.I18n ? I18n.getBasePath() : "") +
         "assets/img/fallback/fallback.png";
 

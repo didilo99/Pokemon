@@ -124,7 +124,7 @@
     });
 
     grid.appendChild(frag);
-    if (typeof lucide !== "undefined") lucide.createIcons();
+    if (typeof lucide !== "undefined") lucide.createIcons({ root: grid });
   }
 
   function openModal(d) {

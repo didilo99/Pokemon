@@ -499,21 +499,25 @@
             </select>
           </div>
           <div class="ctrl">
-            <label data-i18n="games.view">Vista</label>
-            <div class="btn-group dex-btn-group">
+            <span class="ctrl-label" id="viewModeLabel" data-i18n="games.view">Vista</span>
+            <div class="btn-group dex-btn-group" role="group" aria-labelledby="viewModeLabel">
               <button
+                type="button"
                 class="btn btn-sm btn-outline-light active"
                 id="viewGrid"
                 data-i18n-title="games.grid_view"
                 title="Cuadrícula"
+                aria-label="Cuadrícula"
               >
                 <i data-lucide="layout-grid"></i>
               </button>
               <button
+                type="button"
                 class="btn btn-sm btn-outline-light"
                 id="viewTimeline"
                 data-i18n-title="games.timeline_view"
                 title="Cronología"
+                aria-label="Cronología"
               >
                 <i data-lucide="calendar"></i>
               </button>

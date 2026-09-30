@@ -18,32 +18,32 @@
 
 #itemsGrid.grid {
   display: grid;
-  grid-template-columns: repeat(10, 1fr); /* Divisor of 60 */
+  grid-template-columns: repeat(10, 1fr);
   gap: 16px;
   padding: 10px 0;
 }
 
 @media (max-width: 1400px) {
   #itemsGrid.grid {
-    grid-template-columns: repeat(6, 1fr); /* Divisor of 60 */
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 
 @media (max-width: 992px) {
   #itemsGrid.grid {
-    grid-template-columns: repeat(5, 1fr); /* Divisor of 60 */
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
 @media (max-width: 768px) {
   #itemsGrid.grid {
-    grid-template-columns: repeat(4, 1fr); /* Divisor of 60 */
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 480px) {
   #itemsGrid.grid {
-    grid-template-columns: repeat(2, 1fr); /* Divisor of 60 */
+    grid-template-columns: repeat(1, 1fr);
   }
 }
 
@@ -246,8 +246,7 @@
 }
 
 #itemModal::backdrop {
-  background: var(--c-modal-overlay);
-  backdrop-filter: blur(10px);
+  background: rgba(10, 15, 26, 0.75);
 }
 
 .modal-content {

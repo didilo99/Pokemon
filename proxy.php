@@ -6,8 +6,13 @@ error_reporting(E_ALL);
 // Extender tiempo de ejecución para evitar 500 por timeout del engine
 set_time_limit(120);
 
+// Habilitar compresión Gzip si está soportada
+if (!ob_start("ob_gzhandler")) {
+    ob_start();
+}
+
 // Forzar respuesta JSON desde el inicio
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 
 // Permitir requests desde cualquier origen (CORS)
 header("Access-Control-Allow-Origin: *");
@@ -66,12 +71,11 @@ $targetUrl = "";
 
 if ($method === 'GET' && !empty($endpoint)) {
     
-// Lista de endpoints que tienen fallback estático (para fallback rápido)
-$listEndpoints = ['types', 'rarities', 'series', 'hp', 'retreats', 'illustrators', 'categories', 'suffixes'];
+    // Lista de endpoints que tienen fallback estático (para fallback rápido)
+    $listEndpoints = ['types', 'rarities', 'series', 'hp', 'retreats', 'illustrators', 'categories', 'suffixes'];
+    $allowedEndpoints = array_merge(['sets', 'cards'], $listEndpoints);
 
-$allowedEndpoints = array_merge(['sets', 'cards'], $listEndpoints);
-
-if (in_array($endpoint, $allowedEndpoints)) {
+    if (in_array($endpoint, $allowedEndpoints)) {
         // Construir URL base
         $targetUrl = $baseUrlRest . $endpoint;
         
@@ -105,6 +109,8 @@ if (in_array($endpoint, $allowedEndpoints)) {
             exit;
         }
         $targetUrl = $baseUrlRest . "cards/" . rawurlencode($cardId);
+    } elseif ($endpoint === 'githubCommits') {
+        $targetUrl = "https://api.github.com/repos/PokeAPI/pokeapi/commits?per_page=1";
     } elseif ($endpoint === 'set') {
         // Endpoint para detalle de un set por ID
         $setId = isset($_GET['id']) ? $_GET['id'] : '';
@@ -126,6 +132,33 @@ if (in_array($endpoint, $allowedEndpoints)) {
     exit;
 }
 
+// TTL sugerido para cabeceras HTTP del navegador (en segundos)
+if (in_array($endpoint, ['types', 'rarities', 'series', 'categories', 'suffixes', 'hp', 'retreats', 'illustrators'])) {
+    $cacheTTL = 14 * 86400; // 14 días para listas estáticas
+} elseif (in_array($endpoint, ['cardDetail', 'set'])) {
+    $cacheTTL = 7 * 86400;  // 7 días para detalle de carta o set
+} elseif (in_array($endpoint, ['sets', 'cards'])) {
+    $cacheTTL = 6 * 3600;   // 6 horas para listados
+} elseif ($endpoint === 'githubCommits') {
+    $cacheTTL = 1800;       // 30 min para commits
+} else {
+    $cacheTTL = 3600;
+}
+
+// Helper para enviar respuesta con ETag y Cache-Control para el navegador
+function sendResponseWithHeaders(string $content, int $ttl): void {
+    $etag = '"' . md5($content) . '"';
+    header("ETag: " . $etag);
+    header("Cache-Control: public, max-age=" . min(86400, $ttl));
+    
+    if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim($_SERVER['HTTP_IF_NONE_MATCH']) === $etag) {
+        http_response_code(304);
+        exit;
+    }
+    echo $content;
+    exit;
+}
+
 // Iniciar cURL
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $targetUrl);
@@ -133,10 +166,13 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
-// Tiempo de espera dinámico: si tiene fallback, fallamos rápido (2s). Si no, normal (60s)
-$timeout = in_array($endpoint, $listEndpoints) ? 2 : 60;
+// Tiempo de espera dinámico
+$timeout = in_array($endpoint, $listEndpoints) ? 3 : 20;
+if ($endpoint === 'githubCommits') {
+    $timeout = 5;
+}
 curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
-curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, min(10, $timeout));
+curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, min(6, $timeout));
 
 curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
@@ -149,9 +185,9 @@ $headers = [
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
 // Ejecutar request con reintentos
-$maxRetries = 3;
+$maxRetries = 2;
 $attempt = 0;
-$retryDelayMs = 1000;
+$retryDelayMs = 500;
 
 do {
     $attempt++;
@@ -170,7 +206,47 @@ do {
     }
 } while ($attempt < $maxRetries);
 
-curl_close($ch);
+// En PHP 8.0+ curl_init devuelve una instancia de CurlHandle que se libera automáticamente (curl_close queda deprecado en PHP 8.5)
+unset($ch);
+
+// Fallback automático a inglés ('en') si el recurso no existe en el idioma solicitado (404 en español, francés, etc.)
+// o si el microservicio de ese idioma falla (500, 502, 503 "no available server").
+// Esto ocurre frecuentemente con cartas promocionales (xyp-*) y expansiones antiguas (e-Card, etc.)
+if (in_array($httpCode, [404, 500, 502, 503]) && $lang !== 'en' && strpos($targetUrl, "https://api.tcgdex.net/v2/{$lang}/") === 0) {
+    $fallbackTargetUrl = str_replace("https://api.tcgdex.net/v2/{$lang}/", "https://api.tcgdex.net/v2/en/", $targetUrl);
+    
+    $chFallback = curl_init();
+    curl_setopt($chFallback, CURLOPT_URL, $fallbackTargetUrl);
+    curl_setopt($chFallback, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($chFallback, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($chFallback, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($chFallback, CURLOPT_TIMEOUT, $timeout);
+    curl_setopt($chFallback, CURLOPT_CONNECTTIMEOUT, min(6, $timeout));
+    curl_setopt($chFallback, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+    curl_setopt($chFallback, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_setopt($chFallback, CURLOPT_HTTPHEADER, $headers);
+    
+    // Reintentar fallback por si TCGDex tiene una pausa momentánea (503 "no available server")
+    $fallbackAttempt = 0;
+    do {
+        $fallbackAttempt++;
+        $fallbackResponse = curl_exec($chFallback);
+        $fallbackHttpCode = curl_getinfo($chFallback, CURLINFO_HTTP_CODE);
+        if ($fallbackResponse !== false && $fallbackHttpCode >= 200 && $fallbackHttpCode < 300) {
+            break;
+        }
+        if ($fallbackAttempt < 2) {
+            usleep(500 * 1000);
+        }
+    } while ($fallbackAttempt < 2);
+    unset($chFallback);
+    
+    if ($fallbackResponse !== false && $fallbackHttpCode >= 200 && $fallbackHttpCode < 300) {
+        $response = $fallbackResponse;
+        $httpCode = $fallbackHttpCode;
+        $targetUrl = $fallbackTargetUrl;
+    }
+}
 
 if ($httpCode >= 400 || $response === false) {
     // Verificar si hay un fallback estático para este endpoint
@@ -184,6 +260,30 @@ if ($httpCode >= 400 || $response === false) {
     if (in_array($endpoint, $listEndpoints)) {
         http_response_code(200);
         echo json_encode([]);
+        exit;
+    }
+
+    // Fallback seguro para cardDetail: responder 200 con payload informativo para evitar 503/404 en consola
+    if ($endpoint === 'cardDetail') {
+        http_response_code(200);
+        echo json_encode([
+            "error" => "Card details unavailable from external API",
+            "id" => isset($_GET['id']) ? $_GET['id'] : '',
+            "status" => $httpCode,
+            "notFound" => true
+        ]);
+        exit;
+    }
+
+    // Fallback seguro para set: responder 200 con payload informativo
+    if ($endpoint === 'set') {
+        http_response_code(200);
+        echo json_encode([
+            "error" => "Set details unavailable from external API",
+            "id" => isset($_GET['id']) ? $_GET['id'] : '',
+            "status" => $httpCode,
+            "notFound" => true
+        ]);
         exit;
     }
 
@@ -227,6 +327,6 @@ if (!$isJsonValid) {
     exit;
 }
 
-// Responder
-echo $response;
+// Responder con ETag y Cache-Control para el navegador (sin almacenar archivos locales)
+sendResponseWithHeaders($response, $cacheTTL);
 ?>

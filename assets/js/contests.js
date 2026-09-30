@@ -274,7 +274,7 @@
     });
 
     grid.appendChild(frag);
-    if (typeof lucide !== "undefined") lucide.createIcons();
+    if (typeof lucide !== "undefined") lucide.createIcons({ root: grid });
   }
 
   function openContestModal(d) {
@@ -296,6 +296,6 @@
       d.getLocalizedFlavor() || I18n.t("contests.no_description");
 
     dlg.showModal();
-    if (typeof lucide !== "undefined") lucide.createIcons();
+    if (typeof lucide !== "undefined") lucide.createIcons({ root: dlg });
   }
 })();

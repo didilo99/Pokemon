@@ -252,7 +252,7 @@
     "all": "全て"
   },
   "footer": {
-    "copyright": "© {year} Pokédex App",
+    "copyright": "<a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Poke App</a> © {year} <a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Diego Diaz</a> 作、<a href=\"https://creativecommons.org/licenses/by-nc-nd/4.0/\" target=\"_blank\" rel=\"license noopener noreferrer\">CC BY-NC-ND 4.0</a> の下でライセンスされています<img src=\"https://mirrors.creativecommons.org/presskit/icons/cc.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/by.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/nc.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/nd.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\">",
     "pokemon": "ポケモン",
     "generations": "世代",
     "items": "道具",
@@ -268,6 +268,9 @@
     "cached_data": "キャッシュデータ",
     "deep_sync_btn": "ディープシンク",
     "deep_sync_warning": "数分かかります。",
+    "stop_sync": "停止",
+    "sync_stopped": "同期を停止しました",
+    "deep_sync_starting": "詳細同期を開始しています...",
     "nav_combat": "バトル",
     "clear_cache": "キャッシュをクリア",
     "nav_world": "ポケモンワールド",

@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
       
       setTimeout(() => {
         window.location.href = targetUrl;
-      }, 400); // Matches CSS transition duration
+      }, 120); // Snappy transition matching updated CSS duration
     }
   });
 

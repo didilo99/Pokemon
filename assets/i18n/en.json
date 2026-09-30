@@ -263,7 +263,7 @@
     "next": "Next"
   },
   "footer": {
-    "copyright": "© {year} Pokédex App",
+    "copyright": "<a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Poke App</a> © {year} by <a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Diego Diaz</a> is licensed under <a href=\"https://creativecommons.org/licenses/by-nc-nd/4.0/\" target=\"_blank\" rel=\"license noopener noreferrer\">CC BY-NC-ND 4.0</a><img src=\"https://mirrors.creativecommons.org/presskit/icons/cc.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/by.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/nc.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/nd.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\">",
     "pokemon": "Pokémon",
     "generations": "Generations",
     "items": "Items",
@@ -289,6 +289,9 @@
     "confirm_clear_cache": "Are you sure you want to delete all saved data? The application will reload.",
     "deep_sync_btn": "Deep Sync",
     "deep_sync_warning": "This will download thousands of records. It will take several minutes.",
+    "stop_sync": "Stop",
+    "sync_stopped": "Sync stopped",
+    "deep_sync_starting": "Starting deep sync...",
     "syncing_item": "Syncing",
     "api_info": "API Status",
     "system": "System",

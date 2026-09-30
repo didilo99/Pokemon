@@ -242,7 +242,7 @@ function renderTypeChanges() {
   section.style.display = "block";
   list.innerHTML = changes.map(c => `<li>${c}</li>`).join("");
   
-  if (typeof lucide !== 'undefined') lucide.createIcons();
+  if (typeof lucide !== 'undefined') lucide.createIcons({ root: section });
 }
 
 function updateSimulatorLabels() {
@@ -259,7 +259,8 @@ function updateSimulatorLabels() {
 }
 
 function getTypeIcon(name) {
-  return `https://raw.githubusercontent.com/msikma/pokesprite/master/misc/types/gen8/${name}.png`;
+  const bp = window.I18n ? I18n.getBasePath() : '';
+  return `${bp}assets/img/types/${name.toLowerCase()}.png`;
 }
 
 function renderTable() {

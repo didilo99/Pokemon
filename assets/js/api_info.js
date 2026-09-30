@@ -16,11 +16,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error("Error loading footer", err);
   }
 
-  // Load PokeAPI stats
-  await loadPokeApiStats();
-
-  // Load TCG stats
-  await loadTcgStats();
+  // Load PokeAPI stats and TCG stats asynchronously (non-blocking)
+  loadPokeApiStats();
+  loadTcgStats();
 });
 
 async function loadPokeApiStats() {
@@ -43,11 +41,10 @@ async function loadPokeApiStats() {
         (window.I18n && I18n.t("footer.never_synced")) || "Nunca";
     }
 
-    // Fetch global update from GitHub API (PokeAPI repository)
+    // Fetch global update from GitHub API (PokeAPI repository) via proxy to avoid CORS
     try {
-      const githubRes = await fetch(
-        "https://api.github.com/repos/PokeAPI/pokeapi/commits?per_page=1",
-      );
+      const bp = window.I18n ? I18n.getBasePath() : "";
+      const githubRes = await fetch(`${bp}proxy.php?endpoint=githubCommits`);
       if (githubRes.ok) {
         const ghData = await githubRes.json();
         if (ghData && ghData.length > 0) {
@@ -240,7 +237,7 @@ async function loadTcgStats() {
             `;
       container.insertAdjacentHTML("beforeend", html);
     });
-    if (typeof lucide !== "undefined") lucide.createIcons();
+    if (typeof lucide !== "undefined") lucide.createIcons({ root: container });
   } catch (e) {
     console.error("Error loading TCG stats:", e);
     document.getElementById("tcg-total-cards").textContent = "Error";

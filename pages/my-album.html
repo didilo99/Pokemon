@@ -12,7 +12,7 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="../assets/css/styles.css?v=2" />
-    <link rel="stylesheet" href="../assets/css/my-album.css?v=1" />
+    <link rel="stylesheet" href="../assets/css/my-album.css?v=2" />
     <link rel="icon" type="image/png" href="../assets/icon/favicon.png" />
     <script src="../assets/js/cache.js"></script>
     <script src="../assets/js/i18n.js"></script>
@@ -373,14 +373,19 @@
                 </li>
                 <li>
                   <a
-                    class="dropdown-item active"
+                    class="dropdown-item"
                     href="tcg-sets.html"
-                    data-i18n="nav.my_album"
+                    data-i18n="nav.tcg_sets"
                     >Sets TCG</a
                   >
                 </li>
                 <li>
-                  <a class="dropdown-item" href="my-album.html" data-i18n="nav.my_album">Mi Álbum</a>
+                  <a
+                    class="dropdown-item active"
+                    href="my-album.html"
+                    data-i18n="nav.my_album"
+                    >Mi Álbum</a
+                  >
                 </li>
               </ul>
             </li>
@@ -410,10 +415,11 @@
         <div class="ctrl">
           <label for="perPage" data-i18n="filters.per_page_label">Por página</label>
           <select id="perPage" class="dex-select">
-            <option value="12">12</option>
-            <option value="24">24</option>
-            <option value="48">48</option>
-            <option value="96" selected>96</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="60" selected>60</option>
+            <option value="100">100</option>
           </select>
         </div>
         <div class="ctrl">
@@ -455,7 +461,7 @@
       <div class="modal-content">
         <header class="modal-header">
           <div class="header-left">
-            <img id="modalSetSymbol" src="" alt="Symbol" width="36" height="auto" />
+            <img id="modalSetSymbol" src="" alt="Symbol" width="36" height="36" style="display:none" />
             <h2 id="modalTitle" class="modal-title">Set</h2>
           </div>
           <button class="close-btn" id="closeAlbumModal" aria-label="Cerrar" data-close-modal>
@@ -516,7 +522,7 @@
     ></script>
     <script src="../assets/js/cardStorage.js"></script>
     <script src="../assets/js/collectionStorage.js"></script>
-    <script src="../assets/js/my-album.js" defer></script>
+    <script src="../assets/js/my-album.js?v=2" defer></script>
     <div id="footer-placeholder"></div>
   </body>
 </html>

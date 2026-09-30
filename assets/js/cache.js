@@ -5,7 +5,7 @@
  */
 
 const DB_NAME = "PokedexCacheDB";
-const DB_VERSION = 4;
+const DB_VERSION = 5;
 /*
   =============================================================================
   SISTEMA DE CACHÉ
@@ -14,7 +14,7 @@ const DB_VERSION = 4;
   simplemente incrementa el número de APP_CACHE_VERSION (ej. de "2.3.0" a "2.3.1").
   =============================================================================
 */
-const APP_CACHE_VERSION = "2.3.0"; // Increment to force clear
+const APP_CACHE_VERSION = "2.3.1"; // Increment to force clear
 
 // Category-specific object stores
 const STORE_NAMES = [
@@ -32,15 +32,30 @@ const STORE_NAMES = [
 ];
 
 /**
+ * Normalizes any relative or absolute URL to a canonical absolute URL string.
+ * This guarantees consistent cache keys across root and subpages.
+ * @param {string} url
+ * @returns {string} canonical URL
+ */
+function normalizeCacheKey(url) {
+  try {
+    return new URL(url, window.location.href).href;
+  } catch (e) {
+    return url;
+  }
+}
+
+/**
  * Determine which object store a URL belongs to based on its API path.
  * @param {string} url
  * @returns {string} store name
  */
 function getStoreForUrl(url) {
   try {
-    const path = new URL(url, window.location.origin).pathname;
+    const canonical = normalizeCacheKey(url);
+    const path = new URL(canonical).pathname;
 
-    if (/bulbapedia_proxy\.php/.test(url) || /bulbapedia_proxy\.php/.test(path)) {
+    if (/bulbapedia_proxy\.php/.test(canonical) || /bulbapedia_proxy\.php/.test(path)) {
       return "cache_bulbapedia";
     }
 
@@ -101,6 +116,8 @@ function getStoreForUrl(url) {
 class CacheManager {
   constructor() {
     this.db = null;
+    this._memoryCache = new Map(); // Fast L1 in-memory cache
+    this._maxMemoryEntries = 2500;
     this.ready = this.init();
   }
 
@@ -149,53 +166,93 @@ class CacheManager {
   }
 
   async get(url) {
+    const key = normalizeCacheKey(url);
+    // 1. Check ultra-fast in-memory L1 cache first
+    const memItem = this._memoryCache.get(key);
+    if (memItem) {
+      if (memItem.expiry > Date.now()) {
+        return memItem.data;
+      }
+      this._memoryCache.delete(key);
+    }
+
+    // 2. Check IndexedDB L2 cache
     await this.ready;
-    const storeName = getStoreForUrl(url);
-    return new Promise((resolve, reject) => {
-      const transaction = this.db.transaction([storeName], "readonly");
-      const store = transaction.objectStore(storeName);
-      const request = store.get(url);
+    const storeName = getStoreForUrl(key);
+    return new Promise((resolve) => {
+      try {
+        const transaction = this.db.transaction([storeName], "readonly");
+        const store = transaction.objectStore(storeName);
+        const request = store.get(key);
 
-      request.onsuccess = () => {
-        const result = request.result;
-        if (result && result.expiry > Date.now()) {
-          resolve(result.data);
-        } else {
-          if (result) this.delete(url); // Clean up expired
-          resolve(null);
-        }
-      };
+        request.onsuccess = () => {
+          const result = request.result;
+          if (result && result.expiry > Date.now()) {
+            // Populate L1 cache for subsequent instant access
+            this._putInMemory(key, result.data, result.expiry);
+            resolve(result.data);
+          } else {
+            if (result) this.delete(key); // Clean up expired
+            resolve(null);
+          }
+        };
 
-      request.onerror = () => resolve(null);
+        request.onerror = () => resolve(null);
+      } catch (e) {
+        resolve(null);
+      }
     });
   }
 
-  async set(url, data, ttl = 24 * 60 * 60 * 1000) {
-    // Default TTL: 24 hours
-    await this.ready;
-    const storeName = getStoreForUrl(url);
-    return new Promise((resolve, reject) => {
-      const transaction = this.db.transaction([storeName], "readwrite");
-      const store = transaction.objectStore(storeName);
-      const item = {
-        url,
-        data,
-        cachedAt: Date.now(),
-        expiry: Date.now() + ttl,
-      };
-      const request = store.put(item);
+  _putInMemory(url, data, expiry) {
+    const key = normalizeCacheKey(url);
+    if (this._memoryCache.size >= this._maxMemoryEntries) {
+      // Evict oldest entry (first key in map)
+      const firstKey = this._memoryCache.keys().next().value;
+      if (firstKey) this._memoryCache.delete(firstKey);
+    }
+    this._memoryCache.set(key, { data, expiry });
+  }
 
-      request.onsuccess = () => resolve();
-      request.onerror = () => reject(request.error);
+  async set(url, data, ttl = 24 * 60 * 60 * 1000) {
+    const key = normalizeCacheKey(url);
+    // Default TTL: 24 hours
+    const expiry = Date.now() + ttl;
+    // Always update L1 RAM immediately
+    this._putInMemory(key, data, expiry);
+
+    await this.ready;
+    const storeName = getStoreForUrl(key);
+    return new Promise((resolve, reject) => {
+      try {
+        const transaction = this.db.transaction([storeName], "readwrite");
+        const store = transaction.objectStore(storeName);
+        const item = {
+          url: key,
+          data,
+          cachedAt: Date.now(),
+          expiry,
+        };
+        const request = store.put(item);
+
+        request.onsuccess = () => resolve();
+        request.onerror = () => reject(request.error);
+      } catch (e) {
+        resolve(); // Don't crash if transaction fails
+      }
     });
   }
 
   async delete(url) {
+    const key = normalizeCacheKey(url);
+    this._memoryCache.delete(key);
     await this.ready;
-    const storeName = getStoreForUrl(url);
-    const transaction = this.db.transaction([storeName], "readwrite");
-    const store = transaction.objectStore(storeName);
-    store.delete(url);
+    const storeName = getStoreForUrl(key);
+    try {
+      const transaction = this.db.transaction([storeName], "readwrite");
+      const store = transaction.objectStore(storeName);
+      store.delete(key);
+    } catch (e) {}
   }
 
   /**
@@ -203,14 +260,17 @@ class CacheManager {
    * @private
    */
   _clearInternal() {
+    this._memoryCache.clear();
     if (!this.db) return;
     const existingStores = STORE_NAMES.filter(name => this.db.objectStoreNames.contains(name));
     if (existingStores.length === 0) return;
     
-    const transaction = this.db.transaction(existingStores, "readwrite");
-    for (const storeName of existingStores) {
-      transaction.objectStore(storeName).clear();
-    }
+    try {
+      const transaction = this.db.transaction(existingStores, "readwrite");
+      for (const storeName of existingStores) {
+        transaction.objectStore(storeName).clear();
+      }
+    } catch (e) {}
     console.log("All cache stores cleared.");
   }
 
@@ -275,9 +335,12 @@ class CacheManager {
 
 const cacheManager = new CacheManager();
 
+// In-flight request deduplication map
+const _inFlightRequests = new Map();
+
 /**
  * Fetches a URL, using the cache if available.
- * Includes retry logic for network stability.
+ * Includes retry logic for network stability and deduplicates concurrent in-flight requests.
  * @param {string} url The URL to fetch.
  * @param {number} ttl Time to live in milliseconds (default 24h).
  * @param {boolean} force If true, bypass cache and force a new fetch.
@@ -285,56 +348,357 @@ const cacheManager = new CacheManager();
  * @param {number} delayMs Initial backoff delay.
  * @returns {Promise<any>} The JSON response.
  */
-async function fetchCached(url, ttl, force = false, retries = 3, delayMs = 1000) {
+async function fetchCached(url, ttl, force = false, retries = 3, delayMs = 1000, signal = null) {
+  const combinedSignal = signal || (_activeSyncAbortController ? _activeSyncAbortController.signal : null);
+  if (combinedSignal && combinedSignal.aborted) {
+    throw new DOMException("Aborted", "AbortError");
+  }
+
+  const key = normalizeCacheKey(url);
   if (!force) {
     try {
-      const cached = await cacheManager.get(url);
+      const cached = await cacheManager.get(key);
       if (cached) {
         return cached;
       }
     } catch (e) {}
   }
 
-  for (let i = 0; i <= retries; i++) {
-    try {
-      const res = await fetch(url);
-      
-      if (!res.ok) {
-        // Don't retry on 404 as it's a permanent failure for that resource
-        if (res.status === 404) throw new Error(`HTTP 404`);
-        
-        if (i < retries) {
-          // Add random jitter to backoff to prevent thundering herds
-          const backoff = delayMs * Math.pow(2, i) + Math.random() * 1000;
-          console.warn(`Fetch failed (HTTP ${res.status}) for ${url}. Retrying in ${Math.round(backoff)}ms... (${i + 1}/${retries})`);
-          await new Promise(r => setTimeout(r, backoff));
-          continue;
-        }
-        throw new Error(`HTTP ${res.status}`);
+  // If a request for this exact URL is already in progress, await its result
+  if (!force && _inFlightRequests.has(key)) {
+    return _inFlightRequests.get(key);
+  }
+
+  const fetchPromise = (async () => {
+    for (let i = 0; i <= retries; i++) {
+      if (combinedSignal && combinedSignal.aborted) {
+        throw new DOMException("Aborted", "AbortError");
       }
-
-      // Check content type or try/catch json
-      const contentType = res.headers.get("content-type");
-      if (contentType && !contentType.includes("application/json")) {
-        throw new Error("Invalid API response format (not JSON)");
-      }
-
-      const data = await res.json();
-
       try {
-        await cacheManager.set(url, data, ttl);
-      } catch (e) {}
+        const res = await fetch(url, { signal: combinedSignal || undefined });
+        
+        if (!res.ok) {
+          // Don't retry on 404 as it's a permanent failure for that resource
+          if (res.status === 404) throw new Error(`HTTP 404`);
+          
+          if (i < retries && !(combinedSignal && combinedSignal.aborted)) {
+            // Add random jitter to backoff to prevent thundering herds
+            const backoff = delayMs * Math.pow(2, i) + Math.random() * 500;
+            console.warn(`Fetch failed (HTTP ${res.status}) for ${url}. Retrying in ${Math.round(backoff)}ms... (${i + 1}/${retries})`);
+            await new Promise((resolve, reject) => {
+              const timer = setTimeout(resolve, backoff);
+              if (combinedSignal) {
+                combinedSignal.addEventListener("abort", () => {
+                  clearTimeout(timer);
+                  reject(new DOMException("Aborted", "AbortError"));
+                }, { once: true });
+              }
+            });
+            continue;
+          }
+          throw new Error(`HTTP ${res.status}`);
+        }
 
-      return data;
-    } catch (err) {
-      if (i < retries && err.name !== "AbortError") {
-        // Add random jitter to error retry backoff
-        const backoff = delayMs * Math.pow(2, i) + Math.random() * 1000;
-        console.warn(`Fetch error for ${url}: ${err.message}. Retrying in ${Math.round(backoff)}ms... (${i + 1}/${retries})`);
-        await new Promise(r => setTimeout(r, backoff));
-      } else {
-        throw err;
+        // Check content type or try/catch json
+        const contentType = res.headers.get("content-type");
+        if (contentType && !contentType.includes("application/json")) {
+          throw new Error("Invalid API response format (not JSON)");
+        }
+
+        const data = await res.json();
+
+        try {
+          await cacheManager.set(key, data, ttl);
+        } catch (e) {}
+
+        return data;
+      } catch (err) {
+        const isAborted = err.name === "AbortError" || (combinedSignal && combinedSignal.aborted);
+        if (i < retries && !isAborted) {
+          // Add random jitter to error retry backoff
+          const backoff = delayMs * Math.pow(2, i) + Math.random() * 500;
+          console.warn(`Fetch error for ${url}: ${err.message}. Retrying in ${Math.round(backoff)}ms... (${i + 1}/${retries})`);
+          await new Promise((resolve, reject) => {
+            const timer = setTimeout(resolve, backoff);
+            if (combinedSignal) {
+              combinedSignal.addEventListener("abort", () => {
+                clearTimeout(timer);
+                reject(new DOMException("Aborted", "AbortError"));
+              }, { once: true });
+            }
+          });
+        } else {
+          throw err;
+        }
       }
+    }
+  })();
+
+  if (!force) {
+    _inFlightRequests.set(key, fetchPromise);
+  }
+
+  try {
+    return await fetchPromise;
+  } finally {
+    if (!force) {
+      _inFlightRequests.delete(key);
+    }
+  }
+}
+
+/**
+ * Cross-tab synchronization management & reactive state
+ */
+const CURRENT_TAB_ID = "tab_" + Date.now() + "_" + Math.random().toString(36).substring(2, 8);
+let _activeSyncAbortController = null;
+let _isSyncAborted = false;
+let _localSyncRunning = false;
+let _syncChannel = null;
+
+try {
+  if (typeof BroadcastChannel !== "undefined") {
+    _syncChannel = new BroadcastChannel("pokedex_sync_channel");
+    _syncChannel.onmessage = (event) => {
+      const data = event.data;
+      if (!data) return;
+      if (data.type === "STOP_SYNC") {
+        if (_localSyncRunning) {
+          stopCurrentSync();
+        } else {
+          renderFollowerStoppedUI(data.text);
+        }
+      } else if (data.type === "SYNC_PROGRESS") {
+        handleIncomingSyncProgress(data);
+      }
+    };
+  }
+} catch (e) {
+  // BroadcastChannel unavailable
+}
+
+window.addEventListener("storage", (e) => {
+  if (e.key === "pokedex_sync_state" && e.newValue) {
+    try {
+      const state = JSON.parse(e.newValue);
+      if (state.stopped) {
+        if (_localSyncRunning) {
+          stopCurrentSync();
+        } else {
+          renderFollowerStoppedUI(state.text);
+        }
+      } else if (state.active) {
+        handleIncomingSyncProgress(state);
+      }
+    } catch (err) {}
+  }
+});
+
+// Clean up state if this tab was running the sync when unloaded
+window.addEventListener("beforeunload", () => {
+  if (_localSyncRunning) {
+    if (_activeSyncAbortController) {
+      try { _activeSyncAbortController.abort(); } catch (e) {}
+    }
+    localStorage.removeItem("pokedex_deepsync_lock");
+    const unloadState = {
+      active: false,
+      stopped: true,
+      tabId: CURRENT_TAB_ID,
+      lastHeartbeat: 0
+    };
+    localStorage.setItem("pokedex_sync_state", JSON.stringify(unloadState));
+  }
+});
+
+function getUiElements() {
+  return {
+    deepSyncBtn: document.getElementById("deepSyncPokeApiBtn"),
+    syncBtn: document.getElementById("syncPokeApiBtn"),
+    stopSyncBtn: document.getElementById("stopSyncBtn"),
+    progressRow: document.getElementById("syncProgressRow"),
+    progressBar: document.getElementById("syncProgressBar"),
+    progressText: document.getElementById("syncProgressText"),
+  };
+}
+
+function updateUi(text, percent, isSyncing = true) {
+  const ui = getUiElements();
+  if (ui.progressRow) ui.progressRow.hidden = false;
+  if (ui.deepSyncBtn) ui.deepSyncBtn.disabled = isSyncing;
+  if (ui.syncBtn) ui.syncBtn.disabled = isSyncing;
+  if (ui.stopSyncBtn) {
+    ui.stopSyncBtn.style.display = isSyncing ? "inline-flex" : "none";
+  }
+  if (ui.progressText && text !== undefined) {
+    ui.progressText.textContent = text;
+  }
+  if (ui.progressBar) {
+    if (percent !== undefined) {
+      ui.progressBar.style.width = `${percent}%`;
+      ui.progressBar.setAttribute("aria-valuenow", percent);
+    }
+    if (!isSyncing && percent === 100) {
+      ui.progressBar.style.backgroundColor = "";
+    }
+  }
+}
+
+function broadcastProgress(text, percent) {
+  const state = {
+    type: "SYNC_PROGRESS",
+    active: true,
+    stopped: false,
+    text,
+    percent,
+    tabId: CURRENT_TAB_ID,
+    lastHeartbeat: Date.now()
+  };
+  localStorage.setItem("pokedex_sync_state", JSON.stringify(state));
+  if (_syncChannel) {
+    try { _syncChannel.postMessage(state); } catch (e) {}
+  }
+}
+
+function updateHeartbeatInStorage(timestamp) {
+  try {
+    const raw = localStorage.getItem("pokedex_sync_state");
+    if (raw) {
+      const state = JSON.parse(raw);
+      state.lastHeartbeat = timestamp;
+      localStorage.setItem("pokedex_sync_state", JSON.stringify(state));
+    }
+  } catch (e) {}
+}
+
+function handleIncomingSyncProgress(data) {
+  if (!_localSyncRunning && data && data.active) {
+    updateUi(data.text, data.percent, true);
+  }
+}
+
+function renderFollowerStoppedUI(text) {
+  const stoppedMsg = text || (window.I18n && I18n.t("footer.sync_stopped")) || "Sincronización detenida";
+  const ui = getUiElements();
+  if (ui.progressText) ui.progressText.textContent = stoppedMsg;
+  if (ui.progressBar) {
+    ui.progressBar.style.backgroundColor = "#ef4444";
+  }
+  if (ui.stopSyncBtn) ui.stopSyncBtn.style.display = "none";
+  if (ui.deepSyncBtn) ui.deepSyncBtn.disabled = false;
+  if (ui.syncBtn) ui.syncBtn.disabled = false;
+
+  setTimeout(async () => {
+    const freshUi = getUiElements();
+    if (freshUi.progressRow) freshUi.progressRow.hidden = true;
+    if (freshUi.progressBar) {
+      freshUi.progressBar.style.backgroundColor = "";
+      freshUi.progressBar.style.width = "0%";
+    }
+    await updateCacheStatusUI();
+  }, 2500);
+}
+
+function stopCurrentSync() {
+  console.log("Deteniendo sincronización...");
+  _isSyncAborted = true;
+  _localSyncRunning = false;
+  
+  if (_activeSyncAbortController) {
+    try {
+      _activeSyncAbortController.abort();
+    } catch (e) {}
+    _activeSyncAbortController = null;
+  }
+
+  localStorage.removeItem("pokedex_deepsync_lock");
+
+  const stoppedMsg = (window.I18n && I18n.t("footer.sync_stopped")) || "Sincronización detenida";
+  const stoppedState = {
+    type: "STOP_SYNC",
+    active: false,
+    stopped: true,
+    text: stoppedMsg,
+    percent: 0,
+    tabId: CURRENT_TAB_ID,
+    lastHeartbeat: Date.now()
+  };
+  localStorage.setItem("pokedex_sync_state", JSON.stringify(stoppedState));
+  if (_syncChannel) {
+    try { _syncChannel.postMessage(stoppedState); } catch (e) {}
+  }
+
+  const ui = getUiElements();
+  if (ui.progressText) ui.progressText.textContent = stoppedMsg;
+  if (ui.progressBar) {
+    ui.progressBar.style.backgroundColor = "#ef4444";
+  }
+  if (ui.stopSyncBtn) ui.stopSyncBtn.style.display = "none";
+  if (ui.deepSyncBtn) ui.deepSyncBtn.disabled = false;
+  if (ui.syncBtn) ui.syncBtn.disabled = false;
+
+  setTimeout(async () => {
+    const freshUi = getUiElements();
+    if (freshUi.progressRow) freshUi.progressRow.hidden = true;
+    if (freshUi.progressBar) {
+      freshUi.progressBar.style.backgroundColor = "";
+      freshUi.progressBar.style.width = "0%";
+    }
+    await updateCacheStatusUI();
+  }, 2500);
+}
+
+function onStopBtnClick(e) {
+  if (e) e.preventDefault();
+  if (_localSyncRunning) {
+    stopCurrentSync();
+  } else {
+    const stoppedMsg = (window.I18n && I18n.t("footer.sync_stopped")) || "Sincronización detenida";
+    const stopMsg = {
+      type: "STOP_SYNC",
+      active: false,
+      stopped: true,
+      text: stoppedMsg,
+      tabId: CURRENT_TAB_ID,
+      lastHeartbeat: Date.now()
+    };
+    localStorage.setItem("pokedex_sync_state", JSON.stringify(stopMsg));
+    localStorage.removeItem("pokedex_deepsync_lock");
+    if (_syncChannel) {
+      try { _syncChannel.postMessage(stopMsg); } catch (err) {}
+    }
+    renderFollowerStoppedUI(stoppedMsg);
+  }
+}
+
+function checkAndSyncUIFromState() {
+  const stateStr = localStorage.getItem("pokedex_sync_state");
+  const activeLock = localStorage.getItem("pokedex_deepsync_lock");
+  const now = Date.now();
+
+  let state = null;
+  if (stateStr) {
+    try { state = JSON.parse(stateStr); } catch (e) {}
+  }
+
+  const isAlive = state && state.active && (now - (state.lastHeartbeat || 0) < 4500);
+
+  if (isAlive) {
+    updateUi(state.text || "Sincronizando...", state.percent || 0, true);
+  } else {
+    // Cleanup any orphaned/stale lock from previous page or closed tab
+    if (activeLock && (now - parseInt(activeLock, 10) > 4500)) {
+      localStorage.removeItem("pokedex_deepsync_lock");
+    }
+    if (state && state.active && (now - (state.lastHeartbeat || 0) >= 4500)) {
+      localStorage.removeItem("pokedex_sync_state");
+    }
+    const ui = getUiElements();
+    if (!_localSyncRunning) {
+      if (ui.progressRow) ui.progressRow.hidden = true;
+      if (ui.deepSyncBtn) ui.deepSyncBtn.disabled = false;
+      if (ui.syncBtn) ui.syncBtn.disabled = false;
+      if (ui.stopSyncBtn) ui.stopSyncBtn.style.display = "none";
     }
   }
 }
@@ -344,13 +708,14 @@ async function fetchCached(url, ttl, force = false, retries = 3, delayMs = 1000)
  * This fetches lists (indices) and caches them to avoid initial loading delays.
  */
 async function syncAllPokeAPI() {
-  const syncBtn = document.getElementById("syncPokeApiBtn");
-  const progressRow = document.getElementById("syncProgressRow");
-  const ProgressBar = document.getElementById("syncProgressBar");
-  const progressText = document.getElementById("syncProgressText");
+  if (_localSyncRunning) return;
+  _localSyncRunning = true;
+  _isSyncAborted = false;
+  _activeSyncAbortController = new AbortController();
 
-  if (syncBtn) syncBtn.disabled = true;
-  if (progressRow) progressRow.hidden = false;
+  const startMsg = (window.I18n && I18n.t("footer.syncing")) || "Sincronizando...";
+  updateUi(startMsg, 0, true);
+  broadcastProgress(startMsg, 0);
 
   const endpoints = [
     {
@@ -394,37 +759,48 @@ async function syncAllPokeAPI() {
   let completed = 0;
   const total = endpoints.length;
 
-  for (const ep of endpoints) {
-    try {
-      if (progressText) {
-        progressText.textContent = `${(window.I18n && I18n.t("footer.syncing")) || "Sincronizando"} ${ep.key}...`;
-      }
+  try {
+    for (const ep of endpoints) {
+      if (_isSyncAborted) break;
+      const progressText = `${(window.I18n && I18n.t("footer.syncing")) || "Sincronizando"} ${ep.key}...`;
+      const currentPercent = Math.round((completed / total) * 100);
+      updateUi(progressText, currentPercent, true);
+      broadcastProgress(progressText, currentPercent);
 
-      // We pass 'true' to force a fresh download and update the cache
-      await fetchCached(ep.url, undefined, true);
+      // Force a fresh download and update cache
+      await fetchCached(ep.url, undefined, true, 3, 1000, _activeSyncAbortController.signal);
+      if (_isSyncAborted) break;
 
       completed++;
-      if (ProgressBar) {
-        const percent = Math.round((completed / total) * 100);
-        ProgressBar.style.width = `${percent}%`;
-        ProgressBar.setAttribute("aria-valuenow", percent);
-      }
-    } catch (e) {
-      console.error(`Error syncing ${ep.key}:`, e);
+      const updatedPercent = Math.round((completed / total) * 100);
+      updateUi(progressText, updatedPercent, true);
+      broadcastProgress(progressText, updatedPercent);
     }
+
+    if (!_isSyncAborted) {
+      const completeText = (window.I18n && I18n.t("footer.sync_complete")) || "Sincronización completa";
+      updateUi(completeText, 100, false);
+      broadcastProgress(completeText, 100);
+    }
+  } catch (e) {
+    if (e.name !== "AbortError" && !_isSyncAborted) {
+      console.error("Error in syncAllPokeAPI:", e);
+    }
+  } finally {
+    _localSyncRunning = false;
+    _activeSyncAbortController = null;
   }
 
-  if (progressText) {
-    progressText.textContent =
-      (window.I18n && I18n.t("footer.sync_complete")) ||
-      "Sincronización completa";
+  if (!_isSyncAborted) {
+    setTimeout(async () => {
+      const freshUi = getUiElements();
+      if (freshUi.progressRow) freshUi.progressRow.hidden = true;
+      if (freshUi.syncBtn) freshUi.syncBtn.disabled = false;
+      if (freshUi.deepSyncBtn) freshUi.deepSyncBtn.disabled = false;
+      if (freshUi.stopSyncBtn) freshUi.stopSyncBtn.style.display = "none";
+      await updateCacheStatusUI();
+    }, 2000);
   }
-
-  setTimeout(async () => {
-    if (progressRow) progressRow.hidden = true;
-    if (syncBtn) syncBtn.disabled = false;
-    await updateCacheStatusUI();
-  }, 2000);
 }
 
 /**
@@ -432,15 +808,25 @@ async function syncAllPokeAPI() {
  * Uses batching to avoid overwhelming the API.
  */
 async function deepSyncAllPokeAPI() {
-  const deepSyncBtn = document.getElementById("deepSyncPokeApiBtn");
-  const syncBtn = document.getElementById("syncPokeApiBtn");
-  const progressRow = document.getElementById("syncProgressRow");
-  const ProgressBar = document.getElementById("syncProgressBar");
-  const progressText = document.getElementById("syncProgressText");
+  if (_localSyncRunning) return;
+  _localSyncRunning = true;
+  _isSyncAborted = false;
+  _activeSyncAbortController = new AbortController();
 
-  if (deepSyncBtn) deepSyncBtn.disabled = true;
-  if (syncBtn) syncBtn.disabled = true;
-  if (progressRow) progressRow.hidden = false;
+  const startText = (window.I18n && I18n.t("footer.deep_sync_starting")) || "Iniciando sincronización profunda...";
+  updateUi(startText, 0, true);
+
+  // Heartbeat execution lock & state (refreshed every 1.5s) to broadcast liveness
+  localStorage.setItem("pokedex_deepsync_lock", Date.now().toString());
+  broadcastProgress(startText, 0);
+
+  const heartbeatTimer = setInterval(() => {
+    if (_localSyncRunning && !_isSyncAborted) {
+      const now = Date.now();
+      localStorage.setItem("pokedex_deepsync_lock", now.toString());
+      updateHeartbeatInStorage(now);
+    }
+  }, 1500);
 
   const categories = [
     // --- Pokemon Core ---
@@ -492,107 +878,129 @@ async function deepSyncAllPokeAPI() {
   try {
     const syncedUrls = new Set();
     const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-    const API_DELAY = 150; // Stable delay between linear requests
+    const API_DELAY = 25;
 
-    // Process each category sequentially for "table separation" progress
     for (let c = 0; c < categories.length; c++) {
+      if (_isSyncAborted) break;
       const cat = categories[c];
       
-      if (progressText) {
-        progressText.textContent = `[${c + 1}/${categories.length}] Iniciando ${cat.label}...`;
-      }
-      if (ProgressBar) ProgressBar.style.width = "0%";
+      const catMsg = `[${c + 1}/${categories.length}] Iniciando ${cat.label}...`;
+      updateUi(catMsg, 0, true);
+      broadcastProgress(catMsg, 0);
 
-      const indexData = await fetchCached(cat.url);
+      const indexData = await fetchCached(cat.url, undefined, false, 3, 1000, _activeSyncAbortController.signal);
+      if (_isSyncAborted) break;
       if (!indexData || !indexData.results) continue;
 
       const urls = indexData.results.map((r) => r.url);
       const catTotal = urls.length;
       let catCompleted = 0;
 
-      // Concurrency limit to speed up sync without getting IP banned or 504 errors
-      const CONCURRENCY_LIMIT = 5;
+      const CONCURRENCY_LIMIT = 8;
       let currentIndex = 0;
 
       const processUrl = async (url) => {
+        if (_isSyncAborted) return;
         if (syncedUrls.has(url)) return;
         syncedUrls.add(url);
 
         try {
-          // 1. Fetch Detail
-          const d = await fetchCached(url, undefined, true);
+          const d = await fetchCached(url, undefined, true, 2, 800, _activeSyncAbortController.signal);
+          if (_isSyncAborted) return;
 
-          // 2. Special Logic for Pokemon: fetch species, forms, evolution chains
-          if (url.includes("/pokemon/")) {
+          if (url.includes("/pokemon/") && d) {
             if (d.species && d.species.url && !syncedUrls.has(d.species.url)) {
               syncedUrls.add(d.species.url);
-              const spData = await fetchCached(d.species.url, undefined, true).catch(() => null);
-              
+              const spData = await fetchCached(d.species.url, undefined, true, 2, 800, _activeSyncAbortController.signal).catch(() => null);
+              if (_isSyncAborted) return;
               if (spData && spData.evolution_chain?.url && !syncedUrls.has(spData.evolution_chain.url)) {
                 syncedUrls.add(spData.evolution_chain.url);
-                await fetchCached(spData.evolution_chain.url, undefined, true).catch(() => null);
+                await fetchCached(spData.evolution_chain.url, undefined, true, 2, 800, _activeSyncAbortController.signal).catch(() => null);
               }
             }
 
-            if (d.forms && d.forms.length > 0) {
+            if (!_isSyncAborted && d.forms && d.forms.length > 0) {
               for (const f of d.forms) {
+                if (_isSyncAborted) break;
                 if (!syncedUrls.has(f.url)) {
                   syncedUrls.add(f.url);
-                  await fetchCached(f.url, undefined, true).catch(() => null);
+                  await fetchCached(f.url, undefined, true, 2, 800, _activeSyncAbortController.signal).catch(() => null);
                 }
               }
             }
           }
         } catch (err) {
-          console.warn(`Error syncing detail: ${url}`, err);
+          if (err.name !== "AbortError") {
+            console.warn(`Error syncing detail: ${url}`, err);
+          }
         }
       };
+
+      let lastProgressUpdate = 0;
 
       const worker = async () => {
-        while (currentIndex < urls.length) {
+        while (currentIndex < urls.length && !_isSyncAborted) {
           const url = urls[currentIndex++];
           await processUrl(url);
+          if (_isSyncAborted) break;
           catCompleted++;
 
-          if (progressText) {
-            progressText.textContent = `[${c + 1}/${categories.length}] ${cat.label}: ${catCompleted} / ${catTotal}`;
-          }
-          if (ProgressBar) {
+          const now = Date.now();
+          if (now - lastProgressUpdate > 80 || catCompleted === catTotal) {
+            lastProgressUpdate = now;
             const percent = Math.round((catCompleted / catTotal) * 100);
-            ProgressBar.style.width = `${percent}%`;
+            const progressMsg = `[${c + 1}/${categories.length}] ${cat.label}: ${catCompleted} / ${catTotal}`;
+            updateUi(progressMsg, percent, true);
+            broadcastProgress(progressMsg, percent);
           }
           
-          // Wait briefly between requests to ensure server stability
-          await delay(API_DELAY);
+          if (API_DELAY > 0 && !_isSyncAborted) await delay(API_DELAY);
         }
       };
 
-      const workers = Array.from({ length: CONCURRENCY_LIMIT }, () => worker());
+      const workers = Array.from({ length: Math.min(CONCURRENCY_LIMIT, urls.length) }, () => worker());
       await Promise.all(workers);
+      if (_isSyncAborted) break;
     }
 
-    if (progressText)
-      progressText.textContent =
-        (window.I18n && I18n.t("footer.sync_complete")) ||
-        "Sincronización completa";
+    if (_isSyncAborted) {
+      console.log("Deep sync fue detenido.");
+    } else {
+      const completeMsg = (window.I18n && I18n.t("footer.sync_complete")) || "Sincronización completa";
+      updateUi(completeMsg, 100, false);
+      broadcastProgress(completeMsg, 100);
+
+      const completedAt = Date.now().toString();
+      localStorage.setItem("pokedex_last_auto_deepsync", completedAt);
+      localStorage.setItem("pokedex_last_auto_sync", completedAt);
+    }
   } catch (e) {
-    console.error("Deep Sync failed:", e);
-    if (progressText)
-      progressText.textContent =
-        (window.I18n &&
-          window.I18n.t(
-            "common.error_loading",
-            "Error en la sincronización",
-          )) ||
-        "Error en la sincronización";
+    if (e.name !== "AbortError" && !_isSyncAborted) {
+      console.error("Deep Sync failed:", e);
+      const errorMsg = (window.I18n && window.I18n.t("common.error_loading", "Error en la sincronización")) || "Error en la sincronización";
+      updateUi(errorMsg, undefined, false);
+      broadcastProgress(errorMsg, 0);
+    }
+  } finally {
+    clearInterval(heartbeatTimer);
+    _localSyncRunning = false;
+    _activeSyncAbortController = null;
+    localStorage.removeItem("pokedex_deepsync_lock");
+    if (!_isSyncAborted) {
+      localStorage.removeItem("pokedex_sync_state");
+    }
   }
 
-  setTimeout(async () => {
-    if (progressRow) progressRow.hidden = true;
-    if (syncBtn) syncBtn.disabled = false;
-    if (deepSyncBtn) deepSyncBtn.disabled = false;
-    await updateCacheStatusUI();
-  }, 3000);
+  if (!_isSyncAborted) {
+    setTimeout(async () => {
+      const freshUi = getUiElements();
+      if (freshUi.progressRow) freshUi.progressRow.hidden = true;
+      if (freshUi.syncBtn) freshUi.syncBtn.disabled = false;
+      if (freshUi.deepSyncBtn) freshUi.deepSyncBtn.disabled = false;
+      if (freshUi.stopSyncBtn) freshUi.stopSyncBtn.style.display = "none";
+      await updateCacheStatusUI();
+    }, 3000);
+  }
 }
 
 /**
@@ -610,7 +1018,6 @@ async function updateCacheStatusUI() {
     if (lastSyncEl) {
       if (stats.newestTimestamp) {
         const date = new Date(stats.newestTimestamp);
-        // Relative time display
         const diff = Date.now() - stats.newestTimestamp;
         const mins = Math.floor(diff / 60000);
         const hours = Math.floor(diff / 3600000);
@@ -658,6 +1065,13 @@ async function clearCache() {
     )
   ) {
     await cacheManager.clear();
+    if (window.CardStorage && typeof window.CardStorage.clear === "function") {
+      try {
+        await window.CardStorage.clear();
+      } catch (e) {
+        console.warn("Error clearing CardStorage:", e);
+      }
+    }
     location.reload();
   }
 }
@@ -669,13 +1083,11 @@ async function clearCache() {
 window.initFooterLogic = function () {
   updateCacheStatusUI();
 
-  // Periodically update relative time display (every minute)
   if (window._footerUpdateInterval) clearInterval(window._footerUpdateInterval);
   window._footerUpdateInterval = setInterval(updateCacheStatusUI, 60000);
 
   const syncBtn = document.getElementById("syncPokeApiBtn");
   if (syncBtn) {
-    // Remove old listener if any to avoid duplicates
     syncBtn.removeEventListener("click", syncAllPokeAPI);
     syncBtn.addEventListener("click", syncAllPokeAPI);
   }
@@ -691,37 +1103,97 @@ window.initFooterLogic = function () {
     deepSyncBtn.removeEventListener("click", deepSyncAllPokeAPI);
     deepSyncBtn.addEventListener("click", deepSyncAllPokeAPI);
   }
+
+  const stopBtn = document.getElementById("stopSyncBtn");
+  if (stopBtn) {
+    stopBtn.removeEventListener("click", onStopBtnClick);
+    stopBtn.addEventListener("click", onStopBtnClick);
+  }
+
+  if (typeof lucide !== "undefined") {
+    try {
+      lucide.createIcons();
+    } catch (e) {}
+  }
+
+  checkAndSyncUIFromState();
 };
 
 /**
- * Automatically trigger a deep sync once per day.
+ * Automatically trigger a deep sync if more than 24 hours have passed since the last cache.
+ * @param {boolean} force If true, bypasses time checks and executes immediately.
  */
-async function autoDeepSyncDaily() {
-  const lastSyncStr = localStorage.getItem("pokedex_last_auto_deepsync");
-  const now = Date.now();
+async function autoDeepSyncDaily(force = false) {
   const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
+  const now = Date.now();
+  const DEEP_SYNC_LOCK_TTL = 5000; // 5 seconds since active worker updates heartbeat every 1.5s
 
-  // If there's no previous sync, or it's been 24+ hours (also handles old YYYY-MM-DD format gracefully)
-  if (!lastSyncStr || (now - parseInt(lastSyncStr, 10)) >= TWENTY_FOUR_HOURS) {
-    console.log("Iniciando sincronización profunda automática (pasaron > 24h)...");
-    try {
-      // Wait a moment before starting to allow the UI to finish rendering
-      await new Promise(r => setTimeout(r, 5000));
-      await deepSyncAllPokeAPI();
-      localStorage.setItem("pokedex_last_auto_deepsync", now.toString());
-    } catch (e) {
-      console.error("Error en sincronización automática:", e);
+  // 1. Prevent duplicate concurrent workers across multiple tabs or quick page reloads
+  const activeLock = localStorage.getItem("pokedex_deepsync_lock");
+  const stateStr = localStorage.getItem("pokedex_sync_state");
+  if (activeLock) {
+    const lockTime = parseInt(activeLock, 10);
+    let state = null;
+    try { state = JSON.parse(stateStr); } catch (e) {}
+    const isReallyActive = (now - lockTime) < DEEP_SYNC_LOCK_TTL && (state?.active || (now - (state?.lastHeartbeat || 0)) < DEEP_SYNC_LOCK_TTL);
+    
+    if (isReallyActive) {
+      console.log("Deep sync already active in another tab/process. Skipping duplicate.");
+      return;
+    } else {
+      localStorage.removeItem("pokedex_deepsync_lock");
+      localStorage.removeItem("pokedex_sync_state");
     }
+  }
+
+  // 2. Evaluate if 24 hours have passed since the last completed deep sync
+  const lastSyncStr = localStorage.getItem("pokedex_last_auto_deepsync") || localStorage.getItem("pokedex_last_auto_sync");
+  let shouldSync = Boolean(force);
+
+  if (!shouldSync) {
+    if (!lastSyncStr) {
+      shouldSync = true;
+    } else {
+      const lastSyncTime = parseInt(lastSyncStr, 10);
+      if (isNaN(lastSyncTime) || (now - lastSyncTime) >= TWENTY_FOUR_HOURS) {
+        shouldSync = true;
+      }
+    }
+  }
+
+  // 3. Fallback: also verify database stats in case localStorage was cleared but DB is stale
+  if (!shouldSync) {
+    try {
+      const stats = await cacheManager.getStats();
+      if (!stats.newestTimestamp || (now - stats.newestTimestamp) >= TWENTY_FOUR_HOURS) {
+        shouldSync = true;
+      }
+    } catch (e) {}
+  }
+
+  if (shouldSync) {
+    console.log("Iniciando sincronización profunda automática (último caché > 24h)...");
+    await new Promise(r => setTimeout(r, 1500));
+    
+    const recheckLock = localStorage.getItem("pokedex_deepsync_lock");
+    if (recheckLock && (Date.now() - parseInt(recheckLock, 10)) < DEEP_SYNC_LOCK_TTL) {
+      return;
+    }
+    await deepSyncAllPokeAPI();
   }
 }
 
-// Run cache status update when DOM is ready
-document.addEventListener("DOMContentLoaded", () => {
+function startCacheAutoProcesses() {
   window.initFooterLogic();
-  
-  // Attempt daily auto-sync
   autoDeepSyncDaily();
-});
+}
+
+// Run cache status update when DOM is ready (handles both loading and interactive/complete states)
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", startCacheAutoProcesses);
+} else {
+  startCacheAutoProcesses();
+}
 
 // Export for use in other files
 window.cacheManager = cacheManager;
@@ -729,4 +1201,6 @@ window.fetchCached = fetchCached;
 window.updateCacheStatusUI = updateCacheStatusUI;
 window.syncAllPokeAPI = syncAllPokeAPI;
 window.deepSyncAllPokeAPI = deepSyncAllPokeAPI;
+window.stopCurrentSync = stopCurrentSync;
+window.autoDeepSyncDaily = autoDeepSyncDaily;
 window.clearCache = clearCache;

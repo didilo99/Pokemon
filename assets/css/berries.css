@@ -16,22 +16,22 @@
 
 @media (max-width: 1400px) {
   #berriesGrid.grid {
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 @media (max-width: 992px) {
   #berriesGrid.grid {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 @media (max-width: 768px) {
   #berriesGrid.grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 @media (max-width: 480px) {
   #berriesGrid.grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
   }
 }
 
@@ -42,10 +42,14 @@
   padding: var(--spacing-xl);
   cursor: pointer;
   transition:
-    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-    background 0.3s ease,
-    border-color 0.3s ease,
-    box-shadow 0.3s ease;
+    transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.25s ease;
+  will-change: transform;
+  transform: translateZ(0);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -87,7 +91,9 @@
   border-radius: 50%;
   margin-bottom: var(--spacing-md);
   padding: 12px;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.2s ease;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .interactive-card:hover .item-icon-wrapper {
@@ -146,8 +152,7 @@
 }
 
 #berryModal::backdrop {
-  background: var(--c-modal-overlay);
-  backdrop-filter: blur(10px);
+  background: rgba(10, 15, 26, 0.75);
 }
 
 .modal-content {
@@ -233,7 +238,9 @@
   font-size: 1.5rem;
   font-weight: 800;
   color: var(--c-text);
-  text-transform: capitalize;
+  text-transform: none;
+  width: auto;
+  text-align: left;
 }
 
 .flavor-badge {

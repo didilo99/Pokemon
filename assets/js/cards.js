@@ -22,6 +22,7 @@ let allSyncedCards = []; // Cache for all cards from DB
 let allFilteredIds = []; // NEW: Cache for all matching IDs across pages
 let currentCardIndex = -1;
 let isFetching = false;
+let currentModalCardId = null;
 
 // Filter Data Cache
 let allSets = [];
@@ -421,10 +422,10 @@ function populateTypeChips(types) {
 
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = `type-chip type-${config.icon}`;
+    btn.className = `type-chip type-${config.icon} type-${cleanType}`;
     btn.dataset.value = type;
 
-    // Use svgType for consistency (uses gen8 pokesprite icons internally)
+    // Use svgType for consistency
     btn.innerHTML = `${svgType(config.icon)}<span>${displayName}</span><span class="type-chip-count">-</span>`;
 
     if (window.CardStorage) {
@@ -470,13 +471,27 @@ async function checkUrlForCard() {
     // 1. Try to find in loaded synced list (fastest)
     let card = currentCardsList.find((c) => c.id === cardId);
 
-    // 2. If not found, fetch from API
+    // 2. If not found in memory, check browser database (IndexedDB)
+    if (!card && window.CardStorage) {
+      try {
+        const local = await CardStorage.getCardById(cardId, I18n.currentLang);
+        if (local) card = local;
+      } catch (e) {}
+    }
+
+    // 3. If not found in DB, fetch from API and cache in browser database
     if (!card) {
       try {
-        const url = `${PROXY_URL}?endpoint=cardDetail&id=${encodeURIComponent(cardId)}`;
-        const response = await fetch(url);
+        const url = `${PROXY_URL}?endpoint=cardDetail&id=${encodeURIComponent(cardId)}&lang=${I18n.currentLang}`;
+        let response = await fetch(url);
+        if (!response.ok && I18n.currentLang !== "en") {
+          response = await fetch(`${PROXY_URL}?endpoint=cardDetail&id=${encodeURIComponent(cardId)}&lang=en`);
+        }
         if (response.ok) {
           card = await response.json();
+          if (window.CardStorage && card) {
+            await CardStorage.saveCardsBatch([card], I18n.currentLang);
+          }
         }
       } catch (e) {}
     }
@@ -1029,10 +1044,13 @@ async function syncCards(btnElement) {
         updateGlobalProgress(15); // Phase 1 is up to 15% of lang sync
       }
 
-      // PHASE 2: Fetch full details
+      // PHASE 2: Fetch full details with controlled concurrency pool
       const totalCardsLang = allCardSummaries.length;
       let synced = 0;
-      const BATCH_SIZE = 500;
+      const CONCURRENCY = 16; // Optimal concurrency for Apache/XAMPP stability and speed
+      const SAVE_BATCH_SIZE = 150;
+      let nextIndex = 0;
+      let pendingBatch = [];
 
       const setDateMap = new Map();
       const setSeriesMap = new Map();
@@ -1047,42 +1065,62 @@ async function syncCards(btnElement) {
         }
       });
 
-      for (let i = 0; i < allCardSummaries.length; i += BATCH_SIZE) {
-        const batch = allCardSummaries.slice(i, i + BATCH_SIZE);
-        const detailPromises = batch.map(async (summary) => {
+      const fetchCardWorker = async () => {
+        while (nextIndex < allCardSummaries.length) {
+          const current = nextIndex++;
+          const summary = allCardSummaries[current];
+          let card = summary;
+
           try {
             const detailUrl = `${PROXY_URL}?endpoint=cardDetail&id=${encodeURIComponent(summary.id)}&lang=${lang}`;
-            const resp = await fetch(detailUrl);
+            let resp = await fetch(detailUrl);
+            if (!resp.ok && lang !== "en") {
+              resp = await fetch(`${PROXY_URL}?endpoint=cardDetail&id=${encodeURIComponent(summary.id)}&lang=en`);
+            }
             if (resp.ok) {
-              const card = await resp.json();
-              if (card.set && card.set.id) {
-                if (!card.set.releaseDate) {
-                  const rDate = setDateMap.get(card.set.id);
-                  if (rDate) card.set.releaseDate = rDate;
+              const cardData = await resp.json();
+              if (cardData && cardData.set && cardData.set.id) {
+                if (!cardData.set.releaseDate) {
+                  const rDate = setDateMap.get(cardData.set.id);
+                  if (rDate) cardData.set.releaseDate = rDate;
                 }
-                if (!card.set.series) {
-                  const seriesObj = setSeriesMap.get(card.set.id);
-                  if (seriesObj) card.set.series = seriesObj;
+                if (!cardData.set.series) {
+                  const seriesObj = setSeriesMap.get(cardData.set.id);
+                  if (seriesObj) cardData.set.series = seriesObj;
                 }
               }
-              return card;
+              if (cardData && cardData.id) {
+                card = cardData;
+              }
             }
           } catch (e) {}
-          return summary;
-        });
 
-        const detailedCards = await Promise.all(detailPromises);
-        await CardStorage.saveCardsBatch(detailedCards, lang);
-        synced += detailedCards.length;
+          pendingBatch.push(card);
+          synced++;
 
-        updateStatus("tcg.errors.sync_details", synced, totalCardsLang);
+          if (pendingBatch.length >= SAVE_BATCH_SIZE) {
+            const toSave = pendingBatch;
+            pendingBatch = [];
+            await CardStorage.saveCardsBatch(toSave, lang);
+          }
 
-        // Phase 2 is 15% to 100% of lang sync
-        const internalPercent = 15 + Math.round((synced / totalCardsLang) * 85);
-        updateGlobalProgress(internalPercent);
+          if (synced % 20 === 0 || synced === totalCardsLang) {
+            updateStatus("tcg.errors.sync_details", synced, totalCardsLang);
+            const internalPercent = 15 + Math.round((synced / totalCardsLang) * 85);
+            updateGlobalProgress(internalPercent);
+          }
+        }
+      };
 
-        // Add a small delay between batches to be polite to the local server
-        await new Promise((r) => setTimeout(r, 100));
+      const workers = Array.from(
+        { length: Math.min(CONCURRENCY, allCardSummaries.length) },
+        () => fetchCardWorker()
+      );
+      await Promise.all(workers);
+
+      // Save any remaining cards in the final batch
+      if (pendingBatch.length > 0) {
+        await CardStorage.saveCardsBatch(pendingBatch, lang);
       }
     } catch (e) {
       console.error(`Sync error for ${lang}:`, e);
@@ -1272,7 +1310,7 @@ function renderCards(cards) {
         "assets/img/fallback/fallback.png";
 
     cardEl.innerHTML = `
-      <img src="${smallImage}" alt="${displayName}" loading="lazy" onerror="this.onerror=null; this.src=(window.I18n ? window.I18n.getBasePath() : '') + 'assets/img/fallback/fallback.png';">
+      <img src="${smallImage}" alt="${displayName}" width="245" height="342" loading="lazy" onerror="this.onerror=null; this.src=(window.I18n ? window.I18n.getBasePath() : '') + 'assets/img/fallback/fallback.png';">
       <div class="card-name">${displayName}</div>
       <div class="card-meta">${card.id}</div>
     `;
@@ -1336,7 +1374,7 @@ function createCardElement(card) {
   }
 
   cardEl.innerHTML = `
-    <img src="${smallImage}" alt="${displayName}" loading="lazy" onerror="this.onerror=null; this.src=(window.I18n ? window.I18n.getBasePath() : '') + 'assets/img/fallback/fallback.png';">
+    <img src="${smallImage}" alt="${displayName}" width="245" height="342" loading="lazy" onerror="this.onerror=null; this.src=(window.I18n ? window.I18n.getBasePath() : '') + 'assets/img/fallback/fallback.png';">
     <div class="card-name">${displayName}</div>
     <div class="card-meta">${card.id}</div>
   `;
@@ -1370,20 +1408,21 @@ function showLoading() {
 }
 
 /**
- * Get the type icon URL from Pokesprite
+ * Get the type icon URL (official Bulbapedia icons, hosted locally)
  * @param {string} name
  */
 function getPokespriteTypeIcon(name) {
   let type = name.toLowerCase();
 
-  // TCG to Pokesprite mapping
+  // TCG to standard type mapping
   if (type === "colorless") type = "normal";
   if (type === "lightning") type = "electric";
   if (type === "darkness") type = "dark";
   if (type === "metal") type = "steel";
 
-  // Return the icon URL (same as app.js)
-  return `https://raw.githubusercontent.com/msikma/pokesprite/master/misc/types/gen8/${type}.png`;
+  // Return the local icon URL
+  const bp = window.I18n ? I18n.getBasePath() : '';
+  return `${bp}assets/img/types/${type}.png`;
 }
 
 /**
@@ -1416,7 +1455,7 @@ function getTcgTypeInfo(tcgType) {
  */
 function svgType(name) {
   const url = getPokespriteTypeIcon(name);
-  return `<img src="${url}" alt="${name}" class="type-icon-inline" width="20" height="20" title="${name}">`;
+  return `<img src="${url}" alt="${name}" class="type-icon type-icon-inline" width="24" height="24" title="${name}">`;
 }
 
 /**
@@ -1444,6 +1483,8 @@ async function showCardDetail(cardOrId) {
   let card = typeof cardOrId === "string" ? null : cardOrId;
   const cardId = typeof cardOrId === "string" ? cardOrId : cardOrId.id;
 
+  currentModalCardId = cardId;
+
   // 1. Try to find in local storage FIRST (Language-aware)
   try {
     const localCard = await CardStorage.getCardById(cardId, I18n.currentLang);
@@ -1457,9 +1498,14 @@ async function showCardDetail(cardOrId) {
     try {
       cardModal.showModal();
       // Show spinner or something could go here
-      const response = await fetch(
+      let response = await fetch(
         `${PROXY_URL}?endpoint=cardDetail&id=${encodeURIComponent(cardId)}&lang=${I18n.currentLang}`,
       );
+      if (!response.ok && I18n.currentLang !== "en") {
+        response = await fetch(
+          `${PROXY_URL}?endpoint=cardDetail&id=${encodeURIComponent(cardId)}&lang=en`,
+        );
+      }
       if (response.ok) {
         card = await response.json();
         // Save to cache for next time
@@ -1619,6 +1665,62 @@ async function showCardDetail(cardOrId) {
     const hasRules = fullCard.rules && fullCard.rules.length > 0;
     rulesSection.style.display = hasRules ? "block" : "none";
   }
+
+  // 6. Live Price Update: Only fetch from network if fullCard was loaded from cache without live pricing
+  if (!needsFetch) {
+    fetchLivePrices(fullCard.id, I18n.currentLang);
+  }
+}
+
+/**
+ * Fetch and update live prices in the modal without needing a full DB sync
+ */
+async function fetchLivePrices(cardId, lang) {
+  try {
+    const freshCard = await fetchCardDetail(cardId, lang);
+    if (!freshCard || freshCard.error || freshCard.notFound) return;
+    
+    // If the modal was closed or changed to another card, abort updating the DOM
+    if (currentModalCardId !== cardId) return;
+
+    // Update current list cache if applicable
+    if (typeof currentCardIndex !== "undefined" && currentCardsList && currentCardIndex >= 0) {
+      if (currentCardsList[currentCardIndex] && currentCardsList[currentCardIndex].id === cardId) {
+         currentCardsList[currentCardIndex] = freshCard;
+      }
+    }
+
+    // Now update the DOM elements with fresh prices
+    const pricing = freshCard.pricing || {};
+    const cmPrices = pricing.cardmarket || freshCard.cardmarket?.prices || null;
+    const tcgPrices = pricing.tcgplayer || freshCard.tcgplayer?.prices || null;
+
+    const cmLow = document.getElementById("cmLow");
+    const cmAvg = document.getElementById("cmAvg");
+    const cmTrend = document.getElementById("cmTrend");
+    const tcgLow = document.getElementById("tcgLow");
+    const tcgMarket = document.getElementById("tcgMarket");
+    const tcgHigh = document.getElementById("tcgHigh");
+
+    if (cmPrices) {
+      if (cmLow) cmLow.textContent = cmPrices.low || cmPrices.lowPrice ? `€${cmPrices.low || cmPrices.lowPrice}` : "-";
+      if (cmAvg) cmAvg.textContent = cmPrices.avg || cmPrices.averageSellPrice ? `€${cmPrices.avg || cmPrices.averageSellPrice}` : "-";
+      if (cmTrend) cmTrend.textContent = cmPrices.trend || cmPrices.trendPrice ? `€${cmPrices.trend || cmPrices.trendPrice}` : "-";
+    }
+
+    if (tcgPrices) {
+      let priceData = tcgPrices;
+      if (!tcgPrices.low && !tcgPrices.market) {
+        const priceType = Object.keys(tcgPrices)[0];
+        if (priceType) priceData = tcgPrices[priceType] || {};
+      }
+      if (tcgLow) tcgLow.textContent = priceData.low ? `$${priceData.low}` : "-";
+      if (tcgMarket) tcgMarket.textContent = priceData.market || priceData.mid ? `$${priceData.market || priceData.mid}` : "-";
+      if (tcgHigh) tcgHigh.textContent = priceData.high ? `$${priceData.high}` : "-";
+    }
+  } catch (e) {
+    // Non-critical background update
+  }
 }
 
 /**
@@ -1626,11 +1728,34 @@ async function showCardDetail(cardOrId) {
  */
 async function fetchCardDetail(id, lang = I18n.currentLang) {
   try {
-    const response = await fetch(
-      `${PROXY_URL}?endpoint=cardDetail&id=${id}&lang=${lang}`,
+    // 1. Check browser database (IndexedDB) first
+    if (window.CardStorage) {
+      try {
+        const local = await CardStorage.getCardById(id, lang);
+        if (local && (local.attacks || local.hp || local.types)) return local;
+      } catch (e) {}
+    }
+
+    let response = await fetch(
+      `${PROXY_URL}?endpoint=cardDetail&id=${encodeURIComponent(id)}&lang=${lang}`,
     );
+    if (!response.ok && lang !== "en") {
+      response = await fetch(
+        `${PROXY_URL}?endpoint=cardDetail&id=${encodeURIComponent(id)}&lang=en`,
+      );
+    }
     if (!response.ok) return null;
-    return await response.json();
+    const freshCard = await response.json();
+    if (!freshCard || freshCard.error || freshCard.notFound) return null;
+
+    // 2. Cache in browser database (IndexedDB)
+    if (window.CardStorage && freshCard && freshCard.id) {
+      try {
+        await CardStorage.saveCardsBatch([freshCard], lang);
+      } catch (e) {}
+    }
+
+    return freshCard;
   } catch (e) {
     return null;
   }
@@ -1809,13 +1934,18 @@ function renderCardDetailsToModal(card) {
   document.getElementById("modalCardArtist").textContent =
     card.illustrator || "-";
 
-  // Set Icon using set logic
+  // Set Icon — always use logo (TCGdex symbol CDN returns 400 for all sets)
   const setIconImg = document.getElementById("modalCardSetIcon");
-  if (card.set && card.set.symbol) {
-    setIconImg.src = `${card.set.symbol}.png`;
-    setIconImg.style.display = "inline-block";
-  } else if (card.set && card.set.logo) {
-    setIconImg.src = `${card.set.logo}.png`;
+  setIconImg.onerror = function () {
+    this.onerror = null;
+    this.style.display = "none";
+  };
+
+  if (card.set && card.set.logo) {
+    const logo = card.set.logo.endsWith(".png")
+      ? card.set.logo
+      : `${card.set.logo}.png`;
+    setIconImg.src = logo;
     setIconImg.style.display = "inline-block";
   } else {
     setIconImg.style.display = "none";
@@ -2101,7 +2231,7 @@ function getTcgTypeIconHtml(type) {
   let t = type;
   if (t === "Colorless") t = "Normal";
   const icon = getPokespriteTypeIcon(t.toLowerCase());
-  return `<img src="${icon}" width="16" height="16" class="type-icon-inline" style="vertical-align:text-bottom;">`;
+  return `<img src="${icon}" width="18" height="18" class="type-icon-inline type-energy-cost type-${t.toLowerCase()}" style="vertical-align:middle;">`;
 }
 
 function renderAttacksAndRules(card) {

@@ -46,17 +46,59 @@
   filter: grayscale(0);
 }
 
+.type-chip-btn.type-electric:hover,
+.type-chip-btn.type-electric.active,
+.type-chip-btn.type-ice:hover,
+.type-chip-btn.type-ice.active,
+.type-chip-btn.type-flying:hover,
+.type-chip-btn.type-flying.active {
+  color: var(--tc-electric-text, #1a1f35) !important;
+}
+
+.type-chip-btn.type-stellar:hover,
+.type-chip-btn.type-stellar.active {
+  background: var(--tc-stellar-gradient, var(--tc-stellar)) !important;
+  color: #fff !important;
+}
+
 .type-chip-btn .type-icon-small {
-  filter: none;
-  transition: all 0.2s;
+  width: 22px;
+  height: 22px;
+  padding: 3px;
+  border-radius: 50%;
+  background: var(--chip-color);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  object-fit: contain;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.type-chip-btn.type-stellar .type-icon-small {
+  background: var(--tc-stellar-gradient, var(--tc-stellar));
 }
 
 .type-chip-btn:hover .type-icon-small,
 .type-chip-btn.active .type-icon-small {
-  background: transparent !important;
-  padding: 0;
-  border-radius: 0;
-  box-shadow: none;
+  background: rgba(0, 0, 0, 0.25) !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(255, 255, 255, 0.15);
+}
+
+.type-chip-btn.type-electric:hover .type-icon-small,
+.type-chip-btn.type-electric.active .type-icon-small,
+.type-chip-btn.type-ice:hover .type-icon-small,
+.type-chip-btn.type-ice.active .type-icon-small,
+.type-chip-btn.type-flying:hover .type-icon-small,
+.type-chip-btn.type-flying.active .type-icon-small {
+  background: rgba(0, 0, 0, 0.18) !important;
+}
+
+.type-chip-btn:hover .type-icon-small {
+  transform: scale(1.06);
 }
 
 /* Colores para variables de chip */
@@ -114,6 +156,12 @@
 .type-chip-btn.type-fairy {
   --chip-color: var(--tc-fairy);
 }
+.type-chip-btn.type-stellar {
+  --chip-color: var(--tc-stellar);
+}
+.type-chip-btn.type-unknown {
+  --chip-color: var(--tc-unknown);
+}
 
 .type-chart-wrapper {
   background: var(--c-surface);
@@ -150,97 +198,108 @@
   padding: 0;
 }
 
-/* Professional & Muted Type Palette */
-/* --- COLORES DE FONDO ESPECÍFICOS --- */
+/* --- COLORES OFICIALES BULBAPEDIA MODERNOS --- */
 /* Scoped to table headers and result badges to avoid leaking to buttons */
 .type-table .type-normal,
 .sim-badge.type-normal {
-  background-color: #9fa19f !important;
-  color: #fff !important;
+  background-color: var(--tc-normal) !important;
+  color: var(--tc-default-text, #fff) !important;
 }
 .type-table .type-fire,
 .sim-badge.type-fire {
-  background-color: #e8853d !important;
-  color: #fff !important;
+  background-color: var(--tc-fire) !important;
+  color: var(--tc-default-text, #fff) !important;
 }
 .type-table .type-water,
 .sim-badge.type-water {
-  background-color: #5185c5 !important;
-  color: #fff !important;
+  background-color: var(--tc-water) !important;
+  color: var(--tc-default-text, #fff) !important;
 }
 .type-table .type-electric,
 .sim-badge.type-electric {
-  background-color: #d4b121 !important;
-  color: #1a1f35 !important;
+  background-color: var(--tc-electric) !important;
+  color: var(--tc-electric-text, #1a1f35) !important;
 }
 .type-table .type-grass,
 .sim-badge.type-grass {
-  background-color: #5ca044 !important;
-  color: #fff !important;
+  background-color: var(--tc-grass) !important;
+  color: var(--tc-default-text, #fff) !important;
 }
 .type-table .type-ice,
 .sim-badge.type-ice {
-  background-color: #60b7da !important;
-  color: #fff !important;
+  background-color: var(--tc-ice) !important;
+  color: var(--tc-ice-text, #1a1f35) !important;
 }
 .type-table .type-fighting,
 .sim-badge.type-fighting {
-  background-color: #a73023 !important;
-  color: #fff !important;
+  background-color: var(--tc-fighting) !important;
+  color: var(--tc-default-text, #fff) !important;
 }
 .type-table .type-poison,
 .sim-badge.type-poison {
-  background-color: #924fb1 !important;
-  color: #fff !important;
+  background-color: var(--tc-poison) !important;
+  color: var(--tc-default-text, #fff) !important;
 }
 .type-table .type-ground,
 .sim-badge.type-ground {
-  background-color: #c8994e !important;
-  color: #fff !important;
+  background-color: var(--tc-ground) !important;
+  color: var(--tc-default-text, #fff) !important;
 }
 .type-table .type-flying,
 .sim-badge.type-flying {
-  background-color: #8394e8 !important;
-  color: #fff !important;
+  background-color: var(--tc-flying) !important;
+  color: var(--tc-flying-text, #1a1f35) !important;
 }
 .type-table .type-psychic,
 .sim-badge.type-psychic {
-  background-color: #e45e95 !important;
-  color: #fff !important;
+  background-color: var(--tc-psychic) !important;
+  color: var(--tc-default-text, #fff) !important;
 }
 .type-table .type-bug,
 .sim-badge.type-bug {
-  background-color: #8ea424 !important;
-  color: #fff !important;
+  background-color: var(--tc-bug) !important;
+  color: var(--tc-default-text, #fff) !important;
 }
 .type-table .type-rock,
 .sim-badge.type-rock {
-  background-color: #a69f74 !important;
-  color: #fff !important;
+  background-color: var(--tc-rock) !important;
+  color: var(--tc-default-text, #fff) !important;
 }
 .type-table .type-ghost,
 .sim-badge.type-ghost {
-  background-color: #6e5896 !important;
-  color: #fff !important;
+  background-color: var(--tc-ghost) !important;
+  color: var(--tc-default-text, #fff) !important;
 }
 .type-table .type-dragon,
 .sim-badge.type-dragon {
-  background-color: #5e53e5 !important;
-  color: #fff !important;
+  background-color: var(--tc-dragon) !important;
+  color: var(--tc-default-text, #fff) !important;
 }
 .type-table .type-dark,
 .sim-badge.type-dark {
-  background-color: #5e544a !important;
-  color: #fff !important;
+  background-color: var(--tc-dark) !important;
+  color: var(--tc-default-text, #fff) !important;
 }
 .type-table .type-steel,
 .sim-badge.type-steel {
-  background-color: #8496a6 !important;
-  color: #fff !important;
+  background-color: var(--tc-steel) !important;
+  color: var(--tc-default-text, #fff) !important;
 }
 .type-table .type-fairy,
 .sim-badge.type-fairy {
-  background-color: #e089ba !important;
+  background-color: var(--tc-fairy) !important;
+  color: var(--tc-default-text, #fff) !important;
+}
+.type-table .type-stellar,
+.sim-badge.type-stellar {
+  background-color: var(--tc-stellar) !important;
+  background-image: var(--tc-stellar-gradient) !important;
+  color: #fff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+.type-table .type-unknown,
+.sim-badge.type-unknown {
+  background-color: var(--tc-unknown) !important;
   color: #fff !important;
 }
 

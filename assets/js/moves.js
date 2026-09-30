@@ -87,7 +87,8 @@
     s.replace(/[-_]/g, " ").replace(/\b\w/g, (m) => m.toUpperCase());
 
   function getPokespriteTypeIcon(name) {
-    return `https://raw.githubusercontent.com/msikma/pokesprite/master/misc/types/gen8/${name}.png`;
+    const bp = window.I18n ? I18n.getBasePath() : '';
+    return `${bp}assets/img/types/${name.toLowerCase()}.png`;
   }
 
   function typeBadge(name) {
@@ -294,13 +295,15 @@
     // Toggle Dropdown
     trigger.addEventListener("click", (e) => {
       e.stopPropagation();
-      wrapper.classList.toggle("open");
+      const isOpen = wrapper.classList.toggle("open");
+      trigger.setAttribute("aria-expanded", isOpen ? "true" : "false");
     });
 
     // Close on click outside
     document.addEventListener("click", (e) => {
       if (!wrapper.contains(e.target)) {
         wrapper.classList.remove("open");
+        trigger.setAttribute("aria-expanded", "false");
       }
     });
 
@@ -321,14 +324,15 @@
         selectedText.innerHTML = label;
       } else {
         selectedText.innerHTML = `
-            <div style="display:flex; align-items:center; gap:8px;">
+            <span style="display:inline-flex; align-items:center; gap:8px;">
                 <img src="${icon.src}" width="20" height="20" style="filter:none;">
                 <span>${label}</span>
-            </div>
+            </span>
          `;
       }
 
       wrapper.classList.remove("open");
+      trigger.setAttribute("aria-expanded", "false");
 
       if (!silent) {
         PAGE = 1;
@@ -536,9 +540,7 @@
         <div class="move-card-body">
             <div class="move-badges">
                 <span class="type-badge move-type-badge">
-                  ${d ? `<img src="https://raw.githubusercontent.com/msikma/pokesprite/master/misc/types/gen8/${
-                    d.type.name
-                  }.png" alt="${d.type.name}" width="16" height="16">
+                  ${d ? `<img src="${getPokespriteTypeIcon(d.type.name)}" alt="${d.type.name}" width="16" height="16">
                   ${(
                     I18n.t("types." + d.type.name) || toTitle(d.type.name)
                   ).replace(/^type\s+/i, "")}` : "..."}
@@ -810,7 +812,7 @@
 
     html += `</tbody></table>`;
     container.innerHTML = html;
-    if (typeof lucide !== 'undefined') lucide.createIcons();
+    if (typeof lucide !== 'undefined') lucide.createIcons({ root: container });
   }
 
   async function openMoveModal(d) {
@@ -827,7 +829,7 @@
     const typeIcon = document.getElementById("modalTypeIcon");
     if (typeIcon) {
       typeIcon.innerHTML = `
-            <img src="https://raw.githubusercontent.com/msikma/pokesprite/master/misc/types/gen8/${d.type.name}.png" 
+            <img src="${getPokespriteTypeIcon(d.type.name)}" 
                  alt="${d.type.name}" width="32" height="32">
         `;
     }
