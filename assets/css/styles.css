@@ -1,3 +1,5 @@
+@import url("cookies.css");
+
 /* =============================================================================
    POKÉDEX - ESTILOS GLOBALES (REDISEÑADOS)
    Diseño limpio, moderno y funcional
@@ -1798,7 +1800,7 @@ dialog::backdrop {
 .poke-modal-main header {
   position: sticky;
   top: calc(-1 * var(--sp-xl));
-  margin: calc(-1 * var(--sp-xl)) calc(-1 * var(--sp-xl)) 0;
+  margin: calc(-1 * var(--sp-xl)) calc(-1 * var(--sp-xl)) var(--sp-lg);
   padding: var(--sp-xl);
   background: var(--c-bg);
   z-index: 10;
@@ -1959,6 +1961,405 @@ dialog::backdrop {
   height: 100%;
   background: linear-gradient(90deg, var(--c-accent), #a855f7);
   border-radius: 4px;
+}
+
+/* --- Learnable Moves Section (Modal) --- */
+.moves-learnset-box {
+  position: relative;
+}
+
+.moves-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 10px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--c-border);
+  padding-bottom: 8px;
+}
+
+/* Override ALL inherited .section-title styles for the moves header */
+.moves-learnset-box .moves-section-header .section-title,
+.poke-modal .moves-learnset-box .moves-section-header .section-title {
+  display: inline !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-bottom: none !important;
+  white-space: nowrap;
+  font-size: 0.82rem;
+  line-height: 1;
+  width: auto !important;
+  vertical-align: middle;
+}
+
+.moves-section-title-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.moves-count-badge {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--c-border);
+  color: var(--c-text-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  line-height: 1.2;
+}
+
+.moves-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 200px;
+  max-width: 280px;
+  flex: 1;
+}
+
+.moves-search-icon {
+  position: absolute;
+  left: 10px;
+  width: 14px;
+  height: 14px;
+  color: var(--c-text-muted);
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.moves-search-input {
+  width: 100%;
+  padding: 6px 28px 6px 30px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  color: var(--c-text);
+  font-size: 0.78rem;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.moves-search-input:focus {
+  background: rgba(0, 0, 0, 0.45);
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.25);
+}
+
+.moves-search-input::placeholder {
+  color: var(--c-text-muted);
+  opacity: 0.6;
+}
+
+.moves-clear-btn {
+  position: absolute;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: var(--c-text-muted);
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: color 0.15s ease;
+}
+
+.moves-clear-btn:hover {
+  color: var(--c-text);
+}
+
+.moves-clear-btn i,
+.moves-clear-btn svg {
+  width: 13px;
+  height: 13px;
+}
+
+.moves-method-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.moves-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 4px 10px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--c-text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.moves-tab-btn i,
+.moves-tab-btn svg {
+  width: 12px;
+  height: 12px;
+}
+
+.moves-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--c-text);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.moves-tab-btn.active {
+  background: rgba(168, 85, 247, 0.2);
+  color: #fff;
+  border-color: var(--c-accent);
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.25);
+}
+
+.moves-tab-btn .tab-count {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 1px 5px;
+  border-radius: 8px;
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.moves-tab-btn.active .tab-count {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.moves-scroll-container {
+  max-height: 270px;
+  overflow-y: auto;
+  overflow-x: auto;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm, 6px);
+  background: rgba(0, 0, 0, 0.18);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) rgba(0, 0, 0, 0.1);
+}
+
+.moves-scroll-container::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.moves-scroll-container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+}
+
+.moves-scroll-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.moves-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: var(--c-accent, #a855f7);
+}
+
+.moves-table-responsive {
+  min-width: 100%;
+}
+
+.moves-learn-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  text-align: left;
+}
+
+.moves-learn-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: #171b23;
+  color: var(--c-text-muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 7px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  white-space: nowrap;
+}
+
+.moves-learn-table tbody td {
+  padding: 6px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  vertical-align: middle;
+}
+
+.moves-learn-table tbody tr {
+  transition: background 0.15s ease;
+}
+
+.moves-learn-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.moves-learn-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.move-methods-cell {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.move-method-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+.move-method-badge i,
+.move-method-badge svg {
+  width: 11px;
+  height: 11px;
+}
+
+.move-method-badge.method-level {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.move-method-badge.method-machine {
+  background: rgba(14, 165, 233, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(14, 165, 233, 0.35);
+}
+
+.move-method-badge.method-egg {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.move-method-badge.method-tutor {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.35);
+}
+
+.move-method-badge.method-evo {
+  background: rgba(236, 72, 153, 0.15);
+  color: #f472b6;
+  border: 1px solid rgba(236, 72, 153, 0.35);
+}
+
+.move-method-badge.method-other {
+  background: rgba(99, 102, 241, 0.15);
+  color: #818cf8;
+  border: 1px solid rgba(99, 102, 241, 0.35);
+}
+
+.move-name-cell {
+  font-weight: 600;
+  color: var(--c-text);
+  white-space: nowrap;
+}
+
+.move-name-cell .move-subname {
+  font-size: 0.7rem;
+  color: var(--c-text-muted);
+  font-weight: normal;
+  margin-left: 4px;
+}
+
+.move-mini-type {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  color: #fff;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.move-mini-type img {
+  width: 13px;
+  height: 13px;
+}
+
+.move-mini-cat {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.move-mini-cat.physical {
+  background: rgba(239, 68, 68, 0.14);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.28);
+}
+
+.move-mini-cat.special {
+  background: rgba(59, 130, 246, 0.14);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.28);
+}
+
+.move-mini-cat.status {
+  background: rgba(148, 163, 184, 0.14);
+  color: #94a3b8;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+}
+
+.move-stat-val {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--c-text-muted);
+  text-align: center;
+  font-size: 0.75rem;
+}
+
+.moves-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  color: var(--c-text-muted);
+  gap: 8px;
+  text-align: center;
+}
+
+.moves-empty-icon {
+  width: 26px;
+  height: 26px;
+  opacity: 0.4;
+}
+
+.moves-empty-state p {
+  margin: 0;
+  font-size: 0.8rem;
 }
 
 /* Evolution Chain - Horizontal Scroll */
@@ -3802,6 +4203,12 @@ dialog::backdrop {
     padding: var(--sp-md) !important; /* Reduced for better mobile fit */
   }
 
+  .poke-modal-main header {
+    top: calc(-1 * var(--sp-md)) !important;
+    margin: calc(-1 * var(--sp-md)) calc(-1 * var(--sp-md)) var(--sp-md) !important;
+    padding: var(--sp-md) !important;
+  }
+
   .big-sprite {
     width: 180px;
     height: 180px;
@@ -4707,5 +5114,51 @@ dialog[open]::backdrop {
   background: rgba(239, 68, 68, 0.1);
   border-radius: var(--radius-sm);
   border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.bulbapedia-footer {
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--c-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.bulbapedia-source {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--c-text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--c-bg);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill, 9999px);
+  border: 1px solid var(--c-border);
+}
+
+.bulbapedia-ext-link {
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--c-accent);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--c-accent-10, rgba(99, 102, 241, 0.1));
+  border: 1px solid var(--c-accent-30, rgba(99, 102, 241, 0.3));
+  transition: all var(--transition-fast, 0.2s);
+}
+
+.bulbapedia-ext-link:hover {
+  background: var(--c-accent);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--c-accent-30, rgba(99, 102, 241, 0.3));
 }
 

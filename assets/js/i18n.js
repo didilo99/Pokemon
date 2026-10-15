@@ -197,6 +197,15 @@ const I18n = {
         window.initFooterLogic();
       }
 
+      // Initialize CookieManager
+      if (window.CookieManager) {
+        window.CookieManager.init();
+      } else if (!document.querySelector('script[src*="cookies.js"]')) {
+        const cs = document.createElement("script");
+        cs.src = `${bp}assets/js/cookies.js`;
+        document.head.appendChild(cs);
+      }
+
       // Render Lucide icons in the newly loaded footer
       if (typeof lucide !== "undefined") lucide.createIcons({ root: footerPlaceholder });
     } catch (error) {

@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aviso Legal — Pokédex</title>
+
+    <!-- Bootstrap 5 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../assets/css/styles.css?v=2" />
+    <link rel="stylesheet" href="../assets/css/cookies.css" />
+    <link rel="stylesheet" href="../assets/css/legal.css" />
+    <link rel="icon" type="image/png" href="../assets/icon/favicon.png" />
+
+    <script src="../assets/js/cache.js"></script>
+    <script src="../assets/js/i18n.js"></script>
+    <link rel="stylesheet" href="../assets/css/a11y.css" />
+    <script src="../assets/js/a11y.js" defer></script>
+    <script src="../assets/js/cookies.js" defer></script>
+    <script
+      src="https://unpkg.com/lucide@latest"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body class="v2-theme">
+    <!-- Cabecera -->
+    <header>
+      <div class="dex-top">
+        <div class="inner container-fluid">
+          <div class="d-flex align-items-center justify-content-between">
+            <a href="../index.html" class="brand">
+              <img
+                src="../assets/icon/logo.png"
+                alt="Logo"
+                class="title-logo"
+              />
+              <h1 class="title mb-0">Aviso Legal</h1>
+            </a>
+            <div class="d-flex align-items-center gap-2">
+              <div class="dropdown d-inline-block">
+                <button
+                  class="btn btn-sm dropdown-toggle dex-select d-flex align-items-center gap-2"
+                  type="button"
+                  id="langDropdown"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <img
+                    id="currentFlag"
+                    src="../assets/img/flags/espana.png"
+                    alt="ES"
+                    width="20"
+                    height="20"
+                  />
+                  <span id="currentLangLabel">ES</span>
+                </button>
+                <ul
+                  class="dropdown-menu dropdown-menu-end dex-dropdown-menu"
+                  aria-labelledby="langDropdown"
+                >
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="es"
+                      ><img
+                        src="../assets/img/flags/espana.png"
+                        width="20"
+                        height="20"
+                      />
+                      Español</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="en"
+                      ><img
+                        src="../assets/img/flags/reino-unido.png"
+                        width="20"
+                        height="20"
+                      />
+                      English</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="fr"
+                      ><img
+                        src="../assets/img/flags/francia.png"
+                        width="20"
+                        height="20"
+                      />
+                      Français</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="de"
+                      ><img
+                        src="../assets/img/flags/alemania.png"
+                        width="20"
+                        height="20"
+                      />
+                      Deutsch</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="it"
+                      ><img
+                        src="../assets/img/flags/italia.png"
+                        width="20"
+                        height="20"
+                      />
+                      Italiano</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="pt"
+                      ><img
+                        src="../assets/img/flags/portugal.png"
+                        width="20"
+                        height="20"
+                      />
+                      Português</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="ja"
+                      ><img
+                        src="../assets/img/flags/japon.png"
+                        width="20"
+                        height="20"
+                      />
+                      日本語</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="zh-tw"
+                      ><img
+                        src="../assets/img/flags/china.png"
+                        width="20"
+                        height="20"
+                      />
+                      中文</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="inner container-fluid">
+          <nav class="dex-nav">
+            <!-- Mundo Pokémon -->
+            <li class="nav-item dropdown d-inline-block">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="mundoDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-i18n="footer.nav_world"
+              >
+                Mundo Pokémon
+              </a>
+              <ul
+                class="dropdown-menu dex-dropdown-menu"
+                aria-labelledby="mundoDropdown"
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="../index.html"
+                    data-i18n="nav.pokemon"
+                    >Pokémon</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="regions.html"
+                    data-i18n="nav.regions"
+                    >Regiones</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="generations.html"
+                    data-i18n="nav.generations"
+                    >Generaciones</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="locations.html"
+                    data-i18n="nav.locations"
+                    >Localizaciones</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="breeding.html"
+                    data-i18n="nav.breeding"
+                    >Crianza</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="habitats.html"
+                    data-i18n="nav.habitats"
+                    >Hábitats</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="shapes.html"
+                    data-i18n="nav.shapes"
+                    >Formas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="capture-calculator.html"
+                    data-i18n="nav.capture_calc"
+                    >Calculadora de Captura</a
+                  >
+                </li>
+              </ul>
+            </li>
+
+            <!-- Combate -->
+            <li class="nav-item dropdown d-inline-block">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="combateDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-i18n="footer.nav_combat"
+              >
+                Combate
+              </a>
+              <ul
+                class="dropdown-menu dex-dropdown-menu"
+                aria-labelledby="combateDropdown"
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="moves.html"
+                    data-i18n="nav.moves"
+                    >Movimientos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="abilities.html"
+                    data-i18n="nav.abilities"
+                    >Habilidades</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="types.html"
+                    data-i18n="nav.types"
+                    >Tabla de Tipos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="natures.html"
+                    data-i18n="nav.natures"
+                    >Naturalezas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="machines.html"
+                    data-i18n="nav.machines"
+                    >Máquinas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="contests.html"
+                    data-i18n="nav.contests"
+                    >Concursos</a
+                  >
+                </li>
+              </ul>
+            </li>
+
+            <!-- Colección -->
+            <li class="nav-item dropdown d-inline-block">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="coleccionDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-i18n="footer.nav_collection"
+              >
+                Colección
+              </a>
+              <ul
+                class="dropdown-menu dex-dropdown-menu"
+                aria-labelledby="coleccionDropdown"
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="items.html"
+                    data-i18n="nav.items"
+                    >Objetos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="berries.html"
+                    data-i18n="nav.berries"
+                    >Bayas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="games.html"
+                    data-i18n="nav.games"
+                    >Juegos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="cards.html"
+                    data-i18n="nav.cards"
+                    >Cartas TCG</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="tcg-sets.html"
+                    data-i18n="nav.tcg_sets"
+                    >Sets TCG</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="my-album.html"
+                    data-i18n="nav.my_album"
+                    >Mi Álbum</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="legal-main">
+      <!-- Hero -->
+      <section class="legal-hero">
+        <div class="legal-badge">
+          <i data-lucide="scale"></i>
+          <span data-i18n="legal.last_updated">Actualizado: Octubre 2026</span>
+        </div>
+        <h1 class="legal-hero-title">Aviso Legal</h1>
+        <p class="legal-hero-desc">
+          Información general, condiciones de uso del sitio web, titularidad y descargo de responsabilidades de propiedad intelectual sobre marcas registradas.
+        </p>
+      </section>
+
+      <!-- Navegación entre páginas legales -->
+      <nav class="legal-nav-tabs" aria-label="Secciones legales">
+        <a href="aviso-legal.html" class="legal-tab-link active">
+          <i data-lucide="scale"></i>
+          <span data-i18n="legal.nav_notice">Aviso Legal</span>
+        </a>
+        <a href="politica-privacidad.html" class="legal-tab-link">
+          <i data-lucide="shield-check"></i>
+          <span data-i18n="legal.nav_privacy">Política de Privacidad</span>
+        </a>
+        <a href="politica-cookies.html" class="legal-tab-link">
+          <i data-lucide="cookie"></i>
+          <span data-i18n="legal.nav_cookies">Política de Cookies</span>
+        </a>
+      </nav>
+
+      <!-- Tarjeta 1: Titularidad -->
+      <article class="legal-card">
+        <h2>
+          <span class="section-num">1</span>
+          <span>Datos Identificativos del Titular</span>
+        </h2>
+        <p>
+          En cumplimiento de lo dispuesto en la legislación aplicable y en los principios de transparencia de la sociedad de la información, se informa que este sitio web, denominado <strong>Poke App (Pokédex)</strong>, es una aplicación web y enciclopedia digital independiente desarrollada y administrada por <strong>Diego Díaz</strong>.
+        </p>
+        <p>
+          Este sitio web se proporciona como un proyecto de código abierto, formativo, divulgativo y de entretenimiento sin ánimo de lucro para la comunidad de entusiastas y aficionados al universo Pokémon.
+        </p>
+      </article>
+
+      <!-- Tarjeta 2: Propiedad Intelectual y Marcas -->
+      <article class="legal-card">
+        <h2>
+          <span class="section-num">2</span>
+          <span>Propiedad Intelectual y Marcas Registradas</span>
+        </h2>
+        <div class="legal-callout legal-callout-warning">
+          <div class="legal-callout-icon">
+            <i data-lucide="alert-triangle"></i>
+          </div>
+          <div>
+            <strong>Descargo de responsabilidad oficial:</strong> Pokémon, los nombres de los personajes, criaturas, marcas, imágenes asociadas, nombres de movimientos, cartas y contenidos multimedia son marcas comerciales y derechos de autor propiedad exclusiva de <strong>Nintendo</strong>, <strong>Creatures Inc.</strong>, <strong>GAME FREAK inc.</strong> y <strong>The Pokémon Company</strong>.
+          </div>
+        </div>
+        <p>
+          <strong>Poke App</strong> es un sitio web no oficial creado por fans y no está respaldado, patrocinado, afiliado ni asociado de ninguna manera con Nintendo, The Pokémon Company, Niantic ni Game Freak.
+        </p>
+        <p>
+          El uso de nombres, logotipos e imágenes en este sitio se realiza con fines exclusivamente informativos, educativos y de referencia enciclopédica, amparado bajo la doctrina del <em>Uso Legítimo</em> (<em>Fair Use</em>) y el derecho de cita y reseña informativa.
+        </p>
+        <h3>Fuentes de datos de terceros</h3>
+        <p>
+          Los datos sobre estadísticas, criaturas, movimientos, habilidades y regiones son servidos a través de la API comunitaria y pública de <a href="https://pokeapi.co/" target="_blank" rel="noopener noreferrer">PokeAPI</a>, los datos de cartas coleccionables proceden de <a href="https://tcgdex.net/" target="_blank" rel="noopener noreferrer">TCGDex</a>, y las referencias descriptivas derivan de la enciclopedia comunitaria <a href="https://bulbapedia.bulbagarden.net/" target="_blank" rel="noopener noreferrer">Bulbapedia</a>.
+        </p>
+      </article>
+
+      <!-- Tarjeta 3: Licencia del Contenido Propio -->
+      <article class="legal-card">
+        <h2>
+          <span class="section-num">3</span>
+          <span>Licencia del Software y Contenido Original</span>
+        </h2>
+        <p>
+          El diseño de la interfaz, el código fuente original de la aplicación web y las funcionalidades propietarias desarrolladas por Diego Díaz están licenciados bajo la licencia internacional:
+        </p>
+        <div class="legal-callout legal-callout-info">
+          <div class="legal-callout-icon">
+            <i data-lucide="info"></i>
+          </div>
+          <div>
+            <strong>Creative Commons Reconocimiento-NoComercial-SinObraDerivada 4.0 Internacional (CC BY-NC-ND 4.0)</strong>.<br />
+            Se autoriza la visualización y consulta para uso personal y privado, quedando expresamente prohibida su comercialización o alteración no autorizada.
+          </div>
+        </div>
+      </article>
+
+      <!-- Tarjeta 4: Condiciones de Uso -->
+      <article class="legal-card">
+        <h2>
+          <span class="section-num">4</span>
+          <span>Condiciones de Uso del Sitio Web</span>
+        </h2>
+        <p>
+          El acceso y navegación por este sitio web atribuye la condición de usuario e implica la aceptación plena de las presentes condiciones:
+        </p>
+        <ul>
+          <li><strong>Uso responsable:</strong> El usuario se compromete a hacer un uso adecuado de los contenidos y herramientas, absteniéndose de realizar actividades ilícitas, ataques de denegación de servicio o manipulación del software.</li>
+          <li><strong>Consumo de APIs:</strong> Queda prohibido el raspado abusivo (scraping masivo) que pueda saturar los servidores locales o las APIs comunitarias de terceros conectadas.</li>
+          <li><strong>Disponibilidad técnica:</strong> No se garantiza la disponibilidad continua ni la ausencia de interrupciones o errores en la carga de información proveniente de servidores externos.</li>
+        </ul>
+      </article>
+
+      <!-- Tarjeta 5: Exclusión de Responsabilidad -->
+      <article class="legal-card">
+        <h2>
+          <span class="section-num">5</span>
+          <span>Exclusión de Garantías y Responsabilidad</span>
+        </h2>
+        <p>
+          El titular del sitio web no se hace responsable, en ningún caso, de los daños y perjuicios de cualquier naturaleza que pudieran ocasionar, a título enunciativo: errores u omisiones en los contenidos mostrados, falta de disponibilidad del portal, o la transmisión de virus o programas maliciosos en los contenidos, a pesar de haber adoptado todas las medidas tecnológicas preventivas necesarias.
+        </p>
+        <p>
+          Los cálculos realizados por herramientas como la <em>Calculadora de Captura</em> se ofrecen únicamente con carácter estimativo conforme a las fórmulas conocidas de la franquicia y pueden diferir según la versión del juego o mecánicas particulares.
+        </p>
+      </article>
+
+      <!-- Tarjeta 6: Legislación Aplicable -->
+      <article class="legal-card">
+        <h2>
+          <span class="section-num">6</span>
+          <span>Legislación y Jurisdicción Aplicable</span>
+        </h2>
+        <p>
+          Para la resolución de cualquier controversia o cuestión relativa al presente sitio web o a las actividades en él desarrolladas, será de aplicación la normativa vigente en España y en el ámbito de la Unión Europea, sometiéndose las partes a los juzgados y tribunales competentes.
+        </p>
+      </article>
+    </main>
+
+    <!-- Bootstrap Bundle JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Footer cargado dinámicamente -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        if (typeof lucide !== "undefined") {
+          lucide.createIcons();
+        }
+      });
+    </script>
+  </body>
+</html>

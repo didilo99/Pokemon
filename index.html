@@ -565,6 +565,91 @@
             <table id="statsTable" aria-label="Estadísticas"></table>
           </div>
 
+          <!-- Move Learnset Section -->
+          <div class="modal-section-box mt-4 moves-learnset-box" id="modalMovesSection">
+            <div class="moves-section-header">
+              <div class="moves-section-title-wrap">
+                <h3 class="section-title mb-0" data-i18n="modal.learnable_moves">Movimientos que puede aprender</h3>
+                <span id="movesCountBadge" class="moves-count-badge">0</span>
+              </div>
+              <div class="moves-search-wrap">
+                <i data-lucide="search" class="moves-search-icon"></i>
+                <input
+                  type="text"
+                  id="modalMovesSearch"
+                  class="moves-search-input"
+                  placeholder="Buscar movimiento o tipo..."
+                  data-i18n-placeholder="modal.search_moves"
+                  autocomplete="off"
+                  spellcheck="false"
+                />
+                <button
+                  type="button"
+                  id="modalMovesClearSearch"
+                  class="moves-clear-btn"
+                  title="Limpiar búsqueda"
+                  aria-label="Limpiar búsqueda"
+                  style="display: none;"
+                >
+                  <i data-lucide="x"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Method Filter Tabs -->
+            <div class="moves-method-tabs" id="movesMethodTabs">
+              <button type="button" class="moves-tab-btn active" data-method="all">
+                <span data-i18n="modal.method_all">Todos</span>
+                <span class="tab-count" id="tabCountAll">0</span>
+              </button>
+              <button type="button" class="moves-tab-btn" data-method="level-up">
+                <i data-lucide="chevrons-up"></i>
+                <span data-i18n="modal.method_level">Nivel</span>
+                <span class="tab-count" id="tabCountLevel">0</span>
+              </button>
+              <button type="button" class="moves-tab-btn" data-method="machine">
+                <i data-lucide="disc"></i>
+                <span data-i18n="modal.method_machine">MT/MO</span>
+                <span class="tab-count" id="tabCountMachine">0</span>
+              </button>
+              <button type="button" class="moves-tab-btn" data-method="egg">
+                <i data-lucide="egg"></i>
+                <span data-i18n="modal.method_egg">Huevo</span>
+                <span class="tab-count" id="tabCountEgg">0</span>
+              </button>
+              <button type="button" class="moves-tab-btn" data-method="tutor">
+                <i data-lucide="graduation-cap"></i>
+                <span data-i18n="modal.method_tutor">Tutor</span>
+                <span class="tab-count" id="tabCountTutor">0</span>
+              </button>
+            </div>
+
+            <!-- Scrollable Table Container -->
+            <div class="moves-scroll-container" id="movesScrollContainer">
+              <div class="moves-table-responsive">
+                <table class="moves-learn-table" id="modalMovesTable">
+                  <thead>
+                    <tr>
+                      <th class="col-move-method" data-i18n="modal.col_method">Método</th>
+                      <th class="col-move-name" data-i18n="modal.col_move">Movimiento</th>
+                      <th class="col-move-type" data-i18n="modal.col_type">Tipo</th>
+                      <th class="col-move-cat" data-i18n="modal.col_cat">Cat.</th>
+                      <th class="col-move-pwr" data-i18n="modal.col_power">Pot.</th>
+                      <th class="col-move-acc" data-i18n="modal.col_acc">Prec.</th>
+                    </tr>
+                  </thead>
+                  <tbody id="modalMovesBody">
+                    <!-- Dynamic move rows -->
+                  </tbody>
+                </table>
+              </div>
+              <div id="modalMovesEmpty" class="moves-empty-state" style="display: none;">
+                <i data-lucide="search-x" class="moves-empty-icon"></i>
+                <p data-i18n="modal.no_moves_found">No se encontraron movimientos.</p>
+              </div>
+            </div>
+          </div>
+
           <div class="eff modal-section-box">
             <h3 class="h6" data-i18n="modal.weakness" data-i18n="missing.tipo_de_dano">Tipo de daño</h3>
             <div class="eff-row" id="effFrom"></div>

@@ -103,7 +103,17 @@
     "all_types": "所有属性",
     "series_label": "系列",
     "no_results_title": "未找到结果",
-    "no_results_desc": "建议调整筛选条件或搜索关键词。"
+    "no_results_desc": "建议调整筛选条件或搜索关键词。",
+    "no_results": "无结果",
+    "sort_cost_asc": "价格 ↑",
+    "sort_cost_desc": "价格 ↓",
+    "sort_growth_asc": "生长时间 ↑",
+    "sort_harvest_desc": "收获量 ↓",
+    "sort_machine_asc": "招式学习器编号 ↑",
+    "sort_machine_desc": "招式学习器编号 ↓",
+    "sort_region_asc": "地区 A→Z",
+    "sort_region_desc": "地区 Z→A",
+    "sort_species_desc": "物种 ↓"
   },
   "team": {
     "copy": "复制",
@@ -163,6 +173,22 @@
     "shape": "体形:",
     "color": "颜色:",
     "base_stats": "种族值",
+    "learnable_moves": "可学会的招式",
+    "search_moves": "搜索招式...",
+    "no_moves_found": "未找到招式",
+    "method_all": "全部",
+    "method_level": "等级",
+    "method_machine": "招式学习器",
+    "method_egg": "蛋招式",
+    "method_tutor": "教授招式",
+    "method_evolution": "进化",
+    "method_other": "特殊",
+    "col_method": "学习方式",
+    "col_move": "招式",
+    "col_type": "属性",
+    "col_cat": "分类",
+    "col_power": "威力",
+    "col_acc": "命中",
     "weakness": "弱点",
     "strength": "抗性",
     "edit_title": "编辑宝可梦",
@@ -217,7 +243,16 @@
     "hp": "HP",
     "stat": "能力",
     "ev_remaining": "剩余努力值",
-    "tcg_cards_prefix": "的卡片"
+    "tcg_cards_prefix": "的卡片",
+    "acc": "命中",
+    "cry": "叫声",
+    "encounters": "相遇地点",
+    "form_gmax": "超极巨化",
+    "form_mega": "超级进化",
+    "form_regional": "地区形态",
+    "form_transformation": "形态转换",
+    "past_types": "以往世代中的属性：",
+    "pokedex_numbers": "图鉴编号"
   },
   "common": {
     "loading": "加载中...",
@@ -249,7 +284,9 @@
     "next": "下一个",
     "all_items": "所有道具",
     "recommended": "推荐",
-    "all": "全部"
+    "all": "全部",
+    "searching": "正在搜索...",
+    "values": "数值"
   },
   "footer": {
     "copyright": "<a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Poke App</a> © {year} 由 <a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Diego Diaz</a> 創作，採用 <a href=\"https://creativecommons.org/licenses/by-nc-nd/4.0/\" target=\"_blank\" rel=\"license noopener noreferrer\">CC BY-NC-ND 4.0</a> 授權<img src=\"https://mirrors.creativecommons.org/presskit/icons/cc.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/by.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/nc.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/nd.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\">",
@@ -277,7 +314,19 @@
     "about": "一个完整的宝可梦图鉴",
     "nav_collection": "收集",
     "api_info": "API 信息",
-    "last_sync": "上次同步"
+    "last_sync": "上次同步",
+    "confirm_clear_cache": "确定要清除所有已保存的数据吗？应用程序将会重新加载。",
+    "cookie_settings": "Cookie 设置",
+    "cookies_policy": "Cookie 政策",
+    "just_now": "刚刚",
+    "legal_and_system": "法律与系统",
+    "legal_notice": "法律声明",
+    "never_synced": "从未",
+    "privacy_policy": "隐私政策",
+    "sync_complete": "同步完成",
+    "syncing": "正在同步",
+    "syncing_item": "正在同步",
+    "valid_count": "项有效"
   },
   "types": {
     "normal": "一般",
@@ -297,7 +346,8 @@
     "dragon": "龙",
     "dark": "恶",
     "steel": "钢",
-    "fairy": "妖精"
+    "fairy": "妖精",
+    "stellar": "太晶星"
   },
   "abilities": {
     "title": "特性",
@@ -314,7 +364,9 @@
     "no_pokemon": "没有宝可梦拥有此特性。",
     "error_pokemon": "加载宝可梦失败。",
     "no_desc": "暂无描述。",
-    "no_desc_detail": "暂无详情。"
+    "no_desc_detail": "暂无详情。",
+    "past_effects": "以往世代的效果变更",
+    "search_placeholder": "搜索特性..."
   },
   "generations": {
     "title": "世代",
@@ -397,7 +449,9 @@
     "pocket_mail": "信件口袋",
     "pocket_medicine": "药品口袋",
     "pocket_misc": "道具口袋",
-    "pocket_pokeballs": "精灵球口袋"
+    "pocket_pokeballs": "精灵球口袋",
+    "cat_held_items": "携带物品",
+    "search_placeholder": "搜索道具..."
   },
   "moves": {
     "title": "招式",
@@ -437,7 +491,34 @@
     },
     "stats_visual": "属性视觉图",
     "filter_accuracy": "最小命中",
-    "filter_power": "最小威力"
+    "filter_power": "最小威力",
+    "ailment": "状态",
+    "ailments": {
+      "burn": "灼伤",
+      "confusion": "混乱",
+      "freeze": "冰冻",
+      "infatuation": "着迷",
+      "paralysis": "麻痹",
+      "poison": "中毒",
+      "sleep": "睡眠",
+      "trap": "困住"
+    },
+    "battle_effects": "对战效果",
+    "changes": "变更",
+    "contest_info": "华丽大赛信息",
+    "contest_type": "华丽大赛类型",
+    "crit_rate": "击中要害率",
+    "drain": "吸取",
+    "effect_chance": "效果几率",
+    "flinch_chance": "畏缩几率",
+    "generation": "世代",
+    "healing": "回复",
+    "hits": "连击次数",
+    "past_values": "历史变更",
+    "recoil": "反作用力",
+    "search_placeholder": "搜索招式...",
+    "stat_changes": "能力阶级变化",
+    "turns": "回合数"
   },
   "regions": {
     "title": "地区",
@@ -478,7 +559,10 @@
       "gen7": "第七世代 (阿罗拉)",
       "gen8": "第八世代 (伽勒尔)",
       "gen9": "第九世代 (帕底亚)"
-    }
+    },
+    "default_region": "主要地区",
+    "loading_subtitle": "世代...",
+    "search_placeholder": "搜索地区或世代..."
   },
   "natures": {
     "title": "性格",
@@ -650,7 +734,11 @@
     "errors": {
       "connection": "连接错误",
       "fetch_failed": "无法加载卡牌。请检查网络连接。",
-      "sync_init": "初始化同步出错"
+      "sync_init": "初始化同步出错",
+      "sync_details": "正在同步详情：{0}/{1}",
+      "sync_lang_progress": "[{0}] ({1}/{2})",
+      "sync_list": "正在获取卡牌列表...",
+      "sync_sets": "正在分析卡牌扩展包..."
     },
     "no_prices": "暂无价格数据。",
     "general_info": "基本信息",
@@ -671,10 +759,38 @@
       "mega": "MEGA"
     },
     "variant_names": {
-      "holo": "全息"
+      "holo": "全息",
+      "firstedition": "第一版 (1st Edition)",
+      "normal": "普通",
+      "reverse": "反光卡 (Reverse Holo)"
     },
     "price_trend": "趋势",
-    "price_market": "市场价"
+    "price_market": "市场价",
+    "ability": "特性",
+    "attack": "招式",
+    "legal_expanded": "狂野",
+    "legal_standard": "标准",
+    "series_names": {
+      "Base": "基础系列",
+      "Black & White": "黑·白",
+      "Diamond & Pearl": "钻石·珍珠",
+      "E-Card": "E-Card",
+      "EX": "EX",
+      "Gym": "道馆系列",
+      "HeartGold & SoulSilver": "心金·魂银",
+      "Juego de Cartas Coleccionables Pokémon Pocket": "宝可梦卡牌 Pocket",
+      "Megaevolución": "超级进化",
+      "Neo": "Neo",
+      "Np": "任天堂 Promo",
+      "Other": "其他",
+      "Platinum": "白金",
+      "Pokémon TCG Pocket": "宝可梦卡牌 Pocket",
+      "Pop": "POP 系列",
+      "Scarlet & Violet": "朱·紫",
+      "Sun & Moon": "太阳·月亮",
+      "Sword & Shield": "剑·盾",
+      "XY": "XY"
+    }
   },
   "forms": {
     "requirements": {
@@ -692,7 +808,19 @@
       "trade": "连接交换",
       "held": "携带{0}",
       "location": "在{0}",
-      "beauty": "美丽度 {0}"
+      "beauty": "美丽度 {0}",
+      "affection": "友好度 {0}",
+      "dawn": "清晨",
+      "dusk": "黄昏",
+      "full-moon": "满月",
+      "gender_female": "雌性",
+      "gender_male": "雄性",
+      "party_species": "队伍中有 {0}",
+      "party_type": "队伍中有 {0} 属性宝可梦",
+      "rain": "下雨",
+      "style_agile": "迅疾风格 {0} 次",
+      "style_strong": "刚猛风格 {0} 次",
+      "upside-down": "颠倒主机"
     },
     "requirements_data": {
       "venusaur-mega": "妙蛙花进化石",
@@ -770,7 +898,8 @@
       "necrozma-dawn": "与露奈雅拉融合",
       "necrozma-ultra": "究极爆发",
       "calyrex-ice": "骑乘雪暴马",
-      "calyrex-shadow": "骑乘灵幽马"
+      "calyrex-shadow": "骑乘灵幽马",
+      "gmax": "极巨汤"
     }
   },
   "biology": {
@@ -893,7 +1022,22 @@
     "resistant_to": "抗性",
     "immune_to": "免疫",
     "normal_to": "正常伤害",
-    "tip": "提示：将鼠标悬停在表格上可查看详情。"
+    "tip": "提示：将鼠标悬停在表格上可查看详情。",
+    "change_gen1_1": "第一世代仅存在15种初始属性。",
+    "change_gen1_2": "超能力属性对幽灵属性免疫（由于代码漏洞）。",
+    "change_gen1_3": "虫属性与毒属性相互克制（均为效果绝佳）。",
+    "change_gen1_4": "冰属性对火属性效果一般（常态伤害）。",
+    "change_gen2_1": "新增钢属性与恶属性。",
+    "change_gen2_2": "幽灵属性现在对超能力属性效果绝佳。",
+    "change_gen2_3": "钢属性抵抗绝大多数属性，包括恶属性与幽灵属性。",
+    "change_gen2_4": "毒属性不再被虫属性克制。",
+    "change_gen6_1": "新增妖精属性。",
+    "change_gen6_2": "钢属性失去对恶属性与幽灵属性的抗性。",
+    "change_gen6_3": "妖精属性对龙属性完全免疫。",
+    "changes_title": "本世代变更",
+    "gen_1": "第一世代（关都）",
+    "gen_2_5": "第二至第五世代",
+    "gen_6_plus": "第六世代及以后（现代）"
   },
   "a11y": {
     "title": "无障碍",
@@ -919,13 +1063,20 @@
     "areas": "区域",
     "region_filter": "地区筛选",
     "region": "地区",
-    "modal_title": "地点详情"
+    "modal_title": "地点详情",
+    "encounters": "在此处发现的宝可梦",
+    "generation": "世代",
+    "id": "编号",
+    "no_areas": "没有已知的具体区域。",
+    "no_pokemon": "该区域未记录到野生宝可梦。",
+    "search_placeholder": "搜索地点..."
   },
   "habitats": {
     "title": "栖息地",
     "pokemon_list": "该栖息地的宝可梦",
     "pokemon_count": "宝可梦数量",
-    "modal_title": "栖息地详情"
+    "modal_title": "栖息地详情",
+    "no_pokemon": "此生境中没有宝可梦。"
   },
   "encounters": {
     "method_details": "方法详情",
@@ -937,7 +1088,8 @@
     "egg_groups": "蛋群",
     "pokemon_count": "宝可梦数量",
     "modal_title": "培育详情",
-    "pokemon_list": "宝可梦列表"
+    "pokemon_list": "宝可梦列表",
+    "no_pokemon": "该组别中没有宝可梦。"
   },
   "berries": {
     "firm": {
@@ -957,7 +1109,9 @@
     "size": "尺寸",
     "all_firmness": "所有硬度",
     "max_harvest": "最大收获量",
-    "soil_dryness": "土壤干度"
+    "soil_dryness": "土壤干度",
+    "no_flavor": "无明显风味",
+    "search_placeholder": "搜索树果..."
   },
   "contests": {
     "type_filter": "选择类型",
@@ -965,13 +1119,28 @@
     "jam": "干扰",
     "all_types": "所有类型",
     "title": "华丽大赛",
-    "modal_title": "大赛详情"
+    "modal_title": "大赛详情",
+    "category": "华丽大赛类别",
+    "effect": "效果",
+    "flavor": "附加描述",
+    "hearts_appeal": "展示点数",
+    "hearts_jam": "妨碍点数",
+    "no_description": "暂无描述。",
+    "types": {
+      "beauty": "美丽",
+      "cool": "帅气",
+      "cute": "可爱",
+      "smart": "聪明",
+      "tough": "强壮"
+    }
   },
   "shapes": {
     "pokemon_count": "宝可梦数量",
     "title": "形状",
     "modal_title": "形状详情",
-    "pokemon_list": "宝可梦列表"
+    "pokemon_list": "宝可梦列表",
+    "no_pokemon": "没有具有此体型的宝可梦。",
+    "search_placeholder": "搜索体型..."
   },
   "machines": {
     "cost": "花费",
@@ -980,10 +1149,8 @@
     "move": "招式",
     "all_versions": "所有版本",
     "modal_title": "招式学习器详情",
-    "title": "招式学习器"
-  },
-  "FOOTER": {
-    "SYSTEM": "系统"
+    "title": "招式学习器",
+    "search_placeholder": "搜索招式学习器或招式..."
   },
   "api_info": {
     "last_sync": "上次本地同步",
@@ -997,7 +1164,9 @@
     "pokeapi_title": "PokeAPI",
     "global_update": "全局更新",
     "tcgapi_title": "Pokémon TCG API",
-    "expired_cache": "过期数据"
+    "expired_cache": "过期数据",
+    "release_date": "发布时间：",
+    "updated_at": "更新时间："
   },
   "missing": {
     "actualizacion_global_de_la_api": "Actualización global de la API:",
@@ -1158,5 +1327,61 @@
     "algo_details": "算法详细信息",
     "error_select_pokemon": "请先搜索并选择一只宝可梦。",
     "guaranteed": "百分之百"
+  },
+  "bulbapedia": {
+    "title": "百科全书与背景",
+    "load": "加载额外信息",
+    "disclaimer": "来自 Bulbapedia / WikiDex 百科全书的附加信息。",
+    "error": "无法加载百科全书信息。"
+  },
+  "cookies": {
+    "accept_all": "全部接受",
+    "always_active": "始终启用",
+    "banner_desc": "我们使用必要的 Cookie 和本地存储来保存您的偏好设置（语言、主题），并缓存宝可梦数据以实现即时加载。您可以选择接受全部、拒绝非必要项或进行个性化设置。",
+    "banner_title": "隐私与 Cookie 设置",
+    "cache_desc": "允许将宝可梦、卡牌及招式数据保存在 IndexedDB 与本地存储中，以支持离线浏览并大幅提升加载速度。",
+    "cache_title": "本地缓存与性能",
+    "configure": "自定义设置",
+    "modal_desc": "在 Poke App，我们尊重您的隐私权。您可以在下方自定义允许保存在您设备上的存储技术与数据。",
+    "modal_title": "隐私偏好设置",
+    "more_info_link": "查看 Cookie 政策",
+    "necessary_desc": "安全浏览、资源加载以及应用程序基础功能所必需，无法停用。",
+    "necessary_title": "技术与必要 Cookie",
+    "preferences_desc": "用于记住您选择的语言、显示主题（深色/浅色模式）以及无障碍设置。",
+    "preferences_title": "偏好与个性化",
+    "reject_all": "仅限必要",
+    "save_preferences": "保存偏好设置",
+    "saved_toast": "Cookie 设置已成功保存。"
+  },
+  "legal": {
+    "last_updated": "更新时间：2026年10月",
+    "manage_cookies_btn": "管理 Cookie 偏好",
+    "nav_cookies": "Cookie 政策",
+    "nav_notice": "法律声明",
+    "nav_privacy": "隐私政策"
+  },
+  "versions": {
+    "black-2-white-2": "黑2·白2",
+    "black-white": "黑·白",
+    "crystal": "水晶",
+    "diamond-pearl": "钻石·珍珠",
+    "emerald": "绿宝石",
+    "firered-leafgreen": "火红·叶绿",
+    "gold-silver": "金·银",
+    "heartgold-soulsilver": "心金·魂银",
+    "legends-arceus": "宝可梦传说 阿尔宙斯",
+    "lets-go-eevee": "Let's Go! 伊布",
+    "lets-go-pikachu": "Let's Go! 皮卡丘",
+    "lets-go-pikachu-lets-go-eevee": "Let's Go!",
+    "omega-ruby-alpha-sapphire": "欧米伽红宝石·阿尔法蓝宝石",
+    "platinum": "白金",
+    "red-blue": "红·绿",
+    "ruby-sapphire": "红宝石·蓝宝石",
+    "scarlet-violet": "朱·紫",
+    "sun-moon": "太阳·月亮",
+    "sword-shield": "剑·盾",
+    "ultra-sun-ultra-moon": "究极之日·究极之月",
+    "x-y": "X/Y",
+    "yellow": "黄"
   }
 }

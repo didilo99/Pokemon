@@ -112,7 +112,8 @@
     "all_types": "All Types",
     "all_stages": "All Stages",
     "no_results_title": "No results found",
-    "no_results_desc": "Try adjusting your filters or search terms."
+    "no_results_desc": "Try adjusting your filters or search terms.",
+    "no_results": "No results"
   },
   "team": {
     "copy": "Copy",
@@ -172,6 +173,22 @@
     "shape": "Shape:",
     "color": "Color:",
     "base_stats": "Base Stats",
+    "learnable_moves": "Learnable Moves",
+    "search_moves": "Search move or type...",
+    "no_moves_found": "No moves found",
+    "method_all": "All",
+    "method_level": "Level",
+    "method_machine": "TM/HM",
+    "method_egg": "Egg",
+    "method_tutor": "Tutor",
+    "method_evolution": "Evolution",
+    "method_other": "Special",
+    "col_method": "Method",
+    "col_move": "Move",
+    "col_type": "Type",
+    "col_cat": "Cat.",
+    "col_power": "Pwr",
+    "col_acc": "Acc",
     "weakness": "Weak to",
     "strength": "Strong against",
     "edit_title": "Edit Pokémon",
@@ -228,7 +245,14 @@
     "stat": "Stat",
     "ev_remaining": "Remaining EVs",
     "cry": "Cry",
-    "encounters": "Encounter Locations"
+    "encounters": "Encounter Locations",
+    "acc": "Acc.",
+    "form_gmax": "Gigantamax",
+    "form_mega": "Mega Evolution",
+    "form_regional": "Regional Form",
+    "form_transformation": "Transformation",
+    "past_types": "Types in past generations:",
+    "pokedex_numbers": "Pokédex Numbers"
   },
   "common": {
     "all": "All",
@@ -260,7 +284,9 @@
     "recommended": "Recommended",
     "all_items": "All items",
     "prev": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "searching": "Searching...",
+    "values": "Values"
   },
   "footer": {
     "copyright": "<a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Poke App</a> © {year} by <a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Diego Diaz</a> is licensed under <a href=\"https://creativecommons.org/licenses/by-nc-nd/4.0/\" target=\"_blank\" rel=\"license noopener noreferrer\">CC BY-NC-ND 4.0</a><img src=\"https://mirrors.creativecommons.org/presskit/icons/cc.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/by.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/nc.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/nd.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\">",
@@ -295,7 +321,38 @@
     "syncing_item": "Syncing",
     "api_info": "API Status",
     "system": "System",
-    "system_uppercase": "SYSTEM"
+    "system_uppercase": "SYSTEM",
+    "legal_and_system": "Legal & System",
+    "legal_notice": "Legal Notice",
+    "privacy_policy": "Privacy Policy",
+    "cookies_policy": "Cookies Policy",
+    "cookie_settings": "Cookie Settings"
+  },
+  "cookies": {
+    "banner_title": "Privacy & Cookie Settings",
+    "banner_desc": "We use essential cookies and local storage to remember your preferences (language, theme) and cache Pokémon data for instantaneous navigation. You can accept all, reject non-essential or configure your choices.",
+    "more_info_link": "Read Cookie Policy",
+    "accept_all": "Accept All",
+    "reject_all": "Necessary Only",
+    "configure": "Configure",
+    "modal_title": "Privacy Preferences",
+    "modal_desc": "At Poke App we respect your privacy. Below you can customize which storage technologies and data you allow us to keep on your device.",
+    "save_preferences": "Save Preferences",
+    "necessary_title": "Technical & Essential Cookies",
+    "necessary_desc": "Strictly required for secure navigation, asset delivery, and basic application functionality. Cannot be disabled.",
+    "preferences_title": "Preferences & Customization",
+    "preferences_desc": "Allow saving your preferred language, visual theme (Light/Dark mode) and accessibility adjustments.",
+    "cache_title": "Local Cache & Performance",
+    "cache_desc": "Allow saving Pokémon, moves, and cards data in IndexedDB and local storage for offline use and zero-latency loading.",
+    "always_active": "Always Active",
+    "saved_toast": "Cookie preferences saved successfully."
+  },
+  "legal": {
+    "nav_notice": "Legal Notice",
+    "nav_privacy": "Privacy Policy",
+    "nav_cookies": "Cookies Policy",
+    "last_updated": "Updated: October 2026",
+    "manage_cookies_btn": "Configure Cookie Preferences"
   },
   "types": {
     "normal": "Normal",
@@ -334,7 +391,8 @@
     "no_pokemon": "No Pokémon has this ability.",
     "error_pokemon": "Error loading Pokémon.",
     "no_desc": "No description.",
-    "no_desc_detail": "No detailed description."
+    "no_desc_detail": "No detailed description.",
+    "past_effects": "Past generation effect changes"
   },
   "generations": {
     "title": "Pokémon Generations",
@@ -552,7 +610,9 @@
       "gen7": "Gen 7 (Alola)",
       "gen8": "Gen 8 (Galar)",
       "gen9": "Gen 9 (Paldea)"
-    }
+    },
+    "default_region": "Main Region",
+    "loading_subtitle": "Generation..."
   },
   "natures": {
     "title": "Natures",
@@ -888,7 +948,8 @@
       "necrozma-dawn": "Fusion with Lunala",
       "necrozma-ultra": "Ultra Burst",
       "calyrex-ice": "Mounted on Glastrier",
-      "calyrex-shadow": "Mounted on Spectrier"
+      "calyrex-shadow": "Mounted on Spectrier",
+      "gmax": "Max Soup"
     }
   },
   "biology": {
@@ -1080,7 +1141,8 @@
     "title": "Habitats",
     "pokemon_list": "Pokémon in this Habitat",
     "pokemon_count": "Pokemon Count",
-    "modal_title": "Habitat Details"
+    "modal_title": "Habitat Details",
+    "no_pokemon": "No Pokémon in this habitat."
   },
   "encounters": {
     "method_details": "Method Details",
@@ -1092,7 +1154,8 @@
     "egg_groups": "Egg Groups",
     "pokemon_count": "Pokemon Count",
     "modal_title": "Breeding Details",
-    "pokemon_list": "Pokémon List"
+    "pokemon_list": "Pokémon List",
+    "no_pokemon": "No Pokémon in this group."
   },
   "berries": {
     "title": "Berries",
@@ -1129,14 +1192,21 @@
       "cute": "Cute",
       "smart": "Smart",
       "tough": "Tough"
-    }
+    },
+    "category": "Contest Category",
+    "effect": "Effect",
+    "flavor": "Additional Description",
+    "hearts_appeal": "Appeal Points",
+    "hearts_jam": "Jam Points",
+    "no_description": "No description available."
   },
   "shapes": {
     "pokemon_count": "Pokémon Count",
     "title": "Shapes",
     "search_placeholder": "Search shapes...",
     "modal_title": "Shape Details",
-    "pokemon_list": "Pokémon List"
+    "pokemon_list": "Pokémon List",
+    "no_pokemon": "No Pokémon with this shape."
   },
   "machines": {
     "cost": "Cost",
@@ -1148,13 +1218,11 @@
     "search_placeholder": "Search machines or moves...",
     "title": "Machines"
   },
-  "FOOTER": {
-    "SYSTEM": "SYSTEM"
-  },
   "bulbapedia": {
+    "title": "Encyclopedia & Lore",
     "load": "Load extra info",
-    "disclaimer": "Additional information extracted from Bulbapedia (in English).",
-    "error": "Could not load information from Bulbapedia."
+    "disclaimer": "Additional information from Bulbapedia / Pokémon Wiki.",
+    "error": "Could not load encyclopedic information."
   },
   "missing": {
     "actualizacion_global_de_la_api": "Actualización global de la API:",

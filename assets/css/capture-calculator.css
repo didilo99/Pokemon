@@ -957,7 +957,8 @@
   border-bottom: none;
 }
 
-.search-dropdown li a:hover {
+.search-dropdown li a:hover,
+.search-dropdown li a.active {
   background: linear-gradient(90deg, rgba(99, 102, 241, 0.15) 0%, transparent 100%);
   color: var(--c-accent);
   padding-left: 24px;
@@ -970,6 +971,7 @@
 :root[data-theme="light"] .search-dropdown li a {
   border-bottom-color: var(--c-border);
 }
-:root[data-theme="light"] .search-dropdown li a:hover {
+:root[data-theme="light"] .search-dropdown li a:hover,
+:root[data-theme="light"] .search-dropdown li a.active {
   background: linear-gradient(90deg, rgba(99, 102, 241, 0.08) 0%, transparent 100%);
 }

@@ -1,6 +1,6 @@
 /**
- * Bulbapedia Integration Component
- * Handles fetching and rendering extra data from Bulbapedia.
+ * Bulbapedia & Pokémon Lore Integration Component
+ * Handles fetching and rendering extra encyclopedic data from Bulbapedia, WikiDex, and Pokémon Lore archives.
  */
 
 const Bulbapedia = {
@@ -14,20 +14,20 @@ const Bulbapedia = {
         const container = document.getElementById(containerId);
         if (!container) return;
 
-        // Clean container
+        // Render clean component layout
         container.innerHTML = `
             <div class="bulbapedia-section">
                 <div class="bulbapedia-header">
                     <h3 class="bulbapedia-title">
-                        <i data-lucide="book-open"></i> Bulbapedia Info
+                        <i data-lucide="book-open"></i> <span data-i18n="bulbapedia.title">Bulbapedia & Lore</span>
                     </h3>
-                    <button class="bulbapedia-btn" id="btn-load-bulbapedia">
+                    <button class="bulbapedia-btn" type="button" aria-label="Cargar información">
                         <i data-lucide="download"></i> <span data-i18n="bulbapedia.load">Cargar información extra</span>
                     </button>
                 </div>
-                <div id="bulbapedia-body" class="bulbapedia-content">
-                    <p class="small text-muted" data-i18n="bulbapedia.disclaimer">
-                        Información adicional extraída de Bulbapedia (en inglés).
+                <div class="bulbapedia-content">
+                    <p class="small text-muted mb-0" data-i18n="bulbapedia.disclaimer">
+                        Información adicional extraída de la enciclopedia Bulbapedia / WikiDex.
                     </p>
                 </div>
             </div>
@@ -39,74 +39,111 @@ const Bulbapedia = {
         // Translate if I18n is available
         if (window.I18n) I18n.translateElement(container);
 
-        const btn = container.querySelector('#btn-load-bulbapedia');
-        btn.addEventListener('click', () => this.loadData(query, type));
+        const btn = container.querySelector('.bulbapedia-btn');
+        if (btn) {
+            btn.onclick = () => this.loadData(container, query, type);
+        }
     },
 
-    async loadData(query, type) {
-        const body = document.getElementById('bulbapedia-body');
-        const btn = document.getElementById('btn-load-bulbapedia');
-        if (!body || !btn) return;
+    async loadData(container, query, type) {
+        if (!container) return;
+        const body = container.querySelector('.bulbapedia-content');
+        const btn = container.querySelector('.bulbapedia-btn');
+        if (!body) return;
 
         // Loading state
-        btn.disabled = true;
+        if (btn) btn.disabled = true;
         body.innerHTML = `
             <div class="bulbapedia-loader">
                 <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
-                <span class="ms-2" data-i18n="common.loading">Cargando...</span>
+                <span class="ms-2" data-i18n="common.loading">Cargando datos enciclopédicos...</span>
             </div>
         `;
         if (window.I18n) I18n.translateElement(body);
 
         try {
-            // Determine base path for proxy.php/bulbapedia_proxy.php
-            // If we are in a subfolder (like /pages/), we need ../
-            const isSubpage = window.location.pathname.includes('/pages/');
-            const proxyPath = isSubpage ? '../bulbapedia_proxy.php' : 'bulbapedia_proxy.php';
+            // Determine base path for bulbapedia_proxy.php
+            const basePath = (window.I18n && typeof window.I18n.getBasePath === 'function')
+                ? window.I18n.getBasePath()
+                : (window.location.pathname.includes('/pages/') ? '../' : '');
+            const proxyPath = `${basePath}bulbapedia_proxy.php`;
+            const lang = (window.I18n && window.I18n.currentLang) ? window.I18n.currentLang : 'es';
 
-            const url = `${proxyPath}?query=${encodeURIComponent(query)}&type=${type}`;
+            const url = `${proxyPath}?query=${encodeURIComponent(query)}&type=${encodeURIComponent(type)}&lang=${encodeURIComponent(lang)}`;
             const ttl = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
-            const data = await window.fetchCached(url, ttl);
+
+            let data;
+            if (typeof window.fetchCached === 'function') {
+                data = await window.fetchCached(url, ttl);
+            } else {
+                const res = await fetch(url);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                data = await res.json();
+            }
+
+            if (!data || data.error) {
+                throw new Error(data && data.error ? data.error : 'Sin datos disponibles');
+            }
             
             this.renderContent(body, data);
             
-            // Hide button after success
-            btn.style.display = 'none';
+            // Hide load button after success
+            if (btn) btn.style.display = 'none';
         } catch (error) {
             console.error('Bulbapedia load error:', error);
             body.innerHTML = `
                 <div class="bulbapedia-error">
                     <i data-lucide="alert-circle"></i>
                     <span data-i18n="bulbapedia.error">No se pudo cargar la información de Bulbapedia.</span>
-                    <p class="small mb-0">${error.message}</p>
+                    <p class="small mb-0 text-muted mt-1">${error.message || ''}</p>
                 </div>
             `;
             if (window.lucide) lucide.createIcons({ root: body });
             if (window.I18n) I18n.translateElement(body);
-            btn.disabled = false;
+            if (btn) btn.disabled = false;
         }
     },
 
     renderContent(container, data) {
         let html = '';
 
-        // Render Sections (Biology, Effect, etc.)
-        if (data.sections) {
+        // Render Sections (Biology, Effect, Evolution, Description, etc.)
+        if (data.sections && typeof data.sections === 'object') {
             for (const [title, text] of Object.entries(data.sections)) {
+                if (!text || !text.trim()) continue;
+                
+                // Icon selection based on section title
+                let icon = 'info';
+                const lower = title.toLowerCase();
+                if (lower.includes('bio') || lower.includes('fisiolog')) icon = 'dna';
+                else if (lower.includes('evol')) icon = 'git-merge';
+                else if (lower.includes('efecto') || lower.includes('effect')) icon = 'zap';
+                else if (lower.includes('etim')) icon = 'book';
+                else if (lower.includes('curios') || lower.includes('triv')) icon = 'help-circle';
+                else if (lower.includes('descrip') || lower.includes('oficial')) icon = 'file-text';
+
+                const paragraphs = text
+                    .split(/\n\n+/)
+                    .map(p => p.trim())
+                    .filter(Boolean)
+                    .map(p => `<p>${p}</p>`)
+                    .join('');
+
                 html += `
                     <div class="bulbapedia-content-block">
-                        <h4><i data-lucide="info"></i> ${title}</h4>
-                        <p>${text.replace(/\n\n/g, '</p><p>')}</p>
+                        <h4><i data-lucide="${icon}"></i> ${title}</h4>
+                        <div class="bulbapedia-text">${paragraphs}</div>
                     </div>
                 `;
             }
         }
 
-        // Render Trivia
-        if (data.trivia && data.trivia.length > 0) {
+        // Render Trivia / Curiosidades
+        if (data.trivia && Array.isArray(data.trivia) && data.trivia.length > 0) {
+            const isEs = !window.I18n || window.I18n.currentLang !== 'en';
             html += `
                 <div class="bulbapedia-content-block">
-                    <h4><i data-lucide="help-circle"></i> Trivia / Curiosidades</h4>
+                    <h4><i data-lucide="sparkles"></i> ${isEs ? 'Curiosidades & Datos' : 'Trivia & Facts'}</h4>
                     <ul>
                         ${data.trivia.map(item => `<li>${item}</li>`).join('')}
                     </ul>
@@ -114,11 +151,29 @@ const Bulbapedia = {
             `;
         }
 
-        // Image rendering removed as per requirements
+        // Footer with Source & Link
+        const sourceName = data.source || 'Bulbapedia';
+        const articleUrl = data.url || data.bulbapedia_url;
+        const isEs = !window.I18n || window.I18n.currentLang !== 'en';
+        const linkText = isEs ? 'Ver artículo completo' : 'Read full article';
 
+        if (articleUrl) {
+            html += `
+                <div class="bulbapedia-footer">
+                    <span class="bulbapedia-source">
+                        <i data-lucide="book"></i> ${sourceName}
+                    </span>
+                    <a href="${articleUrl}" target="_blank" rel="noopener noreferrer" class="bulbapedia-ext-link">
+                        <span>${linkText}</span>
+                        <i data-lucide="external-link"></i>
+                    </a>
+                </div>
+            `;
+        }
 
         if (!html) {
-            html = '<p class="text-center text-muted">No se encontró contenido adicional detallado.</p>';
+            const noDataMsg = isEs ? 'No se encontró contenido adicional detallado.' : 'No detailed extra content found.';
+            html = `<p class="text-center text-muted my-3">${noDataMsg}</p>`;
         }
 
         container.innerHTML = html;

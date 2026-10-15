@@ -112,7 +112,8 @@
     "all_types": "Todos los Tipos",
     "all_stages": "Todas las Fases",
     "no_results_title": "No se encontraron resultados",
-    "no_results_desc": "Intenta ajustar tus filtros o términos de búsqueda."
+    "no_results_desc": "Intenta ajustar tus filtros o términos de búsqueda.",
+    "no_results": "No hay resultados"
   },
   "team": {
     "copy": "Copiar",
@@ -172,6 +173,22 @@
     "shape": "Forme:",
     "color": "Color:",
     "base_stats": "Estadísticas base",
+    "learnable_moves": "Movimientos que puede aprender",
+    "search_moves": "Buscar movimiento o tipo...",
+    "no_moves_found": "No se encontraron movimientos",
+    "method_all": "Todos",
+    "method_level": "Nivel",
+    "method_machine": "MT/MO",
+    "method_egg": "Huevo",
+    "method_tutor": "Tutor",
+    "method_evolution": "Evolución",
+    "method_other": "Especial",
+    "col_method": "Método",
+    "col_move": "Movimiento",
+    "col_type": "Tipo",
+    "col_cat": "Cat.",
+    "col_power": "Pot.",
+    "col_acc": "Prec.",
     "weakness": "Recibe más daño de",
     "strength": "Hace más daño a",
     "edit_title": "Editar Pokémon",
@@ -233,7 +250,9 @@
     "form_gmax": "Gigantamax",
     "form_regional": "Forma Regional",
     "cry": "Grito",
-    "encounters": "Ubicaciones de encuentro"
+    "encounters": "Ubicaciones de encuentro",
+    "past_types": "Tipos en generaciones anteriores:",
+    "pokedex_numbers": "Números de Pokédex"
   },
   "common": {
     "all": "Todos",
@@ -265,7 +284,9 @@
     "recommended": "Recomendados",
     "all_items": "Todos los objetos",
     "prev": "Anterior",
-    "next": "Siguiente"
+    "next": "Siguiente",
+    "searching": "Buscando...",
+    "values": "Valores"
   },
   "footer": {
     "copyright": "<a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Poke App</a> © {year} por <a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Diego Diaz</a> está bajo la licencia <a href=\"https://creativecommons.org/licenses/by-nc-nd/4.0/\" target=\"_blank\" rel=\"license noopener noreferrer\">CC BY-NC-ND 4.0</a><img src=\"https://mirrors.creativecommons.org/presskit/icons/cc.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/by.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/nc.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/nd.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\">",
@@ -300,7 +321,38 @@
     "syncing_item": "Sincronizando",
     "api_info": "Información de API",
     "system": "Sistema",
-    "system_uppercase": "SISTEMA"
+    "system_uppercase": "SISTEMA",
+    "legal_and_system": "Legal y Sistema",
+    "legal_notice": "Aviso Legal",
+    "privacy_policy": "Política de Privacidad",
+    "cookies_policy": "Política de Cookies",
+    "cookie_settings": "Configurar Cookies"
+  },
+  "cookies": {
+    "banner_title": "Configuración de Privacidad y Cookies",
+    "banner_desc": "Utilizamos cookies esenciales y almacenamiento local para recordar tus preferencias (idioma, tema) y almacenar datos en caché para una navegación instantánea. Puedes aceptar todas, rechazarlas o configurar tus preferencias.",
+    "more_info_link": "Leer Política de Cookies",
+    "accept_all": "Aceptar todas",
+    "reject_all": "Solo necesarias",
+    "configure": "Configurar",
+    "modal_title": "Preferencias de Privacidad",
+    "modal_desc": "En Poke App respetamos tu privacidad. A continuación puedes personalizar qué tecnologías y datos deseas permitir almacenar en tu dispositivo.",
+    "save_preferences": "Guardar preferencias",
+    "necessary_title": "Cookies Técnicas y Esenciales",
+    "necessary_desc": "Estrictamente requeridas para la navegación segura, carga de recursos e integridad básica de la aplicación. No se pueden desactivar.",
+    "preferences_title": "Preferencias y Personalización",
+    "preferences_desc": "Permiten recordar tu idioma seleccionado, el tema visual (Modo Claro/Oscuro) y las configuraciones de accesibilidad.",
+    "cache_title": "Caché Local y Rendimiento",
+    "cache_desc": "Permiten guardar información de Pokémon, cartas y movimientos en IndexedDB y almacenamiento local para navegación instantánea y menor consumo de datos.",
+    "always_active": "Siempre Activas",
+    "saved_toast": "Preferencias de cookies guardadas correctamente."
+  },
+  "legal": {
+    "nav_notice": "Aviso Legal",
+    "nav_privacy": "Política de Privacidad",
+    "nav_cookies": "Política de Cookies",
+    "last_updated": "Actualizado: Octubre 2026",
+    "manage_cookies_btn": "Configurar Preferencias de Cookies"
   },
   "types": {
     "normal": "Normal",
@@ -339,7 +391,8 @@
     "no_pokemon": "Ningún Pokémon tiene esta habilidad.",
     "error_pokemon": "Error al cargar Pokémon.",
     "no_desc": "Sin descripción.",
-    "no_desc_detail": "Sin descripción detallada."
+    "no_desc_detail": "Sin descripción detallada.",
+    "past_effects": "Cambios en generaciones anteriores"
   },
   "generations": {
     "title": "Generaciones Pokémon",
@@ -423,7 +476,8 @@
     "cat_jewels": "Joyas",
     "cat_in_a_pinch": "En Apuros",
     "cat_picky_healing": "Curación Selectiva",
-    "modal_title": "Objeto"
+    "modal_title": "Objeto",
+    "cat_memories": "Memorias"
   },
   "moves": {
     "title": "Movimientos",
@@ -556,7 +610,9 @@
       "gen7": "Gen 7 (Alola)",
       "gen8": "Gen 8 (Galar)",
       "gen9": "Gen 9 (Paldea)"
-    }
+    },
+    "default_region": "Región Principal",
+    "loading_subtitle": "Generación..."
   },
   "natures": {
     "title": "Naturalezas",
@@ -892,7 +948,8 @@
       "necrozma-dawn": "Fusión con Lunala",
       "necrozma-ultra": "Ultranecroización Z",
       "calyrex-ice": "Montar a Glastrier",
-      "calyrex-shadow": "Montar a Spectrier"
+      "calyrex-shadow": "Montar a Spectrier",
+      "gmax": "Maxisopa"
     }
   },
   "biology": {
@@ -1084,7 +1141,8 @@
     "title": "Hábitats",
     "pokemon_list": "Pokémon en este Hábitat",
     "pokemon_count": "Cantidad de Pokémon",
-    "modal_title": "Detalles del Hábitat"
+    "modal_title": "Detalles del Hábitat",
+    "no_pokemon": "No hay Pokémon en este hábitat."
   },
   "encounters": {
     "method_details": "Detalles del Método",
@@ -1096,7 +1154,8 @@
     "egg_groups": "Grupos Huevo",
     "pokemon_count": "Cantidad de Pokémon",
     "modal_title": "Detalles de Crianza",
-    "pokemon_list": "Lista de Pokémon"
+    "pokemon_list": "Lista de Pokémon",
+    "no_pokemon": "No hay Pokémon en este grupo."
   },
   "contests": {
     "type_filter": "Seleccionar Tipo",
@@ -1124,7 +1183,8 @@
     "search_placeholder": "Buscar forma...",
     "title": "Formas",
     "modal_title": "Detalles de Tipo de Forma",
-    "pokemon_list": "Lista de Pokémon"
+    "pokemon_list": "Lista de Pokémon",
+    "no_pokemon": "No hay Pokémon con esta forma."
   },
   "machines": {
     "cost": "Coste",
@@ -1159,9 +1219,10 @@
     }
   },
   "bulbapedia": {
+    "title": "Enciclopedia & Lore",
     "load": "Cargar información extra",
-    "disclaimer": "Información adicional extraída de Bulbapedia (en inglés).",
-    "error": "No se pudo cargar la información de Bulbapedia."
+    "disclaimer": "Información adicional extraída de la enciclopedia Bulbapedia / WikiDex.",
+    "error": "No se pudo cargar la información enciclopédica."
   },
   "missing": {
     "actualizacion_global_de_la_api": "Actualización global de la API:",

@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Política de Privacidad — Pokédex</title>
+
+    <!-- Bootstrap 5 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../assets/css/styles.css?v=2" />
+    <link rel="stylesheet" href="../assets/css/cookies.css" />
+    <link rel="stylesheet" href="../assets/css/legal.css" />
+    <link rel="icon" type="image/png" href="../assets/icon/favicon.png" />
+
+    <script src="../assets/js/cache.js"></script>
+    <script src="../assets/js/i18n.js"></script>
+    <link rel="stylesheet" href="../assets/css/a11y.css" />
+    <script src="../assets/js/a11y.js" defer></script>
+    <script src="../assets/js/cookies.js" defer></script>
+    <script
+      src="https://unpkg.com/lucide@latest"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body class="v2-theme">
+    <!-- Cabecera -->
+    <header>
+      <div class="dex-top">
+        <div class="inner container-fluid">
+          <div class="d-flex align-items-center justify-content-between">
+            <a href="../index.html" class="brand">
+              <img
+                src="../assets/icon/logo.png"
+                alt="Logo"
+                class="title-logo"
+              />
+              <h1 class="title mb-0">Política de Privacidad</h1>
+            </a>
+            <div class="d-flex align-items-center gap-2">
+              <div class="dropdown d-inline-block">
+                <button
+                  class="btn btn-sm dropdown-toggle dex-select d-flex align-items-center gap-2"
+                  type="button"
+                  id="langDropdown"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <img
+                    id="currentFlag"
+                    src="../assets/img/flags/espana.png"
+                    alt="ES"
+                    width="20"
+                    height="20"
+                  />
+                  <span id="currentLangLabel">ES</span>
+                </button>
+                <ul
+                  class="dropdown-menu dropdown-menu-end dex-dropdown-menu"
+                  aria-labelledby="langDropdown"
+                >
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="es"
+                      ><img
+                        src="../assets/img/flags/espana.png"
+                        width="20"
+                        height="20"
+                      />
+                      Español</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="en"
+                      ><img
+                        src="../assets/img/flags/reino-unido.png"
+                        width="20"
+                        height="20"
+                      />
+                      English</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="fr"
+                      ><img
+                        src="../assets/img/flags/francia.png"
+                        width="20"
+                        height="20"
+                      />
+                      Français</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="de"
+                      ><img
+                        src="../assets/img/flags/alemania.png"
+                        width="20"
+                        height="20"
+                      />
+                      Deutsch</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="it"
+                      ><img
+                        src="../assets/img/flags/italia.png"
+                        width="20"
+                        height="20"
+                      />
+                      Italiano</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="pt"
+                      ><img
+                        src="../assets/img/flags/portugal.png"
+                        width="20"
+                        height="20"
+                      />
+                      Português</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="ja"
+                      ><img
+                        src="../assets/img/flags/japon.png"
+                        width="20"
+                        height="20"
+                      />
+                      日本語</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="zh-tw"
+                      ><img
+                        src="../assets/img/flags/china.png"
+                        width="20"
+                        height="20"
+                      />
+                      中文</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="inner container-fluid">
+          <nav class="dex-nav">
+            <!-- Mundo Pokémon -->
+            <li class="nav-item dropdown d-inline-block">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="mundoDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-i18n="footer.nav_world"
+              >
+                Mundo Pokémon
+              </a>
+              <ul
+                class="dropdown-menu dex-dropdown-menu"
+                aria-labelledby="mundoDropdown"
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="../index.html"
+                    data-i18n="nav.pokemon"
+                    >Pokémon</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="regions.html"
+                    data-i18n="nav.regions"
+                    >Regiones</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="generations.html"
+                    data-i18n="nav.generations"
+                    >Generaciones</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="locations.html"
+                    data-i18n="nav.locations"
+                    >Localizaciones</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="breeding.html"
+                    data-i18n="nav.breeding"
+                    >Crianza</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="habitats.html"
+                    data-i18n="nav.habitats"
+                    >Hábitats</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="shapes.html"
+                    data-i18n="nav.shapes"
+                    >Formas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="capture-calculator.html"
+                    data-i18n="nav.capture_calc"
+                    >Calculadora de Captura</a
+                  >
+                </li>
+              </ul>
+            </li>
+
+            <!-- Combate -->
+            <li class="nav-item dropdown d-inline-block">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="combateDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-i18n="footer.nav_combat"
+              >
+                Combate
+              </a>
+              <ul
+                class="dropdown-menu dex-dropdown-menu"
+                aria-labelledby="combateDropdown"
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="moves.html"
+                    data-i18n="nav.moves"
+                    >Movimientos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="abilities.html"
+                    data-i18n="nav.abilities"
+                    >Habilidades</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="types.html"
+                    data-i18n="nav.types"
+                    >Tabla de Tipos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="natures.html"
+                    data-i18n="nav.natures"
+                    >Naturalezas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="machines.html"
+                    data-i18n="nav.machines"
+                    >Máquinas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="contests.html"
+                    data-i18n="nav.contests"
+                    >Concursos</a
+                  >
+                </li>
+              </ul>
+            </li>
+
+            <!-- Colección -->
+            <li class="nav-item dropdown d-inline-block">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="coleccionDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-i18n="footer.nav_collection"
+              >
+                Colección
+              </a>
+              <ul
+                class="dropdown-menu dex-dropdown-menu"
+                aria-labelledby="coleccionDropdown"
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="items.html"
+                    data-i18n="nav.items"
+                    >Objetos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="berries.html"
+                    data-i18n="nav.berries"
+                    >Bayas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="games.html"
+                    data-i18n="nav.games"
+                    >Juegos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="cards.html"
+                    data-i18n="nav.cards"
+                    >Cartas TCG</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="tcg-sets.html"
+                    data-i18n="nav.tcg_sets"
+                    >Sets TCG</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="my-album.html"
+                    data-i18n="nav.my_album"
+                    >Mi Álbum</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="legal-main">
+      <!-- Hero -->
+      <section class="legal-hero">
+        <div class="legal-badge">
+          <i data-lucide="shield-check"></i>
+          <span data-i18n="legal.last_updated">Actualizado: Octubre 2026</span>
+        </div>
+        <h1 class="legal-hero-title">Política de Privacidad</h1>
+        <p class="legal-hero-desc">
+          En Poke App protegemos tu intimidad. Conoce cómo gestionamos los datos locales en tu dispositivo conforme al RGPD y la legislación vigente de protección de datos.
+        </p>
+      </section>
+
+      <!-- Navegación entre páginas legales -->
+      <nav class="legal-nav-tabs" aria-label="Secciones legales">
+        <a href="aviso-legal.html" class="legal-tab-link">
+          <i data-lucide="scale"></i>
+          <span data-i18n="legal.nav_notice">Aviso Legal</span>
+        </a>
+        <a href="politica-privacidad.html" class="legal-tab-link active">
+          <i data-lucide="shield-check"></i>
+          <span data-i18n="legal.nav_privacy">Política de Privacidad</span>
+        </a>
+        <a href="politica-cookies.html" class="legal-tab-link">
+          <i data-lucide="cookie"></i>
+          <span data-i18n="legal.nav_cookies">Política de Cookies</span>
+        </a>
+      </nav>
+
+      <!-- Tarjeta 1: Principio de privacidad -->
+      <article class="legal-card">
+        <h2>
+          <span class="section-num">1</span>
+          <span>Compromiso de Privacidad por Diseño (RGPD)</span>
+        </h2>
+        <div class="legal-callout legal-callout-info">
+          <div class="legal-callout-icon">
+            <i data-lucide="lock"></i>
+          </div>
+          <div>
+            <strong>Sin registros personales ni rastreo comercial:</strong> Poke App opera bajo un modelo de privacidad radical: <strong>no requerimos creación de cuenta</strong>, no solicitamos nombre, correo electrónico, teléfono ni información financiera. Tu navegación es completamente anónima.
+          </div>
+        </div>
+        <p>
+          En cumplimiento del Reglamento General de Protección de Datos (RGPD UE 2016/679) y de la Ley Orgánica 3/2018 de Protección de Datos Personales y garantía de los derechos digitales (LOPD-GDD), se informa a los usuarios sobre los criterios de tratamiento de datos adoptados en esta plataforma web.
+        </p>
+      </article>
+
+      <!-- Tarjeta 2: Responsable -->
+      <article class="legal-card">
+        <h2>
+          <span class="section-num">2</span>
+          <span>Responsable del Tratamiento</span>
+        </h2>
+        <p>
+          El responsable del desarrollo técnico y funcionamiento de la aplicación es:
+        </p>
+        <ul>
+          <li><strong>Responsable:</strong> Diego Díaz</li>
+          <li><strong>Sitio Web:</strong> Poke App</li>
+          <li><strong>Naturaleza:</strong> Plataforma web divulgativa y no comercial</li>
+          <li><strong>Contacto para consultas:</strong> A través de los canales del repositorio oficial del proyecto</li>
+        </ul>
+      </article>
+
+      <!-- Tarjeta 3: Datos guardados en el navegador (Local First) -->
+      <article class="legal-card">
+        <h2>
+          <span class="section-num">3</span>
+          <span>Tratamiento de Datos en el Dispositivo (Almacenamiento Local)</span>
+        </h2>
+        <p>
+          La totalidad de tus datos de uso y preferencias se almacenan exclusivamente de forma local dentro del navegador de tu propio dispositivo utilizando tecnologías estándar web (<strong>LocalStorage</strong> e <strong>IndexedDB</strong>):
+        </p>
+        <ul>
+          <li><strong>Preferencias del usuario:</strong> Idioma seleccionado (Español, Inglés, etc.), tema visual de interfaz (Claro / Oscuro) y configuración de accesibilidad (tamaño de fuente, contraste).</li>
+          <li><strong>Caché de datos de la Pokédex:</strong> Nombres, tipos, estadísticas de Pokémon, movimientos y cartas descargadas de las APIs públicas, con el fin de evitar peticiones redundantes y permitir una navegación fluida e instantánea.</li>
+          <li><strong>Colecciones y álbumes:</strong> Cartas guardadas en la sección <em>Mi Álbum</em> y configuraciones de equipos de combate creados en la aplicación.</li>
+          <li><strong>Consentimiento de cookies:</strong> El registro de tus preferencias sobre almacenamiento local y cookies.</li>
+        </ul>
+        <div class="legal-callout legal-callout-info">
+          <div class="legal-callout-icon">
+            <i data-lucide="database"></i>
+          </div>
+          <div>
+            <strong>Control absoluto en tu mano:</strong> Estos datos nunca se envían a ningún servidor externo, no se cruzan con perfiles de marketing ni se transmiten a terceros.
+          </div>
+        </div>
+      </article>
+
+      <!-- Tarjeta 4: Peticiones a APIs externas -->
+      <article class="legal-card">
+        <h2>
+          <span class="section-num">4</span>
+          <span>Comunicaciones de Red con APIs de Terceros</span>
+        </h2>
+        <p>
+          Para proporcionarte la información enciclopédica más actualizada, la aplicación realiza peticiones HTTP directas a servidores de fuentes públicas abiertas:
+        </p>
+        <ul>
+          <li><strong>PokeAPI (pokeapi.co):</strong> Suministro de datos de especies, evoluciones, estadísticas y sprites.</li>
+          <li><strong>TCGDex (tcgdex.net):</strong> Suministro de imágenes y datos de cartas del juego de cartas coleccionables.</li>
+          <li><strong>Bulbapedia (bulbagarden.net):</strong> Consulta de información extendida mediante el proxy local del sitio.</li>
+        </ul>
+        <p>
+          Estas solicitudes técnicas transmiten únicamente los datos técnicos habituales de conexión (como la dirección IP y la cabecera User-Agent del navegador que exige el protocolo HTTP/HTTPS). Poke App no registra ni asocia dichas direcciones IP a ninguna identidad.
+        </p>
+      </article>
+
+      <!-- Tarjeta 5: Derechos ARCO del usuario -->
+      <article class="legal-card">
+        <h2>
+          <span class="section-num">5</span>
+          <span>Tus Derechos y Cómo Ejercerlos</span>
+        </h2>
+        <p>
+          Conforme a la normativa europea de protección de datos, te asisten los derechos de <strong>Acceso</strong>, <strong>Rectificación</strong>, <strong>Supresión (derecho al olvido)</strong>, <strong>Limitación del tratamiento</strong> y <strong>Oposición</strong>.
+        </p>
+        <p>
+          Dado que Poke App no conserva datos personales identificativos en bases de datos centralizadas, puedes ejercer de manera inmediata e irrevocable tu derecho de supresión de datos locales de las siguientes maneras:
+        </p>
+        <ol>
+          <li><strong>Botón "Borrar Caché" en el footer:</strong> Disponible en el pie de página de la aplicación, vacía al instante la base de datos IndexedDB local.</li>
+          <li><strong>Desde la configuración de tu navegador:</strong> Puedes borrar en cualquier instante las cookies y el almacenamiento local desde el panel de privacidad de tu navegador web.</li>
+          <li><strong>Panel de Configuración de Cookies:</strong> Puedes modificar o revocar tus preferencias de almacenamiento en cualquier instante pulsando el botón <em>Configurar Cookies</em> en el footer.</li>
+        </ol>
+      </article>
+
+      <!-- Tarjeta 6: Seguridad -->
+      <article class="legal-card">
+        <h2>
+          <span class="section-num">6</span>
+          <span>Medidas de Seguridad</span>
+        </h2>
+        <p>
+          La aplicación utiliza protocolos de cifrado y transporte seguro HTTPS en todas sus comunicaciones. Al adoptar una arquitectura donde la información permanece en el propio dispositivo del usuario, se minimiza cualquier riesgo de filtraciones masivas de datos o brechas de seguridad centralizadas.
+        </p>
+      </article>
+    </main>
+
+    <!-- Bootstrap Bundle JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Footer cargado dinámicamente -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        if (typeof lucide !== "undefined") {
+          lucide.createIcons();
+        }
+      });
+    </script>
+  </body>
+</html>

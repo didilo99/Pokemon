@@ -103,7 +103,17 @@
     "all_types": "Alle Typen",
     "series_label": "Serie",
     "no_results_title": "Keine Ergebnisse gefunden",
-    "no_results_desc": "Versuchen Sie, Ihre Filter oder Suchbegriffe anzupassen."
+    "no_results_desc": "Versuchen Sie, Ihre Filter oder Suchbegriffe anzupassen.",
+    "no_results": "Keine Ergebnisse",
+    "sort_cost_asc": "Preis ↑",
+    "sort_cost_desc": "Preis ↓",
+    "sort_growth_asc": "Wachstumszeit ↑",
+    "sort_harvest_desc": "Ernte ↓",
+    "sort_machine_asc": "Maschinennummer ↑",
+    "sort_machine_desc": "Maschinennummer ↓",
+    "sort_region_asc": "Region A→Z",
+    "sort_region_desc": "Region Z→A",
+    "sort_species_desc": "Arten ↓"
   },
   "team": {
     "copy": "Kopieren",
@@ -163,6 +173,22 @@
     "shape": "Form:",
     "color": "Farbe:",
     "base_stats": "Basiswerte",
+    "learnable_moves": "Erlernbare Attacken",
+    "search_moves": "Attacke suchen...",
+    "no_moves_found": "Keine Attacken gefunden",
+    "method_all": "Alle",
+    "method_level": "Level",
+    "method_machine": "TM/VM",
+    "method_egg": "Ei",
+    "method_tutor": "Tutor",
+    "method_evolution": "Entwicklung",
+    "method_other": "Spezial",
+    "col_method": "Methode",
+    "col_move": "Attacke",
+    "col_type": "Typ",
+    "col_cat": "Kat.",
+    "col_power": "Stärke",
+    "col_acc": "Gen.",
     "weakness": "Schwächen",
     "strength": "Stärken",
     "edit_title": "Pokémon bearbeiten",
@@ -217,7 +243,16 @@
     "tcg_cards": "Sammelkarten",
     "hp": "KP",
     "stat": "Statuswert",
-    "ev_remaining": "Verbleibende FP"
+    "ev_remaining": "Verbleibende FP",
+    "acc": "Gen.",
+    "cry": "Ruf",
+    "encounters": "Fundorte",
+    "form_gmax": "Gigadynamax",
+    "form_mega": "Mega-Entwicklung",
+    "form_regional": "Regionalform",
+    "form_transformation": "Verwandlung",
+    "past_types": "Typen in früheren Generationen:",
+    "pokedex_numbers": "Pokédex-Nummern"
   },
   "common": {
     "loading": "Ladevorgang...",
@@ -249,7 +284,9 @@
     "next": "Weiter",
     "all_items": "Alle Items",
     "recommended": "Empfohlen",
-    "all": "Alle"
+    "all": "Alle",
+    "searching": "Suche läuft...",
+    "values": "Werte"
   },
   "footer": {
     "copyright": "<a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Poke App</a> © {year} von <a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Diego Diaz</a> ist lizenziert unter <a href=\"https://creativecommons.org/licenses/by-nc-nd/4.0/\" target=\"_blank\" rel=\"license noopener noreferrer\">CC BY-NC-ND 4.0</a><img src=\"https://mirrors.creativecommons.org/presskit/icons/cc.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/by.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/nc.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/nd.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\">",
@@ -277,7 +314,19 @@
     "about": "Ein kompletter Pokédex.",
     "nav_collection": "Sammlung",
     "api_info": "API Info",
-    "last_sync": "Letzte Sync"
+    "last_sync": "Letzte Sync",
+    "confirm_clear_cache": "Möchten Sie wirklich alle gespeicherten Daten löschen? Die Seite wird neu geladen.",
+    "cookie_settings": "Cookie-Einstellungen",
+    "cookies_policy": "Cookie-Richtlinie",
+    "just_now": "Gerade eben",
+    "legal_and_system": "Rechtliches & System",
+    "legal_notice": "Impressum",
+    "never_synced": "Nie",
+    "privacy_policy": "Datenschutzerklärung",
+    "sync_complete": "Synchronisierung abgeschlossen",
+    "syncing": "Wird synchronisiert",
+    "syncing_item": "Wird synchronisiert",
+    "valid_count": "gültig"
   },
   "types": {
     "normal": "Normal",
@@ -297,7 +346,8 @@
     "dragon": "Drache",
     "dark": "Unlicht",
     "steel": "Stahl",
-    "fairy": "Fee"
+    "fairy": "Fee",
+    "stellar": "Stellar"
   },
   "abilities": {
     "title": "Fähigkeiten",
@@ -314,7 +364,9 @@
     "no_pokemon": "Kein Pokémon hat diese Fähigkeit.",
     "error_pokemon": "Fehler beim Laden der Pokémon.",
     "no_desc": "Keine Beschreibung.",
-    "no_desc_detail": "Keine detaillierte Beschreibung."
+    "no_desc_detail": "Keine detaillierte Beschreibung.",
+    "past_effects": "Effektänderungen in früheren Generationen",
+    "search_placeholder": "Fähigkeit suchen..."
   },
   "generations": {
     "title": "Generationen",
@@ -398,7 +450,8 @@
     "pocket_mail": "Brieftasche",
     "pocket_medicine": "Medizintasche",
     "pocket_misc": "Itemtasche",
-    "pocket_pokeballs": "Balltasche"
+    "pocket_pokeballs": "Balltasche",
+    "search_placeholder": "Item suchen..."
   },
   "moves": {
     "title": "Attacken",
@@ -438,7 +491,34 @@
     },
     "stats_visual": "Statistikansicht",
     "filter_accuracy": "Min Genauigkeit",
-    "filter_power": "Min Stärke"
+    "filter_power": "Min Stärke",
+    "ailment": "Status",
+    "ailments": {
+      "burn": "Verbrennung",
+      "confusion": "Verwirrung",
+      "freeze": "Einfrieren",
+      "infatuation": "Anziehung",
+      "paralysis": "Paralyse",
+      "poison": "Vergiftung",
+      "sleep": "Schlaf",
+      "trap": "Falle"
+    },
+    "battle_effects": "Kampfeffekte",
+    "changes": "Änderungen",
+    "contest_info": "Wettbewerbsdaten",
+    "contest_type": "Wettbewerbstyp",
+    "crit_rate": "Volltreffer-Quote",
+    "drain": "KP-Absorber",
+    "effect_chance": "Effektwahrscheinlichkeit",
+    "flinch_chance": "Zurückschreck-Quote",
+    "generation": "Gen.",
+    "healing": "Heilung",
+    "hits": "Treffer",
+    "past_values": "Frühere Werte",
+    "recoil": "Rückstoß",
+    "search_placeholder": "Attacke suchen...",
+    "stat_changes": "Statuswert-Änderungen",
+    "turns": "Runden"
   },
   "regions": {
     "title": "Regionen",
@@ -479,7 +559,10 @@
       "gen7": "Gen 7 (Alola)",
       "gen8": "Gen 8 (Galar)",
       "gen9": "Gen 9 (Paldea)"
-    }
+    },
+    "default_region": "Hauptregion",
+    "loading_subtitle": "Generation...",
+    "search_placeholder": "Region oder Generation suchen..."
   },
   "natures": {
     "title": "Wesen",
@@ -665,7 +748,11 @@
     "errors": {
       "connection": "Verbindungsfehler",
       "fetch_failed": "Karten konnten nicht geladen werden. Bitte prüfen Sie Ihre Verbindung.",
-      "sync_init": "Fehler beim Initialisieren der Synchronisierung"
+      "sync_init": "Fehler beim Initialisieren der Synchronisierung",
+      "sync_details": "Details werden synchronisiert: {0}/{1}",
+      "sync_lang_progress": "[{0}] ({1}/{2})",
+      "sync_list": "Kartenliste wird abgerufen...",
+      "sync_sets": "Erweiterungen werden analysiert..."
     },
     "no_prices": "Keine Preisdaten verfügbar.",
     "general_info": "Allgemeine Info",
@@ -678,7 +765,32 @@
     "supertype": "Supertyp",
     "subtype": "Subtyp",
     "price_trend": "Trend",
-    "price_market": "Markt"
+    "price_market": "Markt",
+    "ability": "Fähigkeit",
+    "attack": "Angriff",
+    "legal_expanded": "Erweitert",
+    "legal_standard": "Standard",
+    "series_names": {
+      "Base": "Grundserie",
+      "Black & White": "Schwarz & Weiß",
+      "Diamond & Pearl": "Diamant & Perl",
+      "E-Card": "E-Card",
+      "EX": "EX",
+      "Gym": "Gym",
+      "HeartGold & SoulSilver": "HeartGold & SoulSilver",
+      "Juego de Cartas Coleccionables Pokémon Pocket": "Pokémon TCG Pocket",
+      "Megaevolución": "Mega-Entwicklung",
+      "Neo": "Neo",
+      "Np": "Nintendo Promo",
+      "Other": "Andere",
+      "Platinum": "Platin",
+      "Pokémon TCG Pocket": "Pokémon TCG Pocket",
+      "Pop": "POP-Serie",
+      "Scarlet & Violet": "Karmesin & Purpur",
+      "Sun & Moon": "Sonne & Mond",
+      "Sword & Shield": "Schwert & Schild",
+      "XY": "XY"
+    }
   },
   "forms": {
     "requirements": {
@@ -696,7 +808,19 @@
       "trade": "Tausch",
       "held": "Mit {0}",
       "location": "In {0}",
-      "beauty": "Schönheit {0}"
+      "beauty": "Schönheit {0}",
+      "affection": "Zuneigung {0}",
+      "dawn": "Morgengrauen",
+      "dusk": "Dämmerung",
+      "full-moon": "Vollmond",
+      "gender_female": "Weiblich",
+      "gender_male": "Männlich",
+      "party_species": "Mit {0} im Team",
+      "party_type": "Mit einem Pokémon vom Typ {0} im Team",
+      "rain": "Regen",
+      "style_agile": "Tempo-Stil {0} Mal",
+      "style_strong": "Kraft-Stil {0} Mal",
+      "upside-down": "Kopfüber halten"
     },
     "requirements_data": {
       "venusaur-mega": "Bisaoflornit",
@@ -774,7 +898,8 @@
       "necrozma-dawn": "Fusion mit Lunala",
       "necrozma-ultra": "Ultra-Burst",
       "calyrex-ice": "Reitet auf Schimmelschock",
-      "calyrex-shadow": "Reitet auf Phantoross"
+      "calyrex-shadow": "Reitet auf Phantoross",
+      "gmax": "Dyna-Suppe"
     }
   },
   "biology": {
@@ -897,7 +1022,22 @@
     "resistant_to": "Resistent gegen",
     "immune_to": "Immun gegen",
     "normal_to": "Normaler Schaden",
-    "tip": "Tipp: Bewege den Mauszeiger über die Tabelle, um Details zu sehen."
+    "tip": "Tipp: Bewege den Mauszeiger über die Tabelle, um Details zu sehen.",
+    "change_gen1_1": "Es existieren nur 15 ursprüngliche Typen.",
+    "change_gen1_2": "Psycho ist immun gegen Geist (aufgrund eines Programmierfehlers).",
+    "change_gen1_3": "Käfer und Gift sind wechselseitig sehr effektiv gegeneinander.",
+    "change_gen1_4": "Eis ist neutral gegenüber Feuer.",
+    "change_gen2_1": "Die Typen Stahl und Unlicht werden eingeführt.",
+    "change_gen2_2": "Geist ist nun sehr effektiv gegen Psycho.",
+    "change_gen2_3": "Stahl widersteht fast allen Typen, einschließlich Unlicht und Geist.",
+    "change_gen2_4": "Gift ist nicht mehr schwach gegen Käfer.",
+    "change_gen6_1": "Der Typ Fee wird eingeführt.",
+    "change_gen6_2": "Stahl verliert seine Resistenzen gegen Unlicht und Geist.",
+    "change_gen6_3": "Der Typ Fee ist immun gegen Drache.",
+    "changes_title": "Änderungen in dieser Generation",
+    "gen_1": "Generation I (Kanto)",
+    "gen_2_5": "Generationen II–V",
+    "gen_6_plus": "Gen VI+ (Aktuell)"
   },
   "a11y": {
     "title": "Barrierefreiheit",
@@ -923,13 +1063,20 @@
     "areas": "Gebiete",
     "region_filter": "Region Filter",
     "region": "Region",
-    "modal_title": "Ortsdetails"
+    "modal_title": "Ortsdetails",
+    "encounters": "Hier gefundene Pokémon",
+    "generation": "Gen.",
+    "id": "ID",
+    "no_areas": "Keine bestimmten Bereiche bekannt.",
+    "no_pokemon": "Keine wilden Pokémon in diesem Gebiet erfasst.",
+    "search_placeholder": "Ort suchen..."
   },
   "habitats": {
     "title": "Lebensräume",
     "pokemon_list": "Pokémon in diesem Lebensraum",
     "pokemon_count": "Pokémon-Anzahl",
-    "modal_title": "Lebensraum Details"
+    "modal_title": "Lebensraum Details",
+    "no_pokemon": "Keine Pokémon in diesem Habitat."
   },
   "encounters": {
     "method_details": "Methodendetails",
@@ -941,7 +1088,8 @@
     "egg_groups": "Ei-Gruppen",
     "pokemon_count": "Pokémon-Anzahl",
     "modal_title": "Zuchtdetails",
-    "pokemon_list": "Pokémon-Liste"
+    "pokemon_list": "Pokémon-Liste",
+    "no_pokemon": "Keine Pokémon in dieser Gruppe."
   },
   "berries": {
     "firm": {
@@ -961,7 +1109,9 @@
     "size": "Größe",
     "all_firmness": "Alle Festigkeiten",
     "max_harvest": "Max Ertrag",
-    "soil_dryness": "Bodentrockenheit"
+    "soil_dryness": "Bodentrockenheit",
+    "no_flavor": "Kein auffälliger Geschmack",
+    "search_placeholder": "Beeren suchen..."
   },
   "contests": {
     "type_filter": "Typ auswählen",
@@ -969,13 +1119,28 @@
     "jam": "Stören",
     "all_types": "Alle Typen",
     "title": "Wettbewerbe",
-    "modal_title": "Wettbewerbsdetails"
+    "modal_title": "Wettbewerbsdetails",
+    "category": "Wettbewerbskategorie",
+    "effect": "Effekt",
+    "flavor": "Zusätzliche Beschreibung",
+    "hearts_appeal": "Ausdruckskraft-Punkte",
+    "hearts_jam": "Störpunkte",
+    "no_description": "Keine Beschreibung verfügbar.",
+    "types": {
+      "beauty": "Schönheit",
+      "cool": "Coolness",
+      "cute": "Putzigkeit",
+      "smart": "Klugheit",
+      "tough": "Stärke"
+    }
   },
   "shapes": {
     "pokemon_count": "Pokémon-Anzahl",
     "title": "Formen",
     "modal_title": "Form-Details",
-    "pokemon_list": "Pokémon-Liste"
+    "pokemon_list": "Pokémon-Liste",
+    "no_pokemon": "Keine Pokémon mit dieser Körperform.",
+    "search_placeholder": "Körperform suchen..."
   },
   "machines": {
     "cost": "Kosten",
@@ -984,10 +1149,8 @@
     "move": "Attacke",
     "all_versions": "Alle Editionen",
     "modal_title": "Maschinen-Details",
-    "title": "Maschinen"
-  },
-  "FOOTER": {
-    "SYSTEM": "SYSTEM"
+    "title": "Maschinen",
+    "search_placeholder": "Maschine oder Attacke suchen..."
   },
   "api_info": {
     "last_sync": "Letzte lokale Sync",
@@ -1001,7 +1164,9 @@
     "pokeapi_title": "PokeAPI",
     "global_update": "Globales Update",
     "tcgapi_title": "Pokémon TCG API",
-    "expired_cache": "Abgelaufene Daten"
+    "expired_cache": "Abgelaufene Daten",
+    "release_date": "Veröffentlichung:",
+    "updated_at": "Aktualisiert:"
   },
   "missing": {
     "actualizacion_global_de_la_api": "Actualización global de la API:",
@@ -1162,5 +1327,61 @@
     "algo_details": "Algorithmus-Details",
     "error_select_pokemon": "Bitte zuerst ein Pokémon suchen und auswählen.",
     "guaranteed": "Garantiert"
+  },
+  "bulbapedia": {
+    "title": "Enzyklopädie & Lore",
+    "load": "Zusätzliche Infos laden",
+    "disclaimer": "Zusätzliche Informationen aus der Bulbapedia / WikiDex Enzyklopädie.",
+    "error": "Enzyklopädische Informationen konnten nicht geladen werden."
+  },
+  "cookies": {
+    "accept_all": "Alle akzeptieren",
+    "always_active": "Immer aktiv",
+    "banner_desc": "Wir verwenden notwendige Cookies und lokalen Speicher, um Ihre Einstellungen (Sprache, Design) zu speichern und Pokémon-Daten für blitzschnelles Laden zwischenzuspeichern. Sie können alle akzeptieren, ablehnen oder individuell anpassen.",
+    "banner_title": "Datenschutz- und Cookie-Einstellungen",
+    "cache_desc": "Ermöglicht das Speichern von Pokémon-, Karten- und Attackendaten in IndexedDB und lokalem Speicher für Offline-Nutzung und verzögerungsfreies Laden.",
+    "cache_title": "Lokaler Cache & Leistung",
+    "configure": "Anpassen",
+    "modal_desc": "Bei Poke App respektieren wir Ihre Privatsphäre. Hier können Sie festlegen, welche Speichertechnologien und Daten auf Ihrem Gerät gespeichert werden dürfen.",
+    "modal_title": "Datenschutzeinstellungen",
+    "more_info_link": "Cookie-Richtlinie lesen",
+    "necessary_desc": "Zwingend erforderlich für sichere Navigation, Laden von Ressourcen und Basisfunktionen der App. Können nicht deaktiviert werden.",
+    "necessary_title": "Technische & notwendige Cookies",
+    "preferences_desc": "Ermöglicht das Speichern Ihrer ausgewählten Sprache, des Designs (Hell-/Dunkelmodus) und der Barrierefreiheitseinstellungen.",
+    "preferences_title": "Präferenzen & Personalisierung",
+    "reject_all": "Nur notwendige",
+    "save_preferences": "Einstellungen speichern",
+    "saved_toast": "Cookie-Einstellungen erfolgreich gespeichert."
+  },
+  "legal": {
+    "last_updated": "Aktualisiert: Oktober 2026",
+    "manage_cookies_btn": "Cookie-Einstellungen anpassen",
+    "nav_cookies": "Cookie-Richtlinie",
+    "nav_notice": "Impressum",
+    "nav_privacy": "Datenschutzerklärung"
+  },
+  "versions": {
+    "black-2-white-2": "Schwarz 2/Weiß 2",
+    "black-white": "Schwarz/Weiß",
+    "crystal": "Kristall",
+    "diamond-pearl": "Diamant/Perl",
+    "emerald": "Smaragd",
+    "firered-leafgreen": "Feuerrot/Blattgrün",
+    "gold-silver": "Gold/Silber",
+    "heartgold-soulsilver": "HG/SS",
+    "legends-arceus": "Legenden: Arceus",
+    "lets-go-eevee": "Let's Go, Evoli!",
+    "lets-go-pikachu": "Let's Go, Pikachu!",
+    "lets-go-pikachu-lets-go-eevee": "Let's Go!",
+    "omega-ruby-alpha-sapphire": "OR/AS",
+    "platinum": "Platin",
+    "red-blue": "Rot/Blau",
+    "ruby-sapphire": "Rubin/Saphir",
+    "scarlet-violet": "Karmesin/Purpur",
+    "sun-moon": "Sonne/Mond",
+    "sword-shield": "Schwert/Schild",
+    "ultra-sun-ultra-moon": "US/UM",
+    "x-y": "X/Y",
+    "yellow": "Gelb"
   }
 }

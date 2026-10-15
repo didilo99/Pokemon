@@ -1409,6 +1409,12 @@ async function openModal(name, preferredSuffix = "", keepShiny = false) {
   if (!modal.open) {
     modal.showModal();
     modal.scrollTop = 0;
+    // Reset scroll of inner scrollable containers so a new modal
+    // doesn't retain the scroll position from a previously closed one
+    const mainPanel = modal.querySelector(".poke-modal-main");
+    const headPanel = modal.querySelector(".poke-modal-head");
+    if (mainPanel) mainPanel.scrollTop = 0;
+    if (headPanel) headPanel.scrollTop = 0;
   }
 
   try {
@@ -1799,6 +1805,7 @@ async function openModal(name, preferredSuffix = "", keepShiny = false) {
   renderEffectiveness(tps);
   renderPastTypes(data);
   renderPokedexNumbers(sp);
+  await renderPokemonLearnset(data);
 
   renderTcgCarousel(data.name);
   if (typeof Bulbapedia !== "undefined") {
@@ -2663,6 +2670,7 @@ async function init() {
       fetchI18nDict("ability");
       loadItems(); // Pre-load items list
       ensureNaturesLoaded();
+      preloadMoveMetadata(); // Pre-warm move types and categories
       buildFilteredList();
       updateGridColumns();
 
@@ -2687,6 +2695,11 @@ async function init() {
         } else {
           renderPage();
           updateTeamPanel();
+        }
+
+        // Re-render modal learnset if modal is currently open
+        if (modal && modal.open && currentModalLearnset.pokemonData) {
+          renderPokemonLearnset(currentModalLearnset.pokemonData);
         }
       });
     }
@@ -3178,6 +3191,406 @@ function renderPastTypes(data) {
     `;
     list.appendChild(row);
   });
+}
+
+// --- LEARNABLE MOVES SECTION ---
+const currentModalLearnset = {
+  pokemonData: null,
+  moves: [],
+  activeMethod: "all",
+  searchQuery: "",
+  abortController: null,
+};
+
+async function renderPokemonLearnset(pokemonData) {
+  const section = $("#modalMovesSection");
+  if (!section) return;
+
+  currentModalLearnset.pokemonData = pokemonData;
+  currentModalLearnset.activeMethod = "all";
+  currentModalLearnset.searchQuery = "";
+
+  if (currentModalLearnset.abortController) {
+    currentModalLearnset.abortController.abort();
+  }
+  currentModalLearnset.abortController = new AbortController();
+  const currentAbortSignal = currentModalLearnset.abortController.signal;
+
+  const searchInput = $("#modalMovesSearch");
+  const clearBtn = $("#modalMovesClearSearch");
+  const tabsContainer = $("#movesMethodTabs");
+  const countBadge = $("#movesCountBadge");
+
+  if (searchInput) searchInput.value = "";
+  if (clearBtn) clearBtn.style.display = "none";
+  if (tabsContainer) {
+    tabsContainer.querySelectorAll(".moves-tab-btn").forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.method === "all");
+    });
+  }
+
+  if (!pokemonData || !pokemonData.moves || pokemonData.moves.length === 0) {
+    const tbody = $("#modalMovesBody");
+    if (tbody) tbody.innerHTML = "";
+    const emptyEl = $("#modalMovesEmpty");
+    if (emptyEl) emptyEl.style.display = "flex";
+    if (countBadge) countBadge.textContent = "0";
+    ["All", "Level", "Machine", "Egg", "Tutor"].forEach((id) => {
+      const el = $(`#tabCount${id}`);
+      if (el) el.textContent = "0";
+    });
+    return;
+  }
+
+  if (!window.moveMetaMap) window.moveMetaMap = {};
+  const moveDict = localDicts["move"] || (await fetchI18nDict("move")) || {};
+  const currentLang = I18n.currentLang || "es";
+
+  // Parse moves list
+  const parsedMoves = pokemonData.moves.map((m) => {
+    const moveName = m.move.name;
+    const moveUrl = m.move.url;
+    const vgd = m.version_group_details || [];
+
+    // Level-up entries
+    const levelEntries = vgd.filter(
+      (v) => v.move_learn_method?.name === "level-up"
+    );
+    const hasLevel = levelEntries.length > 0;
+    const lastLevelEntry = hasLevel ? levelEntries[levelEntries.length - 1] : null;
+    const levelLearnedAt = lastLevelEntry ? lastLevelEntry.level_learned_at : null;
+
+    // Methods
+    const hasMachine = vgd.some((v) => v.move_learn_method?.name === "machine");
+    const hasEgg = vgd.some((v) => v.move_learn_method?.name === "egg");
+    const hasTutor = vgd.some((v) => v.move_learn_method?.name === "tutor");
+    const hasEvo =
+      (hasLevel && levelLearnedAt === 0) ||
+      vgd.some((v) => v.move_learn_method?.name === "evolution");
+    const otherMethods = vgd
+      .map((v) => v.move_learn_method?.name)
+      .filter((n) => !["level-up", "machine", "egg", "tutor", "evolution"].includes(n));
+    const hasOther = otherMethods.length > 0;
+
+    // Localized & English names
+    const localNames = moveDict[moveName] || {};
+    const displayName = localNames[currentLang] || localNames["en"] || toTitle(moveName);
+    const enName = localNames["en"] || toTitle(moveName);
+
+    // Cached metadata if available
+    const meta = window.moveMetaMap[moveName] || {};
+
+    return {
+      name: moveName,
+      url: moveUrl,
+      displayName,
+      enName,
+      hasLevel,
+      levelLearnedAt,
+      hasMachine,
+      hasEgg,
+      hasTutor,
+      hasEvo,
+      hasOther,
+      type: meta.type || null,
+      hasType: !!meta.type,
+      category: meta.class || meta.damage_class || null,
+      power: meta.power ?? null,
+      accuracy: meta.accuracy ?? null,
+      pp: meta.pp ?? null,
+    };
+  });
+
+  currentModalLearnset.moves = parsedMoves;
+
+  // Counts for tabs
+  const totalCount = parsedMoves.length;
+  const levelCount = parsedMoves.filter((m) => m.hasLevel).length;
+  const machineCount = parsedMoves.filter((m) => m.hasMachine).length;
+  const eggCount = parsedMoves.filter((m) => m.hasEgg).length;
+  const tutorCount = parsedMoves.filter((m) => m.hasTutor).length;
+
+  if ($("#tabCountAll")) $("#tabCountAll").textContent = totalCount;
+  if ($("#tabCountLevel")) $("#tabCountLevel").textContent = levelCount;
+  if ($("#tabCountMachine")) $("#tabCountMachine").textContent = machineCount;
+  if ($("#tabCountEgg")) $("#tabCountEgg").textContent = eggCount;
+  if ($("#tabCountTutor")) $("#tabCountTutor").textContent = tutorCount;
+  if (countBadge) countBadge.textContent = totalCount;
+
+  // Render initial table
+  applyModalLearnsetFilter();
+
+  // Tab click listener (once)
+  if (tabsContainer && !tabsContainer.dataset.initialized) {
+    tabsContainer.dataset.initialized = "true";
+    tabsContainer.addEventListener("click", (e) => {
+      const btn = e.target.closest(".moves-tab-btn");
+      if (!btn) return;
+      tabsContainer.querySelectorAll(".moves-tab-btn").forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentModalLearnset.activeMethod = btn.dataset.method || "all";
+      applyModalLearnsetFilter();
+    });
+  }
+
+  // Search input listener (once)
+  if (searchInput && !searchInput.dataset.initialized) {
+    searchInput.dataset.initialized = "true";
+    searchInput.addEventListener("input", (e) => {
+      currentModalLearnset.searchQuery = e.target.value.trim().toLowerCase();
+      if (clearBtn) {
+        clearBtn.style.display = currentModalLearnset.searchQuery ? "flex" : "none";
+      }
+      applyModalLearnsetFilter();
+    });
+  }
+
+  // Clear button listener (once)
+  if (clearBtn && !clearBtn.dataset.initialized) {
+    clearBtn.dataset.initialized = "true";
+    clearBtn.addEventListener("click", () => {
+      if (searchInput) searchInput.value = "";
+      currentModalLearnset.searchQuery = "";
+      clearBtn.style.display = "none";
+      applyModalLearnsetFilter();
+      if (searchInput) searchInput.focus();
+    });
+  }
+
+  // Background fetch for missing moves
+  fetchMissingMoveMetadata(parsedMoves, currentAbortSignal);
+}
+
+function applyModalLearnsetFilter() {
+  const tbody = $("#modalMovesBody");
+  const emptyState = $("#modalMovesEmpty");
+  const countBadge = $("#movesCountBadge");
+  if (!tbody) return;
+
+  const { moves, activeMethod, searchQuery } = currentModalLearnset;
+
+  // Accent-insensitive helper
+  const cleanStr = (s) =>
+    (s || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+  const cleanQuery = cleanStr(searchQuery);
+
+  let filtered = moves.filter((m) => {
+    // 1. Method filter
+    if (activeMethod === "level-up" && !m.hasLevel) return false;
+    if (activeMethod === "machine" && !m.hasMachine) return false;
+    if (activeMethod === "egg" && !m.hasEgg) return false;
+    if (activeMethod === "tutor" && !m.hasTutor) return false;
+
+    // 2. Search query filter
+    if (cleanQuery) {
+      const q = cleanQuery;
+      const typeLabel = cleanStr(I18n.t(`types.${m.type}`) || m.type);
+      const catLabel = cleanStr(I18n.t(`modal.${m.category}`) || m.category);
+      const matchName =
+        cleanStr(m.displayName).includes(q) ||
+        cleanStr(m.name).includes(q) ||
+        cleanStr(m.enName).includes(q);
+      const matchType = typeLabel.includes(q) || cleanStr(m.type).includes(q);
+      const matchCat = catLabel.includes(q);
+      const matchMethod =
+        (m.hasLevel && (q.startsWith("niv") || q.startsWith("lev") || (m.levelLearnedAt !== null && String(m.levelLearnedAt) === q))) ||
+        (m.hasMachine && (q === "mt" || q === "mo" || q === "tm" || q === "hm")) ||
+        (m.hasEgg && (q.startsWith("hue") || q.startsWith("egg") || q.startsWith("ovo"))) ||
+        (m.hasTutor && q.startsWith("tut"));
+
+      if (!matchName && !matchType && !matchCat && !matchMethod) return false;
+    }
+
+    return true;
+  });
+
+  // Sorting
+  filtered.sort((a, b) => {
+    if (activeMethod === "level-up") {
+      const lvlA = a.levelLearnedAt === 0 ? 999 : a.levelLearnedAt ?? 998;
+      const lvlB = b.levelLearnedAt === 0 ? 999 : b.levelLearnedAt ?? 998;
+      if (lvlA !== lvlB) return lvlA - lvlB;
+      return a.displayName.localeCompare(b.displayName);
+    }
+
+    if (activeMethod === "all") {
+      const getPriority = (m) => {
+        if (m.hasLevel && m.levelLearnedAt > 0) return 1;
+        if (m.hasEvo || m.levelLearnedAt === 0) return 2;
+        if (m.hasMachine) return 3;
+        if (m.hasEgg) return 4;
+        if (m.hasTutor) return 5;
+        return 6;
+      };
+      const prioA = getPriority(a);
+      const prioB = getPriority(b);
+      if (prioA !== prioB) return prioA - prioB;
+      if (prioA === 1) {
+        return (a.levelLearnedAt || 0) - (b.levelLearnedAt || 0);
+      }
+      return a.displayName.localeCompare(b.displayName);
+    }
+
+    return a.displayName.localeCompare(b.displayName);
+  });
+
+  if (countBadge) countBadge.textContent = filtered.length;
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = "";
+    if (emptyState) emptyState.style.display = "flex";
+    return;
+  }
+
+  if (emptyState) emptyState.style.display = "none";
+
+  tbody.innerHTML = filtered
+    .map((m) => {
+      // Method badges
+      const badges = [];
+      if (m.hasLevel && m.levelLearnedAt > 0) {
+        badges.push(
+          `<span class="move-method-badge method-level" title="${I18n.t("modal.method_level")} ${m.levelLearnedAt}"><i data-lucide="chevrons-up"></i> Nv. ${m.levelLearnedAt}</span>`
+        );
+      } else if (m.hasEvo || m.levelLearnedAt === 0) {
+        badges.push(
+          `<span class="move-method-badge method-evo" title="${I18n.t("modal.method_evolution")}"><i data-lucide="sparkles"></i> Evol.</span>`
+        );
+      }
+      if (m.hasMachine) {
+        badges.push(
+          `<span class="move-method-badge method-machine" title="${I18n.t("modal.method_machine")}"><i data-lucide="disc"></i> MT</span>`
+        );
+      }
+      if (m.hasEgg) {
+        badges.push(
+          `<span class="move-method-badge method-egg" title="${I18n.t("modal.method_egg")}"><i data-lucide="egg"></i> Huevo</span>`
+        );
+      }
+      if (m.hasTutor) {
+        badges.push(
+          `<span class="move-method-badge method-tutor" title="${I18n.t("modal.method_tutor")}"><i data-lucide="graduation-cap"></i> Tutor</span>`
+        );
+      }
+      if (badges.length === 0 && m.hasOther) {
+        badges.push(
+          `<span class="move-method-badge method-other" title="${I18n.t("modal.method_other")}">${I18n.t("modal.method_other") || "Especial"}</span>`
+        );
+      }
+
+      // Type Badge
+      const typeLabel = I18n.t(`types.${m.type}`) || toTitle(m.type || "normal");
+      const typeIconUrl = getPokespriteTypeIcon(m.type || "normal");
+      const typeBadgeHtml = m.hasType
+        ? `<span class="move-mini-type type-${m.type}" title="${typeLabel}"><img src="${typeIconUrl}" alt="${m.type}" onerror="this.style.display='none'"><span>${typeLabel}</span></span>`
+        : `<span class="text-muted">—</span>`;
+
+      // Category Badge
+      let catIcon = "🛡️";
+      if (m.category === "physical") catIcon = "⚔️";
+      if (m.category === "special") catIcon = "✨";
+      const catLabel = I18n.t(`modal.${m.category}`) || toTitle(m.category || "status");
+      const catBadgeHtml = m.hasType
+        ? `<span class="move-mini-cat ${m.category || 'status'}" title="${catLabel}"><span>${catIcon}</span> <span>${catLabel}</span></span>`
+        : `<span class="text-muted">—</span>`;
+
+      // Power / Accuracy
+      const powerDisplay = m.power !== null && m.power !== undefined ? m.power : "—";
+      const accDisplay = m.accuracy !== null && m.accuracy !== undefined ? `${m.accuracy}%` : "—";
+
+      // English secondary name if different from localized
+      const subName =
+        m.displayName.toLowerCase() !== m.enName.toLowerCase()
+          ? `<span class="move-subname">(${m.enName})</span>`
+          : "";
+
+      return `
+        <tr data-move-row="${m.name}">
+          <td><div class="move-methods-cell">${badges.join("")}</div></td>
+          <td class="move-name-cell"><span title="${m.enName}">${m.displayName}</span>${subName}</td>
+          <td class="move-type-cell">${typeBadgeHtml}</td>
+          <td class="move-cat-cell">${catBadgeHtml}</td>
+          <td class="move-stat-val move-pwr-cell">${powerDisplay}</td>
+          <td class="move-stat-val move-acc-cell">${accDisplay}</td>
+        </tr>
+      `;
+    })
+    .join("");
+
+  if (typeof lucide !== "undefined") {
+    lucide.createIcons({ root: tbody });
+  }
+}
+
+async function fetchMissingMoveMetadata(moves, abortSignal) {
+  const missing = moves.filter(
+    (m) =>
+      !window.moveMetaMap[m.name] ||
+      window.moveMetaMap[m.name].power === undefined
+  );
+  if (missing.length === 0) return;
+
+  const batchSize = 15;
+  for (let i = 0; i < missing.length; i += batchSize) {
+    if (abortSignal.aborted) break;
+    const batch = missing.slice(i, i + batchSize);
+    await Promise.all(
+      batch.map(async (m) => {
+        if (abortSignal.aborted) return;
+        try {
+          const d = await window.fetchCached(m.url);
+          if (!d) return;
+          const meta = {
+            type: d.type?.name || "normal",
+            class: d.damage_class?.name || "status",
+            power: d.power,
+            accuracy: d.accuracy,
+            pp: d.pp,
+          };
+          window.moveMetaMap[m.name] = meta;
+          m.type = meta.type;
+          m.hasType = true;
+          m.category = meta.class;
+          m.power = meta.power;
+          m.accuracy = meta.accuracy;
+          m.pp = meta.pp;
+
+          const row = document.querySelector(`tr[data-move-row="${m.name}"]`);
+          if (row) {
+            const typeCell = row.querySelector(".move-type-cell");
+            const catCell = row.querySelector(".move-cat-cell");
+            const pwrCell = row.querySelector(".move-pwr-cell");
+            const accCell = row.querySelector(".move-acc-cell");
+
+            if (typeCell) {
+              const typeLabel = I18n.t(`types.${meta.type}`) || toTitle(meta.type);
+              const typeIconUrl = getPokespriteTypeIcon(meta.type);
+              typeCell.innerHTML = `<span class="move-mini-type type-${meta.type}" title="${typeLabel}"><img src="${typeIconUrl}" alt="${meta.type}" onerror="this.style.display='none'"><span>${typeLabel}</span></span>`;
+            }
+            if (catCell) {
+              let catIcon = "🛡️";
+              if (meta.class === "physical") catIcon = "⚔️";
+              if (meta.class === "special") catIcon = "✨";
+              const catLabel = I18n.t(`modal.${meta.class}`) || toTitle(meta.class);
+              catCell.innerHTML = `<span class="move-mini-cat ${meta.class}" title="${catLabel}"><span>${catIcon}</span> <span>${catLabel}</span></span>`;
+            }
+            if (pwrCell) {
+              pwrCell.textContent = meta.power !== null && meta.power !== undefined ? meta.power : "—";
+            }
+            if (accCell) {
+              accCell.textContent = meta.accuracy !== null && meta.accuracy !== undefined ? `${meta.accuracy}%` : "—";
+            }
+          }
+        } catch (e) {
+          // Ignore individual fetch failure
+        }
+      })
+    );
+  }
 }
 
 /**

@@ -103,7 +103,17 @@
     "all_types": "すべてのタイプ",
     "series_label": "シリーズ",
     "no_results_title": "結果が見つかりませんでした",
-    "no_results_desc": "フィルターや検索ワードを調整してみてください。"
+    "no_results_desc": "フィルターや検索ワードを調整してみてください。",
+    "no_results": "結果が見つかりません",
+    "sort_cost_asc": "価格 ↑",
+    "sort_cost_desc": "価格 ↓",
+    "sort_growth_asc": "成長時間 ↑",
+    "sort_harvest_desc": "収穫量 ↓",
+    "sort_machine_asc": "マシン番号 ↑",
+    "sort_machine_desc": "マシン番号 ↓",
+    "sort_region_asc": "地方 A→Z",
+    "sort_region_desc": "地方 Z→A",
+    "sort_species_desc": "種族 ↓"
   },
   "team": {
     "copy": "コピー",
@@ -163,6 +173,22 @@
     "shape": "体形:",
     "color": "色:",
     "base_stats": "種族値",
+    "learnable_moves": "覚えられる技",
+    "search_moves": "技を検索...",
+    "no_moves_found": "技が見つかりません",
+    "method_all": "すべて",
+    "method_level": "レベル",
+    "method_machine": "わざマシン",
+    "method_egg": "タマゴ",
+    "method_tutor": "教え技",
+    "method_evolution": "進化",
+    "method_other": "特別",
+    "col_method": "習得方法",
+    "col_move": "技名",
+    "col_type": "タイプ",
+    "col_cat": "分類",
+    "col_power": "威力",
+    "col_acc": "命中",
     "weakness": "弱点",
     "strength": "耐性",
     "edit_title": "ポケモン編集",
@@ -217,7 +243,16 @@
     "label_move_1": "技 1",
     "label_move_2": "技 2",
     "label_move_3": "技 3",
-    "label_move_4": "技 4"
+    "label_move_4": "技 4",
+    "acc": "命中",
+    "cry": "なきごえ",
+    "encounters": "出現場所",
+    "form_gmax": "キョダイマックス",
+    "form_mega": "メガシンカ",
+    "form_regional": "リージョンフォーム",
+    "form_transformation": "フォルムチェンジ",
+    "past_types": "過去世代でのタイプ:",
+    "pokedex_numbers": "図鑑ナンバー"
   },
   "common": {
     "loading": "読み込み中...",
@@ -249,7 +284,9 @@
     "next": "次",
     "all_items": "すべての道具",
     "recommended": "おすすめ",
-    "all": "全て"
+    "all": "全て",
+    "searching": "検索中...",
+    "values": "値"
   },
   "footer": {
     "copyright": "<a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Poke App</a> © {year} <a href=\"https://example.com\" target=\"_blank\" rel=\"noopener noreferrer\">Diego Diaz</a> 作、<a href=\"https://creativecommons.org/licenses/by-nc-nd/4.0/\" target=\"_blank\" rel=\"license noopener noreferrer\">CC BY-NC-ND 4.0</a> の下でライセンスされています<img src=\"https://mirrors.creativecommons.org/presskit/icons/cc.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/by.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/nc.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\"><img src=\"https://mirrors.creativecommons.org/presskit/icons/nd.svg\" alt=\"\" style=\"max-width: 1em;max-height:1em;margin-left: .2em;\">",
@@ -277,7 +314,19 @@
     "about": "完全なポケモン図鑑",
     "nav_collection": "コレクション",
     "api_info": "API情報",
-    "last_sync": "最終同期"
+    "last_sync": "最終同期",
+    "confirm_clear_cache": "保存されたすべてのデータを消去してもよろしいですか？アプリが再読み込みされます。",
+    "cookie_settings": "クッキー設定",
+    "cookies_policy": "クッキーポリシー",
+    "just_now": "たった今",
+    "legal_and_system": "法的情報とシステム",
+    "legal_notice": "法的通知",
+    "never_synced": "未同期",
+    "privacy_policy": "プライバシーポリシー",
+    "sync_complete": "同期完了",
+    "syncing": "同期中",
+    "syncing_item": "同期中",
+    "valid_count": "件有効"
   },
   "types": {
     "normal": "ノーマル",
@@ -297,7 +346,8 @@
     "dragon": "ドラゴン",
     "dark": "あく",
     "steel": "はがね",
-    "fairy": "フェアリー"
+    "fairy": "フェアリー",
+    "stellar": "ステラ"
   },
   "abilities": {
     "title": "特性",
@@ -314,7 +364,9 @@
     "no_pokemon": "この特性を持つポケモンはいません。",
     "error_pokemon": "読み込みエラー。",
     "no_desc": "説明なし。",
-    "no_desc_detail": "詳細なし。"
+    "no_desc_detail": "詳細なし。",
+    "past_effects": "過去世代での効果の変更",
+    "search_placeholder": "とくせいを検索..."
   },
   "generations": {
     "title": "世代",
@@ -398,7 +450,8 @@
     "pocket_mail": "メールのポケット",
     "pocket_medicine": "くすりのポケット",
     "pocket_misc": "どうぐのポケット",
-    "pocket_pokeballs": "ボールのポケット"
+    "pocket_pokeballs": "ボールのポケット",
+    "search_placeholder": "どうぐを検索..."
   },
   "moves": {
     "title": "技",
@@ -438,7 +491,34 @@
     },
     "stats_visual": "ステータス表示",
     "filter_accuracy": "最小命中",
-    "filter_power": "最小威力"
+    "filter_power": "最小威力",
+    "ailment": "状態変化",
+    "ailments": {
+      "burn": "やけど",
+      "confusion": "こんらん",
+      "freeze": "こおり",
+      "infatuation": "メロメロ",
+      "paralysis": "まひ",
+      "poison": "どく",
+      "sleep": "ねむり",
+      "trap": "拘束"
+    },
+    "battle_effects": "バトル効果",
+    "changes": "変更履歴",
+    "contest_info": "コンテスト情報",
+    "contest_type": "コンテストタイプ",
+    "crit_rate": "急所率",
+    "drain": "HP吸収",
+    "effect_chance": "効果発生率",
+    "flinch_chance": "ひるみ確率",
+    "generation": "世代",
+    "healing": "回復",
+    "hits": "攻撃回数",
+    "past_values": "過去世代での変更点",
+    "recoil": "反動",
+    "search_placeholder": "わざを検索...",
+    "stat_changes": "能力変化",
+    "turns": "ターン数"
   },
   "regions": {
     "title": "地方",
@@ -479,7 +559,10 @@
       "gen7": "第7世代 (アローラ)",
       "gen8": "第8世代 (ガラル)",
       "gen9": "第9世代 (パルデア)"
-    }
+    },
+    "default_region": "主要地方",
+    "loading_subtitle": "世代...",
+    "search_placeholder": "地方または世代を検索..."
   },
   "natures": {
     "title": "性格",
@@ -651,7 +734,11 @@
     "errors": {
       "connection": "接続エラー",
       "fetch_failed": "カードの読み込みに失敗しました。接続を確認してください。",
-      "sync_init": "同期の初期化エラー"
+      "sync_init": "同期の初期化エラー",
+      "sync_details": "詳細を同期中: {0}/{1}",
+      "sync_lang_progress": "[{0}] ({1}/{2})",
+      "sync_list": "カードリストを取得中...",
+      "sync_sets": "エキスパンションを解析中..."
     },
     "no_prices": "価格データはありません。",
     "general_info": "基本情報",
@@ -672,10 +759,38 @@
       "mega": "MEGA"
     },
     "variant_names": {
-      "holo": "ホロ"
+      "holo": "ホロ",
+      "firstedition": "初版 (1st Edition)",
+      "normal": "ノーマル",
+      "reverse": "ミラー (Reverse Holo)"
     },
     "price_trend": "トレンド",
-    "price_market": "市場価格"
+    "price_market": "市場価格",
+    "ability": "特性",
+    "attack": "ワザ",
+    "legal_expanded": "エクストラ",
+    "legal_standard": "スタンダード",
+    "series_names": {
+      "Base": "初期シリーズ",
+      "Black & White": "ブラック＆ホワイト",
+      "Diamond & Pearl": "ダイヤモンド＆パール",
+      "E-Card": "eシリーズ",
+      "EX": "ADV/PCG",
+      "Gym": "ジムシリーズ",
+      "HeartGold & SoulSilver": "ハートゴールド＆ソウルシルバー",
+      "Juego de Cartas Coleccionables Pokémon Pocket": "Pokémon Trading Card Game Pocket",
+      "Megaevolución": "メガシンカ",
+      "Neo": "neoシリーズ",
+      "Np": "任天堂プロモ",
+      "Other": "その他",
+      "Platinum": "プラチナ",
+      "Pokémon TCG Pocket": "Pokémon Trading Card Game Pocket",
+      "Pop": "POPシリーズ",
+      "Scarlet & Violet": "スカーレット＆バイオレット",
+      "Sun & Moon": "サン＆ムーン",
+      "Sword & Shield": "ソード＆シールド",
+      "XY": "XY"
+    }
   },
   "forms": {
     "requirements": {
@@ -693,7 +808,19 @@
       "trade": "通信交換",
       "held": "{0}を持たせる",
       "location": "{0}",
-      "beauty": "うつくしさ {0}"
+      "beauty": "うつくしさ {0}",
+      "affection": "なかよし度 {0}",
+      "dawn": "夜明け",
+      "dusk": "夕暮れ",
+      "full-moon": "満月",
+      "gender_female": "メス",
+      "gender_male": "オス",
+      "party_species": "手持ちに{0}がいる",
+      "party_type": "手持ちに{0}タイプのポケモンがいる",
+      "rain": "雨",
+      "style_agile": "ハヤワザ {0}回",
+      "style_strong": "ゴウギ {0}回",
+      "upside-down": "本体を逆さまにする"
     },
     "requirements_data": {
       "venusaur-mega": "フシギバナイト",
@@ -771,7 +898,8 @@
       "necrozma-dawn": "ルナアーラと合体",
       "necrozma-ultra": "ウルトラバースト",
       "calyrex-ice": "はくばじょうのすがた",
-      "calyrex-shadow": "こくばじょうのすがた"
+      "calyrex-shadow": "こくばじょうのすがた",
+      "gmax": "ダイスープ"
     }
   },
   "biology": {
@@ -894,7 +1022,22 @@
     "resistant_to": "耐性",
     "immune_to": "無効",
     "normal_to": "通常ダメージ",
-    "tip": "ヒント：表のセルにカーソルを合わせると詳細が表示されます。"
+    "tip": "ヒント：表のセルにカーソルを合わせると詳細が表示されます。",
+    "change_gen1_1": "第1世代には15種類の基本タイプのみが存在します。",
+    "change_gen1_2": "プログラムの不具合により、エスパータイプはゴースト無効です。",
+    "change_gen1_3": "むしタイプとどくタイプは互いに効果抜群です。",
+    "change_gen1_4": "こおりタイプはほのおタイプに対して等倍です。",
+    "change_gen2_1": "はがね・あくタイプが新たに追加されました。",
+    "change_gen2_2": "ゴーストタイプがエスパータイプに対し効果抜群になりました。",
+    "change_gen2_3": "はがねタイプがあく・ゴーストを含むほぼ全ての属性に耐性を持ちます。",
+    "change_gen2_4": "どくタイプはむしタイプ弱点ではなくなりました。",
+    "change_gen6_1": "フェアリータイプが新たに追加されました。",
+    "change_gen6_2": "はがねタイプがあく・ゴーストに対する耐性を失いました。",
+    "change_gen6_3": "フェアリータイプはドラゴン技を無効化します。",
+    "changes_title": "この世代での変更点",
+    "gen_1": "第1世代 (カントー)",
+    "gen_2_5": "第2〜第5世代",
+    "gen_6_plus": "第6世代以降 (最新)"
   },
   "a11y": {
     "title": "アクセシビリティ",
@@ -920,13 +1063,20 @@
     "areas": "エリア",
     "region_filter": "地方で絞り込み",
     "region": "地方",
-    "modal_title": "場所の詳細"
+    "modal_title": "場所の詳細",
+    "encounters": "ここで見つかるポケモン",
+    "generation": "世代",
+    "id": "ID",
+    "no_areas": "特定のエリア情報は登録されていません。",
+    "no_pokemon": "このエリアで記録された野生のポケモンはいません。",
+    "search_placeholder": "場所を検索..."
   },
   "habitats": {
     "title": "生息地",
     "pokemon_list": "この生息地のポケモン",
     "pokemon_count": "ポケモン数",
-    "modal_title": "生息地の詳細"
+    "modal_title": "生息地の詳細",
+    "no_pokemon": "この生息地にはポケモンがいません。"
   },
   "encounters": {
     "method_details": "方法の詳細",
@@ -938,7 +1088,8 @@
     "egg_groups": "タマゴグループ",
     "pokemon_count": "ポケモン数",
     "modal_title": "育成の詳細",
-    "pokemon_list": "ポケモンリスト"
+    "pokemon_list": "ポケモンリスト",
+    "no_pokemon": "このグループにポケモンはいません。"
   },
   "berries": {
     "firm": {
@@ -958,7 +1109,9 @@
     "size": "サイズ",
     "all_firmness": "全てのかたさ",
     "max_harvest": "最大収穫数",
-    "soil_dryness": "土の乾きやすさ"
+    "soil_dryness": "土の乾きやすさ",
+    "no_flavor": "特徴のない味",
+    "search_placeholder": "きのみを検索..."
   },
   "contests": {
     "type_filter": "タイプを選択",
@@ -966,13 +1119,28 @@
     "jam": "妨害",
     "all_types": "全てのタイプ",
     "title": "コンテスト",
-    "modal_title": "コンテストの詳細"
+    "modal_title": "コンテストの詳細",
+    "category": "コンテストのカテゴリ",
+    "effect": "効果",
+    "flavor": "詳細説明",
+    "hearts_appeal": "アピールポイント",
+    "hearts_jam": "ぼうがいポイント",
+    "no_description": "説明はありません。",
+    "types": {
+      "beauty": "うつくしさ",
+      "cool": "かっこよさ",
+      "cute": "かわいさ",
+      "smart": "かしこさ",
+      "tough": "たくましさ"
+    }
   },
   "shapes": {
     "pokemon_count": "ポケモン数",
     "title": "形状",
     "modal_title": "形状の詳細",
-    "pokemon_list": "ポケモンリスト"
+    "pokemon_list": "ポケモンリスト",
+    "no_pokemon": "この体型のポケモンはいません。",
+    "search_placeholder": "体型を検索..."
   },
   "machines": {
     "cost": "コスト",
@@ -981,10 +1149,8 @@
     "move": "わざ",
     "all_versions": "全てのバージョン",
     "modal_title": "マシンの詳細",
-    "title": "マシン"
-  },
-  "FOOTER": {
-    "SYSTEM": "システム"
+    "title": "マシン",
+    "search_placeholder": "わざマシンやわざを検索..."
   },
   "api_info": {
     "last_sync": "最終ローカル同期",
@@ -998,7 +1164,9 @@
     "pokeapi_title": "PokeAPI",
     "global_update": "グローバル更新",
     "tcgapi_title": "Pokémon TCG API",
-    "expired_cache": "期限切れのデータ"
+    "expired_cache": "期限切れのデータ",
+    "release_date": "発売日:",
+    "updated_at": "更新日:"
   },
   "missing": {
     "actualizacion_global_de_la_api": "Actualización global de la API:",
@@ -1159,5 +1327,61 @@
     "algo_details": "アルゴリズム解説",
     "error_select_pokemon": "まずポケモンを検索して選択してください。",
     "guaranteed": "確定"
+  },
+  "bulbapedia": {
+    "title": "百科事典＆ロア",
+    "load": "追加情報を読み込む",
+    "disclaimer": "Bulbapedia / WikiDex 百科事典からの追加情報。",
+    "error": "百科事典情報の読み込みに失敗しました。"
+  },
+  "cookies": {
+    "accept_all": "すべて許可",
+    "always_active": "常に有効",
+    "banner_desc": "当サイトでは、ユーザー設定（言語、テーマ）の保持や、快適な高速表示のために必須クッキーおよびローカルストレージを使用しています。すべての許可、拒否、または個別設定が可能です。",
+    "banner_title": "プライバシーとクッキーの設定",
+    "cache_desc": "ポケモン、カード、わざのデータをIndexedDBおよびローカルストレージに保存し、高速な読み込みとデータ通信量の削減を実現します。",
+    "cache_title": "ローカルキャッシュとパフォーマンス",
+    "configure": "設定する",
+    "modal_desc": "Poke Appでは利用者のプライバシーを尊重しています。お使いの端末に保存を許可するデータや機能を選択してください。",
+    "modal_title": "プライバシー設定",
+    "more_info_link": "クッキーポリシーを読む",
+    "necessary_desc": "安全なサイト利用、リソースの読み込み、および基本機能に不可欠です。無効化することはできません。",
+    "necessary_title": "技術的・必須クッキー",
+    "preferences_desc": "選択した言語、テーマ（ライト/ダークモード）、アクセシビリティ設定を記憶します。",
+    "preferences_title": "設定・カスタマイズ",
+    "reject_all": "必須のみ許可",
+    "save_preferences": "設定を保存",
+    "saved_toast": "クッキー設定が正常に保存されました。"
+  },
+  "legal": {
+    "last_updated": "最終更新: 2026年10月",
+    "manage_cookies_btn": "クッキー設定を管理",
+    "nav_cookies": "クッキーポリシー",
+    "nav_notice": "法的通知",
+    "nav_privacy": "プライバシーポリシー"
+  },
+  "versions": {
+    "black-2-white-2": "ブラック2・ホワイト2",
+    "black-white": "ブラック・ホワイト",
+    "crystal": "クリスタル",
+    "diamond-pearl": "ダイヤモンド・パール",
+    "emerald": "エメラルド",
+    "firered-leafgreen": "ファイアレッド・リーフグリーン",
+    "gold-silver": "金・銀",
+    "heartgold-soulsilver": "ハートゴールド・ソウルシルバー",
+    "legends-arceus": "Pokémon LEGENDS アルセウス",
+    "lets-go-eevee": "Let's Go! イーブイ",
+    "lets-go-pikachu": "Let's Go! ピカチュウ",
+    "lets-go-pikachu-lets-go-eevee": "Let's Go!",
+    "omega-ruby-alpha-sapphire": "オメガルビー・アルファサファイア",
+    "platinum": "プラチナ",
+    "red-blue": "赤・緑",
+    "ruby-sapphire": "ルビー・サファイア",
+    "scarlet-violet": "スカーレット・バイオレット",
+    "sun-moon": "サン・ムーン",
+    "sword-shield": "ソード・シールド",
+    "ultra-sun-ultra-moon": "ウルトラサン・ウルトラムーン",
+    "x-y": "X・Y",
+    "yellow": "ピカチュウ (イエロー)"
   }
 }

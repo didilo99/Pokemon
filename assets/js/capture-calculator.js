@@ -82,6 +82,33 @@ document.addEventListener("DOMContentLoaded", () => {
   function setupEventListeners() {
     // Custom Dropdown Search
     searchInput.addEventListener("input", handleSearchInput);
+
+    // Auto-select text on focus so typing replaces existing text immediately, and show suggestions
+    searchInput.addEventListener("focus", () => {
+      searchInput.select();
+      if (searchInput.value.trim()) {
+        handleSearchInput({ target: searchInput });
+      }
+    });
+
+    // Open dropdown on click if there is already a value
+    searchInput.addEventListener("click", () => {
+      if (searchInput.value.trim() && searchResultsDiv.style.display !== "block") {
+        handleSearchInput({ target: searchInput });
+      }
+    });
+
+    // Keyboard navigation in search dropdown
+    searchInput.addEventListener("keydown", handleSearchKeydown);
+
+    // Clear event for type="search" clear button
+    searchInput.addEventListener("search", () => {
+      if (!searchInput.value.trim()) {
+        searchResultsDiv.style.display = "none";
+        searchResultsDiv.innerHTML = "";
+      }
+    });
+
     document.addEventListener("click", (e) => {
       if (!searchInput.contains(e.target) && !searchResultsDiv.contains(e.target)) {
         searchResultsDiv.style.display = "none";
@@ -148,8 +175,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // Calculate Button triggers the full animation
     calculateBtn.addEventListener("click", () => calculateCatchProbability(false));
 
-    // Inline search on sprite box click
-    spriteBox.addEventListener("click", () => showQuickAddInput(spriteBox));
+    // Focus search on sprite box click
+    spriteBox.addEventListener("click", () => {
+      searchInput.focus();
+      searchInput.select();
+      if (searchInput.value.trim()) {
+        handleSearchInput({ target: searchInput });
+      }
+    });
   }
 
   function updateHpVisuals() {
@@ -327,43 +360,115 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // DATA FETCHING
+  let activeDropdownIndex = -1;
+
+  function normalizeSearchText(str) {
+    return (str || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim();
+  }
+
+  // DATA FETCHING
   async function loadPokemonList() {
     try {
-      const res = await window.fetchCached("https://pokeapi.co/api/v2/pokemon?limit=1025");
+      let res = null;
+      if (window.cacheManager) {
+        res = await window.cacheManager.get("https://pokeapi.co/api/v2/pokemon?limit=2000") ||
+              await window.cacheManager.get("https://pokeapi.co/api/v2/pokemon?limit=10000&offset=0") ||
+              await window.cacheManager.get("https://pokeapi.co/api/v2/pokemon?limit=1025");
+      }
+      if (!res && window.fetchCached) {
+        res = await window.fetchCached("https://pokeapi.co/api/v2/pokemon?limit=2000").catch(() => null) ||
+              await window.fetchCached("https://pokeapi.co/api/v2/pokemon?limit=1025").catch(() => null);
+      }
       if (res && res.results) {
         allPokemon = res.results;
+        // If user already typed or focused while loading, update suggestions immediately
+        if (searchInput && searchInput.value.trim()) {
+          handleSearchInput({ target: searchInput });
+        }
       }
     } catch(e) {
-      console.error(e);
+      console.error("Error loading Pokémon list:", e);
     }
   }
 
   function handleSearchInput(e) {
-    const q = e.target.value.toLowerCase().trim();
-    if (!q || allPokemon.length === 0) {
+    const rawVal = e && e.target ? e.target.value : searchInput.value;
+    const q = normalizeSearchText(rawVal);
+    activeDropdownIndex = -1;
+
+    if (!q) {
       searchResultsDiv.style.display = "none";
+      searchResultsDiv.innerHTML = "";
       return;
     }
 
-    const matched = allPokemon.filter(p => p.name.includes(q)).slice(0, 10);
-    
+    if (allPokemon.length === 0) {
+      searchResultsDiv.innerHTML = `
+        <div class="p-3 text-center text-muted small d-flex align-items-center justify-content-center gap-2">
+          <span class="spinner-border spinner-border-sm text-primary" role="status" aria-hidden="true"></span>
+          <span>${window.I18n ? (window.I18n.t("common.loading") || "Cargando...") : "Cargando Pokémon..."}</span>
+        </div>
+      `;
+      searchResultsDiv.style.display = "block";
+      return;
+    }
+
+    const qWords = q.replace(/[\s_-]+/g, " ");
+    const qHyphen = q.replace(/[\s_]+/g, "-");
+
+    const matched = allPokemon.filter(p => {
+      const norm = normalizeSearchText(p.name);
+      const spaced = norm.replace(/-/g, " ");
+      return norm.includes(qHyphen) || spaced.includes(qWords);
+    }).sort((a, b) => {
+      const aNorm = normalizeSearchText(a.name);
+      const bNorm = normalizeSearchText(b.name);
+      const aSpaced = aNorm.replace(/-/g, " ");
+      const bSpaced = bNorm.replace(/-/g, " ");
+
+      const aExact = aNorm === qHyphen || aSpaced === qWords;
+      const bExact = bNorm === qHyphen || bSpaced === qWords;
+      if (aExact && !bExact) return -1;
+      if (!aExact && bExact) return 1;
+
+      const aStarts = aNorm.startsWith(qHyphen) || aSpaced.startsWith(qWords);
+      const bStarts = bNorm.startsWith(qHyphen) || bSpaced.startsWith(qWords);
+      if (aStarts && !bStarts) return -1;
+      if (!aStarts && bStarts) return 1;
+
+      return aNorm.length - bNorm.length;
+    }).slice(0, 15);
+
     searchResultsDiv.innerHTML = "";
     if (matched.length === 0) {
-      searchResultsDiv.style.display = "none";
+      const noRes = document.createElement("div");
+      noRes.className = "p-3 text-center text-muted small";
+      noRes.textContent = window.I18n ? (window.I18n.t("common.no_results") || "No se encontraron resultados") : "No se encontraron resultados";
+      searchResultsDiv.appendChild(noRes);
+      searchResultsDiv.style.display = "block";
       return;
     }
 
     const ul = document.createElement("ul");
     ul.className = "list-unstyled mb-0";
-    matched.forEach(p => {
+    matched.forEach((p, idx) => {
       const li = document.createElement("li");
       const a = document.createElement("a");
       a.className = "dropdown-item rounded pointer text-capitalize";
       a.textContent = p.name.replace(/-/g, " ");
       a.href = "#";
-      a.onclick = (e) => {
-        e.preventDefault();
+      a.dataset.index = idx;
+      a.onclick = (event) => {
+        event.preventDefault();
         selectPokemon(p.name);
+      };
+      a.onmouseenter = () => {
+        activeDropdownIndex = idx;
+        updateActiveDropdownUI();
       };
       li.appendChild(a);
       ul.appendChild(li);
@@ -373,9 +478,44 @@ document.addEventListener("DOMContentLoaded", () => {
     searchResultsDiv.style.display = "block";
   }
 
+  function handleSearchKeydown(e) {
+    if (searchResultsDiv.style.display !== "block") return;
+    const items = searchResultsDiv.querySelectorAll(".dropdown-item");
+    if (!items.length) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      activeDropdownIndex = (activeDropdownIndex + 1) % items.length;
+      updateActiveDropdownUI();
+      items[activeDropdownIndex]?.scrollIntoView({ block: "nearest" });
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      activeDropdownIndex = (activeDropdownIndex - 1 + items.length) % items.length;
+      updateActiveDropdownUI();
+      items[activeDropdownIndex]?.scrollIntoView({ block: "nearest" });
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (activeDropdownIndex >= 0 && items[activeDropdownIndex]) {
+        items[activeDropdownIndex].click();
+      } else if (items[0]) {
+        items[0].click();
+      }
+    } else if (e.key === "Escape") {
+      searchResultsDiv.style.display = "none";
+    }
+  }
+
+  function updateActiveDropdownUI() {
+    const items = searchResultsDiv.querySelectorAll(".dropdown-item");
+    items.forEach((item, idx) => {
+      item.classList.toggle("active", idx === activeDropdownIndex);
+    });
+  }
+
   async function selectPokemon(name) {
     searchInput.value = name.replace(/-/g, " ").replace(/\b\w/g, l => l.toUpperCase());
     searchResultsDiv.style.display = "none";
+    searchResultsDiv.innerHTML = "";
     
     // UI Blocking
     calculateBtn.disabled = true;
