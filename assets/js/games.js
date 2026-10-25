@@ -571,13 +571,9 @@
         box.className = "sprite-box clickable";
         box.title = I18n.t("games.view_details");
         box.innerHTML = `<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png" width="${size}" alt="Sprite" />`;
-        box.onclick = async () => {
-          const mon = await window
-            .fetchCached(`${API}/pokemon/${id}`)
-            .catch(() => null);
-          const pName = mon ? mon.name : "unknown";
+        box.onclick = () => {
           window.open(
-            `${I18n.getBasePath()}index.html#pokemon/${pName}`,
+            `${I18n.getBasePath()}index.html#pokemon/${id}`,
             "_blank",
           );
         };

@@ -1,0 +1,1600 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin />
+    <link rel="preconnect" href="https://pokeapi.co" crossorigin />
+    <link rel="dns-prefetch" href="https://raw.githubusercontent.com" />
+    <link rel="dns-prefetch" href="https://pokeapi.co" />
+
+    <title data-i18n="footer.tutorials">Tutoriales de Herramientas — Pokédex</title>
+
+    <!-- Bootstrap 5 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="../assets/css/styles.css?v=2" />
+    <link rel="stylesheet" href="../assets/css/tutorials.css?v=1" />
+    <link rel="icon" type="image/png" href="../assets/icon/favicon.png" />
+
+    <script src="../assets/js/security.js"></script>
+    <script src="../assets/js/cache.js"></script>
+    <script src="../assets/js/i18n.js"></script>
+    <link rel="stylesheet" href="../assets/css/a11y.css" />
+    <script src="../assets/js/a11y.js" defer></script>
+    <script src="https://unpkg.com/lucide@latest" crossorigin="anonymous"></script>
+    <script src="../assets/js/tutorials.js" defer></script>
+  </head>
+
+  <body>
+    <!-- Cabecera -->
+    <header>
+      <div class="dex-top">
+        <div class="inner container-fluid">
+          <div class="d-flex align-items-center justify-content-between">
+            <a href="../index.html" class="brand">
+              <img src="../assets/icon/logo.png" alt="Logo" class="title-logo" width="60" height="60" />
+              <h1 class="title mb-0" data-i18n="footer.tutorials">Tutoriales de Herramientas</h1>
+            </a>
+            <div class="d-flex align-items-center gap-2">
+              <div class="dropdown d-inline-block">
+                <button
+                  class="btn btn-sm dropdown-toggle dex-select d-flex align-items-center gap-2"
+                  type="button"
+                  id="langDropdown"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <img
+                    id="currentFlag"
+                    src="../assets/img/flags/espana.png"
+                    alt="ES"
+                    width="20"
+                    height="20"
+                  />
+                  <span id="currentLangLabel">ES</span>
+                </button>
+                <ul
+                  class="dropdown-menu dropdown-menu-end dex-dropdown-menu"
+                  aria-labelledby="langDropdown"
+                >
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="es"
+                      ><img
+                        src="../assets/img/flags/espana.png"
+                        width="20"
+                        height="20"
+                      />
+                      Español</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="en"
+                      ><img
+                        src="../assets/img/flags/reino-unido.png"
+                        width="20"
+                        height="20"
+                      />
+                      English</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="fr"
+                      ><img
+                        src="../assets/img/flags/francia.png"
+                        width="20"
+                        height="20"
+                      />
+                      Français</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="de"
+                      ><img
+                        src="../assets/img/flags/alemania.png"
+                        width="20"
+                        height="20"
+                      />
+                      Deutsch</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="it"
+                      ><img
+                        src="../assets/img/flags/italia.png"
+                        width="20"
+                        height="20"
+                      />
+                      Italiano</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="pt"
+                      ><img
+                        src="../assets/img/flags/portugal.png"
+                        width="20"
+                        height="20"
+                      />
+                      Português</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="ja"
+                      ><img
+                        src="../assets/img/flags/japon.png"
+                        width="20"
+                        height="20"
+                      />
+                      日本語</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="zh-tw"
+                      ><img
+                        src="../assets/img/flags/china.png"
+                        width="20"
+                        height="20"
+                      />
+                      中文</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="inner container-fluid">
+          <nav class="dex-nav">
+            <!-- Mundo Pokémon -->
+            <li class="nav-item dropdown d-inline-block">
+              <a class="nav-link dropdown-toggle" href="#" id="mundoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-i18n="footer.nav_world">
+                Mundo Pokémon
+              </a>
+              <ul class="dropdown-menu dex-dropdown-menu" aria-labelledby="mundoDropdown">
+                <li><a class="dropdown-item" href="../index.html" data-i18n="nav.pokemon">Pokémon</a></li>
+                <li><a class="dropdown-item" href="regions.html" data-i18n="nav.regions">Regiones</a></li>
+                <li><a class="dropdown-item" href="generations.html" data-i18n="nav.generations">Generaciones</a></li>
+                <li><a class="dropdown-item" href="locations.html" data-i18n="nav.locations">Localizaciones</a></li>
+                <li><a class="dropdown-item" href="breeding.html" data-i18n="nav.breeding">Crianza</a></li>
+                <li><a class="dropdown-item" href="habitats.html" data-i18n="nav.habitats">Hábitats</a></li>
+                <li><a class="dropdown-item" href="shapes.html" data-i18n="nav.shapes">Formas</a></li>
+                <li><a class="dropdown-item" href="capture-calculator.html" data-i18n="nav.capture_calc">Calculadora de Captura</a></li>
+              </ul>
+            </li>
+
+            <!-- Combate -->
+            <li class="nav-item dropdown d-inline-block">
+              <a class="nav-link dropdown-toggle" href="#" id="combateDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-i18n="footer.nav_combat">
+                Combate
+              </a>
+              <ul class="dropdown-menu dex-dropdown-menu" aria-labelledby="combateDropdown">
+                <li><a class="dropdown-item" href="moves.html" data-i18n="nav.moves">Movimientos</a></li>
+                <li><a class="dropdown-item" href="abilities.html" data-i18n="nav.abilities">Habilidades</a></li>
+                <li><a class="dropdown-item" href="types.html" data-i18n="nav.types">Tabla de Tipos</a></li>
+                <li><a class="dropdown-item" href="natures.html" data-i18n="nav.natures">Naturalezas</a></li>
+                <li><a class="dropdown-item" href="machines.html" data-i18n="nav.machines">Máquinas</a></li>
+                <li><a class="dropdown-item" href="contests.html" data-i18n="nav.contests">Concursos</a></li>
+              </ul>
+            </li>
+
+            <!-- Colección -->
+            <li class="nav-item dropdown d-inline-block">
+              <a class="nav-link dropdown-toggle" href="#" id="coleccionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-i18n="footer.nav_collection">
+                Colección
+              </a>
+              <ul class="dropdown-menu dex-dropdown-menu" aria-labelledby="coleccionDropdown">
+                <li><a class="dropdown-item" href="items.html" data-i18n="nav.items">Objetos</a></li>
+                <li><a class="dropdown-item" href="berries.html" data-i18n="nav.berries">Bayas</a></li>
+                <li><a class="dropdown-item" href="games.html" data-i18n="nav.games">Juegos</a></li>
+                <li><a class="dropdown-item" href="cards.html" data-i18n="nav.cards">Cartas TCG</a></li>
+                <li><a class="dropdown-item" href="tcg-sets.html" data-i18n="nav.tcg_sets">Sets TCG</a></li>
+                <li><a class="dropdown-item" href="my-album.html" data-i18n="nav.my_album">Mi Álbum</a></li>
+              </ul>
+            </li>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main class="tutorials-page-wrapper">
+      <!-- HERO BANNER -->
+      <section class="tutorials-hero">
+        <div class="tutorials-badge-pill">
+          <i data-lucide="book-open"></i>
+          <span>Guía Maestra para Entrenadores</span>
+        </div>
+        <h1 class="tutorials-title">Cómo Usar las Herramientas de la Pokédex</h1>
+        <p class="tutorials-subtitle">
+          Explicaciones detalladas paso a paso, sin tecnicismos confusos y diseñadas para que cualquier persona, aunque sea su primera vez jugando a Pokémon, aprenda a dominar cada función matemática, táctica y de colección de la web.
+        </p>
+
+        <!-- BUSCADOR EN TIEMPO REAL -->
+        <div class="tutorials-search-container">
+          <div class="tutorials-search-input-wrapper">
+            <i data-lucide="search"></i>
+            <input
+              type="text"
+              id="tutorialsSearchInput"
+              class="tutorials-search-input"
+              placeholder="Buscar herramienta o tema... (ej. captura, tipos, crianza, TCG, naturalezas, caché)"
+              aria-label="Buscar tutorial"
+            />
+            <button id="tutorialsSearchClear" class="tutorials-search-clear" type="button" aria-label="Limpiar búsqueda">
+              <i data-lucide="x"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- BARRA DE CATEGORÍAS -->
+      <div class="tutorials-nav-bar" role="tablist">
+        <button class="nav-category-btn active" data-category="all" type="button">
+          <i data-lucide="layers"></i>
+          <span>Todas las Herramientas</span>
+        </button>
+        <button class="nav-category-btn" data-category="combat" type="button">
+          <i data-lucide="swords"></i>
+          <span>Captura y Combate</span>
+        </button>
+        <button class="nav-category-btn" data-category="breeding" type="button">
+          <i data-lucide="dna"></i>
+          <span>Estrategia y Crianza</span>
+        </button>
+        <button class="nav-category-btn" data-category="collection" type="button">
+          <i data-lucide="sparkles"></i>
+          <span>Colección TCG y Mundo</span>
+        </button>
+        <button class="nav-category-btn" data-category="system" type="button">
+          <i data-lucide="cpu"></i>
+          <span>Sistema y Accesibilidad</span>
+        </button>
+      </div>
+
+      <!-- ÍNDICE DE SALTO RÁPIDO -->
+      <section class="quick-jump-panel">
+        <div class="quick-jump-header">
+          <h2 class="quick-jump-title">
+            <i data-lucide="compass"></i>
+            <span>Índice de Herramientas Disponibles</span>
+          </h2>
+          <span class="text-muted small">Pulsa en cualquiera para ir directamente a su explicación</span>
+        </div>
+        <div class="quick-jump-grid">
+          <a href="#tutorial-capture" class="quick-jump-link">
+            <span class="q-icon">🎯</span>
+            <span>Calculadora de Captura</span>
+          </a>
+          <a href="#tutorial-types" class="quick-jump-link">
+            <span class="q-icon">🛡️</span>
+            <span>Tabla Interactiva de Tipos</span>
+          </a>
+          <a href="#tutorial-moves" class="quick-jump-link">
+            <span class="q-icon">💥</span>
+            <span>Buscador de Movimientos</span>
+          </a>
+          <a href="#tutorial-breeding" class="quick-jump-link">
+            <span class="q-icon">🥚</span>
+            <span>Centro de Crianza Pokémon</span>
+          </a>
+          <a href="#tutorial-natures" class="quick-jump-link">
+            <span class="q-icon">🧠</span>
+            <span>Matriz de Naturalezas</span>
+          </a>
+          <a href="#tutorial-cards" class="quick-jump-link">
+            <span class="q-icon">🎴</span>
+            <span>Cartas TCG & Mi Álbum</span>
+          </a>
+          <a href="#tutorial-contests" class="quick-jump-link">
+            <span class="q-icon">🎪</span>
+            <span>Simulador de Concursos</span>
+          </a>
+          <a href="#tutorial-locations" class="quick-jump-link">
+            <span class="q-icon">🗺️</span>
+            <span>Rastreador de Encuentros</span>
+          </a>
+          <a href="#tutorial-cache" class="quick-jump-link">
+            <span class="q-icon">⚡</span>
+            <span>Gestor de Caché Offline</span>
+          </a>
+          <a href="#tutorial-a11y" class="quick-jump-link">
+            <span class="q-icon">👁️</span>
+            <span>Panel de Accesibilidad (A11y)</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- MENSAJE DE BÚSQUEDA SIN RESULTADOS -->
+      <div id="tutorialsNoResults" class="text-center py-5" style="display: none;">
+        <div class="mb-3 text-warning fs-1"><i data-lucide="alert-circle"></i></div>
+        <h3>No se encontraron herramientas con ese criterio</h3>
+        <p class="text-muted">Prueba con palabras más genéricas como "captura", "daño", "huevo", "cartas" o "velocidad".</p>
+        <button id="resetTutorialsSearchBtn" class="btn btn-outline-primary mt-2">Restablecer Búsqueda</button>
+      </div>
+
+      <!-- LISTA DE TUTORIALES DE HERRAMIENTAS -->
+      <div class="tutorials-list">
+
+        <!-- =========================================================================
+             1. CALCULADORA DE CAPTURA
+             ========================================================================= -->
+        <article class="tutorial-card" id="tutorial-capture" data-category="combat" data-keywords="captura catch rate pokeball ultra ball super ball veloz ball ocaso ball sueño congelacion paralis hp vida legendarios probabilidades sacudidas">
+          <header class="tutorial-card-header">
+            <div class="tool-header-info">
+              <div class="tool-meta-tags">
+                <span class="tool-category-tag">Combate & Captura</span>
+                <span class="difficulty-badge diff-easy">
+                  <i data-lucide="gauge"></i> Fácil para principiantes
+                </span>
+              </div>
+              <h2 class="tool-title">
+                <span class="tool-main-icon">🎯</span>
+                <span>Calculadora de Captura (Catch Rate Calculator)</span>
+              </h2>
+              <p class="tool-short-desc">
+                Calcula con precisión matemática cuántas posibilidades reales tienes de atrapar a un Pokémon salvaje antes de gastar Pokéballs o arriesgarte a que se debilite.
+              </p>
+            </div>
+            <a href="capture-calculator.html" class="open-tool-btn">
+              <span>Abrir Herramienta</span>
+              <i data-lucide="external-link"></i>
+            </a>
+          </header>
+
+          <div class="tutorial-card-body">
+            <div class="concept-explanation-box">
+              <h3 class="concept-title">
+                <i data-lucide="help-circle"></i>
+                <span>¿Para qué sirve si nunca has jugado a Pokémon?</span>
+              </h3>
+              <p class="concept-text">
+                En los juegos de Pokémon, atrapar a un monstruo no es solo cuestión de suerte: el juego aplica una fórmula secreta. Cada especie tiene una "resistencia interna" llamada <strong>Ratio de Captura (Catch Rate)</strong> (de 3 a 255). Por ejemplo, un legendario como Mewtwo tiene ratio 3 (casi imposible con una Poké Ball normal), mientras que un Pidgey tiene 255. Esta calculadora te dice exactamente qué hacer para que esa probabilidad pase del 1% a más del 90%.
+              </p>
+            </div>
+
+            <h3 class="steps-headline">
+              <i data-lucide="list-ordered"></i>
+              <span>Guía Paso a Paso para Usar la Calculadora</span>
+            </h3>
+
+            <div class="steps-grid">
+              <div class="step-card">
+                <span class="step-badge-number">1</span>
+                <div class="step-card-icon"><i data-lucide="search"></i></div>
+                <h4 class="step-card-title">Elegir el Pokémon</h4>
+                <p class="step-card-desc">
+                  Escribe el nombre del Pokémon salvaje que estás combatiendo (o su número de Pokédex). La herramienta cargará automáticamente su ratio base de captura y estadísticas.
+                </p>
+                <div class="step-card-note">Ejemplo: Escribe "Articuno" o "Snorlax"</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">2</span>
+                <div class="step-card-icon"><i data-lucide="activity"></i></div>
+                <h4 class="step-card-title">Ajustar la Salud (PS / HP)</h4>
+                <p class="step-card-desc">
+                  Mueve la barra deslizante para indicar cuánta vida le queda al enemigo. Cuanta menos salud tenga (barra en rojo, 1% a 10%), más fácil será que la Pokéball se cierre.
+                </p>
+                <div class="step-card-note">Regla: Nunca intentes capturar con vida completa</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">3</span>
+                <div class="step-card-icon"><i data-lucide="zap-off"></i></div>
+                <h4 class="step-card-title">Seleccionar Estado Alterado</h4>
+                <p class="step-card-desc">
+                  Indica si el Pokémon está Dormido, Congelado, Paralizado, Envenenado o Quemado. <strong>Dormir o congelar al enemigo multiplica tus probabilidades por x2.5</strong>.
+                </p>
+                <div class="step-card-note">Sueño/Congelación = x2.5 | Parálisis = x1.5</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">4</span>
+                <div class="step-card-icon"><i data-lucide="disc"></i></div>
+                <h4 class="step-card-title">Elegir la Pokéball</h4>
+                <p class="step-card-desc">
+                  Elige la bola que tienes en tu mochila. Si es de noche o estás en una cueva, la <strong>Ocaso Ball (Dusk Ball)</strong> triplica el éxito. Si es el primer turno, la <strong>Veloz Ball (Quick Ball)</strong> te da un x5 demoledor.
+                </p>
+                <div class="step-card-note">Lee la predicción final en el panel inferior</div>
+              </div>
+            </div>
+
+            <!-- DEMOSTRADOR EN VIVO -->
+            <div class="visual-demo-box" id="miniCatchDemo">
+              <div class="visual-demo-header">
+                <div class="visual-demo-title">
+                  <i data-lucide="play-circle"></i>
+                  <span>Simulador Rápido: Probabilidad de Atrapar a Mewtwo</span>
+                </div>
+                <span class="demo-chip">Prueba en Vivo</span>
+              </div>
+              <p class="text-muted small mb-3">Haz clic en los botones para ver cómo la Pokéball y el estado multiplican tus opciones en tiempo real:</p>
+
+              <div class="mini-try-it">
+                <div class="row g-2 mb-3">
+                  <div class="col-md-4">
+                    <span class="small text-muted d-block mb-1">1. Poké Ball:</span>
+                    <div class="d-flex flex-wrap gap-1">
+                      <button class="mini-pill-btn demo-ball-btn active" data-mult="1.0" type="button">Poké Ball (x1)</button>
+                      <button class="mini-pill-btn demo-ball-btn" data-mult="2.0" type="button">Ultra Ball (x2)</button>
+                      <button class="mini-pill-btn demo-ball-btn" data-mult="3.0" type="button">Ocaso Ball (x3)</button>
+                      <button class="mini-pill-btn demo-ball-btn" data-mult="255" type="button">Master (100%)</button>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <span class="small text-muted d-block mb-1">2. Salud restante:</span>
+                    <div class="d-flex flex-wrap gap-1">
+                      <button class="mini-pill-btn demo-hp-btn" data-hp="1.0" type="button">Vida Llena (100%)</button>
+                      <button class="mini-pill-btn demo-hp-btn" data-hp="0.5" type="button">Media (50%)</button>
+                      <button class="mini-pill-btn demo-hp-btn active" data-hp="0.05" type="button">Barra Roja (5%)</button>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <span class="small text-muted d-block mb-1">3. Estado del Pokémon:</span>
+                    <div class="d-flex flex-wrap gap-1">
+                      <button class="mini-pill-btn demo-status-btn" data-status="1.0" type="button">Ninguno (x1)</button>
+                      <button class="mini-pill-btn demo-status-btn" data-status="1.5" type="button">Parálisis (x1.5)</button>
+                      <button class="mini-pill-btn demo-status-btn active" data-status="2.5" type="button">Dormido (x2.5)</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="sim-formula-grid">
+                  <div class="sim-formula-item">
+                    <div class="sim-formula-label">Probabilidad por Tiro</div>
+                    <div class="sim-formula-val text-success" id="demoCatchProb">38%</div>
+                  </div>
+                  <div class="sim-formula-item">
+                    <div class="sim-formula-label">Pronóstico de Sacudidas</div>
+                    <div class="sim-formula-val" id="demoCatchShakes">3 Sacudidas (Casi seguro)</div>
+                  </div>
+                </div>
+                <div class="text-info small mt-2" id="demoCatchAdvice">
+                  ⭐ ¡Configuración óptima! En pocos lanzamientos será tuyo.
+                </div>
+              </div>
+            </div>
+
+            <!-- CONSEJOS Y ADVERTENCIAS -->
+            <div class="callouts-container">
+              <div class="callout-box callout-pro-tip">
+                <i data-lucide="check-circle-2"></i>
+                <div>
+                  <h4 class="callout-title">Consejo de Entrenador Pro: Movimiento Falsotortazo (False Swipe)</h4>
+                  <p class="callout-desc">
+                    Lleva siempre en tu equipo un Pokémon con el ataque <em>Falsotortazo</em>. Este ataque garantiza dejar al rival con exactamente 1 punto de vida sin debilitarlo jamás. Combínalo con <em>Espora</em> o <em>Hipnosis</em> para maximizar las capturas.
+                  </p>
+                </div>
+              </div>
+              <div class="callout-box callout-warning">
+                <i data-lucide="alert-triangle"></i>
+                <div>
+                  <h4 class="callout-title">Peligro Frecuente: ¡Cuidado con Veneno y Quemadura!</h4>
+                  <p class="callout-desc">
+                    Aunque el veneno y la quemadura aumentan la probabilidad un x1.5, causan daño al final de cada turno. Si el combate se alarga, el Pokémon se debilitará solo y lo perderás para siempre. Usa siempre <strong>Sueño o Parálisis</strong>.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- =========================================================================
+             2. TABLA INTERACTIVA DE TIPOS
+             ========================================================================= -->
+        <article class="tutorial-card" id="tutorial-types" data-category="combat" data-keywords="tipos debilidades resistencias inmunidades tabla de tipos efectividad stab 4x 2x 0.5x 0x agua fuego planta acero hada dragon">
+          <header class="tutorial-card-header">
+            <div class="tool-header-info">
+              <div class="tool-meta-tags">
+                <span class="tool-category-tag">Estrategia de Combate</span>
+                <span class="difficulty-badge diff-easy">
+                  <i data-lucide="gauge"></i> Fundamental
+                </span>
+              </div>
+              <h2 class="tool-title">
+                <span class="tool-main-icon">🛡️</span>
+                <span>Tabla Interactiva de Tipos & Calculadora de Debilidades</span>
+              </h2>
+              <p class="tool-short-desc">
+                Descubre instantáneamente a qué es vulnerable cualquier Pokémon (incluyendo combinaciones de doble tipo complejas) y qué ataques debes usar para infligir el máximo daño.
+              </p>
+            </div>
+            <a href="types.html" class="open-tool-btn">
+              <span>Abrir Herramienta</span>
+              <i data-lucide="external-link"></i>
+            </a>
+          </header>
+
+          <div class="tutorial-card-body">
+            <div class="concept-explanation-box">
+              <h3 class="concept-title">
+                <i data-lucide="shield"></i>
+                <span>¿Cómo funciona el sistema de tipos elementales?</span>
+              </h3>
+              <p class="concept-text">
+                En Pokémon existen 18 tipos elementales (Fuego, Agua, Planta, Dragón, Hada, etc.). Cuando atacas a un rival, el daño se multiplica según la relación entre tu tipo de ataque y los tipos del defensor. Cuando un Pokémon tiene <strong>dos tipos a la vez</strong> (por ejemplo, Swampert es Agua y Tierra), las debilidades y resistencias se multiplican entre sí, pudiendo generar daños catastróficos de <strong>4x</strong> o inmunidades completas de <strong>0x</strong>.
+              </p>
+            </div>
+
+            <h3 class="steps-headline">
+              <i data-lucide="list-ordered"></i>
+              <span>Pasos para Analizar a tu Rival o a tu Propio Equipo</span>
+            </h3>
+
+            <div class="steps-grid">
+              <div class="step-card">
+                <span class="step-badge-number">1</span>
+                <div class="step-card-icon"><i data-lucide="history"></i></div>
+                <h4 class="step-card-title">Elegir la Generación</h4>
+                <p class="step-card-desc">
+                  Las reglas cambiaron a lo largo de los años. En la 1ª Generación no existían Acero ni Siniestro; y el tipo <strong>Hada</strong> se inventó en la 6ª Generación para frenar a los dragones.
+                </p>
+                <div class="step-card-note">Por defecto viene en Gen 9 (reglas modernas)</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">2</span>
+                <div class="step-card-icon"><i data-lucide="shield-alert"></i></div>
+                <h4 class="step-card-title">Modo Defensivo (Dual Type)</h4>
+                <p class="step-card-desc">
+                  Pulsa en el primer tipo del Pokémon y luego en su segundo tipo. La matriz calculará automáticamente qué ataques le hacen 4x, 2x, 1x, 0.5x, 0.25x o 0x.
+                </p>
+                <div class="step-card-note">Ejemplo: Selecciona "Agua" + "Tierra"</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">3</span>
+                <div class="step-card-icon"><i data-lucide="sword"></i></div>
+                <h4 class="step-card-title">Modo Ofensivo</h4>
+                <p class="step-card-desc">
+                  Si quieres saber a cuántos tipos vence tu ataque, pulsa en la fila de tu tipo de movimiento para ver a qué enemigos infligirá daño súper eficaz.
+                </p>
+                <div class="step-card-note">Busca coberturas ofensivas variadas</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">4</span>
+                <div class="step-card-icon"><i data-lucide="sparkles"></i></div>
+                <h4 class="step-card-title">Aprovechar el Bonus STAB</h4>
+                <p class="step-card-desc">
+                  Si un Pokémon de tipo Fuego (como Charizard) usa un ataque de tipo Fuego (como Lanzallamas), recibe un <strong>+50% de daño gratis (STAB)</strong>.
+                </p>
+                <div class="step-card-note">Potencia 90 pasa automáticamente a 135</div>
+              </div>
+            </div>
+
+            <!-- MINI DEMO DE COMBINACIONES DUALES -->
+            <div class="visual-demo-box" id="miniTypeDemo">
+              <div class="visual-demo-header">
+                <div class="visual-demo-title">
+                  <i data-lucide="layers"></i>
+                  <span>Comprobador Rápido de Combinaciones de Doble Tipo</span>
+                </div>
+                <span class="demo-chip">Ejemplos Clásicos</span>
+              </div>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <button class="mini-pill-btn demo-type-combo-btn active" data-combo="water-ground" type="button">Agua / Tierra (Swampert)</button>
+                <button class="mini-pill-btn demo-type-combo-btn" data-combo="steel-fairy" type="button">Acero / Hada (Tinkaton)</button>
+                <button class="mini-pill-btn demo-type-combo-btn" data-combo="ghost-dark" type="button">Fantasma / Siniestro (Sableye)</button>
+                <button class="mini-pill-btn demo-type-combo-btn" data-combo="flying-dragon" type="button">Volador / Dragón (Rayquaza)</button>
+              </div>
+              <div class="mini-try-it">
+                <div class="fs-6 mb-2" id="demoTypeResult">
+                  <strong>Planta x4 (Daño Cuádruple Devastador)</strong> • <span style="color:#38bdf8">Inmune a Eléctrico (x0)</span>
+                </div>
+                <p class="small text-muted mb-0" id="demoTypeDesc">
+                  Swampert o Gastrodon: El Agua cancela la debilidad a Eléctrico de Tierra, y Tierra cancela la de Eléctrico de Agua, ¡pero ambos son débiles a Planta, resultando en un colosal 4x!
+                </p>
+              </div>
+            </div>
+
+            <div class="callouts-container">
+              <div class="callout-box callout-pro-tip">
+                <i data-lucide="check-circle-2"></i>
+                <div>
+                  <h4 class="callout-title">Regla de Oro: Cobertura de Movimientos</h4>
+                  <p class="callout-desc">
+                    Nunca le enseñes a un Pokémon 4 ataques del mismo tipo elemental. Un buen Pokémon debe tener al menos 2 o 3 tipos de ataque distintos para sorprender a los rivales que intenten resistir su ataque principal.
+                  </p>
+                </div>
+              </div>
+              <div class="callout-box callout-warning">
+                <i data-lucide="alert-triangle"></i>
+                <div>
+                  <h4 class="callout-title">Atención con Habilidades Inmunizantes</h4>
+                  <p class="callout-desc">
+                    Algunas habilidades cambian la tabla: un Pokémon con <em>Levitación</em> no recibe ataques de Tierra aunque sea Eléctrico puro; y un Pokémon con <em>Absorbe Agua</em> se cura en vez de recibir daño de tipo Agua.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- =========================================================================
+             3. BUSCADOR Y FILTRO DE MOVIMIENTOS
+             ========================================================================= -->
+        <article class="tutorial-card" id="tutorial-moves" data-category="combat" data-keywords="movimientos ataques moves fisico especial estado potencia precision pp prioridad mt mo machines">
+          <header class="tutorial-card-header">
+            <div class="tool-header-info">
+              <div class="tool-meta-tags">
+                <span class="tool-category-tag">Combate & Movimientos</span>
+                <span class="difficulty-badge diff-easy">
+                  <i data-lucide="gauge"></i> Fácil
+                </span>
+              </div>
+              <h2 class="tool-title">
+                <span class="tool-main-icon">💥</span>
+                <span>Buscador y Comparador Avanzado de Movimientos</span>
+              </h2>
+              <p class="tool-short-desc">
+                Explora los casi 900 ataques del juego filtrando por potencia, precisión, categoría de daño (físico/especial/estado), prioridad y máquinas MT/MO disponibles.
+              </p>
+            </div>
+            <a href="moves.html" class="open-tool-btn">
+              <span>Abrir Herramienta</span>
+              <i data-lucide="external-link"></i>
+            </a>
+          </header>
+
+          <div class="tutorial-card-body">
+            <div class="concept-explanation-box">
+              <h3 class="concept-title">
+                <i data-lucide="info"></i>
+                <span>Las 3 Categorías de Movimientos que debes entender</span>
+              </h3>
+              <p class="concept-text">
+                En Pokémon, los ataques no funcionan todos igual. Se dividen en tres grandes familias:
+                <br />• 💥 <strong>Físico (Physical):</strong> Golpes directos como Terremoto o Puño Fuego. Usan la estadística de <em>Ataque</em> del atacante y chocan contra la <em>Defensa</em> del rival.
+                <br />• 🔮 <strong>Especial (Special):</strong> Rayos y proyectiles como Rayo o Psíquico. Usan el <em>Ataque Especial</em> y chocan contra la <em>Defensa Especial</em>.
+                <br />• 🌀 <strong>Estado (Status):</strong> No quitan vida directamente, pero suben estadísticas (Danza Espada), curan salud o causan estados negativos (Onda Trueno, Tóxico, Espora).
+              </p>
+            </div>
+
+            <h3 class="steps-headline">
+              <i data-lucide="list-ordered"></i>
+              <span>Cómo Elegir los 4 Ataques Perfectos en la Herramienta</span>
+            </h3>
+
+            <div class="steps-grid">
+              <div class="step-card">
+                <span class="step-badge-number">1</span>
+                <div class="step-card-icon"><i data-lucide="filter"></i></div>
+                <h4 class="step-card-title">Filtrar por Categoría</h4>
+                <p class="step-card-desc">
+                  Mira las estadísticas de tu Pokémon. Si tiene 130 de Ataque físico y solo 50 de Ataque especial (como Machamp), filtra exclusivamente movimientos de categoría <strong>Física</strong>.
+                </p>
+                <div class="step-card-note">Nunca pongas ataques especiales en atacantes físicos</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">2</span>
+                <div class="step-card-icon"><i data-lucide="crosshair"></i></div>
+                <h4 class="step-card-title">Balancear Potencia vs Precisión</h4>
+                <p class="step-card-desc">
+                  Un ataque de 120 de potencia pero 70% de precisión (como Ventisca o Onda Certera) puede fallar en el momento más crítico. Un ataque de 90 de potencia con 100% de precisión (Rayo Hielo) suele ser mucho más consistente.
+                </p>
+                <div class="step-card-note">100% de precisión = victoria asegurada</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">3</span>
+                <div class="step-card-icon"><i data-lucide="fast-forward"></i></div>
+                <h4 class="step-card-title">Comprobar Prioridad</h4>
+                <p class="step-card-desc">
+                  Los ataques con prioridad positiva (como <em>Ataque Rápido</em>, <em>Ultrapuño</em> o <em>Golpe Bajo</em>) golpean <strong>antes que el rival</strong>, sin importar lo rápido que sea.
+                </p>
+                <div class="step-card-note">Ideal para rematar rivales con poca vida</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">4</span>
+                <div class="step-card-icon"><i data-lucide="disc-3"></i></div>
+                <h4 class="step-card-title">Consultar Máquinas MT/MO</h4>
+                <p class="step-card-desc">
+                  Comprueba en la sección de Máquinas (TMs) qué disco u objeto necesitas encontrar en tu partida para enseñárselo sin tener que esperar a que suba de nivel.
+                </p>
+                <div class="step-card-note">Pestaña "Máquinas" en el menú superior</div>
+              </div>
+            </div>
+
+            <div class="callouts-container">
+              <div class="callout-box callout-pro-tip">
+                <i data-lucide="check-circle-2"></i>
+                <div>
+                  <h4 class="callout-title">El Cuarteto Equilibrado</h4>
+                  <p class="callout-desc">
+                    Una estructura estándar ganadora para el 90% de Pokémon consiste en: <strong>1 Ataque con STAB principal + 2 Ataques de cobertura de otros tipos + 1 Movimiento de apoyo o aumento de estadísticas (como Danza Dragón o Paz Mental)</strong>.
+                  </p>
+                </div>
+              </div>
+              <div class="callout-box callout-warning">
+                <i data-lucide="alert-triangle"></i>
+                <div>
+                  <h4 class="callout-title">Puntos de Poder (PP) Bajos</h4>
+                  <p class="callout-desc">
+                    Ataques demoledores como Llamarada o Sofoco tienen solo 5 PP. Si estás recorriendo una ruta larga o jugando la Liga Pokémon sin objetos curativos, te quedarás sin usos enseguida.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- =========================================================================
+             4. CENTRO DE CRIANZA Y GENÉTICA
+             ========================================================================= -->
+        <article class="tutorial-card" id="tutorial-breeding" data-category="breeding" data-keywords="crianza huevos egg groups grupos huevo ditto lazo destino piedra eterna ivs movimientos huevo naturalezas herencia">
+          <header class="tutorial-card-header">
+            <div class="tool-header-info">
+              <div class="tool-meta-tags">
+                <span class="tool-category-tag">Crianza & Genética</span>
+                <span class="difficulty-badge diff-medium">
+                  <i data-lucide="gauge"></i> Nivel Intermedio
+                </span>
+              </div>
+              <h2 class="tool-title">
+                <span class="tool-main-icon">🥚</span>
+                <span>Calculador de Crianza, Compatibilidad y Grupos Huevo</span>
+              </h2>
+              <p class="tool-short-desc">
+                Aprende qué Pokémon pueden poner huevos juntos, cómo transmitir estadísticas perfectas (IVs), garantizar naturalezas ideales y heredar ataques exclusivos.
+              </p>
+            </div>
+            <a href="breeding.html" class="open-tool-btn">
+              <span>Abrir Herramienta</span>
+              <i data-lucide="external-link"></i>
+            </a>
+          </header>
+
+          <div class="tutorial-card-body">
+            <div class="concept-explanation-box">
+              <h3 class="concept-title">
+                <i data-lucide="dna"></i>
+                <span>¿Por qué criar Pokémon en lugar de capturarlos?</span>
+              </h3>
+              <p class="concept-text">
+                Los Pokémon salvajes tienen estadísticas aleatorias. A través de la crianza en la Guardería o Pícnic puedes heredar las mejores estadísticas de los padres, asegurar que nazca con la naturaleza idónea y aprender <strong>Movimientos Huevo</strong> que no se pueden aprender por ningún otro método en el juego.
+              </p>
+            </div>
+
+            <h3 class="steps-headline">
+              <i data-lucide="list-ordered"></i>
+              <span>Las 4 Reglas Sagradas de la Crianza Pokémon</span>
+            </h3>
+
+            <div class="steps-grid">
+              <div class="step-card">
+                <span class="step-badge-number">1</span>
+                <div class="step-card-icon"><i data-lucide="users"></i></div>
+                <h4 class="step-card-title">Grupos Huevo Compatibles</h4>
+                <p class="step-card-desc">
+                  Para que dos Pokémon pongan un huevo, deben pertenecer al <strong>mismo Grupo Huevo</strong> y ser de sexos opuestos (Macho ♂ y Hembra ♀). Nuestra herramienta te dice los grupos de cada uno.
+                </p>
+                <div class="step-card-note">Ej: Charizard y Gyarados comparten el grupo "Dragón"</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">2</span>
+                <div class="step-card-icon"><i data-lucide="sparkle"></i></div>
+                <h4 class="step-card-title">El Comodín Supremo: Ditto</h4>
+                <p class="step-card-desc">
+                  <strong>Ditto puede criar con cualquier Pokémon con género o sin género</strong> (como Metagross o Rotom). Solo los legendarios, míticos y bebés (Pichu, Togepi) no pueden criar con nadie.
+                </p>
+                <div class="step-card-note">Consigue un Ditto con buenos IVs</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">3</span>
+                <div class="step-card-icon"><i data-lucide="feather"></i></div>
+                <h4 class="step-card-title">Heredar Naturaleza con Piedra Eterna</h4>
+                <p class="step-card-desc">
+                  Si equipas una <strong>Piedra Eterna (Everstone)</strong> en el padre o madre que tenga la naturaleza que deseas (por ejemplo, Firme), ¡la cría nacerá con esa misma naturaleza el <strong>100% de las veces</strong>!
+                </p>
+                <div class="step-card-note">Objeto indispensable para criar</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">4</span>
+                <div class="step-card-icon"><i data-lucide="link-2"></i></div>
+                <h4 class="step-card-title">Heredar IVs con Lazo Destino</h4>
+                <p class="step-card-desc">
+                  Normalmente un huevo solo hereda 3 estadísticas al azar. Si uno de los padres lleva equipado el <strong>Lazo Destino (Destiny Knot)</strong>, hereda <strong>5 de las 6 estadísticas</strong> de los padres.
+                </p>
+                <div class="step-card-note">La clave para tener Pokémon de 5 y 6 IVs perfectos</div>
+              </div>
+            </div>
+
+            <div class="callouts-container">
+              <div class="callout-box callout-pro-tip">
+                <i data-lucide="check-circle-2"></i>
+                <div>
+                  <h4 class="callout-title">¿Qué especie sale del huevo?</h4>
+                  <p class="callout-desc">
+                    El huevo siempre eclosiona en la especie de la <strong>Madre</strong> (forma evolutiva básica). Si crías a un Charizard hembra con un Blastoise macho, saldrá un Charmander con movimientos del padre.
+                  </p>
+                </div>
+              </div>
+              <div class="callout-box callout-warning">
+                <i data-lucide="alert-triangle"></i>
+                <div>
+                  <h4 class="callout-title">¡Los Pokémon Bebé no ponen huevos!</h4>
+                  <p class="callout-desc">
+                    Pokémon como Pichu, Riolu, Togepi, Elekid o Magby pertenecen al grupo <em>"No pueden criar"</em>. Tienes que evolucionarlos a Pikachu, Lucario o Togetic antes de poder ponerlos en la Guardería.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- =========================================================================
+             5. MATRIZ Y SELECTOR DE NATURALEZAS
+             ========================================================================= -->
+        <article class="tutorial-card" id="tutorial-natures" data-category="breeding" data-keywords="naturalezas natures estadisticas stats +10% -10% firme modesta alegre miedosa osada agitada bayas sabores">
+          <header class="tutorial-card-header">
+            <div class="tool-header-info">
+              <div class="tool-meta-tags">
+                <span class="tool-category-tag">Estrategia & Estadísticas</span>
+                <span class="difficulty-badge diff-easy">
+                  <i data-lucide="gauge"></i> Muy Fácil
+                </span>
+              </div>
+              <h2 class="tool-title">
+                <span class="tool-main-icon">🧠</span>
+                <span>Matriz y Selector de Naturalezas (Natures Matrix)</span>
+              </h2>
+              <p class="tool-short-desc">
+                Comprende el impacto del +10% y -10% en las estadísticas de combate y descubre qué naturaleza es la ideal para potenciar el rol competitivo de tu criatura.
+              </p>
+            </div>
+            <a href="natures.html" class="open-tool-btn">
+              <span>Abrir Herramienta</span>
+              <i data-lucide="external-link"></i>
+            </a>
+          </header>
+
+          <div class="tutorial-card-body">
+            <div class="concept-explanation-box">
+              <h3 class="concept-title">
+                <i data-lucide="bar-chart-2"></i>
+                <span>¿Qué le hace la naturaleza a un Pokémon?</span>
+              </h3>
+              <p class="concept-text">
+                Cada Pokémon nace con una de las <strong>25 naturalezas posibles</strong>. La naturaleza no es solo decorativa: <strong>aumenta una estadística clave un +10%</strong> (aparece resaltada en rojo/verde según el juego) y <strong>reduce otra estadística un -10%</strong> (en azul). Los Puntos de Salud (HP/PS) nunca cambian por naturaleza.
+              </p>
+            </div>
+
+            <h3 class="steps-headline">
+              <i data-lucide="list-ordered"></i>
+              <span>Cómo Elegir la Naturaleza Perfecta en 3 Pasos</span>
+            </h3>
+
+            <div class="steps-grid">
+              <div class="step-card">
+                <span class="step-badge-number">1</span>
+                <div class="step-card-icon"><i data-lucide="crosshair"></i></div>
+                <h4 class="step-card-title">Identificar el Punto Fuerte</h4>
+                <p class="step-card-desc">
+                  ¿Tu Pokémon es atacante físico (como Garchomp), atacante especial (como Gengar) o tanque defensivo (como Blissey)? Quieres potenciar su estadística más alta o su Velocidad.
+                </p>
+                <div class="step-card-note">Nunca potencies una estadística que el Pokémon no use</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">2</span>
+                <div class="step-card-icon"><i data-lucide="trending-down"></i></div>
+                <h4 class="step-card-title">Sacrificar la Estadística Inútil</h4>
+                <p class="step-card-desc">
+                  Si tu Pokémon solo usará ataques físicos, su <em>Ataque Especial</em> no sirve para nada. Escoge una naturaleza que baje el Ataque Especial para no debilitar su Defensa ni su Velocidad.
+                </p>
+                <div class="step-card-note">El -10% no dolerá si no usas esa estadística</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">3</span>
+                <div class="step-card-icon"><i data-lucide="award"></i></div>
+                <h4 class="step-card-title">Las 5 Naturalezas Estrella</h4>
+                <p class="step-card-desc">
+                  En el 90% de los casos buscarás una de estas cinco:
+                  <br />• <strong>Firme (Adamant):</strong> +Ataque, -Atq.Esp
+                  <br />• <strong>Modesta (Modest):</strong> +Atq.Esp, -Ataque
+                  <br />• <strong>Alegre (Jolly):</strong> +Velocidad, -Atq.Esp
+                  <br />• <strong>Miedosa (Timid):</strong> +Velocidad, -Ataque
+                  <br />• <strong>Osada (Bold):</strong> +Defensa, -Ataque
+                </p>
+                <div class="step-card-note">Memoriza estas cinco y dominarás el juego</div>
+              </div>
+            </div>
+
+            <!-- MINI DEMOSTRADOR DE NATURALEZAS -->
+            <div class="visual-demo-box" id="miniNatureDemo">
+              <div class="visual-demo-header">
+                <div class="visual-demo-title">
+                  <i data-lucide="sliders"></i>
+                  <span>Selector Rápido de Efecto de Naturalezas</span>
+                </div>
+                <span class="demo-chip">Interactúa</span>
+              </div>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <button class="mini-pill-btn demo-nature-btn active" data-nature="adamant" type="button">Firme (Adamant)</button>
+                <button class="mini-pill-btn demo-nature-btn" data-nature="modest" type="button">Modesta (Modest)</button>
+                <button class="mini-pill-btn demo-nature-btn" data-nature="jolly" type="button">Alegre (Jolly)</button>
+                <button class="mini-pill-btn demo-nature-btn" data-nature="timid" type="button">Miedosa (Timid)</button>
+                <button class="mini-pill-btn demo-nature-btn" data-nature="bold" type="button">Osada (Bold)</button>
+              </div>
+              <div class="mini-try-it">
+                <div class="row text-center g-2">
+                  <div class="col-6">
+                    <span class="small text-muted d-block">Sube (+10%):</span>
+                    <strong class="text-success fs-5" id="demoStatUp">Ataque (+10%)</strong>
+                  </div>
+                  <div class="col-6">
+                    <span class="small text-muted d-block">Baja (-10%):</span>
+                    <strong class="text-danger fs-5" id="demoStatDown">Ataque Especial (-10%)</strong>
+                  </div>
+                </div>
+                <div class="mt-2 text-center small text-info">
+                  <strong>Recomendada para:</strong> <span id="demoNatureIdeal">Atacantes Físicos puros (Machamp, Garchomp, Tyranitar)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="callouts-container">
+              <div class="callout-box callout-pro-tip">
+                <i data-lucide="check-circle-2"></i>
+                <div>
+                  <h4 class="callout-title">Naturalezas Neutras</h4>
+                  <p class="callout-desc">
+                    Existen 5 naturalezas neutras (Fuerte, Dócil, Tímida, Rara y Seria) que aumentan y bajan la misma estadística al mismo tiempo. No dan penalización, pero tampoco aprovechan el valioso bono del +10%.
+                  </p>
+                </div>
+              </div>
+              <div class="callout-box callout-warning">
+                <i data-lucide="alert-triangle"></i>
+                <div>
+                  <h4 class="callout-title">Sabores de Bayas y Confusión</h4>
+                  <p class="callout-desc">
+                    Cada naturaleza tiene un sabor favorito y uno que detesta (Picante, Seco, Dulce, Amargo, Ácido). Si equipas una baya curativa como la <em>Baya Wiki</em> a un Pokémon que detesta su sabor, ¡se confundirá en combate!
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- =========================================================================
+             6. CARTAS TCG Y MI ÁLBUM
+             ========================================================================= -->
+        <article class="tutorial-card" id="tutorial-cards" data-category="collection" data-keywords="cartas tcg mi album coleccion binder album cartas pokemon raras holo secret rare exportar importar json precios">
+          <header class="tutorial-card-header">
+            <div class="tool-header-info">
+              <div class="tool-meta-tags">
+                <span class="tool-category-tag">Coleccionismo & Cartas</span>
+                <span class="difficulty-badge diff-easy">
+                  <i data-lucide="gauge"></i> Fácil
+                </span>
+              </div>
+              <h2 class="tool-title">
+                <span class="tool-main-icon">🎴</span>
+                <span>Explorador de Cartas TCG & "Mi Álbum" Digital</span>
+              </h2>
+              <p class="tool-short-desc">
+                Busca cartas del juego de cartas coleccionables, consulta cotizaciones de mercado y guarda las cartas que posees en tu archivador digital sin perderlas nunca.
+              </p>
+            </div>
+            <a href="cards.html" class="open-tool-btn">
+              <span>Abrir Herramienta</span>
+              <i data-lucide="external-link"></i>
+            </a>
+          </header>
+
+          <div class="tutorial-card-body">
+            <div class="concept-explanation-box">
+              <h3 class="concept-title">
+                <i data-lucide="folder-heart"></i>
+                <span>¿Cómo funciona tu colección personal digital?</span>
+              </h3>
+              <p class="concept-text">
+                Nuestra sección de Cartas TCG se conecta con la base de datos oficial de cartas de Pokémon. Puedes buscar cartas desde la época clásica de 1999 hasta las expansiones más recientes de Escarlata y Púrpura. Con un solo clic puedes marcar las cartas que tienes en tu colección física real para que se organicen automáticamente en tu estantería digital en <strong>Mi Álbum</strong>.
+              </p>
+            </div>
+
+            <h3 class="steps-headline">
+              <i data-lucide="list-ordered"></i>
+              <span>Pasos para Administrar tu Colección</span>
+            </h3>
+
+            <div class="steps-grid">
+              <div class="step-card">
+                <span class="step-badge-number">1</span>
+                <div class="step-card-icon"><i data-lucide="search"></i></div>
+                <h4 class="step-card-title">Buscar en la Pokédex TCG</h4>
+                <p class="step-card-desc">
+                  Entra a <strong>Cartas TCG</strong>. Puedes filtrar por nombre de Pokémon, por expansión (ej. <em>151</em>, <em>Paldea Evolved</em>), ilustrador o nivel de rareza (Holo Rare, Secret Rare, Art Rare).
+                </p>
+                <div class="step-card-note">Usa los filtros superiores para acotar</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">2</span>
+                <div class="step-card-icon"><i data-lucide="plus-circle"></i></div>
+                <h4 class="step-card-title">Añadir a "Mi Álbum"</h4>
+                <p class="step-card-desc">
+                  Haz clic en cualquier carta para abrir su ficha completa en alta definición. Pulsa el botón <strong>"Añadir a Mi Álbum"</strong> para registrar que la posees y sumar copias.
+                </p>
+                <div class="step-card-note">Queda guardada en tu navegador al instante</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">3</span>
+                <div class="step-card-icon"><i data-lucide="book-marked"></i></div>
+                <h4 class="step-card-title">Visualizar en Mi Álbum</h4>
+                <p class="step-card-desc">
+                  Ve a la página <strong>Mi Álbum</strong> (`my-album.html`). Verás un archivador con pestañas por cada set, estadísticas de valor estimado y porcentaje de colección completado.
+                </p>
+                <div class="step-card-note">Sigue el avance de tus colecciones</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">4</span>
+                <div class="step-card-icon"><i data-lucide="download"></i></div>
+                <h4 class="step-card-title">Exportar Copia de Seguridad</h4>
+                <p class="step-card-desc">
+                  En Mi Álbum, pulsa <strong>"Exportar Colección"</strong> para descargar un archivo seguro `.json`. Si limpias las cookies de tu navegador, podrás restaurarlo pulsando <strong>"Importar"</strong>.
+                </p>
+                <div class="step-card-note">¡Nunca perderás tus cartas registradas!</div>
+              </div>
+            </div>
+
+            <div class="callouts-container">
+              <div class="callout-box callout-pro-tip">
+                <i data-lucide="check-circle-2"></i>
+                <div>
+                  <h4 class="callout-title">Precios de Mercado de Referencia</h4>
+                  <p class="callout-desc">
+                    Cada carta muestra precios de mercado promedio actualizados basados en transacciones de coleccionistas (TCGPlayer / Cardmarket). Es la forma más rápida de saber si esa carta holográfica antigua que tienes en un cajón tiene un valor alto.
+                  </p>
+                </div>
+              </div>
+              <div class="callout-box callout-warning">
+                <i data-lucide="alert-triangle"></i>
+                <div>
+                  <h4 class="callout-title">Guarda Copia de Seguridad si cambias de PC</h4>
+                  <p class="callout-desc">
+                    Los datos de tu álbum se guardan en el almacenamiento local de tu navegador. Si abres la web desde otro ordenador o desde tu teléfono móvil, exporta tu archivo JSON y cárgalo en el nuevo dispositivo para sincronizarlos.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- =========================================================================
+             7. SIMULADOR DE CONCURSOS POKÉMON
+             ========================================================================= -->
+        <article class="tutorial-card" id="tutorial-contests" data-category="breeding" data-keywords="concursos contests carisma belleza dulzura ingenio dureza pokecubos pokochos corazones combo appeal jam">
+          <header class="tutorial-card-header">
+            <div class="tool-header-info">
+              <div class="tool-meta-tags">
+                <span class="tool-category-tag">Estrategia Alternativa</span>
+                <span class="difficulty-badge diff-medium">
+                  <i data-lucide="gauge"></i> Nivel Intermedio
+                </span>
+              </div>
+              <h2 class="tool-title">
+                <span class="tool-main-icon">🎪</span>
+                <span>Simulador y Estrategia de Concursos Pokémon</span>
+              </h2>
+              <p class="tool-short-desc">
+                Domina los concursos de Hoenn y Sinnoh: combinaciones de exhibición de movimientos, puntos de interferencia a los rivales y combos de aplausos del público.
+              </p>
+            </div>
+            <a href="contests.html" class="open-tool-btn">
+              <span>Abrir Herramienta</span>
+              <i data-lucide="external-link"></i>
+            </a>
+          </header>
+
+          <div class="tutorial-card-body">
+            <div class="concept-explanation-box">
+              <h3 class="concept-title">
+                <i data-lucide="heart"></i>
+                <span>¿Qué son los Concursos y cómo se gana en ellos?</span>
+              </h3>
+              <p class="concept-text">
+                En los juegos de la 3ª y 4ª Generación (y sus remakes Rubí Omega, Zafiro Alfa y Diamante Brillante), los concursos sustituyen los combates a muerte por un espectáculo de talento en 5 categorías: <strong>Carisma (Cool), Belleza (Beautiful), Dulzura (Cute), Ingenio (Clever) y Dureza (Tough)</strong>. Ganar depende de la puntuación visual y de los corazones obtenidos en la ronda de movimientos.
+              </p>
+            </div>
+
+            <h3 class="steps-headline">
+              <i data-lucide="list-ordered"></i>
+              <span>Estrategia de Concurso Paso a Paso</span>
+            </h3>
+
+            <div class="steps-grid">
+              <div class="step-card">
+                <span class="step-badge-number">1</span>
+                <div class="step-card-icon"><i data-lucide="award"></i></div>
+                <h4 class="step-card-title">Elegir la Categoría Correcta</h4>
+                <p class="step-card-desc">
+                  Revisa en qué categoría destaca tu Pokémon. Aliméntalo con Pokécubos o Pokochos hechos con las bayas adecuadas (ej. Baya Zreza para Carisma, Baya Atania para Belleza).
+                </p>
+                <div class="step-card-note">Mejora su condición antes de participar</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">2</span>
+                <div class="step-card-icon"><i data-lucide="heart-handshake"></i></div>
+                <h4 class="step-card-title">Puntos de Exhibición (Appeal)</h4>
+                <p class="step-card-desc">
+                  Cada movimiento te otorga <strong>Corazones de Afecto</strong>. Movimientos con muchos corazones te hacen liderar la tabla de jueces rápidamente.
+                </p>
+                <div class="step-card-note">Movimientos de la misma categoría suman más</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">3</span>
+                <div class="step-card-icon"><i data-lucide="zap"></i></div>
+                <h4 class="step-card-title">Interferencias (Jam)</h4>
+                <p class="step-card-desc">
+                  Algunos ataques tienen puntos de interferencia (Jam). Sirven para asustar o distraer a los contrincantes que ya hayan actuado, restándoles corazones acumulados.
+                </p>
+                <div class="step-card-note">Resta puntos al rival que vaya primero</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">4</span>
+                <div class="step-card-icon"><i data-lucide="flame"></i></div>
+                <h4 class="step-card-title">Combos de Movimientos</h4>
+                <p class="step-card-desc">
+                  Nuestra herramienta lista los combos oficiales: usar <em>Danza Lluvia</em> en un turno y <em>Surf</em> en el siguiente <strong>duplica la puntuación del juez</strong>.
+                </p>
+                <div class="step-card-note">Prepara un set de dos ataques que combinen</div>
+              </div>
+            </div>
+
+            <div class="callouts-container">
+              <div class="callout-box callout-pro-tip">
+                <i data-lucide="check-circle-2"></i>
+                <div>
+                  <h4 class="callout-title">El Bonus del Aplauso Final</h4>
+                  <p class="callout-desc">
+                    El medidor de entusiasmo del público tiene 5 estrellas. El entrenador que lance el movimiento que llene la 5ª estrella recibe un colosal bonus extra de +6 corazones y una animación especial.
+                  </p>
+                </div>
+              </div>
+              <div class="callout-box callout-warning">
+                <i data-lucide="alert-triangle"></i>
+                <div>
+                  <h4 class="callout-title">¡No Repitas el Mismo Ataque Seguido!</h4>
+                  <p class="callout-desc">
+                    Si ejecutas el mismo movimiento dos turnos seguidos, el público y el juez se aburrirán y recibirás una fuerte penalización de puntos. Alterna siempre entre ataques diferentes.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- =========================================================================
+             8. RASTREADOR DE ENCUENTROS Y LOCALIZACIONES
+             ========================================================================= -->
+        <article class="tutorial-card" id="tutorial-locations" data-category="collection" data-keywords="localizaciones encuentros rutas mapas hierba alta surf pesca cana vieja buena super caña golpe roca ratios">
+          <header class="tutorial-card-header">
+            <div class="tool-header-info">
+              <div class="tool-meta-tags">
+                <span class="tool-category-tag">Mundo & Rutas</span>
+                <span class="difficulty-badge diff-easy">
+                  <i data-lucide="gauge"></i> Fácil
+                </span>
+              </div>
+              <h2 class="tool-title">
+                <span class="tool-main-icon">🗺️</span>
+                <span>Rastreador de Encuentros y Localizaciones Geográficas</span>
+              </h2>
+              <p class="tool-short-desc">
+                Encuentra en qué ruta exacta, con qué método de captura (hierba, surf, caña, etc.) y con qué porcentaje de probabilidad aparece cada criatura en cada versión de juego.
+              </p>
+            </div>
+            <a href="locations.html" class="open-tool-btn">
+              <span>Abrir Herramienta</span>
+              <i data-lucide="external-link"></i>
+            </a>
+          </header>
+
+          <div class="tutorial-card-body">
+            <div class="concept-explanation-box">
+              <h3 class="concept-title">
+                <i data-lucide="map-pin"></i>
+                <span>¿Para qué sirve el localizador?</span>
+              </h3>
+              <p class="concept-text">
+                En lugar de dar vueltas a ciegas por la hierba esperando que aparezca ese Pokémon raro que necesitas para completar tu Pokédex, el rastreador de encuentros te especifica la ruta exacta, el nivel al que sale y qué herramienta debes usar (como una Caña Buena o Surf).
+              </p>
+            </div>
+
+            <h3 class="steps-headline">
+              <i data-lucide="list-ordered"></i>
+              <span>Cómo Buscar tu Próxima Captura</span>
+            </h3>
+
+            <div class="steps-grid">
+              <div class="step-card">
+                <span class="step-badge-number">1</span>
+                <div class="step-card-icon"><i data-lucide="gamepad-2"></i></div>
+                <h4 class="step-card-title">Seleccionar tu Juego</h4>
+                <p class="step-card-desc">
+                  Cada edición tiene rutas y Pokémon exclusivos. Asegúrate de filtrar por la edición exacta que estás jugando (ej. Esmeralda, Rojo Fuego, Platino o Escarlata).
+                </p>
+                <div class="step-card-note">Las versiones gemelas suelen tener exclusivos</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">2</span>
+                <div class="step-card-icon"><i data-lucide="footprints"></i></div>
+                <h4 class="step-card-title">Interpretar el Método</h4>
+                <p class="step-card-desc">
+                  Fíjate en el icono del método:
+                  <br />• 🌿 <strong>Walking:</strong> Caminando por hierba o cuevas.
+                  <br />• 🌊 <strong>Surfing:</strong> Navegando sobre el agua.
+                  <br />• 🎣 <strong>Old/Good/Super Rod:</strong> Pescando con caña.
+                  <br />• 🪨 <strong>Rock Smash:</strong> Rompiendo rocas.
+                </p>
+                <div class="step-card-note">Usa la caña o técnica requerida</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">3</span>
+                <div class="step-card-icon"><i data-lucide="percent"></i></div>
+                <h4 class="step-card-title">Comprobar el Ratio de Aparición</h4>
+                <p class="step-card-desc">
+                  El porcentaje te indica la rareza: un ratio del 20-30% aparece enseguida; pero un ratio del 1% (como Feebas o Chansey en la Zona Safari) requerirá mucha paciencia.
+                </p>
+                <div class="step-card-note">Planifica tu tiempo con antelación</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">4</span>
+                <div class="step-card-icon"><i data-lucide="clock"></i></div>
+                <h4 class="step-card-title">Condición Día / Noche</h4>
+                <p class="step-card-desc">
+                  Desde la 2ª Generación, muchos Pokémon solo salen en horarios específicos. Fantasmas como Gastly salen de noche; mientras que otros como Ledyba salen al amanecer.
+                </p>
+                <div class="step-card-note">Ajusta el reloj de tu consola si es necesario</div>
+              </div>
+            </div>
+
+            <div class="callouts-container">
+              <div class="callout-box callout-pro-tip">
+                <i data-lucide="check-circle-2"></i>
+                <div>
+                  <h4 class="callout-title">Habilidad Olor Dulce e Iluminación</h4>
+                  <p class="callout-desc">
+                    Si llevas al frente de tu equipo a un Pokémon con habilidades como <em>Iluminación (Illuminate)</em> o usas el movimiento <em>Dulce Aroma (Sweet Scent)</em>, duplicarás la tasa de aparición de Pokémon salvajes para encontrarlos el doble de rápido.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- =========================================================================
+             9. GESTOR DE CACHÉ OFFLINE Y BASE DE DATOS LOCAL
+             ========================================================================= -->
+        <article class="tutorial-card" id="tutorial-cache" data-category="system" data-keywords="cache sincronizacion actualizar todo sincronizacion profunda offline indexeddb datos borrar cache rendimiento velocidad">
+          <header class="tutorial-card-header">
+            <div class="tool-header-info">
+              <div class="tool-meta-tags">
+                <span class="tool-category-tag">Motor del Sistema</span>
+                <span class="difficulty-badge diff-easy">
+                  <i data-lucide="gauge"></i> Muy Fácil
+                </span>
+              </div>
+              <h2 class="tool-title">
+                <span class="tool-main-icon">⚡</span>
+                <span>Gestor de Datos, Caché Offline y Sincronización Local</span>
+              </h2>
+              <p class="tool-short-desc">
+                Entiende cómo funciona el almacenamiento local en tu navegador (IndexedDB) para navegar a máxima velocidad sin gastar megas de conexión ni depender de internet.
+              </p>
+            </div>
+            <a href="#footer-placeholder" class="open-tool-btn">
+              <span>Ver en el Menú Inferior</span>
+              <i data-lucide="arrow-down"></i>
+            </a>
+          </header>
+
+          <div class="tutorial-card-body">
+            <div class="concept-explanation-box">
+              <h3 class="concept-title">
+                <i data-lucide="database"></i>
+                <span>¿Por qué esta Pokédex carga tan rápido?</span>
+              </h3>
+              <p class="concept-text">
+                Nuestra web cuenta con un motor de datos integrado directamente en tu navegador (IndexedDB). En lugar de pedirle a los servidores de PokéAPI cada Pokémon o sprite uno a uno cada vez que cambias de página, los datos se guardan de forma segura en tu propio ordenador o móvil, permitiendo una navegación instantánea de 0 milisegundos.
+              </p>
+            </div>
+
+            <h3 class="steps-headline">
+              <i data-lucide="list-ordered"></i>
+              <span>Qué Hace Cada Botón del Pie de Página (Footer)</span>
+            </h3>
+
+            <div class="steps-grid">
+              <div class="step-card">
+                <span class="step-badge-number">1</span>
+                <div class="step-card-icon"><i data-lucide="zap"></i></div>
+                <h4 class="step-card-title">Actualizar Todo (Sync Rápido)</h4>
+                <p class="step-card-desc">
+                  Comprueba si hay actualizaciones recientes en los servidores y descarga datos faltantes de manera ligera y rápida en pocos segundos.
+                </p>
+                <div class="step-card-note">Uso recomendado: Una vez al mes</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">2</span>
+                <div class="step-card-icon"><i data-lucide="rocket"></i></div>
+                <h4 class="step-card-title">Sincronización Profunda</h4>
+                <p class="step-card-desc">
+                  Descarga miles de registros completos (todos los Pokémon, formas alternativas, movimientos, objetos y sprites). Permite usar la Pokédex casi en su totalidad incluso si te quedas sin conexión a internet.
+                </p>
+                <div class="step-card-note">Tarda varios minutos: hazlo conectado a Wi-Fi</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">3</span>
+                <div class="step-card-icon"><i data-lucide="trash-2"></i></div>
+                <h4 class="step-card-title">Borrar Caché</h4>
+                <p class="step-card-desc">
+                  Limpia por completo la base de datos local y reinicia la aplicación en limpio. Es el botón de solución definitiva si ves alguna imagen que no carga o notas datos desfasados.
+                </p>
+                <div class="step-card-note">No borra tu progreso de Mi Álbum TCG</div>
+              </div>
+            </div>
+
+            <div class="callouts-container">
+              <div class="callout-box callout-pro-tip">
+                <i data-lucide="check-circle-2"></i>
+                <div>
+                  <h4 class="callout-title">Ahorro de Datos Móviles</h4>
+                  <p class="callout-desc">
+                    Una vez que has hecho una sincronización o has visitado las páginas de tus Pokémon favoritos, la aplicación no consume apenas datos de tu tarifa móvil porque lee todo desde la memoria interna de tu dispositivo.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- =========================================================================
+             10. PANEL DE ACCESIBILIDAD UNIVERSAL (A11Y)
+             ========================================================================= -->
+        <article class="tutorial-card" id="tutorial-a11y" data-category="system" data-keywords="accesibilidad a11y dislexia contraste modo oscuro lector de voz sintetizador animaciones">
+          <header class="tutorial-card-header">
+            <div class="tool-header-info">
+              <div class="tool-meta-tags">
+                <span class="tool-category-tag">Inclusión & Ergonomía</span>
+                <span class="difficulty-badge diff-easy">
+                  <i data-lucide="gauge"></i> Accesible para Todos
+                </span>
+              </div>
+              <h2 class="tool-title">
+                <span class="tool-main-icon">👁️</span>
+                <span>Panel de Accesibilidad Universal (A11y Tools)</span>
+              </h2>
+              <p class="tool-short-desc">
+                Adapta la interfaz a tus necesidades: fuente especializada para dislexia, temas de alto contraste, reducción de animaciones y lector de estadísticas.
+              </p>
+            </div>
+            <a href="javascript:void(0)" onclick="if(window.A11yManager) window.A11yManager.togglePanel();" class="open-tool-btn">
+              <span>Abrir Panel Flotante</span>
+              <i data-lucide="eye"></i>
+            </a>
+          </header>
+
+          <div class="tutorial-card-body">
+            <div class="concept-explanation-box">
+              <h3 class="concept-title">
+                <i data-lucide="sparkles"></i>
+                <span>Una experiencia pensada para cada persona</span>
+              </h3>
+              <p class="concept-text">
+                Queremos que cualquier persona, sin importar su condición visual, motriz o de lectura, pueda consultar la enciclopedia cómodamente. El panel de accesibilidad está siempre accesible desde el botón flotante en la esquina inferior de cualquier página.
+              </p>
+            </div>
+
+            <h3 class="steps-headline">
+              <i data-lucide="list-ordered"></i>
+              <span>Opciones Principales del Panel de Accesibilidad</span>
+            </h3>
+
+            <div class="steps-grid">
+              <div class="step-card">
+                <span class="step-badge-number">1</span>
+                <div class="step-card-icon"><i data-lucide="type"></i></div>
+                <h4 class="step-card-title">Tipografía OpenDyslexic</h4>
+                <p class="step-card-desc">
+                  Activa una tipografía especialmente diseñada para personas con dislexia. Sus letras tienen mayor peso en la parte inferior para evitar la rotación visual involuntaria de caracteres.
+                </p>
+                <div class="step-card-note">Lectura mucho más cómoda y relajada</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">2</span>
+                <div class="step-card-icon"><i data-lucide="contrast"></i></div>
+                <h4 class="step-card-title">Modo de Alto Contraste</h4>
+                <p class="step-card-desc">
+                  Maximiza el contraste entre textos y fondos para facilitar la lectura en exteriores con mucho sol o para usuarios con visión reducida.
+                </p>
+                <div class="step-card-note">Negros profundos y blancos nítidos</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">3</span>
+                <div class="step-card-icon"><i data-lucide="pause-circle"></i></div>
+                <h4 class="step-card-title">Reducción de Movimiento</h4>
+                <p class="step-card-desc">
+                  Desactiva sacudidas de Pokéballs, animaciones automáticas de sprites y transiciones rápidas para personas propensas a mareos por movimiento o fatiga visual.
+                </p>
+                <div class="step-card-note">Navegación estática y serena</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">4</span>
+                <div class="step-card-icon"><i data-lucide="volume-2"></i></div>
+                <h4 class="step-card-title">Lector de Estadísticas</h4>
+                <p class="step-card-desc">
+                  Permite escuchar mediante síntesis de voz la descripción de la Pokédex, el grito característico del Pokémon y el resumen de sus estadísticas de combate.
+                </p>
+                <div class="step-card-note">Soporte completo de lector de pantalla</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- =========================================================================
+           GLOSARIO DE TÉRMINOS PARA PRINCIPIANTES
+           ========================================================================= -->
+      <section class="tutorials-glossary-card">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <i data-lucide="book-marked" class="text-primary fs-3"></i>
+          <h2 class="h4 mb-0">Glosario Rápido para Principiantes</h2>
+        </div>
+        <p class="text-muted small">
+          Términos y abreviaturas frecuentes que verás en la web y en los juegos competitivos:
+        </p>
+
+        <div class="glossary-grid">
+          <div class="glossary-item">
+            <div class="glossary-term">PS / HP (Puntos de Salud)</div>
+            <p class="glossary-def">La barra de vida del Pokémon. Si llega a 0, queda debilitado y no puede combatir hasta que sea curado en un Centro Pokémon.</p>
+          </div>
+          <div class="glossary-item">
+            <div class="glossary-term">STAB (Same Type Attack Bonus)</div>
+            <p class="glossary-def">Bonus del 50% de daño extra que recibe un ataque si coincide con el tipo elemental del Pokémon que lo lanza.</p>
+          </div>
+          <div class="glossary-item">
+            <div class="glossary-term">IVs (Valores Individuales)</div>
+            <p class="glossary-def">El "ADN" de cada Pokémon: números ocultos del 0 al 31 en cada estadística que determinan su potencial máximo genético.</p>
+          </div>
+          <div class="glossary-item">
+            <div class="glossary-term">EVs (Puntos de Esfuerzo)</div>
+            <p class="glossary-def">Puntos que gana tu Pokémon al entrenar y derrotar a ciertos rivales (hasta 252 por estadística). Permite personalizar si quieres que sea más veloz o más resistente.</p>
+          </div>
+          <div class="glossary-item">
+            <div class="glossary-term">PP (Puntos de Poder)</div>
+            <p class="glossary-def">El número de veces que puedes usar un movimiento antes de que se agote. Movimientos devastadores suelen tener solo 5 o 10 PP.</p>
+          </div>
+          <div class="glossary-item">
+            <div class="glossary-term">MT / MO (Technical Machines)</div>
+            <p class="glossary-def">Discos y objetos que enseñan un movimiento directamente a un Pokémon compatible sin tener que esperar a que suba de nivel.</p>
+          </div>
+          <div class="glossary-item">
+            <div class="glossary-term">Catch Rate (Ratio de Captura)</div>
+            <p class="glossary-def">Número interno de dificultad de 3 a 255. A menor número, más difícil es encerrar al Pokémon en la Pokéball.</p>
+          </div>
+          <div class="glossary-item">
+            <div class="glossary-term">Captura Crítica (Critical Capture)</div>
+            <p class="glossary-def">Lanzamiento afortunado donde la Pokéball silba en el aire y solo vibra una vez en el suelo antes de sellarse con éxito casi garantizado.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================================
+           PREGUNTAS FRECUENTES (FAQ)
+           ========================================================================= -->
+      <section class="tutorials-faq-card">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <i data-lucide="help-circle" class="text-primary fs-3"></i>
+          <h2 class="h4 mb-0">Preguntas Frecuentes sobre las Herramientas</h2>
+        </div>
+
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">
+              <span>¿Necesito conexión a internet constante para usar la calculadora y la tabla de tipos?</span>
+              <i data-lucide="chevron-down"></i>
+            </button>
+            <div class="faq-answer" style="display: none;">
+              No. La aplicación guarda los datos matemáticos y de especies en el almacenamiento interno de tu navegador (IndexedDB). Una vez cargada la página, las fórmulas funcionan incluso si te quedas sin conexión.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">
+              <span>¿Qué ocurre con las cartas guardadas en "Mi Álbum" si borro el historial de mi navegador?</span>
+              <i data-lucide="chevron-down"></i>
+            </button>
+            <div class="faq-answer" style="display: none;">
+              Si borras las "cookies y datos de sitios web" de tu navegador, el almacenamiento local se limpiará. Por eso, te recomendamos encarecidamente pulsar el botón <strong>"Exportar Colección"</strong> en Mi Álbum para descargar un archivo `.json` de respaldo en tu ordenador o móvil.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">
+              <span>¿Por qué la Calculadora de Captura me da un número diferente al de la 1ª Generación?</span>
+              <i data-lucide="chevron-down"></i>
+            </button>
+            <div class="faq-answer" style="display: none;">
+              Porque las matemáticas oficiales cambiaron con los años. En los juegos de Game Boy (Rojo, Azul, Amarillo) la fórmula tenía limitaciones de memoria y un fallo donde la Master Ball podía llegar a fallar en condiciones anómalas. En la 3ª Generación se introdujo el sistema moderno de 4 sacudidas independientes (shakes), y en la 5ª Generación se añadió la Captura Crítica.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">
+              <span>¿Cómo puedo cambiar el idioma de las explicaciones?</span>
+              <i data-lucide="chevron-down"></i>
+            </button>
+            <div class="faq-answer" style="display: none;">
+              En la esquina superior derecha de cualquier página encontrarás el selector con la bandera. Puedes cambiar instantáneamente entre Español, Inglés, Francés, Alemán, Italiano, Portugués, Japonés y Chino.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bootstrap Bundle -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      crossorigin="anonymous"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    ></script>
+
+    <!-- Footer Dinámico -->
+    <div id="footer-placeholder"></div>
+  </body>
+</html>

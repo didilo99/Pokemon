@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin />
+    <link rel="preconnect" href="https://pokeapi.co" crossorigin />
+    <link rel="dns-prefetch" href="https://raw.githubusercontent.com" />
+    <link rel="dns-prefetch" href="https://pokeapi.co" />
     <title data-i18n="nav.cards">Pokédex TCG</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -11,8 +15,9 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="../assets/css/styles.css?v=12" />
-    <link rel="stylesheet" href="../assets/css/cards.css?v=12" />
+    <link rel="stylesheet" href="../assets/css/cards.css?v=15" />
     <link rel="icon" type="image/png" href="../assets/icon/favicon.png" />
+    <script src="../assets/js/security.js"></script>
     <script src="../assets/js/cache.js"></script>
     <script src="../assets/js/i18n.js"></script>
     <link rel="stylesheet" href="../assets/css/a11y.css" />
@@ -25,7 +30,7 @@
         <div class="inner container-fluid">
           <div class="d-flex align-items-center justify-content-between">
             <a href="../index.html" class="brand">
-              <img src="../assets/icon/logo.png" alt="Logo" class="title-logo" />
+              <img src="../assets/icon/logo.png" alt="Logo" class="title-logo" width="60" height="60" />
               <h1 class="title mb-0" data-i18n="nav.cards">Cartas TCG</h1>
             </a>
             <div class="d-flex align-items-center gap-2">
@@ -486,6 +491,8 @@
               id="modalCardImage"
               class="card-large-image"
               alt="Imagen de la carta"
+              width="320"
+              height="446"
             />
             <div id="modalCardTypeLogo" class="type-logo-container mt-2"></div>
           </div>
@@ -515,6 +522,8 @@
                     class="set-icon-mini"
                     src=""
                     alt=""
+                    width="20"
+                    height="20"
                     style="display: none"
                   />
                   <span id="modalCardSet">-</span>
@@ -677,7 +686,7 @@
     <dialog id="zoomOverlay" class="zoom-overlay">
       <div class="card-holo-container">
         <div class="card-inner">
-          <img id="zoomedImage" />
+          <img id="zoomedImage" class="card-large-image card-parallax-img" alt="Zoomed card" />
           <div class="holo-effect"></div>
         </div>
       </div>
@@ -688,7 +697,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="../assets/js/cardStorage.js"></script>
-    <script src="../assets/js/cards.js?v=13"></script>
+    <script src="../assets/js/cards.js?v=15"></script>
   </body>
 </html>
 

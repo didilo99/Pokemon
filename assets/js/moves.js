@@ -938,7 +938,7 @@
         div.appendChild(nameSpan);
         div.onclick = () => {
           window.open(
-            `${I18n.getBasePath()}index.html#pokemon/${p.name}`,
+            `${I18n.getBasePath()}index.html#pokemon/${id}`,
             "_blank",
           );
         };

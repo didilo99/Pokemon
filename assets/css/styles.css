@@ -274,6 +274,7 @@
 html {
   color-scheme: dark light;
   scroll-behavior: smooth;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -487,7 +488,8 @@ h6 {
 
 .title-logo {
   height: 60px;
-  width: auto;
+  width: 60px;
+  aspect-ratio: 1 / 1;
   object-fit: contain;
   flex-shrink: 0;
   margin: 0;
@@ -1289,7 +1291,8 @@ button[aria-expanded="true"] .filter-chevron {
   will-change: transform;
   transform: translateZ(0);
   content-visibility: auto;
-  contain-intrinsic-size: auto 240px;
+  contain-intrinsic-size: auto 220px;
+  min-height: 220px;
 }
 
 .card .badges {
@@ -1300,6 +1303,7 @@ button[aria-expanded="true"] .filter-chevron {
   gap: 6px;
   width: 100%;
   flex-wrap: wrap;
+  min-height: 26px;
 }
 
 /* Make type badges inside cards more compact so dual-types fit */
@@ -1324,6 +1328,15 @@ button[aria-expanded="true"] .filter-chevron {
 }
 
 /* Grid Sprites */
+.spritewrap {
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .sprite {
   width: 96px;
   height: 96px;
@@ -1332,6 +1345,7 @@ button[aria-expanded="true"] .filter-chevron {
   transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
   will-change: transform;
   transform: translateZ(0);
+  aspect-ratio: 1 / 1;
 }
 
 .card:hover .sprite {
@@ -1724,6 +1738,7 @@ dialog::backdrop {
   /* Remove transition and make static */
   pointer-events: none;
   user-select: none;
+  aspect-ratio: 1 / 1;
 }
 
 .swapline {
@@ -2670,17 +2685,20 @@ dialog::backdrop {
   display: grid;
   grid-template-columns: repeat(6, 1fr); /* 6 equal slots */
   gap: var(--sp-sm);
+  min-height: 200px;
 }
 
 @media (max-width: 768px) {
   .team-row {
     grid-template-columns: repeat(3, 1fr);
+    min-height: 410px;
   }
 }
 
 @media (max-width: 480px) {
   .team-row {
     grid-template-columns: repeat(2, 1fr);
+    min-height: 620px;
   }
 }
 
@@ -2725,6 +2743,7 @@ dialog::backdrop {
   justify-content: space-between;
   align-items: flex-start;
   z-index: 2;
+  min-height: 24px;
 }
 
 .slot-types {
@@ -2743,11 +2762,13 @@ dialog::backdrop {
   justify-content: center;
   position: relative;
   z-index: 1;
+  min-height: 96px;
 }
 
 .slot-main-sprite {
-  width: auto;
-  height: auto;
+  width: 96px;
+  height: 96px;
+  aspect-ratio: 1 / 1;
   object-fit: contain;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
   image-rendering: pixelated;
@@ -3334,6 +3355,16 @@ dialog::backdrop {
 
 #evRemaining.warning {
   color: #fb7185; /* Rose/Red-ish */
+}
+
+/* --- CLS PREVENTION: Reserve space for dynamic content --- */
+#footer-placeholder {
+  min-height: 280px;
+  contain: layout style;
+}
+
+#typeChips:empty {
+  min-height: 44px;
 }
 
 /* --- NEW FOOTER REDESIGN --- */

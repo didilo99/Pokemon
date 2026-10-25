@@ -465,9 +465,6 @@
   height: 100%;
   border-radius: inherit;
   overflow: hidden;
-  /* Bulletproof clipping for 3D translations across all browsers */
-  -webkit-mask-image: -webkit-radial-gradient(white, black);
-  mask-image: radial-gradient(white, black);
   isolation: isolate; /* Create new stacking context */
   transform-style: preserve-3d;
   box-shadow:
@@ -543,8 +540,8 @@
   border-radius: inherit;
   transform: translateZ(2px);
   mix-blend-mode: screen;
-  opacity: 0;
-  transition: opacity 0.5s ease;
+  opacity: 0.35;
+  transition: opacity 0.4s ease;
   pointer-events: none;
 
   /* Level 1: Reflection Layers (Center) */
@@ -560,17 +557,22 @@
     var(--layer-reflection);
 }
 
+.card-idle-tilt .holo-effect {
+  opacity: 0.32;
+}
+
 .card-holo-container:hover .holo-effect,
 .card-hero:hover .holo-effect,
-.zoom-overlay:hover .holo-effect {
-  opacity: 1;
+.zoom-overlay:hover .holo-effect,
+.card-holo-container:not(.card-idle-tilt) .holo-effect {
+  opacity: 0.52;
 }
 
 /* 💎 Rarezas de Rombos y Estrellas (Reflejos de Superficie) */
 
 /* 1. Un Diamante / Infrecuente / Satin: Pulso de Claridad */
 .rarify-diamond-1 .holo-effect, .rarify-satin .holo-effect {
-  --layer-reflection: linear-gradient(0deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+  --layer-reflection: linear-gradient(0deg, transparent 40%, rgba(255,255,255,0.12) 50%, transparent 60%);
   background-size: 100% 200%;
   animation: clarityPulse 4s ease-in-out infinite;
   mix-blend-mode: screen;
@@ -581,28 +583,30 @@
 }
 
 /* 2. Dos Diamantes / Rara: Reflejo Satinado */
-.rarify-diamond-2 .holo-effect {
-  --layer-reflection: linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.2) 48%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.2) 52%, transparent 65%);
+.rarify-diamond-2 .holo-effect,
+.rarify-rare .holo-effect {
+  --layer-reflection: linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.12) 48%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0.12) 52%, transparent 65%);
   background-size: 300% 300%;
   background-position: var(--mx) var(--my);
   mix-blend-mode: screen;
 }
 
 /* 3. Tres Diamantes: Foco en Ilustración */
-.rarify-diamond-3 .card-parallax-img {
-  filter: contrast(1.1) brightness(1.05) saturate(1.1);
+.rarify-diamond-3 .card-parallax-img,
+.rarify-diamond-3 #zoomedImage {
+  filter: none;
 }
 .rarify-diamond-3 .holo-effect {
-  --layer-overlay: radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.3) 100%);
-  mix-blend-mode: multiply;
+  --layer-overlay: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+  mix-blend-mode: screen;
 }
 
 /* 4. Cuatro Diamantes: Barrido Plateado */
 .rarify-diamond-4 .holo-effect {
-  --layer-reflection: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(200,220,255,0.2) 12px, transparent 14px);
+  --layer-reflection: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(200,220,255,0.12) 12px, transparent 14px);
   background-size: 200% 200%;
-  animation: silverSweep 3s linear infinite;
-  mix-blend-mode: color-dodge;
+  animation: silverSweep 4s linear infinite;
+  mix-blend-mode: screen;
 }
 @keyframes silverSweep {
   from { background-position: 0 0; }
@@ -611,8 +615,8 @@
 
 /* 5. Una Estrella: Gota de Luz */
 .rarify-star-1 .holo-effect {
-  --layer-reflection: radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,0.8) 0%, transparent 45%);
-  mix-blend-mode: color-dodge;
+  --layer-reflection: radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.06) 25%, transparent 55%);
+  mix-blend-mode: screen;
 }
 
 /* 6. Dos Estrellas: Polvo Estelar */
@@ -620,28 +624,29 @@
   content: '';
   position: absolute;
   inset: 0;
+  pointer-events: none;
   background-image: 
-    radial-gradient(1.5px 1.5px at 15% 25%, #fff 100%, transparent),
-    radial-gradient(2px 2px at 75% 35%, #fff 100%, transparent),
-    radial-gradient(1px 1px at 35% 75%, #fff 100%, transparent),
-    radial-gradient(1.5px 1.5px at 85% 90%, #fff 100%, transparent);
-  animation: stardustBlink 2s infinite alternate;
+    radial-gradient(1.5px 1.5px at 15% 25%, rgba(255,255,255,0.8) 100%, transparent),
+    radial-gradient(2px 2px at 75% 35%, rgba(255,255,255,0.8) 100%, transparent),
+    radial-gradient(1px 1px at 35% 75%, rgba(255,255,255,0.8) 100%, transparent),
+    radial-gradient(1.5px 1.5px at 85% 90%, rgba(255,255,255,0.8) 100%, transparent);
+  animation: stardustBlink 2.5s infinite alternate;
   mix-blend-mode: screen;
 }
 @keyframes stardustBlink {
   0%, 100% { opacity: 0.2; }
-  50% { opacity: 1; }
+  50% { opacity: 0.7; }
 }
 
 /* 7. Tres Estrellas: Iridiscencia Tenue */
 .rarify-star-3 .holo-effect {
-  --layer-texture: linear-gradient(135deg, rgba(230,200,255,0.15), rgba(255,220,200,0.15));
-  mix-blend-mode: overlay;
+  --layer-texture: linear-gradient(135deg, rgba(230,200,255,0.12), rgba(255,220,200,0.12));
+  mix-blend-mode: screen;
   opacity: 0.3;
   transition: opacity 0.5s;
 }
 .card-holo-container:hover .rarify-star-3 .holo-effect {
-  opacity: 0.8;
+  opacity: 0.55;
 }
 
 /* ✨ Rarezas "Shiny" y Especiales (Efectos Reactivos) */
@@ -651,26 +656,28 @@
   content: '';
   position: absolute;
   top: 50%; left: 50%;
-  width: 15px; height: 15px;
-  background: radial-gradient(circle, #fff 30%, transparent 70%);
-  box-shadow: 0 0 20px #fff;
+  width: 12px; height: 12px;
+  background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, transparent 70%);
+  box-shadow: 0 0 10px rgba(255,255,255,0.3);
   border-radius: 50%;
   transform: translate(-50%, -50%);
   animation: kineticSparks 4s infinite ease-out;
   opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
 }
 @keyframes kineticSparks {
   0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 0; }
-  20% { opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(25) rotate(90deg); opacity: 0; }
+  25% { opacity: 0.35; }
+  100% { transform: translate(-50%, -50%) scale(6) rotate(90deg); opacity: 0; }
 }
 
 /* Dos Diamantes Shiny: Nácar Líquido */
 .rarify-diamond-2-shiny .holo-effect {
-  --layer-texture: linear-gradient(120deg, #ff00ff11, #00ffff11, #ffff0011, #ff00ff11);
+  --layer-texture: linear-gradient(120deg, rgba(255,0,255,0.06), rgba(0,255,255,0.06), rgba(255,255,0,0.06), rgba(255,0,255,0.06));
   background-size: 400% 400%;
   animation: liquidNacre 10s linear infinite;
-  mix-blend-mode: overlay;
+  mix-blend-mode: screen;
 }
 @keyframes liquidNacre {
   0% { background-position: 0% 50%; }
@@ -678,23 +685,26 @@
   100% { background-position: 0% 50%; }
 }
 
-/* Ultra Rara Shiny: Grabado Metálico */
-.rarify-ultra-rare-shiny .card-parallax-img {
-  filter: contrast(1.25) saturate(0.8);
-  box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
+/* Ultra Rara Shiny / Ultra Rara: Grabado Metálico */
+.rarify-ultra-rare .card-parallax-img,
+.rarify-ultra-rare #zoomedImage,
+.rarify-ultra-rare-shiny .card-parallax-img,
+.rarify-ultra-rare-shiny #zoomedImage {
+  filter: none;
 }
+.rarify-ultra-rare .holo-effect,
 .rarify-ultra-rare-shiny .holo-effect {
-  --layer-reflection: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  --layer-reflection: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
   background-size: 200% 100%;
   background-position: var(--mx) center;
-  mix-blend-mode: soft-light;
+  mix-blend-mode: screen;
 }
 
 /* Rara Radiante: Red de Diamante */
 .rarify-radiant .holo-effect {
   --layer-texture: 
-    repeating-linear-gradient(45deg, transparent, transparent 6px, rgba(255,255,255,0.08) 7px, transparent 8px),
-    repeating-linear-gradient(-45deg, transparent, transparent 6px, rgba(255,255,255,0.08) 7px, transparent 8px);
+    repeating-linear-gradient(45deg, transparent, transparent 6px, rgba(255,255,255,0.06) 7px, transparent 8px),
+    repeating-linear-gradient(-45deg, transparent, transparent 6px, rgba(255,255,255,0.06) 7px, transparent 8px);
   -webkit-mask-image: radial-gradient(circle at var(--mx) var(--my), #000 0%, transparent 35%);
   mask-image: radial-gradient(circle at var(--mx) var(--my), #000 0%, transparent 35%);
   mix-blend-mode: screen;
@@ -702,26 +712,27 @@
 
 /* Increíble Rara: Pulso Neón */
 .rarify-amazing .holo-effect {
-  --layer-overlay: radial-gradient(circle at 30% 30%, hsla(300, 100%, 50%, 0.3), transparent),
-                   radial-gradient(circle at 70% 70%, hsla(190, 100%, 50%, 0.3), transparent);
-  animation: neonPulse Amazing 3s infinite alternate;
+  --layer-overlay: radial-gradient(circle at 30% 30%, hsla(300, 100%, 60%, 0.12), transparent),
+                   radial-gradient(circle at 70% 70%, hsla(190, 100%, 60%, 0.12), transparent);
+  animation: neonPulseAmazing 3s infinite alternate;
+  mix-blend-mode: screen;
 }
 @keyframes neonPulseAmazing {
-  to { filter: brightness(1.8) saturate(2); }
+  to { filter: brightness(1.1); }
 }
 
 /* ⚔️ Rarezas de Combate (Efectos Estructurales) */
 
 /* Rara Holo: Olas Verticales (Oil Slick) */
 .rarify-rare-holo .holo-effect {
-  --layer-texture: linear-gradient(90deg, #ff000015, #ffff0015, #00ff0015, #00ffff15, #0000ff15, #ff00ff15, #ff000015);
+  --layer-texture: linear-gradient(90deg, rgba(255,0,0,0.06), rgba(255,255,0,0.06), rgba(0,255,0,0.06), rgba(0,255,255,0.06), rgba(0,0,255,0.06), rgba(255,0,255,0.06), rgba(255,0,0,0.06));
   background-size: 300% 100%;
   animation: oilSlick 12s linear infinite;
   -webkit-mask-image: linear-gradient(90deg, transparent 40%, #000 50%, transparent 60%);
   mask-image: linear-gradient(90deg, transparent 40%, #000 50%, transparent 60%);
   mask-size: 200% 100%;
   mask-position: var(--mx) center;
-  mix-blend-mode: color-dodge;
+  mix-blend-mode: screen;
 }
 @keyframes oilSlick {
   to { background-position: 300% 0; }
@@ -729,9 +740,9 @@
 
 /* Rara Holo V / Shiny V: Fondo Activo */
 .rarify-rare-holo-v .holo-effect, .rarify-shiny-v .holo-effect {
-  --layer-texture: repeating-linear-gradient(0deg, #222 0px, #000 2px, #222 4px);
-  mix-blend-mode: multiply;
-  opacity: 0.4;
+  --layer-texture: repeating-linear-gradient(0deg, transparent 0px, rgba(255,255,255,0.05) 1px, transparent 2px, transparent 4px);
+  mix-blend-mode: screen;
+  opacity: 0.35;
 }
 
 /* Rara Holo VMAX / Shiny VMAX: Aura de Poder */
@@ -745,50 +756,50 @@
 
 /* Rara Holo VSTAR: Supernova */
 .rarify-rare-holo-vstar .holo-effect {
-  --layer-reflection: linear-gradient(90deg, transparent 42%, #fff 50%, transparent 58%);
+  --layer-reflection: linear-gradient(90deg, transparent 42%, rgba(255,255,255,0.3) 50%, transparent 58%);
   background-size: 250% 100%;
   animation: vstarSupernova 5s infinite cubic-bezier(0.1, 0, 0.9, 1);
   mix-blend-mode: screen;
 }
 @keyframes vstarSupernova {
-  0% { background-position: -150% center; filter: brightness(1); }
-  50% { filter: brightness(4); }
-  100% { background-position: 250% center; filter: brightness(1); }
+  0% { background-position: -150% center; }
+  100% { background-position: 250% center; }
 }
 
 /* Holo LV.X: Marco Flotante */
 .rarify-lvx .card-inner {
-  overflow: visible !important;
+  overflow: hidden;
 }
-.rarify-lvx .card-parallax-img {
-  transform: translateZ(35px) scale(1.07);
-  filter: drop-shadow(0 20px 20px rgba(0,0,0,0.6));
+.rarify-lvx .card-parallax-img,
+.rarify-lvx #zoomedImage {
+  transform: translateZ(2px);
+  filter: none;
 }
 .rarify-lvx .holo-effect {
-  --layer-reflection: radial-gradient(circle at center, rgba(255,255,255,0.3) 0%, transparent 70%);
+  --layer-reflection: radial-gradient(circle at center, rgba(255,255,255,0.18) 0%, transparent 70%);
   mix-blend-mode: screen;
 }
 
 /* Prime / LEYENDA: Relieve Profundo */
-.rarify-prime-legend .card-parallax-img {
-  transform: translateZ(10px);
+.rarify-prime-legend .card-parallax-img,
+.rarify-prime-legend #zoomedImage {
+  transform: translateZ(2px);
+  filter: none;
 }
 
 /* Blanco y Negro: Vigencia Retro */
 .rarify-bw .holo-effect {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' opacity='0.25'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.15;
-  animation: retroNoise 0.12s infinite alternate;
-}
-@keyframes retroNoise {
-  to { opacity: 0.08; background-position: 5px 5px; }
+  --layer-reflection: linear-gradient(115deg, transparent 40%, rgba(255,255,255,0.12) 50%, transparent 60%);
+  background-size: 200% 200%;
+  mix-blend-mode: screen;
+  opacity: 0.3 !important;
 }
 
 /* 🎨 Rarezas de Arte Completo (Textura y Profundidad) */
 
 /* Ilustración Rara / Arte Completo: Viento de Seda */
 .rarify-illustration .holo-effect {
-  --layer-reflection: linear-gradient(135deg, transparent 35%, rgba(200,230,255,0.3) 50%, transparent 65%);
+  --layer-reflection: linear-gradient(135deg, transparent 35%, rgba(200,230,255,0.2) 50%, transparent 65%);
   background-size: 350% 350%;
   animation: silkWindFlow 8s ease-in-out infinite alternate;
   mix-blend-mode: screen;
@@ -799,41 +810,44 @@
 }
 
 /* Ilustración Especial Rara: Paralaje Multicapa */
-.rarify-special-illustration .card-parallax-img {
-  transform: translateZ(25px) scale(1.02);
+.rarify-special-illustration .card-parallax-img,
+.rarify-special-illustration #zoomedImage {
+  transform: translateZ(2px);
+  filter: none;
 }
 
 /* Entrenador Arte Completo: Brillo Satinado Premium */
 .rarify-full-art-trainer .holo-effect {
-  --layer-reflection: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.4) 50%, transparent 60%);
+  --layer-reflection: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.22) 50%, transparent 60%);
   background-size: 200% 100%;
   background-position: var(--mx) center;
-  mix-blend-mode: soft-light;
+  mix-blend-mode: screen;
 }
 
 /* 👑 Rarezas Supremas (Lujo Total) */
 
 /* Rara Secreta (Dorada): Oro Líquido */
 .rarify-secret-gold .card-inner {
-  filter: saturate(1.4) brightness(1.05);
+  filter: none;
 }
 .rarify-secret-gold .holo-effect {
-  --layer-texture: linear-gradient(to bottom, #ffd70033, #daa52066);
-  mix-blend-mode: color-dodge;
+  --layer-texture: linear-gradient(to bottom, rgba(255,215,0,0.08), rgba(218,165,32,0.12));
+  mix-blend-mode: screen;
 }
 .rarify-secret-gold::after {
   content: '';
   position: absolute;
   inset: -20%;
+  pointer-events: none;
   background-image: 
-    radial-gradient(1.5px 1.5px at 20% 10%, #ffd700 100%, transparent),
-    radial-gradient(1.2px 1.2px at 60% 40%, #ffd700 100%, transparent),
-    radial-gradient(1.5px 1.5px at 40% 70%, #ffd700 100%, transparent),
-    radial-gradient(1px 1px at 80% 90%, #ffd700 100%, transparent);
+    radial-gradient(1.5px 1.5px at 20% 10%, rgba(255,215,0,0.6) 100%, transparent),
+    radial-gradient(1.2px 1.2px at 60% 40%, rgba(255,215,0,0.6) 100%, transparent),
+    radial-gradient(1.5px 1.5px at 40% 70%, rgba(255,215,0,0.6) 100%, transparent),
+    radial-gradient(1px 1px at 80% 90%, rgba(255,215,0,0.6) 100%, transparent);
   background-size: 40px 80px;
   animation: goldenRainfall 6s linear infinite;
   mix-blend-mode: screen;
-  opacity: 0.4;
+  opacity: 0.25;
 }
 @keyframes goldenRainfall {
   from { background-position: 0 0; }
@@ -842,11 +856,11 @@
 
 /* Híper Rara (Rainbow): Prisma Infinito */
 .rarify-hyper-rainbow .holo-effect {
-  --layer-texture: linear-gradient(45deg, hsla(0, 100%, 80%, 0.15), hsla(120, 100%, 80%, 0.15), hsla(240, 100%, 80%, 0.15));
-  --layer-overlay: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 0 L12 6 L6 12 L0 6 Z' fill='white' fill-opacity='0.1'/%3E%3C/svg%3E");
+  --layer-texture: linear-gradient(45deg, hsla(0, 100%, 75%, 0.08), hsla(120, 100%, 75%, 0.08), hsla(240, 100%, 75%, 0.08));
+  --layer-overlay: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 0 L12 6 L6 12 L0 6 Z' fill='white' fill-opacity='0.06'/%3E%3C/svg%3E");
   background-size: 300% 300%, 8px 8px;
   animation: prismShift 20s linear infinite;
-  mix-blend-mode: color-dodge;
+  mix-blend-mode: screen;
 }
 @keyframes prismShift {
   to { background-position: 100% 100%, 32px 32px; filter: hue-rotate(360deg); }
@@ -854,54 +868,53 @@
 
 /* Mega Híper Rara: Fractal de Energía */
 .rarify-mega-hyper .holo-effect {
-  --layer-reflection: conic-gradient(from 0deg at 50% 50%, transparent, rgba(200,240,255,0.3), transparent);
+  --layer-reflection: conic-gradient(from 0deg at 50% 50%, transparent, rgba(147,197,253,0.15), rgba(244,114,182,0.15), transparent);
   background-size: 100% 100%;
   animation: energyFractalSpin 15s linear infinite;
-  filter: blur(1.5px) contrast(2.5);
-  mix-blend-mode: exclusion;
+  mix-blend-mode: screen;
 }
 @keyframes energyFractalSpin {
   to { transform: rotate(360deg); }
 }
 
-/* ACE SPEC: Sobrecarga de Datos (Glitch) */
+/* ACE SPEC: Resplandor Magenta Seguro */
 .rarify-ace-spec .card-inner::before {
   content: '';
   position: absolute;
-  inset: -4px;
-  border: 4px solid #ff00ff;
+  inset: -2px;
+  border: 2px solid rgba(236,72,153,0.4);
   border-radius: inherit;
-  animation: aceDataGlitch 0.4s steps(2) infinite;
-  box-shadow: 0 0 25px rgba(255,0,255,0.5);
+  box-shadow: 0 0 15px rgba(236,72,153,0.3);
   pointer-events: none;
   z-index: 10;
+  animation: acePulse 3s ease-in-out infinite alternate;
 }
-@keyframes aceDataGlitch {
-  0%, 100% { clip-path: inset(0 0 0 0); opacity: 0.7; transform: skew(0deg); }
-  25% { clip-path: inset(15% -20px 75% 0); opacity: 1; transform: skew(2deg); }
-  50% { clip-path: inset(60% 0 10% -20px); opacity: 0.8; transform: skew(-2deg); }
-  75% { clip-path: inset(0 -20px 90% 0); opacity: 0.5; }
+@keyframes acePulse {
+  0% { opacity: 0.3; }
+  100% { opacity: 0.7; }
 }
 
-/* Corona: Destello de Gema */
+/* Corona: Destello de Gema Sutil */
 .rarify-crown::after {
   content: '';
   position: absolute;
   top: 50%; left: 50%;
-  width: 500%; height: 2px;
-  background: radial-gradient(ellipse at center, rgba(230,240,255,0.9), transparent 85%);
-  transform: translate(-50%, -50%) rotate(calc(var(--mx-offset, 0) * 0.5deg + 45deg));
+  width: 200%; height: 2px;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(230,240,255,0.4), transparent 75%);
+  transform: translate(-50%, -50%) rotate(45deg);
   mix-blend-mode: screen;
   z-index: 30;
   animation: gemFlareShimmer 6s infinite alternate;
+  opacity: 0.3;
 }
 @keyframes gemFlareShimmer {
-  to { opacity: 0.4; transform: translate(-50%, -50%) rotate(calc(var(--mx-offset, 0) * 0.5deg + 60deg)) scaleY(2); }
+  to { opacity: 0.15; transform: translate(-50%, -50%) rotate(55deg) scaleY(1.5); }
 }
 
 /* Colección Clásica: Holograma de Puntos Vintage */
 .rarify-classic-collection .holo-effect {
-  --layer-texture: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 2 L22 18 L38 20 L22 22 L20 38 L18 22 L2 20 L18 18 Z' fill='white' fill-opacity='0.25'/%3E%3C/svg%3E");
+  --layer-texture: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 2 L22 18 L38 20 L22 22 L20 38 L18 22 L2 20 L18 18 Z' fill='white' fill-opacity='0.12'/%3E%3C/svg%3E");
   background-size: 25px 25px;
   animation: retroClassicRGB 8s linear infinite;
   -webkit-mask-image: radial-gradient(circle at center, #000 0%, #000 100%);
@@ -1419,9 +1432,33 @@
   background: rgba(0, 0, 0, 0.9);
 }
 
-#zoomedImage {
-  max-width: 90vw; /* Slightly smaller to allow tilt room */
+.zoom-overlay .card-holo-container {
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  max-width: 90vw;
   max-height: 90vh;
+}
+
+.zoom-overlay .card-inner {
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+#zoomedImage {
+  max-width: 88vw;
+  max-height: 88vh;
+  width: auto;
+  height: auto;
   object-fit: contain;
   border-radius: 12px;
   box-shadow: var(--card-shadow, 0 0 50px rgba(0, 0, 0, 1));

@@ -487,7 +487,7 @@
         }
 
         const card = document.createElement("a");
-        card.href = `${I18n.getBasePath()}index.html#pokemon/${name}`;
+        card.href = `${I18n.getBasePath()}index.html#pokemon/${id}`;
         card.target = "_blank";
         card.className = "gen-poke-card";
 

@@ -392,7 +392,7 @@
                alt="${name}" 
                style="width: 50px; height: 50px; cursor: pointer;"
                title="${I18n.toTitle(name.replace(/-/g, " "))}"
-               onclick="window.open('${I18n.getBasePath()}index.html#pokemon/${name}', '_blank')">
+               onclick="window.open('${I18n.getBasePath()}index.html#pokemon/${id}', '_blank')">
           <div class="mon-name text-truncate">${I18n.toTitle(name.replace(/-/g, " "))}</div>
         `;
         frag.appendChild(monDiv);

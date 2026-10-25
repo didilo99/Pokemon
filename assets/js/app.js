@@ -104,6 +104,122 @@ const ALLOWED_ITEM_CATEGORIES = [
 // Note: Requirements moved to i18n/*.json under "forms.requirements_data"
 const FORM_REQUIREMENTS = {}; // Deprecated, mapping now in JSON
 
+function getFormRequirement(formName, speciesName = "") {
+  if (!formName) return "";
+
+  // 1. Check exact key in I18n
+  const key = `forms.requirements_data.${formName}`;
+  const translated = I18n.t(key);
+  if (translated && translated !== key) {
+    return translated;
+  }
+
+  const sName = (speciesName || "").toLowerCase();
+  const fName = formName.toLowerCase();
+  const lang = I18n.currentLang || "es";
+
+  // 2. Mega Evolution fallback heuristic
+  if (fName.includes("mega")) {
+    if (sName === "rayquaza" || fName.includes("rayquaza")) {
+      return lang === "es" ? "Ascenso Draco (Ataque)" : "Dragon Ascent";
+    }
+
+    let variant = "";
+    const parts = fName.split("mega");
+    if (parts.length > 1) {
+      const after = parts[1].replace(/^-/, "").replace(/_/g, " ").trim();
+      if (after) variant = after.toUpperCase();
+    }
+
+    const baseName = toTitle(sName || fName.replace(/-?mega.*$/, ""));
+    const stoneSuffix = lang === "es" ? "ita" : (lang === "de" ? "nit" : "ite");
+    let stoneName = `${baseName}${stoneSuffix}`;
+
+    if (lang === "es") {
+      const specialSpanishStones = {
+        lucario: "Lucarita",
+        alakazam: "Alakazamita",
+        blastoise: "Blastoisita",
+        altaria: "Altarita",
+        diancie: "Diancita",
+        glalie: "Glalita",
+        lopunny: "Lopunnita",
+        mawile: "Mawilita",
+        sableye: "Sableyita",
+        sharpedo: "Sharpedita",
+        slowbro: "Slowbronita",
+        mewtwo: "Mewtwonita"
+      };
+      if (specialSpanishStones[sName]) {
+        stoneName = specialSpanishStones[sName];
+      }
+    }
+
+    return variant ? `${stoneName} ${variant}` : stoneName;
+  }
+
+  // 3. Gigantamax
+  if (fName.includes("gmax") || fName.includes("gigantamax")) {
+    const gmaxVal = I18n.t("forms.requirements_data.gmax");
+    return (gmaxVal && gmaxVal !== "forms.requirements_data.gmax")
+      ? gmaxVal
+      : (lang === "es" ? "Maxisopa" : "Max Soup");
+  }
+
+  // 4. Primal Reversion
+  if (fName.includes("primal")) {
+    if (sName === "kyogre" || fName.includes("kyogre")) {
+      return lang === "es" ? "Prisma Azul" : "Blue Orb";
+    }
+    if (sName === "groudon" || fName.includes("groudon")) {
+      return lang === "es" ? "Prisma Rojo" : "Red Orb";
+    }
+  }
+
+  // 5. Crowned (Zacian / Zamazenta)
+  if (fName.includes("crowned")) {
+    if (sName === "zacian" || fName.includes("zacian")) {
+      return lang === "es" ? "Espada Oxidada" : "Rusted Sword";
+    }
+    if (sName === "zamazenta" || fName.includes("zamazenta")) {
+      return lang === "es" ? "Escudo Oxidado" : "Rusted Shield";
+    }
+  }
+
+  // 6. Origin Formes (Dialga, Palkia, Giratina)
+  if (fName.includes("origin")) {
+    if (sName === "dialga" || fName.includes("dialga")) {
+      return lang === "es" ? "Gran Diamansfera" : "Adamant Crystal";
+    }
+    if (sName === "palkia" || fName.includes("palkia")) {
+      return lang === "es" ? "Gran Lustresfera" : "Lustrous Globe";
+    }
+    if (sName === "giratina" || fName.includes("giratina")) {
+      return lang === "es" ? "Gran Orbe Gríseo" : "Griseous Orb";
+    }
+  }
+
+  // 7. Therian Formes
+  if (fName.includes("therian")) {
+    return lang === "es" ? "Espejo Revelador" : "Reveal Glass";
+  }
+
+  // 8. Ogerpon Masks
+  if (fName.includes("mask")) {
+    if (fName.includes("wellspring")) return lang === "es" ? "Máscara Fuente" : "Wellspring Mask";
+    if (fName.includes("hearthflame")) return lang === "es" ? "Máscara Horno" : "Hearthflame Mask";
+    if (fName.includes("cornerstone")) return lang === "es" ? "Máscara Cimiento" : "Cornerstone Mask";
+    if (fName.includes("teal")) return lang === "es" ? "Máscara Turquesa" : "Teal Mask";
+  }
+
+  // 9. Deoxys
+  if (fName.includes("deoxys")) {
+    return lang === "es" ? "Meteorito" : "Meteorite";
+  }
+
+  return "";
+}
+
 // --- State Management ---
 const state = {
   index: [],
@@ -435,34 +551,47 @@ async function loadTypeSets() {
 }
 
 async function loadRegions() {
-  for (const key of REGION_KEYS) {
-    try {
-      const region = await fetchJSON(`${API_URL}/region/${key}`);
-      const species = new Set();
-      for (const pdx of region.pokedexes) {
-        const url = pdx.url || `${API_URL}/pokedex/${pdx.name}`;
-        try {
-          const pd = await fetchJSON(url);
-          for (const e of pd.pokemon_entries)
-            species.add(e.pokemon_species.name);
-        } catch {}
-      }
-      state.regionSets.set(key, species);
-    } catch {}
-  }
+  await Promise.all(
+    REGION_KEYS.map(async (key) => {
+      try {
+        const region = await fetchJSON(`${API_URL}/region/${key}`);
+        const species = new Set();
+        if (region && region.pokedexes) {
+          await Promise.all(
+            region.pokedexes.map(async (pdx) => {
+              const url = pdx.url || `${API_URL}/pokedex/${pdx.name}`;
+              try {
+                const pd = await fetchJSON(url);
+                if (pd && pd.pokemon_entries) {
+                  for (const e of pd.pokemon_entries) {
+                    species.add(e.pokemon_species.name);
+                  }
+                }
+              } catch {}
+            })
+          );
+        }
+        state.regionSets.set(key, species);
+      } catch {}
+    })
+  );
 }
 
 async function loadGenerations() {
-  for (const key of GEN_KEYS) {
-    try {
-      const genData = await fetchJSON(`${API_URL}/generation/${key}`);
-      const species = new Set();
-      for (const s of genData.pokemon_species) {
-        species.add(s.name);
-      }
-      state.genSets.set(key, species);
-    } catch (e) {}
-  }
+  await Promise.all(
+    GEN_KEYS.map(async (key) => {
+      try {
+        const genData = await fetchJSON(`${API_URL}/generation/${key}`);
+        const species = new Set();
+        if (genData && genData.pokemon_species) {
+          for (const s of genData.pokemon_species) {
+            species.add(s.name);
+          }
+        }
+        state.genSets.set(key, species);
+      } catch (e) {}
+    })
+  );
 }
 async function getPokemon(name) {
   if (state.details.has(name)) return state.details.get(name);
@@ -1084,9 +1213,9 @@ function renderPage() {
   const list = state.filteredNames.slice(start, start + state.perPage);
   const frag = document.createDocumentFragment();
 
-  for (const name of list) {
-    frag.appendChild(createCard(name));
-  }
+  list.forEach((name, idx) => {
+    frag.appendChild(createCard(name, idx < 8));
+  });
   grid.appendChild(frag);
   if (typeof lucide !== "undefined") {
     lucide.createIcons({ root: grid });
@@ -1109,7 +1238,7 @@ const cardObserver = new IntersectionObserver((entries, observer) => {
   });
 }, { rootMargin: "800px" });
 
-function createCard(name) {
+function createCard(name, isPriority = false) {
   const tpl = document.getElementById("card-tpl");
   const node = tpl.content.firstElementChild.cloneNode(true);
   const img = node.querySelector("img.sprite");
@@ -1117,6 +1246,11 @@ function createCard(name) {
   const nameEl = node.querySelector(".name");
   const badges = node.querySelector(".badges");
   const controls = node.querySelector(".card-controls");
+
+  if (isPriority) {
+    img.loading = "eager";
+    img.setAttribute("fetchpriority", "high");
+  }
 
   nameEl.textContent = toTitle(name);
   idEl.textContent = "…";
@@ -1141,11 +1275,11 @@ function createCard(name) {
   node.classList.add("grid-item-enter");
   cardObserver.observe(node);
 
-  node.addEventListener("click", () => openModal(name));
+  node.addEventListener("click", () => openModal(name, "", state.gridShiny));
   node.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      openModal(name);
+      openModal(name, "", state.gridShiny);
     }
   });
 
@@ -1394,6 +1528,7 @@ async function openModal(name, preferredSuffix = "", keepShiny = false) {
   const currentLang = I18n.currentLang;
 
   const modal = $("#modal");
+  if (!modal) return;
   
   // Show modal instantly with loading skeleton overlay
   let overlay = modal.querySelector(".modal-loading-overlay");
@@ -1420,6 +1555,7 @@ async function openModal(name, preferredSuffix = "", keepShiny = false) {
   try {
     // Initial fetch to get strict data
     let data = await getPokemon(name);
+    state.lastOpenedName = data.name;
     const sp = await getSpecies(data.species.name);
 
   // Smart Form Switching:
@@ -1438,7 +1574,7 @@ async function openModal(name, preferredSuffix = "", keepShiny = false) {
     }
   }
 
-  history.replaceState(null, "", `#pokemon/${name}`);
+  history.replaceState(null, "", `#pokemon/${data.id}`);
   syncModalIndex(data.species.name);
 
   const tps = data.types
@@ -1719,7 +1855,7 @@ async function openModal(name, preferredSuffix = "", keepShiny = false) {
         
         // Remove species name from start or end, and handle hyphens
         let cleaned = currentLabel
-          .replace(new RegExp(`^${baseName}\\s*|\\s*${baseName}$`, "gi"), "")
+          .replace(new RegExp(`^${baseName}[-\\s]*|[-\\s]*${baseName}$`, "gi"), "")
           .replace(/^-+|-+$/g, "")
           .trim();
           
@@ -1733,9 +1869,9 @@ async function openModal(name, preferredSuffix = "", keepShiny = false) {
         }
       }
       
-      const requirement = I18n.t("forms.requirements_data." + v);
+      const requirement = getFormRequirement(v, data.species?.name || data.name);
       const label =
-        requirement !== "forms.requirements_data." + v
+        requirement
           ? `${formLabel} ◆ ${requirement}`
           : formLabel;
       return `<option value="${v}">${label || "—"}</option>`;
@@ -2652,15 +2788,39 @@ async function init() {
       if (closeBtn) closeBtn.onclick = () => modal.close();
     }
 
+    // Priority deep-link: If opening directly to a Pokemon from another page, trigger modal IMMEDIATELY!
+    if (location.hash.startsWith("#pokemon/")) {
+      const name = location.hash.split("/")[1];
+      if (name) openModal(name);
+    }
+
+    // Listen to hash changes (back/forward navigation, external links)
+    window.addEventListener("hashchange", () => {
+      if (location.hash.startsWith("#pokemon/")) {
+        const name = location.hash.split("/")[1];
+        if (name && name !== state.lastOpenedName) {
+          openModal(name);
+        }
+      } else if (!location.hash || location.hash === "#") {
+        const m = $("#modal");
+        if (m && m.open) m.close();
+      }
+    });
+
     // Cleanup: Remove duplicate load calls and consolidate languageChanged listener
     if (document.getElementById("pokedexGrid")) {
-      // Discover dynamic types/regions/gens from API (future-proofing)
-      await discoverDynamicLists();
+      // Discover dynamic lists and main Pokemon index in parallel
+      await Promise.all([
+        discoverDynamicLists(),
+        loadIndex()
+      ]);
 
-      await loadIndex();
-      await loadTypeSets();
-      await loadRegions();
-      await loadGenerations();
+      // Load type sets, regions, and generations in parallel
+      await Promise.all([
+        loadTypeSets(),
+        loadRegions(),
+        loadGenerations()
+      ]);
 
       createTypeFilters();
       
@@ -2803,11 +2963,6 @@ async function init() {
           },
         });
       }
-    }
-
-    if (location.hash.startsWith("#pokemon/")) {
-      const name = location.hash.split("/")[1];
-      if (name) openModal(name);
     }
   } catch (err) {}
 }
@@ -3845,7 +4000,7 @@ async function updateTeamPanel() {
                  </button>
               </div>
               <div class="slot-body">
-                <img src="${spriteUrl}" alt="${member.name}" class="slot-main-sprite">
+                <img src="${spriteUrl}" alt="${member.name}" class="slot-main-sprite" width="96" height="96">
                 ${itemHtml}
               </div>
               <div class="slot-footer">
@@ -4318,6 +4473,24 @@ async function openTeamEditModal(index) {
         requiredItem = `${baseName}ite${variant}`;
       }
 
+      lockItem = true;
+    } else if (formName.includes("primal")) {
+      if (speciesName === "kyogre") requiredItem = "blue-orb";
+      else if (speciesName === "groudon") requiredItem = "red-orb";
+      lockItem = true;
+    } else if (formName.includes("crowned")) {
+      if (speciesName === "zacian") requiredItem = "rusted-sword";
+      else if (speciesName === "zamazenta") requiredItem = "rusted-shield";
+      lockItem = true;
+    } else if (formName.includes("origin")) {
+      if (speciesName === "giratina") requiredItem = "griseous-orb";
+      else if (speciesName === "dialga") requiredItem = "adamant-crystal";
+      else if (speciesName === "palkia") requiredItem = "lustrous-globe";
+      lockItem = true;
+    } else if (formName.includes("mask")) {
+      if (formName.includes("wellspring")) requiredItem = "wellspring-mask";
+      else if (formName.includes("hearthflame")) requiredItem = "hearthflame-mask";
+      else if (formName.includes("cornerstone")) requiredItem = "cornerstone-mask";
       lockItem = true;
     }
 
@@ -5063,29 +5236,12 @@ function setupFormSelect(formSel, sp, member) {
       }
 
       if (variant) displayForm += ` ${variant}`;
-
-      // Try to find exact item from I18n or fall back to constructed name
-      const key = formName;
-      const drug = I18n.t(`forms.requirements_data.${key}`);
-
-      if (drug && drug !== `forms.requirements_data.${key}`) {
-        displayReq = drug;
-      } else {
-        // HEURISTIC CONSTRUCTION
-        const lang = I18n.currentLang;
-        const stoneSuffix = lang === "es" ? "ita" : "ite";
-        displayReq = `${baseName}${stoneSuffix}`;
-        if (variant) displayReq += ` ${variant}`;
-      }
+      displayReq = getFormRequirement(formName, sp.name);
     }
     // 2. GIGANTAMAX
     else if (formName.includes("-gmax") || formName.includes("gmax")) {
       displayForm = "Gigantamax";
-      let gmaxText = I18n.t("forms.requirements_data.gmax");
-      if (gmaxText === "forms.requirements_data.gmax") {
-        gmaxText = I18n.currentLang === "es" ? "Maxisopa" : "Max Soup";
-      }
-      displayReq = gmaxText;
+      displayReq = getFormRequirement(formName, sp.name);
     }
     // 3. REGIONAL FORMS (Alola, Galar, Hisui, Paldea)
     else if (formName.includes("alola")) {
@@ -5104,11 +5260,7 @@ function setupFormSelect(formSel, sp, member) {
     // 4. GENERIC FALLBACK
     else {
       displayForm = toTitle(suffix.replace(/-/g, " "));
-      const key = formName;
-      const drug = I18n.t(`forms.requirements_data.${key}`);
-      if (drug && drug !== `forms.requirements_data.${key}`) {
-        displayReq = drug;
-      }
+      displayReq = getFormRequirement(formName, sp.name);
     }
 
     // Combine with Diamond Separator if requirement exists
@@ -5130,7 +5282,7 @@ function setupFormSelect(formSel, sp, member) {
   formSel.onchange = async (e) => {
     const newName = e.target.value;
     const scrollPos = document.getElementById("modal").scrollTop;
-    await openModal(newName);
+    await openModal(newName, "", $("#shinyToggle").checked);
     document.getElementById("modal").scrollTop = scrollPos;
   };
 }
@@ -6094,9 +6246,17 @@ async function buildEvolutionUI(name) {
       "-yellow", "-orange", "-blue", "-white",
       "-antique", "-artisan", "-masterpiece",
       "-droopy", "-stretchy",
-      "-family-of-three", "-three-segment"
+      "-family-of-three", "-three-segment",
+      "-white-striped", "-own-tempo"
     ];
     let activeSuffix = formSuffixes.find((s) => name.endsWith(s)) || "";
+
+    // If viewing an evolution that requires a specific parent form (e.g. Perrserker requires meowth-galar)
+    if (!activeSuffix && EVO_REQUIREMENTS[name]?.requireParent) {
+      const reqParent = EVO_REQUIREMENTS[name].requireParent;
+      const parentName = Array.isArray(reqParent) ? reqParent[0] : reqParent;
+      activeSuffix = formSuffixes.find((s) => parentName.endsWith(s)) || "";
+    }
 
     // Suffix projection is now safe for all species (including Burmy/Mothim) 
     // because renderEvoBranch checks state.index before attempting a fetch.
@@ -6105,7 +6265,12 @@ async function buildEvolutionUI(name) {
     if (name === "sinistcha-masterpiece") activeSuffix = "-artisan";
 
     // Calculate depth for the stage display
-    const { depth, totalStages } = calculateEvoDepth(chainData.chain, name);
+    let { depth, totalStages } = calculateEvoDepth(chainData.chain, name);
+    const isEvoTrans = /(?:-(mega|gmax|gigantamax|primal|eternamax|ultra))\b/.test(name);
+    if (isEvoTrans && depth > 0) {
+      depth += 1;
+      totalStages = Math.max(totalStages, depth);
+    }
     stageEl.textContent = I18n.t("modal.evolution_stage", depth, totalStages);
 
     track.innerHTML = "";
@@ -6304,14 +6469,18 @@ async function renderEvoBranch(node, options, parentSpeciesToShow = null) {
     arrContainer.appendChild(arr);
 
     // Transformation Requirement
-    let requirement = I18n.t("forms.requirements_data." + currentName);
-    if (!requirement || requirement === "forms.requirements_data." + currentName) {
+    let requirement = getFormRequirement(currentName, baseSpeciesName);
+    if (!requirement) {
       if (currentName.includes("-gmax") || currentName.includes("-gigantamax")) {
         requirement = "Gigamax";
       } else if (currentName.includes("-mega")) {
         requirement = "Mega";
       } else if (currentName.includes("-primal")) {
         requirement = "Primal";
+      } else if (currentName.includes("-ultra")) {
+        requirement = "Ultra";
+      } else if (currentName.includes("-eternamax")) {
+        requirement = "Eternamax";
       } else {
         requirement = "";
       }

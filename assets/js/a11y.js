@@ -1,3 +1,11 @@
+// Initialize security protections if not already loaded
+if (!document.querySelector('script[src*="security.js"]')) {
+  const isPagesDir = window.location.pathname.includes('/pages/');
+  const secScript = document.createElement('script');
+  secScript.src = (isPagesDir ? '../' : '') + 'assets/js/security.js';
+  document.head.appendChild(secScript);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   // Page entry animation
   requestAnimationFrame(() => {

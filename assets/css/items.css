@@ -63,6 +63,8 @@
   min-height: 200px;
   position: relative;
   overflow: hidden;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 200px;
 }
 
 /* Sutil acento de color solo en el borde superior */
@@ -99,6 +101,8 @@
   margin-bottom: var(--spacing-md);
   padding: 12px;
   transition: all 0.3s ease;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
 }
 
 .interactive-card:hover .item-icon-wrapper {

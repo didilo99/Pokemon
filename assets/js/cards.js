@@ -711,33 +711,38 @@ function setupEventListeners() {
   });
 
   // Card Zoom logic
-  if (modalCardImage) {
-    modalCardImage.addEventListener("click", () => {
-      const largeSrc =
-        modalCardImage.getAttribute("data-large") || modalCardImage.src;
+  function triggerCardZoom() {
+    const modalImg = document.querySelector(".card-hero #modalCardImage");
+    if (!modalImg) return;
+    const largeSrc = modalImg.getAttribute("data-large") || modalImg.src;
 
-      // Update Zoom Image
+    // Update Zoom Image
+    if (zoomedImage) {
       zoomedImage.src = largeSrc;
       delete zoomedImage.dataset.fallbackApplied;
       zoomedImage.onerror = null;
+    }
 
-      // Sync Classes (Fall back to default if no modal classes found)
-      const modalContainer = document.querySelector(
-        ".card-hero .card-holo-container",
-      );
-      const rarityClasses = modalContainer
-        ? modalContainer.getAttribute("data-rarity-classes")
-        : "rarify-satin";
+    // Sync Classes from modal container
+    const modalContainer = document.querySelector(
+      ".card-hero .card-holo-container",
+    );
+    const rarityClasses = modalContainer
+      ? modalContainer.getAttribute("data-rarity-classes")
+      : "rarify-satin";
 
-      const zoomContainer = zoomOverlay.querySelector(".card-holo-container");
-      if (zoomContainer) {
-        zoomContainer.className = `card-holo-container ${rarityClasses}`;
-        zoomContainer.style.transform = "";
-        zoomContainer.classList.add("card-idle-tilt");
-      }
+    const zoomContainer = zoomOverlay ? zoomOverlay.querySelector(".card-holo-container") : null;
+    if (zoomContainer) {
+      zoomContainer.className = `card-holo-container card-idle-tilt ${rarityClasses}`;
+      zoomContainer.setAttribute("data-rarity-classes", rarityClasses);
+      zoomContainer.style.transform = "";
+    }
 
-      zoomOverlay.showModal();
-    });
+    if (zoomOverlay) zoomOverlay.showModal();
+  }
+
+  if (modalCardImage) {
+    modalCardImage.addEventListener("click", triggerCardZoom);
   }
 
   if (zoomOverlay) {
@@ -747,17 +752,8 @@ function setupEventListeners() {
 
     // Unified 3D Tilt Logic for Zoom Overlay
     zoomOverlay.addEventListener("mousemove", (e) => {
-      // Re-fetch/Sync rarity classes from modal container
-      const modalContainer = document.querySelector(
-        ".card-hero .card-holo-container",
-      );
-      const rarityClasses = modalContainer
-        ? modalContainer.getAttribute("data-rarity-classes")
-        : "rarify-satin";
-
       const zoomContainer = zoomOverlay.querySelector(".card-holo-container");
       if (zoomContainer) {
-        zoomContainer.className = `card-holo-container ${rarityClasses}`;
         zoomContainer.classList.remove("card-idle-tilt");
 
         const rect = zoomOverlay.getBoundingClientRect();
@@ -769,16 +765,22 @@ function setupEventListeners() {
         // More aggressive rotation for impact
         const rotateX = ((centerY - y) / centerY) * 15;
         const rotateY = ((x - centerX) / centerX) * 15;
+        const shadowX = (centerX - x) / 5;
+        const shadowY = (centerY - y) / 5;
 
         zoomContainer.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        zoomContainer.style.setProperty(
+          "--card-shadow",
+          `${shadowX}px ${shadowY}px 60px rgba(0,0,0,0.8)`,
+        );
 
         const holoEffect = zoomContainer.querySelector(".holo-effect");
         if (holoEffect) {
-          // Precise relative calculation for the shine
-          const relX = (x / rect.width) * 100;
-          const relY = (y / rect.height) * 100;
-          holoEffect.style.setProperty("--mx", `${relX}%`);
-          holoEffect.style.setProperty("--my", `${relY}%`);
+          const cardRect = zoomContainer.getBoundingClientRect();
+          const relX = ((e.clientX - cardRect.left) / cardRect.width) * 100;
+          const relY = ((e.clientY - cardRect.top) / cardRect.height) * 100;
+          holoEffect.style.setProperty("--mx", `${Math.max(0, Math.min(100, relX))}%`);
+          holoEffect.style.setProperty("--my", `${Math.max(0, Math.min(100, relY))}%`);
         }
 
         // Handle reset to idle if mouse stops moving
@@ -815,6 +817,12 @@ function setupEventListeners() {
   // Card Interaction logic (Container-Level Delegation)
   const heroContainer = document.querySelector(".card-hero");
   if (heroContainer) {
+    heroContainer.addEventListener("click", (e) => {
+      if (e.target.closest("#modalCardImage") || e.target.closest(".parallax-wrapper")) {
+        triggerCardZoom();
+      }
+    });
+
     heroContainer.addEventListener("mousemove", (e) => {
       const holoContainer = heroContainer.querySelector(".card-holo-container");
       const parallaxImg = heroContainer.querySelector(".card-parallax-img");
@@ -1605,20 +1613,25 @@ async function showCardDetail(cardOrId) {
   if (cardModal) cardModal.showModal();
 
   // 3. Lazy Load Check
-  // If card is Pokemon and has no attacks/abilities/weaknesses, it's likely a summary.
-  // Trainer/Energy might naturally lack these, so check supertype.
-  const isPokemon = card.supertype === "Pokémon" || card.category === "Pokemon";
-  const needsFetch =
-    isPokemon && !card.attacks && !card.abilities && !card.weaknesses;
+  // Summary cards from grid lack rarity, attacks, etc. Fetch full details if missing.
+  const hasFullDetails =
+    !!card.rarity &&
+    (card.attacks || card.abilities || card.effect || card.rules || card.types || card.hp);
+  const needsFetch = !hasFullDetails;
 
   let fullCard = card;
 
   if (needsFetch) {
     // Show loading in Rules section
     const rulesSection = document.getElementById("modalCardRules");
-    rulesSection.style.display = "block";
-    rulesSection.querySelector(".rules-list").innerHTML =
-      `<div class="text-center p-3"><div class="spinner-border text-primary"></div><div class="small mt-2">${I18n.t("tcg.loading_details") || "Cargando detalles..."}</div></div>`;
+    if (rulesSection) {
+      rulesSection.style.display = "block";
+      const rulesList = rulesSection.querySelector(".rules-list");
+      if (rulesList) {
+        rulesList.innerHTML =
+          `<div class="text-center p-3"><div class="spinner-border text-primary"></div><div class="small mt-2">${I18n.t("tcg.loading_details") || "Cargando detalles..."}</div></div>`;
+      }
+    }
 
     try {
       const fetchedCard = await fetchCardDetail(card.id);
@@ -1627,7 +1640,9 @@ async function showCardDetail(cardOrId) {
         // Save to DB
         await CardStorage.saveCardsBatch([fullCard], I18n.currentLang);
         // Update local cache
-        currentCardsList[index] = fullCard;
+        if (typeof currentCardIndex === "number" && currentCardsList && currentCardsList[currentCardIndex]) {
+          currentCardsList[currentCardIndex] = fullCard;
+        }
       }
     } catch (e) {}
   }
@@ -1762,6 +1777,105 @@ async function fetchCardDetail(id, lang = I18n.currentLang) {
 }
 
 /**
+ * Detect multi-trait rarity classes for holo and 3D effects (Bilingual EN/ES + Accents)
+ */
+function getCardRarityClasses(card) {
+  if (!card) return ["rarify-satin"];
+
+  const clean = (str) =>
+    (str || "")
+      .toString()
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim();
+
+  const rarity = clean(card.rarity);
+  const subtypes = (card.subtypes || []).map((s) => clean(s));
+  const name = clean(card.name);
+  const supertype = clean(card.supertype || card.category);
+
+  let rarityClasses = [];
+
+  // Group 1: 👑 Rarezas Supremas (Precedence 1)
+  if (rarity.includes("classic collection") || rarity.includes("coleccion clasica")) {
+    rarityClasses.push("rarify-classic-collection");
+  } else if (rarity.includes("crown") || rarity.includes("corona")) {
+    rarityClasses.push("rarify-crown");
+  } else if (rarity.includes("ace spec") || rarity.includes("as tactico") || rarity.includes("rare ace")) {
+    rarityClasses.push("rarify-ace-spec");
+  } else if (((rarity.includes("hyper") || rarity.includes("hiper")) && (rarity.includes("mega") || subtypes.includes("mega"))) || rarity.includes("mega attack rare")) {
+    rarityClasses.push("rarify-mega-hyper");
+  } else if (rarity.includes("hyper") || rarity.includes("hiper") || rarity.includes("rainbow") || rarity.includes("arcoiris") || rarity.includes("arco iris")) {
+    rarityClasses.push("rarify-hyper-rainbow");
+  } else if (rarity.includes("secret") || rarity.includes("secreta") || name.includes("gold") || name.includes("dorad")) {
+    rarityClasses.push("rarify-secret-gold");
+  } 
+  // Group 2: ✨ Rarezas de Coleccionista (Precedence 2)
+  else if (rarity.includes("amazing") || rarity.includes("increible") || subtypes.includes("amazing")) {
+    rarityClasses.push("rarify-amazing");
+  } else if (rarity.includes("special illustration") || rarity.includes("ilustracion especial")) {
+    rarityClasses.push("rarify-special-illustration");
+  } else if (rarity.includes("full art trainer") || rarity.includes("entrenador de arte completo") || rarity.includes("entrenador arte completo") || ((supertype.includes("trainer") || supertype.includes("entrenador")) && (rarity.includes("full art") || rarity.includes("arte completo")))) {
+    rarityClasses.push("rarify-full-art-trainer");
+  } else if (rarity.includes("illustration") || rarity.includes("ilustracion") || rarity.includes("full art") || rarity.includes("arte completo")) {
+    rarityClasses.push("rarify-illustration");
+  } else if ((rarity.includes("ultra") && (rarity.includes("shiny") || rarity.includes("variocolor"))) || rarity.includes("shiny ultra rare") || rarity.includes("ultra variocolor")) {
+    rarityClasses.push("rarify-ultra-rare-shiny");
+  } else if (rarity.includes("ultra rare") || rarity.includes("ultra rara") || rarity.includes("rare ultra") || rarity.includes("rara ultra")) {
+    rarityClasses.push("rarify-ultra-rare");
+  } else if ((rarity.includes("shiny") || rarity.includes("variocolor")) && (subtypes.includes("v") || subtypes.includes("vmax") || subtypes.includes("vstar") || rarity.includes(" v") || rarity.includes("vmax") || rarity.includes("vstar"))) {
+    rarityClasses.push("rarify-shiny-v");
+  } else if ((rarity.includes("shiny") || rarity.includes("variocolor")) && (rarity.includes("double") || rarity.includes("doble") || rarity.includes("two") || rarity.includes("dos"))) {
+    rarityClasses.push("rarify-diamond-2-shiny");
+  } else if (rarity.includes("shiny") || rarity.includes("variocolor") || rarity.includes("shining") || rarity.includes("one shiny") || rarity.includes("two shiny")) {
+    rarityClasses.push("rarify-shiny");
+  } else if (rarity.includes("radiant") || rarity.includes("radiante") || subtypes.includes("radiant")) {
+    rarityClasses.push("rarify-radiant");
+  }
+  // Group 3: ⚔️ Rarezas de Combate (Precedence 3)
+  else if (rarity.includes("lv.x") || subtypes.includes("level-up") || subtypes.includes("level up")) {
+    rarityClasses.push("rarify-lvx");
+  } else if (rarity.includes("bw") || rarity.includes("black & white") || rarity.includes("black white") || rarity.includes("blanca y negra") || rarity.includes("blanco y negro")) {
+    rarityClasses.push("rarify-bw");
+  } else if (rarity.includes("prime") || rarity.includes("legend") || rarity.includes("leyenda") || subtypes.includes("prime") || subtypes.includes("legend")) {
+    rarityClasses.push("rarify-prime-legend");
+  } else if (subtypes.includes("vstar") || rarity.includes("vstar")) {
+    rarityClasses.push("rarify-rare-holo-vstar");
+  } else if (subtypes.includes("vmax") || rarity.includes("vmax")) {
+    rarityClasses.push("rarify-rare-holo-vmax");
+  } else if (subtypes.includes("v") || rarity.endsWith(" v") || rarity.includes("holo rara v") || rarity.includes("holo rare v") || rarity.includes("rare holo v")) {
+    rarityClasses.push("rarify-rare-holo-v");
+  } else if (rarity.includes("rare holo") || rarity.includes("holo rara") || rarity.includes("holo rare") || rarity.includes("trainer gallery rare holo") || rarity.includes("holo")) {
+    rarityClasses.push("rarify-rare-holo");
+  } else if (rarity.includes("double") || rarity.includes("doble")) {
+    rarityClasses.push("rarify-diamond-2");
+  } else if (rarity === "rare" || rarity === "rara") {
+    rarityClasses.push("rarify-rare");
+  }
+  // Group 4: 💎 Rarezas de Rombos y Estrellas Básicas (Precedence 4)
+  else if (rarity.includes("three star") || rarity.includes("3 star") || rarity.includes("tres estrellas") || rarity.includes("3 estrellas")) {
+    rarityClasses.push("rarify-star-3");
+  } else if (rarity.includes("two star") || rarity.includes("2 star") || rarity.includes("dos estrellas") || rarity.includes("2 estrellas")) {
+    rarityClasses.push("rarify-star-2");
+  } else if (rarity.includes("one star") || rarity.includes("1 star") || rarity.includes("una estrella") || rarity.includes("1 estrella")) {
+    rarityClasses.push("rarify-star-1");
+  } else if (rarity.includes("four diamond") || rarity.includes("4 diamond") || rarity.includes("cuatro diamantes") || rarity.includes("4 diamantes")) {
+    rarityClasses.push("rarify-diamond-4");
+  } else if (rarity.includes("three diamond") || rarity.includes("3 diamond") || rarity.includes("tres diamantes") || rarity.includes("3 diamantes")) {
+    rarityClasses.push("rarify-diamond-3");
+  } else if (rarity.includes("two diamond") || rarity.includes("2 diamond") || rarity.includes("dos diamantes") || rarity.includes("2 diamantes")) {
+    rarityClasses.push("rarify-diamond-2");
+  } else if (rarity.includes("one diamond") || rarity.includes("1 diamond") || rarity.includes("un diamante") || rarity.includes("1 diamante") || rarity.includes("uncommon") || rarity.includes("infrecuente")) {
+    rarityClasses.push("rarify-diamond-1");
+  } else {
+    rarityClasses.push("rarify-satin");
+  }
+
+  return rarityClasses;
+}
+
+/**
  * Render inner details to modal (after data is ready)
  */
 function renderCardDetailsToModal(card) {
@@ -1794,91 +1908,13 @@ function renderCardDetailsToModal(card) {
   // 5. Render Data
   // Image with Holo Effect wrapper
   // Multi-Trait Rarity Detection (29 Tier Hybrid System)
-  const rarity = (card.rarity || "").toLowerCase();
-  const subtypes = (card.subtypes || []).map((s) => s.toLowerCase());
-  const name = (card.name || "").toLowerCase();
-
-  let rarityClasses = [];
-
-  // Group 1: 👑 Rarezas Supremas (Precedence 1)
-  if (rarity.includes("classic collection")) {
-    rarityClasses.push("rarify-classic-collection");
-  } else if (rarity.includes("crown")) {
-    rarityClasses.push("rarify-crown");
-  } else if (rarity.includes("ace spec")) {
-    rarityClasses.push("rarify-ace-spec");
-  } else if (rarity.includes("hyper") && (rarity.includes("mega") || subtypes.includes("mega"))) {
-    rarityClasses.push("rarify-mega-hyper");
-  } else if (rarity.includes("hyper") || rarity.includes("rainbow")) {
-    rarityClasses.push("rarify-hyper-rainbow");
-  } else if (rarity.includes("secret") && (rarity.includes("gold") || name.includes("gold"))) {
-    rarityClasses.push("rarify-secret-gold");
-  } else if (rarity.includes("secret")) {
-    rarityClasses.push("rarify-secret-gold");
-  } 
-  // Group 2: ✨ Rarezas de Coleccionista (Precedence 2)
-  else if (rarity.includes("amazing") || subtypes.includes("amazing")) {
-    rarityClasses.push("rarify-amazing");
-  } else if (rarity.includes("special illustration")) {
-    rarityClasses.push("rarify-special-illustration");
-  } else if (rarity.includes("illustration") || rarity.includes("full art")) {
-    rarityClasses.push("rarify-illustration");
-  } else if (rarity.includes("ultra rare") && rarity.includes("shiny")) {
-    rarityClasses.push("rarify-ultra-rare"); // Mapping to ultra-rare effect
-  } else if (rarity.includes("ultra rare")) {
-    rarityClasses.push("rarify-ultra-rare");
-  } else if (rarity.includes("shiny") && (subtypes.includes("v") || subtypes.includes("vmax") || subtypes.includes("vstar"))) {
-    rarityClasses.push("rarify-shiny-v");
-  } else if (rarity.includes("shiny") && rarity.includes("double")) {
-    rarityClasses.push("rarify-diamond-2-shiny");
-  } else if (rarity.includes("shiny")) {
-    rarityClasses.push("rarify-shiny");
-  } else if (rarity.includes("radiant") || subtypes.includes("radiant")) {
-    rarityClasses.push("rarify-radiant");
-  }
-  // Group 3: ⚔️ Rarezas de Combate (Precedence 3)
-  else if (rarity.includes("lv.x") || subtypes.includes("level-up")) {
-    rarityClasses.push("rarify-lvx");
-  } else if (rarity.includes("bw") || rarity.includes("black & white")) {
-    rarityClasses.push("rarify-bw");
-  } else if (rarity.includes("prime") || rarity.includes("legend") || subtypes.includes("prime") || subtypes.includes("legend")) {
-    rarityClasses.push("rarify-prime-legend");
-  } else if (subtypes.includes("vstar")) {
-    rarityClasses.push("rarify-rare-holo-vstar");
-  } else if (subtypes.includes("vmax")) {
-    rarityClasses.push("rarify-rare-holo-vmax");
-  } else if (subtypes.includes("v")) {
-    rarityClasses.push("rarify-rare-holo-v");
-  } else if (rarity.includes("rare holo")) {
-    rarityClasses.push("rarify-rare-holo");
-  } else if (rarity === "rare") {
-    rarityClasses.push("rarify-rare");
-  }
-  // Group 4: 💎 Rarezas de Rombos y Estrellas Básicas (Precedence 4)
-  else if (rarity.includes("three star") || rarity.includes("3 star")) {
-    rarityClasses.push("rarify-star-3");
-  } else if (rarity.includes("two star") || rarity.includes("2 star")) {
-    rarityClasses.push("rarify-star-2");
-  } else if (rarity.includes("one star") || rarity.includes("1 star")) {
-    rarityClasses.push("rarify-star-1");
-  } else if (rarity.includes("four diamond") || rarity.includes("4 diamond")) {
-    rarityClasses.push("rarify-diamond-4");
-  } else if (rarity.includes("three diamond") || rarity.includes("3 diamond")) {
-    rarityClasses.push("rarify-diamond-3");
-  } else if (rarity.includes("two diamond") || rarity.includes("2 diamond")) {
-    rarityClasses.push("rarify-diamond-2");
-  } else if (rarity.includes("one diamond") || rarity.includes("1 diamond") || rarity.includes("uncommon")) {
-    rarityClasses.push("rarify-diamond-1");
-  } else {
-    rarityClasses.push("rarify-satin");
-  }
-
+  const rarityClasses = getCardRarityClasses(card);
   const rarityClassString = rarityClasses.join(" ");
 
   const heroContainer = document.querySelector(".card-hero");
-  // Apply all trait classes and the common 3D container with inner clipping
+  // Apply all trait classes and the common 3D container with inner clipping and idle tilt
   heroContainer.innerHTML = `
-      <div class="card-holo-container ${rarityClassString}" data-rarity-classes="${rarityClassString}">
+      <div class="card-holo-container card-idle-tilt ${rarityClassString}" data-rarity-classes="${rarityClassString}">
           <div class="card-inner">
               <div class="parallax-wrapper">
                   <img id="modalCardImage" class="card-large-image card-parallax-img" src="${highImage}" alt="${card.name}" data-large="${highImage}">
@@ -1886,7 +1922,20 @@ function renderCardDetailsToModal(card) {
               <div class="holo-effect"></div>
           </div>
       </div>
+      <div id="modalCardTypeLogo" class="type-logo-container mt-2"></div>
     `;
+
+  // Render type logo below card
+  const typeLogoContainer = document.getElementById("modalCardTypeLogo");
+  if (typeLogoContainer) {
+    if (card.supertype === "Trainer" || card.supertype === "Energy") {
+      typeLogoContainer.innerHTML = "";
+    } else if (card.types && card.types.length > 0) {
+      const primaryType = card.types[0];
+      const typeKey = primaryType.toLowerCase();
+      typeLogoContainer.innerHTML = `<img src="${getPokespriteTypeIcon(typeKey)}" alt="${primaryType}" width="64" height="64">`;
+    }
+  }
 
   // Set Accent Color based on Type
   if (card.supertype === "Trainer") {
@@ -2201,7 +2250,7 @@ function renderCardDetailsToModal(card) {
       const modalHolo = heroContainer.querySelector(".card-holo-container");
       const rarityTraits = modalHolo
         ? modalHolo.getAttribute("data-rarity-classes")
-        : "rarify-satin";
+        : (rarityClassString || "rarify-satin");
 
       // Update Zoom Image
       const zoomImg = document.getElementById("zoomedImage");
@@ -2216,9 +2265,9 @@ function renderCardDetailsToModal(card) {
         "#zoomOverlay .card-holo-container",
       );
       if (zoomContainer) {
-        zoomContainer.className = `card-holo-container ${rarityTraits}`;
+        zoomContainer.className = `card-holo-container card-idle-tilt ${rarityTraits}`;
+        zoomContainer.setAttribute("data-rarity-classes", rarityTraits);
         zoomContainer.style.transform = "";
-        zoomContainer.classList.add("card-idle-tilt");
       }
 
       const zoomOverlayModal = document.getElementById("zoomOverlay");

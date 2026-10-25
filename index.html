@@ -4,6 +4,10 @@
     <!-- Meta tags -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin />
+    <link rel="preconnect" href="https://pokeapi.co" crossorigin />
+    <link rel="dns-prefetch" href="https://raw.githubusercontent.com" />
+    <link rel="dns-prefetch" href="https://pokeapi.co" />
     <title data-i18n="nav.pokemon">Pokédex</title>
 
     <!-- Bootstrap 5 -->
@@ -18,6 +22,7 @@
     <link rel="stylesheet" href="assets/css/index.css?v=12" />
     <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
     <link rel="stylesheet" href="assets/css/a11y.css" />
+    <script src="assets/js/security.js"></script>
     <script src="assets/js/cache.js" defer></script>
     <script src="assets/js/i18n.js" defer></script>
     <script src="assets/js/bulbapedia.js" defer></script>
@@ -41,7 +46,7 @@
           <div class="d-flex align-items-center justify-content-between">
             <a href="index.html" class="brand">
               <!-- Cambia la ruta del atributo src para poner tu propio logo (ej. "assets/icon/mi-logo.png") -->
-              <img src="assets/icon/logo.png" alt="Logo" class="title-logo">
+              <img src="assets/icon/logo.png" alt="Logo" class="title-logo" width="60" height="60">
               <!-- El texto principal de la web. Puedes cambiarlo editando "Pokédex" -->
               <h1 class="title mb-0">Pokédex</h1>
             </a>
@@ -293,7 +298,14 @@
           <div class="d-flex align-items-center justify-content-between mb-2">
             <h2 id="teamHeader" class="h6 fw-bold mb-0" data-i18n="team.header">Equipo (hasta 6)</h2>
           </div>
-          <div class="team-row" id="teamSlots" role="list"></div>
+          <div class="team-row" id="teamSlots" role="list">
+            <div class="slot empty"><div class="slot-body"><span class="opacity-25">+</span></div></div>
+            <div class="slot empty"><div class="slot-body"><span class="opacity-25">+</span></div></div>
+            <div class="slot empty"><div class="slot-body"><span class="opacity-25">+</span></div></div>
+            <div class="slot empty"><div class="slot-body"><span class="opacity-25">+</span></div></div>
+            <div class="slot empty"><div class="slot-body"><span class="opacity-25">+</span></div></div>
+            <div class="slot empty"><div class="slot-body"><span class="opacity-25">+</span></div></div>
+          </div>
         </section>
 
         <div class="d-flex flex-wrap gap-3 my-3">
@@ -447,7 +459,7 @@
             data-close-modal
           ><i data-lucide="x"></i></button>
           <div class="hero">
-            <img id="modalSprite" class="big-sprite" data-i18n-alt="modal.sprite" alt="Sprite del Pokémon" />
+            <img id="modalSprite" class="big-sprite" data-i18n-alt="modal.sprite" alt="Sprite del Pokémon" width="300" height="300" />
             <div class="swapline">
               <span class="pill">
                 <label for="spriteSelect" data-i18n="modal.sprite">Sprite</label>
@@ -696,7 +708,7 @@
             Editar Pokémon
           </h2>
           <div class="team-edit-sprite-container">
-            <img id="teamEditSprite" src="" alt="Pokemon Sprite" />
+            <img id="teamEditSprite" src="" alt="Pokemon Sprite" width="160" height="160" />
           </div>
           <div id="teamEditSummary"></div> <!-- Summary container moved out -->
         </div>
@@ -895,7 +907,7 @@
       <article class="card" role="button" aria-haspopup="dialog" tabindex="0">
         <span class="id">#000</span>
         <div class="spritewrap">
-          <img class="sprite" loading="lazy" decoding="async" alt="Sprite" />
+          <img class="sprite" loading="lazy" decoding="async" alt="Sprite" width="96" height="96" />
         </div>
         <h3 class="name h6">pokemon</h3>
         <div class="card-controls"></div>
@@ -910,7 +922,7 @@
     ></script>
 
     <script src="assets/js/cardStorage.js?v=14" defer></script>
-    <script src="assets/js/app.js?v=15" defer></script>
+    <script src="assets/js/app.js?v=16" defer></script>
 
     <div id="footer-placeholder"></div>
   </body>

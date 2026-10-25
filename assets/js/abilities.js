@@ -409,7 +409,7 @@
         }
         div.onclick = () => {
           window.open(
-            `${I18n.getBasePath()}index.html#pokemon/${p.pokemon.name}`,
+            `${I18n.getBasePath()}index.html#pokemon/${id}`,
             "_blank",
           );
         };
