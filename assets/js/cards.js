@@ -49,6 +49,8 @@ const pageInfo = document.getElementById("pageInfo");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 const perPageSelect = document.getElementById("perPage");
+const pageJumpInput = document.getElementById("pageJump");
+const goBtn = document.getElementById("goBtn");
 
 // Filter DOM Elements
 const filterName = document.getElementById("filterName");
@@ -549,6 +551,38 @@ function setupEventListeners() {
     saveFilters();
     fetchAndRenderCards();
   });
+
+  const performPageJump = () => {
+    if (!pageJumpInput) return;
+    const p = parseInt(pageJumpInput.value, 10);
+    const max = Math.max(1, Math.ceil(totalCards / CARDS_PER_PAGE));
+    if (!isNaN(p) && p >= 1) {
+      currentPage = Math.min(p, max);
+      const params = new URLSearchParams(window.location.search);
+      params.set("page", currentPage);
+      window.history.replaceState(
+        {},
+        "",
+        `${window.location.pathname}?${params.toString()}`,
+      );
+      saveFilters();
+      fetchAndRenderCards();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  if (goBtn) {
+    goBtn.addEventListener("click", performPageJump);
+  }
+
+  if (pageJumpInput) {
+    pageJumpInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        performPageJump();
+      }
+    });
+  }
 
   window.addEventListener("languageChanged", async () => {
     // Re-translate static UI elements (search placeholder, sort options, etc.)
@@ -1190,6 +1224,10 @@ async function fetchAndRenderCards() {
             </div>
         `;
       pageInfo.textContent = "- / -";
+      if (pageJumpInput) {
+        pageJumpInput.max = 1;
+        pageJumpInput.value = 1;
+      }
       prevBtn.disabled = true;
       nextBtn.disabled = true;
 
@@ -1239,7 +1277,13 @@ async function fetchAndRenderCards() {
         <h4>${I18n.t("filters.no_results_title") || "No results"}</h4>
         <p>${I18n.t("filters.no_results_desc") || "Try clearing filters."}</p>
       </div>`;
-      pageInfo.textContent = `Page ${currentPage} / ${totalPages || 1}`;
+      pageInfo.textContent = (typeof I18n !== "undefined" && I18n.t("common.paginator"))
+        ? I18n.t("common.paginator", currentPage, totalPages || 1)
+        : `Page ${currentPage} / ${totalPages || 1}`;
+      if (pageJumpInput) {
+        pageJumpInput.max = totalPages || 1;
+        pageJumpInput.value = currentPage;
+      }
     } else {
       currentCardsList = cards; // Cache for modal navigation
       const fragment = document.createDocumentFragment();
@@ -1259,7 +1303,13 @@ async function fetchAndRenderCards() {
         if (cardGrid) cardGrid.classList.remove("pager-transitioning");
       }, 200);
 
-      pageInfo.textContent = `Page ${currentPage} / ${totalPages}`;
+      pageInfo.textContent = (typeof I18n !== "undefined" && I18n.t("common.paginator"))
+        ? I18n.t("common.paginator", currentPage, totalPages)
+        : `Page ${currentPage} / ${totalPages}`;
+      if (pageJumpInput) {
+        pageJumpInput.max = totalPages;
+        pageJumpInput.value = currentPage;
+      }
 
       // Update Sync Status Text with Last Updated time
       const meta = await CardStorage.loadMetadata();
@@ -1471,12 +1521,19 @@ function svgType(name) {
  */
 function updatePaginationUI(itemsOnPage) {
   const pageInfo = document.getElementById("pageInfo");
+  const totalPages = Math.max(1, Math.ceil(totalCards / CARDS_PER_PAGE));
   if (pageInfo) {
     if (itemsOnPage === 0) {
       pageInfo.textContent = "0 / 0";
     } else {
-      pageInfo.textContent = `Página ${currentPage}`;
+      pageInfo.textContent = (typeof I18n !== "undefined" && I18n.t("common.paginator"))
+        ? I18n.t("common.paginator", currentPage, totalPages)
+        : `Page ${currentPage} / ${totalPages}`;
     }
+  }
+  if (pageJumpInput) {
+    pageJumpInput.max = totalPages;
+    pageJumpInput.value = currentPage;
   }
 
   prevBtn.disabled = currentPage === 1;

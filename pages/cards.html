@@ -191,6 +191,7 @@
                     Combate
                 </a>
                 <ul class="dropdown-menu dex-dropdown-menu" aria-labelledby="combateDropdown">
+                <li><a class="dropdown-item" href="battle.html" data-i18n="nav.battle">Simulador de Combate</a></li>
                     <li><a class="dropdown-item" href="moves.html" data-i18n="nav.moves">Movimientos</a></li>
                     <li><a class="dropdown-item" href="abilities.html" data-i18n="nav.abilities">Habilidades</a></li>
                     <li><a class="dropdown-item" href="types.html" data-i18n="nav.types">Tabla de Tipos</a></li>
@@ -443,14 +444,35 @@
         >
           <i data-lucide="chevron-left"></i> Anterior
         </button>
-        <span class="page-info" id="pageInfo" data-i18n="missing.pagina_1_1">Página 1 / 1</span>
+        <span class="page-info" id="pageInfo" aria-live="polite">Página 1 / 1</span>
         <button
           class="btn btn-primary dex-btn"
           id="nextBtn"
+          data-i18n-aria-label="pagination.next_aria"
           data-i18n="pagination.next"
         >
           Siguiente <i data-lucide="chevron-right"></i>
         </button>
+        <div class="pager-jump">
+          <label for="pageJump" class="visually-hidden" data-i18n="pagination.go_aria">Ir a página</label>
+          <input
+            class="page-input"
+            id="pageJump"
+            type="number"
+            min="1"
+            step="1"
+            value="1"
+            autocomplete="off"
+          />
+          <button
+            class="btn btn-secondary dex-btn"
+            id="goBtn"
+            data-i18n-aria-label="pagination.go_aria_btn"
+            data-i18n="pagination.go"
+          >
+            Ir
+          </button>
+        </div>
       </nav>
     </main>
 

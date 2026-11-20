@@ -1,0 +1,1585 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="preconnect"
+      href="https://raw.githubusercontent.com"
+      crossorigin
+    />
+    <link rel="preconnect" href="https://pokeapi.co" crossorigin />
+    <link rel="dns-prefetch" href="https://raw.githubusercontent.com" />
+    <link rel="dns-prefetch" href="https://pokeapi.co" />
+    <title data-i18n="battle_sim.page_title">
+      Simulador de Combate — Pokédex
+    </title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../assets/css/styles.css?v=2" />
+    <link rel="stylesheet" href="../assets/css/battle.css?v=5" />
+    <link rel="icon" type="image/png" href="../assets/icon/favicon.png" />
+    <script src="../assets/js/security.js"></script>
+    <script src="../assets/js/cache.js"></script>
+    <script src="../assets/js/i18n.js"></script>
+    <link rel="stylesheet" href="../assets/css/a11y.css" />
+    <script src="../assets/js/a11y.js" defer></script>
+    <script
+      src="https://unpkg.com/lucide@latest"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <header>
+      <!-- DEX TOP BRANDING -->
+      <div class="dex-top">
+        <div class="inner container-fluid">
+          <div class="d-flex align-items-center justify-content-between">
+            <a href="../index.html" class="brand">
+              <img
+                src="../assets/icon/logo.png"
+                alt="Logo"
+                class="title-logo"
+                width="60"
+                height="60"
+              />
+              <h1 class="title mb-0" data-i18n="nav.battle">
+                Simulador de Combates
+              </h1>
+            </a>
+            <div class="d-flex align-items-center gap-2">
+              <div class="dropdown d-inline-block">
+                <button
+                  class="btn btn-sm dropdown-toggle dex-select d-flex align-items-center gap-2"
+                  type="button"
+                  id="langDropdown"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <img
+                    id="currentFlag"
+                    src="../assets/img/flags/espana.png"
+                    alt="ES"
+                    width="20"
+                    height="20"
+                  />
+                  <span id="currentLangLabel">ES</span>
+                </button>
+                <ul
+                  class="dropdown-menu dropdown-menu-end dex-dropdown-menu"
+                  aria-labelledby="langDropdown"
+                >
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="es"
+                      ><img
+                        src="../assets/img/flags/espana.png"
+                        width="20"
+                        height="20"
+                      />
+                      Español</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="en"
+                      ><img
+                        src="../assets/img/flags/reino-unido.png"
+                        width="20"
+                        height="20"
+                      />
+                      English</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="fr"
+                      ><img
+                        src="../assets/img/flags/francia.png"
+                        width="20"
+                        height="20"
+                      />
+                      Français</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="de"
+                      ><img
+                        src="../assets/img/flags/alemania.png"
+                        width="20"
+                        height="20"
+                      />
+                      Deutsch</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="it"
+                      ><img
+                        src="../assets/img/flags/italia.png"
+                        width="20"
+                        height="20"
+                      />
+                      Italiano</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="pt"
+                      ><img
+                        src="../assets/img/flags/portugal.png"
+                        width="20"
+                        height="20"
+                      />
+                      Português</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="ja"
+                      ><img
+                        src="../assets/img/flags/japon.png"
+                        width="20"
+                        height="20"
+                      />
+                      日本語</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item d-flex align-items-center gap-2"
+                      href="#"
+                      data-lang="zh"
+                      ><img
+                        src="../assets/img/flags/china.png"
+                        width="20"
+                        height="20"
+                      />
+                      中文</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEX NAVIGATION BAR -->
+      <div class="panel">
+        <div class="inner container-fluid">
+          <nav class="dex-nav">
+            <li class="nav-item dropdown d-inline-block">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="mundoDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-i18n="footer.nav_world"
+              >
+                Mundo Pokémon
+              </a>
+              <ul
+                class="dropdown-menu dex-dropdown-menu"
+                aria-labelledby="mundoDropdown"
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="../index.html"
+                    data-i18n="nav.pokemon"
+                    >Pokémon</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="regions.html"
+                    data-i18n="nav.regions"
+                    >Regiones</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="generations.html"
+                    data-i18n="nav.generations"
+                    >Generaciones</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="locations.html"
+                    data-i18n="nav.locations"
+                    >Localizaciones</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="breeding.html"
+                    data-i18n="nav.breeding"
+                    >Crianza</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="habitats.html"
+                    data-i18n="nav.habitats"
+                    >Hábitats</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="shapes.html"
+                    data-i18n="nav.shapes"
+                    >Formas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="capture-calculator.html"
+                    data-i18n="nav.capture_calc"
+                    >Calculadora de Captura</a
+                  >
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item dropdown d-inline-block">
+              <a
+                class="nav-link dropdown-toggle active"
+                href="#"
+                id="combateDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-i18n="footer.nav_combat"
+              >
+                Combate
+              </a>
+              <ul
+                class="dropdown-menu dex-dropdown-menu"
+                aria-labelledby="combateDropdown"
+              >
+                <li>
+                  <a
+                    class="dropdown-item active"
+                    href="battle.html"
+                    data-i18n="nav.battle"
+                    >Simulador de Combate</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="moves.html"
+                    data-i18n="nav.moves"
+                    >Movimientos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="abilities.html"
+                    data-i18n="nav.abilities"
+                    >Habilidades</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="types.html"
+                    data-i18n="nav.types"
+                    >Tabla de Tipos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="natures.html"
+                    data-i18n="nav.natures"
+                    >Naturalezas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="machines.html"
+                    data-i18n="nav.machines"
+                    >Máquinas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="contests.html"
+                    data-i18n="nav.contests"
+                    >Concursos</a
+                  >
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item dropdown d-inline-block">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="coleccionDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-i18n="footer.nav_collection"
+              >
+                Colección
+              </a>
+              <ul
+                class="dropdown-menu dex-dropdown-menu"
+                aria-labelledby="coleccionDropdown"
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="items.html"
+                    data-i18n="nav.items"
+                    >Objetos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="berries.html"
+                    data-i18n="nav.berries"
+                    >Bayas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="games.html"
+                    data-i18n="nav.games"
+                    >Juegos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="cards.html"
+                    data-i18n="nav.cards"
+                    >Cartas TCG</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="tcg-sets.html"
+                    data-i18n="nav.tcg_sets"
+                    >Sets TCG</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="my-album.html"
+                    data-i18n="nav.my_album"
+                    >Mi Álbum</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main class="battle-container">
+      <!-- BARRA DE CONFIGURACIÓN Y ESTADO -->
+      <div class="battle-toolbar">
+        <div class="d-flex align-items-center gap-3 flex-wrap flex-grow-1">
+          <div class="battle-toolbar-item">
+            <label for="formatSelect" data-i18n="battle_sim.format_label"
+              ><i data-lucide="layers" style="width: 15px; height: 15px"></i>
+              Formato:</label
+            >
+            <select id="formatSelect" class="battle-select">
+              <option value="6v6" selected data-i18n="battle_sim.format_6v6">
+                Individuales 6 vs 6
+              </option>
+              <option value="3v3" data-i18n="battle_sim.format_3v3">
+                Individuales 3 vs 3
+              </option>
+              <option value="1v1" data-i18n="battle_sim.format_1v1">
+                Duelo 1 vs 1
+              </option>
+            </select>
+          </div>
+
+          <div class="battle-toolbar-item">
+            <label for="difficultySelect" data-i18n="battle_sim.diff_label"
+              ><i data-lucide="cpu" style="width: 15px; height: 15px"></i>
+              Dificultad IA:</label
+            >
+            <select id="difficultySelect" class="battle-select">
+              <option value="easy" data-i18n="battle_sim.diff_easy">
+                Fácil (Básico)
+              </option>
+              <option
+                value="normal"
+                selected
+                data-i18n="battle_sim.diff_normal"
+              >
+                Normal (Equilibrado)
+              </option>
+              <option value="hard" data-i18n="battle_sim.diff_hard">
+                Difícil (Táctico VGC)
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div
+          id="backendBadge"
+          class="security-badge"
+          data-i18n="battle_sim.server_secure"
+        >
+          <i data-lucide="shield-check"></i> Modo Servidor Seguro
+        </div>
+      </div>
+
+      <!-- ========================================================================= -->
+      <!-- FASE 1: PREPARACIÓN Y TEAM BUILDER                                        -->
+      <!-- ========================================================================= -->
+      <section id="prepPhase">
+        <div class="prep-header">
+          <h2 data-i18n="battle_sim.prep_title">
+            ⚔️ Prepara tu Equipo Pokémon
+          </h2>
+          <p data-i18n="battle_sim.prep_subtitle">
+            Configura hasta 6 Pokémon con sus movimientos, habilidades, objetos
+            y estadísticas, o genera un equipo competitivo en 1 clic para entrar
+            directamente a la arena.
+          </p>
+        </div>
+
+        <div class="prep-actions-bar">
+          <button
+            id="btnQuickTeam"
+            class="btn btn-outline-primary d-flex align-items-center gap-2"
+          >
+            <i data-lucide="zap"></i>
+            <span data-i18n="battle_sim.quick_team"
+              >Generar Equipo Rápido (IA)</span
+            >
+          </button>
+          <button
+            id="btnImportTeam"
+            class="btn btn-outline-info d-flex align-items-center gap-2"
+          >
+            <i data-lucide="download"></i>
+            <span data-i18n="battle_sim.import_team"
+              >Cargar del Team Builder</span
+            >
+          </button>
+          <button
+            id="btnClearTeam"
+            class="btn btn-outline-danger d-flex align-items-center gap-2"
+          >
+            <i data-lucide="trash-2"></i>
+            <span data-i18n="battle_sim.clear_team">Vaciar Equipo</span>
+          </button>
+        </div>
+
+        <!-- Rejilla de los 6 slots -->
+        <div id="teamBuilderGrid" class="team-builder-grid">
+          <!-- Inyectado dinámicamente -->
+        </div>
+
+        <div class="start-battle-cta-wrap">
+          <button
+            id="btnStartBattle"
+            class="btn-start-battle"
+            data-i18n="battle_sim.start_btn"
+          >
+            ¡COMENZAR COMBATE!
+          </button>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- FASE 2: ESTADIO DE COMBATE                                                -->
+      <!-- ========================================================================= -->
+      <section id="battlePhase" style="display: none">
+        <div class="battle-arena" id="battleArena">
+          <div class="battle-stadium" id="battleStadium">
+            <!-- Capa Cielo Dinámico -->
+            <div id="battleSky" class="battle-sky"></div>
+
+            <!-- Capa de Fondo Ambiental (Coliseo/Gradas) -->
+            <div id="battleBackdrop" class="battle-backdrop">
+              <div class="stadium-spotlight spotlight-left"></div>
+              <div class="stadium-spotlight spotlight-center"></div>
+              <div class="stadium-spotlight spotlight-right"></div>
+            </div>
+
+            <!-- Terreno 3D de la arena -->
+            <div id="battleGround" class="battle-ground">
+              <div class="ground-perspective-plane">
+                <div class="arena-pitch-lines"></div>
+                <div class="arena-center-circle"></div>
+              </div>
+            </div>
+
+            <!-- Capa de Terreno Dinámico (Eléctrico, Hierba, Psíquico, Niebla) -->
+            <div id="battleTerrainLayer" class="battle-terrain-layer"></div>
+
+            <!-- Capa Meteorológica Persistente (Lluvia, Sol, Arena, Granizo) -->
+            <div id="battleWeatherLayer" class="battle-weather-layer"></div>
+
+            <!-- Capa de Efectos Especiales y Proyectiles (VFX) -->
+            <div id="battleVfxLayer" class="battle-vfx-layer"></div>
+
+            <!-- Banner Notificador de Habilidad Oficial -->
+            <div
+              id="abilityBanner"
+              class="ability-announcement-banner"
+              style="display: none"
+            ></div>
+
+            <!-- HUD RIVAL (TOP-LEFT) -->
+            <div class="pokemon-hud-card hud-rival">
+              <div class="hud-top-row">
+                <span id="rivalName" class="hud-name">Rival</span>
+                <span id="rivalTransformBadge"></span>
+                <span id="rivalLevel" class="hud-level-badge">Nv.50</span>
+              </div>
+              <div id="rivalTeamBalls" class="hud-team-balls"></div>
+              <div class="hud-hp-row">
+                <span class="hud-hp-label">PS</span>
+                <div class="hud-hp-bar-bg">
+                  <div id="rivalHpBarGhost" class="hud-hp-bar-ghost"></div>
+                  <div id="rivalHpBarFill" class="hud-hp-bar-fill"></div>
+                </div>
+              </div>
+              <div class="hud-bottom-row">
+                <div class="d-flex align-items-center gap-1">
+                  <div id="rivalStatusBadge"></div>
+                  <div id="rivalDynamaxCounter"></div>
+                </div>
+                <div id="rivalHpPercent" class="hud-hp-numbers">100%</div>
+              </div>
+            </div>
+
+            <!-- PLATAFORMA Y SPRITE RIVAL (TOP-RIGHT) -->
+            <div class="stadium-side-rival">
+              <div id="rivalPlatform" class="pokemon-platform">
+                <div class="platform-base"></div>
+                <div id="rivalShadow" class="platform-shadow-ellipse"></div>
+                <div id="rivalSpriteWrapper" class="pokemon-sprite-wrapper">
+                  <div id="rivalStatusAura" class="pokemon-status-aura"></div>
+                  <div
+                    id="rivalDynamaxClouds"
+                    class="dynamax-clouds-orbit"
+                    style="display: none"
+                  >
+                    <div class="dmax-cloud c1"></div>
+                    <div class="dmax-cloud c2"></div>
+                    <div class="dmax-cloud c3"></div>
+                  </div>
+                  <img
+                    id="rivalPokemonSprite"
+                    class="pokemon-battle-sprite"
+                    decoding="async"
+                    alt="Rival Pokémon"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- PLATAFORMA Y SPRITE JUGADOR (BOTTOM-LEFT) -->
+            <div class="stadium-side-player">
+              <div id="playerPlatform" class="pokemon-platform">
+                <div class="platform-base"></div>
+                <div id="playerShadow" class="platform-shadow-ellipse"></div>
+                <div id="playerSpriteWrapper" class="pokemon-sprite-wrapper">
+                  <div id="playerStatusAura" class="pokemon-status-aura"></div>
+                  <div
+                    id="playerDynamaxClouds"
+                    class="dynamax-clouds-orbit"
+                    style="display: none"
+                  >
+                    <div class="dmax-cloud c1"></div>
+                    <div class="dmax-cloud c2"></div>
+                    <div class="dmax-cloud c3"></div>
+                  </div>
+                  <img
+                    id="playerPokemonSprite"
+                    class="pokemon-battle-sprite"
+                    decoding="async"
+                    alt="Player Pokémon"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- HUD JUGADOR (BOTTOM-RIGHT) -->
+            <div class="pokemon-hud-card hud-player">
+              <div class="hud-top-row">
+                <span id="playerName" class="hud-name">Tu Pokémon</span>
+                <span id="playerTransformBadge"></span>
+                <span id="playerLevel" class="hud-level-badge">Nv.50</span>
+              </div>
+              <div id="playerTeamBalls" class="hud-team-balls"></div>
+              <div class="hud-hp-row">
+                <span class="hud-hp-label">PS</span>
+                <div class="hud-hp-bar-bg">
+                  <div id="playerHpBarGhost" class="hud-hp-bar-ghost"></div>
+                  <div id="playerHpBarFill" class="hud-hp-bar-fill"></div>
+                </div>
+              </div>
+              <div class="hud-bottom-row">
+                <div class="d-flex align-items-center gap-1">
+                  <div id="playerStatusBadge"></div>
+                  <div id="playerDynamaxCounter"></div>
+                </div>
+                <div id="playerHpNumbers" class="hud-hp-numbers">
+                  --- / --- PS
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANEL DE CONTROL Y ACCIONES INFERIOR -->
+        <div class="battle-controls-section">
+          <!-- Caja de Diálogo y Mensajes -->
+          <div class="battle-dialogue-card">
+            <p id="battleDialogueText" class="battle-dialogue-text">
+              ¡Comienza el combate Pokémon!
+            </p>
+            <div class="battle-dialogue-footer">
+              <div class="speed-control-group">
+                <span data-i18n="battle_sim.speed">Velocidad:</span>
+                <button id="speed025x" class="speed-btn">0.25x</button>
+                <button id="speed05x" class="speed-btn">0.5x</button>
+                <button id="speed1x" class="speed-btn active">1x</button>
+                <button id="speed15x" class="speed-btn">1.5x</button>
+                <button id="speed2x" class="speed-btn">2x</button>
+                <button
+                  id="speedInstant"
+                  class="speed-btn"
+                  data-i18n="battle_sim.speed_turbo"
+                >
+                  Turbo
+                </button>
+              </div>
+              <button
+                id="btnToggleLog"
+                class="btn btn-sm btn-outline-secondary"
+              >
+                📜 <span data-i18n="battle_sim.log">Registro</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Panel Interactivo de Acciones -->
+          <div class="battle-action-card">
+            <!-- 1. 4 Botones Principales -->
+            <div id="mainActionsPanel" class="main-actions-grid">
+              <button id="btnFight" class="action-btn-main action-btn-fight">
+                <i data-lucide="swords"></i>
+                <span data-i18n="battle_sim.fight">LUCHAR</span>
+              </button>
+              <button id="btnSwitch" class="action-btn-main action-btn-switch">
+                <i data-lucide="refresh-cw"></i>
+                <span data-i18n="battle_sim.switch">CAMBIAR</span>
+              </button>
+              <button id="btnBag" class="action-btn-main action-btn-bag">
+                <i data-lucide="briefcase"></i>
+                <span data-i18n="battle_sim.bag">MOCHILA</span>
+              </button>
+              <button id="btnRun" class="action-btn-main action-btn-run">
+                <i data-lucide="flag"></i>
+                <span data-i18n="battle_sim.run">RENDIRSE</span>
+              </button>
+            </div>
+
+            <!-- 2. Submenú de Movimientos -->
+            <div id="movesPanel" style="display: none">
+              <div class="submenu-header">
+                <h5 class="submenu-title" data-i18n="battle_sim.choose_move">
+                  Elige un Movimiento:
+                </h5>
+                <button
+                  id="btnBackFromMoves"
+                  class="btn-back-actions"
+                  data-i18n="battle_sim.back"
+                >
+                  ↩ Volver
+                </button>
+              </div>
+
+              <!-- Fila de Activación de Transformaciones (Megaevolución / Dinamax) -->
+              <div
+                id="transformControlsRow"
+                class="transform-controls-row"
+                style="display: none"
+              >
+                <button
+                  id="btnMegaToggle"
+                  class="btn-transform-toggle btn-mega-toggle"
+                  type="button"
+                  style="display: none"
+                >
+                  <span data-i18n="battle_sim.mega_evolve"
+                    >💎 MEGAEVOLUCIONAR</span
+                  >
+                </button>
+                <button
+                  id="btnDynamaxToggle"
+                  class="btn-transform-toggle btn-dynamax-toggle"
+                  type="button"
+                  style="display: none"
+                >
+                  <span
+                    id="btnDynamaxToggleText"
+                    data-i18n="battle_sim.dynamax_btn"
+                    >⚡ DINAMAX</span
+                  >
+                </button>
+              </div>
+
+              <div id="movesGrid" class="moves-grid"></div>
+            </div>
+
+            <!-- 3. Submenú de Cambio de Pokémon -->
+            <div id="switchPanel" style="display: none">
+              <div class="submenu-header">
+                <h5 class="submenu-title" data-i18n="battle_sim.choose_pokemon">
+                  Selecciona un Pokémon:
+                </h5>
+                <button
+                  id="btnBackFromSwitch"
+                  class="btn-back-actions"
+                  data-i18n="battle_sim.back"
+                >
+                  ↩ Volver
+                </button>
+              </div>
+              <div id="switchGrid" class="switch-team-grid"></div>
+            </div>
+
+            <!-- 4. Submenú de Mochila -->
+            <div id="bagPanel" style="display: none">
+              <div class="submenu-header">
+                <h5 class="submenu-title" data-i18n="battle_sim.bag_title">
+                  Objetos de Combate:
+                </h5>
+                <button
+                  id="btnBackFromBag"
+                  class="btn-back-actions"
+                  data-i18n="battle_sim.back"
+                >
+                  ↩ Volver
+                </button>
+              </div>
+              <div id="bagGrid" class="bag-items-grid"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Registro Completo Desplegable -->
+        <div
+          id="battleLogDrawer"
+          class="card mt-3 p-3 bg-dark border-secondary"
+          style="display: none; max-height: 220px; overflow-y: auto"
+        >
+          <h6
+            class="text-white border-bottom border-secondary pb-2 mb-2"
+            data-i18n="battle_sim.log_history"
+          >
+            📜 Historial del Combate
+          </h6>
+          <ul
+            id="battleLogList"
+            class="list-unstyled mb-0 small text-light"
+          ></ul>
+        </div>
+      </section>
+
+      <!-- ========================================================================= -->
+      <!-- FASE 3: PANTALLA FINAL (RESUMEN)                                          -->
+      <!-- ========================================================================= -->
+      <section id="summaryPhase" style="display: none">
+        <div class="battle-summary-card">
+          <h2 id="summaryTitle" class="summary-title-victory">¡VICTORIA!</h2>
+          <p id="summarySubtitle" class="text-muted">
+            ¡Has vencido al equipo rival con éxito!
+          </p>
+
+          <div class="summary-stats-grid">
+            <div class="summary-stat-box">
+              <div id="summaryTurns" class="summary-stat-val">0</div>
+              <div class="summary-stat-lbl" data-i18n="battle_sim.turns">
+                Turnos Disputados
+              </div>
+            </div>
+            <div class="summary-stat-box">
+              <div id="summaryPlayerFainted" class="summary-stat-val">0</div>
+              <div
+                class="summary-stat-lbl"
+                data-i18n="battle_sim.player_fainted"
+              >
+                Bajas Propias
+              </div>
+            </div>
+            <div class="summary-stat-box">
+              <div id="summaryRivalFainted" class="summary-stat-val">0</div>
+              <div
+                class="summary-stat-lbl"
+                data-i18n="battle_sim.rival_fainted"
+              >
+                Rivales K.O.
+              </div>
+            </div>
+          </div>
+
+          <div class="summary-actions-row">
+            <button
+              id="btnRematch"
+              class="btn btn-primary px-4 py-2"
+              data-i18n="battle_sim.rematch"
+            >
+              🔄 Revancha (Mismos Equipos)
+            </button>
+            <button
+              id="btnNewBattle"
+              class="btn btn-outline-light px-4 py-2"
+              data-i18n="battle_sim.new_battle"
+            >
+              ⚡ Nuevo Combate Rápido
+            </button>
+            <button
+              id="btnBackToEditor"
+              class="btn btn-outline-secondary px-4 py-2"
+              data-i18n="battle_sim.edit_team"
+            >
+              ✏️ Modificar Equipo
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ========================================================================= -->
+    <!-- MODAL DE CONFIGURACIÓN DE POKÉMON (TEAM BUILDER)                         -->
+    <!-- ========================================================================= -->
+    <div
+      class="modal fade"
+      id="pokemonEditModal"
+      tabindex="-1"
+      aria-labelledby="pokemonEditModalLabel"
+    >
+      <div class="modal-dialog modal-dialog-centered battle-modal-dialog">
+        <div class="modal-content battle-modal-content">
+          <!-- Encabezado del Modal -->
+          <div class="modal-header battle-modal-header">
+            <div class="d-flex align-items-center gap-3">
+              <div class="battle-modal-badge-icon">
+                <i data-lucide="sliders"></i>
+              </div>
+              <div>
+                <h5
+                  class="modal-title mb-0 fw-bold"
+                  id="pokemonEditModalLabel"
+                  data-i18n="battle_sim.modal_title"
+                >
+                  Configurar Pokémon de Combate
+                </h5>
+                <span
+                  class="battle-modal-subtitle"
+                  data-i18n="battle_sim.modal_subtitle"
+                  >Personaliza especie, estadísticas, objeto y movimientos</span
+                >
+              </div>
+            </div>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Cerrar"
+            ></button>
+          </div>
+
+          <!-- Cuerpo del Modal -->
+          <div class="modal-body battle-modal-body">
+            <div class="battle-modal-grid">
+              <!-- Columna Izquierda: Escenario del Pokémon y Medidores de Estadísticas -->
+              <div class="battle-modal-showcase">
+                <div class="battle-modal-pedestal">
+                  <div class="pedestal-shadow"></div>
+                  <img
+                    id="modalPreviewSprite"
+                    src=""
+                    class="battle-modal-sprite"
+                    alt="Sprite del Pokémon"
+                  />
+                </div>
+                <h4 id="modalPreviewName" class="battle-modal-poke-name">
+                  Pokémon
+                </h4>
+                <div
+                  id="modalPreviewTypes"
+                  class="battle-modal-types mb-3"
+                ></div>
+
+                <!-- Panel de Estadísticas Finales Calculadas con Barras Visuales -->
+                <div class="battle-modal-stats-card">
+                  <div class="stats-card-title">
+                    <span data-i18n="battle_sim.final_stats"
+                      >Estadísticas Finales</span
+                    >
+                    <span id="modalStatTotal" class="stats-bst-badge"
+                      >Total: ---</span
+                    >
+                  </div>
+                  <div class="stat-bar-group">
+                    <div class="stat-bar-row">
+                      <span class="stat-name" data-i18n="battle_sim.stat_hp"
+                        >PS</span
+                      >
+                      <span id="modalStatHp" class="stat-num text-hp">---</span>
+                      <div class="stat-track">
+                        <div
+                          id="modalBarHp"
+                          class="stat-fill stat-fill-hp"
+                          style="width: 0%"
+                        ></div>
+                      </div>
+                    </div>
+                    <div class="stat-bar-row">
+                      <span class="stat-name" data-i18n="battle_sim.stat_atk"
+                        >Ataque</span
+                      >
+                      <span id="modalStatAtk" class="stat-num text-atk"
+                        >---</span
+                      >
+                      <div class="stat-track">
+                        <div
+                          id="modalBarAtk"
+                          class="stat-fill stat-fill-atk"
+                          style="width: 0%"
+                        ></div>
+                      </div>
+                    </div>
+                    <div class="stat-bar-row">
+                      <span class="stat-name" data-i18n="battle_sim.stat_def"
+                        >Defensa</span
+                      >
+                      <span id="modalStatDef" class="stat-num text-def"
+                        >---</span
+                      >
+                      <div class="stat-track">
+                        <div
+                          id="modalBarDef"
+                          class="stat-fill stat-fill-def"
+                          style="width: 0%"
+                        ></div>
+                      </div>
+                    </div>
+                    <div class="stat-bar-row">
+                      <span class="stat-name" data-i18n="battle_sim.stat_spa"
+                        >Atq. Esp.</span
+                      >
+                      <span id="modalStatSpa" class="stat-num text-spa"
+                        >---</span
+                      >
+                      <div class="stat-track">
+                        <div
+                          id="modalBarSpa"
+                          class="stat-fill stat-fill-spa"
+                          style="width: 0%"
+                        ></div>
+                      </div>
+                    </div>
+                    <div class="stat-bar-row">
+                      <span class="stat-name" data-i18n="battle_sim.stat_spd"
+                        >Def. Esp.</span
+                      >
+                      <span id="modalStatSpd" class="stat-num text-spd"
+                        >---</span
+                      >
+                      <div class="stat-track">
+                        <div
+                          id="modalBarSpd"
+                          class="stat-fill stat-fill-spd"
+                          style="width: 0%"
+                        ></div>
+                      </div>
+                    </div>
+                    <div class="stat-bar-row">
+                      <span class="stat-name" data-i18n="battle_sim.stat_spe"
+                        >Velocidad</span
+                      >
+                      <span id="modalStatSpe" class="stat-num text-spe"
+                        >---</span
+                      >
+                      <div class="stat-track">
+                        <div
+                          id="modalBarSpe"
+                          class="stat-fill stat-fill-spe"
+                          style="width: 0%"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Columna Derecha: Configuración Granular del Pokémon -->
+              <div class="battle-modal-fields">
+                <!-- Buscador de Especie -->
+                <div class="battle-field-group mb-3 position-relative">
+                  <label
+                    class="battle-label"
+                    for="modalPokemonSearch"
+                    data-i18n="battle_sim.species_label"
+                  >
+                    <i data-lucide="search" class="icon-inline"></i> Especie /
+                    Nombre:
+                  </label>
+                  <div class="battle-search-input-wrapper">
+                    <input
+                      type="text"
+                      id="modalPokemonSearch"
+                      class="battle-modal-control"
+                      data-i18n-placeholder="battle_sim.search_pokemon"
+                      placeholder="Escribe un Pokémon (ej. Dragonite, Sylveon, Tyranitar)..."
+                      autocomplete="off"
+                    />
+                    <span class="battle-search-icon"
+                      ><i data-lucide="search"></i
+                    ></span>
+                  </div>
+                  <div
+                    id="modalSearchDropdown"
+                    class="battle-search-dropdown shadow-lg"
+                    style="display: none"
+                  ></div>
+                </div>
+
+                <!-- Nivel, Sexo y Naturaleza -->
+                <div class="row g-2 mb-3">
+                  <div class="col-4">
+                    <label
+                      class="battle-label"
+                      for="modalLevelInput"
+                      data-i18n="battle_sim.level_label"
+                      >Nivel (1-100):</label
+                    >
+                    <input
+                      type="number"
+                      id="modalLevelInput"
+                      class="battle-modal-control text-center fw-bold"
+                      min="1"
+                      max="100"
+                      value="50"
+                    />
+                  </div>
+                  <div class="col-4">
+                    <label
+                      class="battle-label"
+                      for="modalGenderSelect"
+                      data-i18n="battle_sim.gender_label"
+                      >Sexo:</label
+                    >
+                    <select id="modalGenderSelect" class="battle-modal-select">
+                      <option value="M" data-i18n="battle_sim.gender_male">
+                        Macho (♂)
+                      </option>
+                      <option value="F" data-i18n="battle_sim.gender_female">
+                        Hembra (♀)
+                      </option>
+                      <option value="N" data-i18n="battle_sim.gender_none">
+                        Sin género (—)
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-4">
+                    <label
+                      class="battle-label"
+                      for="modalNatureSelect"
+                      data-i18n="battle_sim.nature_label"
+                      >Naturaleza:</label
+                    >
+                    <select
+                      id="modalNatureSelect"
+                      class="battle-modal-select"
+                    ></select>
+                  </div>
+                </div>
+
+                <!-- Habilidad y Objeto Equipado -->
+                <div class="row g-2 mb-2">
+                  <div class="col-sm-6">
+                    <label
+                      class="battle-label"
+                      for="modalAbilitySelect"
+                      data-i18n="battle_sim.ability_label"
+                      >Habilidad:</label
+                    >
+                    <select
+                      id="modalAbilitySelect"
+                      class="battle-modal-select"
+                    ></select>
+                  </div>
+                  <div class="col-sm-6">
+                    <label
+                      class="battle-label"
+                      for="modalItemSelect"
+                      data-i18n="battle_sim.item_label"
+                      >Objeto Equipado:</label
+                    >
+                    <select
+                      id="modalItemSelect"
+                      class="battle-modal-select"
+                    ></select>
+                  </div>
+                </div>
+
+                <!-- Vista Previa Limpia del Objeto Equipado (Sprite + Descripción) -->
+                <div
+                  id="modalItemPreviewCard"
+                  class="battle-item-mini-card mb-3"
+                >
+                  <img
+                    id="modalItemPreviewIcon"
+                    src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png"
+                    alt="Objeto"
+                    class="item-mini-sprite"
+                  />
+                  <div class="item-mini-body">
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                      <strong
+                        id="modalItemPreviewName"
+                        class="item-mini-title"
+                        data-i18n="battle_sim.item_none"
+                        >(Ninguno)</strong
+                      >
+                      <span
+                        class="badge item-mini-badge"
+                        data-i18n="battle_sim.item_equipped"
+                        >Objeto Equipado</span
+                      >
+                    </div>
+                    <p
+                      id="modalItemPreviewDesc"
+                      class="item-mini-desc mb-0"
+                      data-i18n="battle_sim.item_no_effect"
+                    >
+                      Sin efecto de objeto equipado en combate.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Preset de Distribución de EVs -->
+                <div class="mb-3">
+                  <label
+                    class="battle-label"
+                    for="modalEvPresetSelect"
+                    data-i18n="battle_sim.ev_preset_label"
+                  >
+                    <i data-lucide="bar-chart-2" class="icon-inline"></i>
+                    Reparto de EVs (Límite 508):
+                  </label>
+                  <select id="modalEvPresetSelect" class="battle-modal-select">
+                    <option value="atk_spe" data-i18n="battle_sim.ev_atk_spe">
+                      Atacante Físico Rápido (252 Atk / 252 Spe / 4 HP)
+                    </option>
+                    <option value="spa_spe" data-i18n="battle_sim.ev_spa_spe">
+                      Atacante Especial Rápido (252 SpA / 252 Spe / 4 HP)
+                    </option>
+                    <option value="hp_def" data-i18n="battle_sim.ev_hp_def">
+                      Tanque Físico / Muralla (252 HP / 252 Def / 4 SpD)
+                    </option>
+                    <option value="hp_spd" data-i18n="battle_sim.ev_hp_spd">
+                      Tanque Especial / Muralla (252 HP / 252 SpD / 4 Def)
+                    </option>
+                    <option
+                      value="bulky_atk"
+                      data-i18n="battle_sim.ev_bulky_atk"
+                    >
+                      Bulky Offense (252 HP / 252 Atk / 4 Spe)
+                    </option>
+                    <option value="balanced" data-i18n="battle_sim.ev_balanced">
+                      Equilibrado (84 en todos los stats)
+                    </option>
+                  </select>
+                </div>
+
+                <!-- Movimientos Equipados (hasta 4) -->
+                <div class="mb-1">
+                  <label
+                    class="battle-label mb-2"
+                    data-i18n="battle_sim.moves_label"
+                  >
+                    <i data-lucide="swords" class="icon-inline"></i> Movimientos
+                    Equipados (hasta 4):
+                  </label>
+                  <div class="row g-2">
+                    <div class="col-sm-6">
+                      <div class="battle-move-input-card">
+                        <span class="move-num-pill">1</span>
+                        <div
+                          id="modalMoveCustom1"
+                          class="battle-move-custom-select"
+                        ></div>
+                        <input type="hidden" id="modalMove1" value="" />
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="battle-move-input-card">
+                        <span class="move-num-pill">2</span>
+                        <div
+                          id="modalMoveCustom2"
+                          class="battle-move-custom-select"
+                        ></div>
+                        <input type="hidden" id="modalMove2" value="" />
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="battle-move-input-card">
+                        <span class="move-num-pill">3</span>
+                        <div
+                          id="modalMoveCustom3"
+                          class="battle-move-custom-select"
+                        ></div>
+                        <input type="hidden" id="modalMove3" value="" />
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="battle-move-input-card">
+                        <span class="move-num-pill">4</span>
+                        <div
+                          id="modalMoveCustom4"
+                          class="battle-move-custom-select"
+                        ></div>
+                        <input type="hidden" id="modalMove4" value="" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pie del Modal con Botones Estilizados -->
+          <div
+            class="modal-footer battle-modal-footer d-flex justify-content-between align-items-center flex-wrap gap-2"
+          >
+            <button
+              type="button"
+              id="modalRandomizePokemonBtn"
+              class="btn battle-btn-randomize d-inline-flex align-items-center gap-2"
+              title="Genera datos aleatorios coherentes (objeto, naturaleza, movimientos y nivel equilibrado)"
+            >
+              <i data-lucide="dice-5"></i>
+              <span data-i18n="battle_sim.randomize">Aleatorizar Datos</span>
+            </button>
+            <div class="d-flex align-items-center gap-2">
+              <button
+                type="button"
+                class="btn battle-btn-cancel"
+                data-bs-dismiss="modal"
+                data-i18n="battle_sim.cancel_btn"
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                id="modalSavePokemonBtn"
+                class="btn battle-btn-save"
+              >
+                <i data-lucide="check"></i>
+                <span data-i18n="battle_sim.save_changes">Guardar Cambios</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER ESTÁNDAR POKÉAPP -->
+    <footer class="dex-footer">
+      <div class="inner container-fluid">
+        <div class="footer-grid">
+          <div class="footer-nav-group">
+            <div class="footer-nav-col">
+              <h4>
+                <i data-lucide="globe" class="title-icon"></i>
+                <span data-i18n="footer.nav_world">Mundo Pokémon</span>
+              </h4>
+              <ul class="footer-nav-list">
+                <li>
+                  <a
+                    href="../index.html"
+                    class="footer-link"
+                    data-i18n="footer.pokemon"
+                    >Pokémon</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="regions.html"
+                    class="footer-link"
+                    data-i18n="footer.regions"
+                    >Regiones</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="generations.html"
+                    class="footer-link"
+                    data-i18n="footer.generations"
+                    >Generaciones</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="locations.html"
+                    class="footer-link"
+                    data-i18n="nav.locations"
+                    >Localizaciones</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="breeding.html"
+                    class="footer-link"
+                    data-i18n="nav.breeding"
+                    >Crianza</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="habitats.html"
+                    class="footer-link"
+                    data-i18n="nav.habitats"
+                    >Hábitats</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="shapes.html"
+                    class="footer-link"
+                    data-i18n="nav.shapes"
+                    >Formas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="capture-calculator.html"
+                    class="footer-link"
+                    data-i18n="nav.capture_calc"
+                    >Calculadora de Captura</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="footer-nav-col">
+              <h4>
+                <i data-lucide="swords" class="title-icon"></i>
+                <span data-i18n="footer.nav_combat">Combate</span>
+              </h4>
+              <ul class="footer-nav-list">
+                <li>
+                  <a
+                    href="battle.html"
+                    class="footer-link active"
+                    data-i18n="nav.battle"
+                    >Simulador de Combate</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="moves.html"
+                    class="footer-link"
+                    data-i18n="footer.moves"
+                    >Movimientos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="abilities.html"
+                    class="footer-link"
+                    data-i18n="footer.abilities"
+                    >Habilidades</a
+                  >
+                </li>
+                <li>
+                  <a href="types.html" class="footer-link" data-i18n="nav.types"
+                    >Tabla de Tipos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="natures.html"
+                    class="footer-link"
+                    data-i18n="footer.natures"
+                    >Naturalezas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="machines.html"
+                    class="footer-link"
+                    data-i18n="nav.machines"
+                    >Máquinas</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="contests.html"
+                    class="footer-link"
+                    data-i18n="nav.contests"
+                    >Concursos</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="footer-nav-col">
+              <h4>
+                <i data-lucide="layers" class="title-icon"></i>
+                <span data-i18n="footer.nav_collection">Colección</span>
+              </h4>
+              <ul class="footer-nav-list">
+                <li>
+                  <a href="items.html" class="footer-link" data-i18n="nav.items"
+                    >Objetos</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="berries.html"
+                    class="footer-link"
+                    data-i18n="nav.berries"
+                    >Bayas</a
+                  >
+                </li>
+                <li>
+                  <a href="games.html" class="footer-link" data-i18n="nav.games"
+                    >Juegos</a
+                  >
+                </li>
+                <li>
+                  <a href="cards.html" class="footer-link" data-i18n="nav.cards"
+                    >Cartas TCG</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="tcg-sets.html"
+                    class="footer-link"
+                    data-i18n="nav.tcg_sets"
+                    >Sets TCG</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="my-album.html"
+                    class="footer-link"
+                    data-i18n="nav.my_album"
+                    >Mi Álbum</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cache Status Bar -->
+        <div
+          class="cache-status-bar d-flex justify-content-between align-items-center mt-4 pt-3 border-top border-secondary small text-muted"
+        >
+          <div class="d-flex align-items-center gap-2">
+            <span
+              class="cache-dot"
+              style="
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: #22c55e;
+              "
+            ></span>
+            <span data-i18n="battle_sim.combat_synced"
+              >Sistema de Combate Sincronizado</span
+            >
+          </div>
+          <div>
+            <a
+              href="api_info.html"
+              class="text-decoration-none text-muted"
+              data-i18n="battle_sim.api_diag"
+              >Diagnóstico de API</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap Bundle JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Battle Modules -->
+    <script src="../assets/js/battle-rng.js?v=8"></script>
+    <script src="../assets/js/battle-events.js?v=8"></script>
+    <script src="../assets/js/battle-rules.js?v=8"></script>
+    <script src="../assets/js/battle-field.js?v=8"></script>
+    <script src="../assets/js/battle-abilities.js?v=8"></script>
+    <script src="../assets/js/battle-items.js?v=8"></script>
+    <script src="../assets/js/battle-data.js?v=8"></script>
+    <script src="../assets/js/battle-damage.js?v=8"></script>
+    <script src="../assets/js/battle-turn.js?v=8"></script>
+    <script src="../assets/js/battle-engine.js?v=8"></script>
+    <script src="../assets/js/battle-ai.js?v=8"></script>
+    <script src="../assets/js/battle-animations.js?v=8"></script>
+    <script src="../assets/js/battle-ui.js?v=8"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        if (window.lucide) {
+          window.lucide.createIcons();
+        }
+      });
+    </script>
+  </body>
+</html>

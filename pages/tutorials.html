@@ -200,6 +200,7 @@
                 Combate
               </a>
               <ul class="dropdown-menu dex-dropdown-menu" aria-labelledby="combateDropdown">
+                <li><a class="dropdown-item" href="battle.html" data-i18n="nav.battle">Simulador de Combate</a></li>
                 <li><a class="dropdown-item" href="moves.html" data-i18n="nav.moves">Movimientos</a></li>
                 <li><a class="dropdown-item" href="abilities.html" data-i18n="nav.abilities">Habilidades</a></li>
                 <li><a class="dropdown-item" href="types.html" data-i18n="nav.types">Tabla de Tipos</a></li>
@@ -292,6 +293,10 @@
           <span class="text-muted small">Pulsa en cualquiera para ir directamente a su explicación</span>
         </div>
         <div class="quick-jump-grid">
+          <a href="#tutorial-battle" class="quick-jump-link">
+            <span class="q-icon">⚔️</span>
+            <span>Simulador de Combate</span>
+          </a>
           <a href="#tutorial-capture" class="quick-jump-link">
             <span class="q-icon">🎯</span>
             <span>Calculadora de Captura</span>
@@ -347,7 +352,117 @@
       <div class="tutorials-list">
 
         <!-- =========================================================================
-             1. CALCULADORA DE CAPTURA
+             1. SIMULADOR DE COMBATE POKÉMON
+             ========================================================================= -->
+        <article class="tutorial-card" id="tutorial-battle" data-category="combat" data-keywords="combate battle simulador arena peleas ia turno movimientos cambios mochila objetos singles doubles team builder">
+          <header class="tutorial-card-header">
+            <div class="tool-header-info">
+              <div class="tool-meta-tags">
+                <span class="tool-category-tag">Combate & Estrategia</span>
+                <span class="difficulty-badge diff-medium">
+                  <i data-lucide="gauge"></i> Nivel Intermedio
+                </span>
+              </div>
+              <h2 class="tool-title">
+                <span class="tool-main-icon">⚔️</span>
+                <span>Simulador de Combates Pokémon (Battle Arena)</span>
+              </h2>
+              <p class="tool-short-desc">
+                Pon a prueba a tu equipo en enfrentamientos por turnos contra una Inteligencia Artificial con soporte de reglas oficiales de Gen IX, selector de formato, cálculo de daño y animaciones de arena.
+              </p>
+            </div>
+            <a href="battle.html" class="open-tool-btn">
+              <span>Entrar a la Arena</span>
+              <i data-lucide="external-link"></i>
+            </a>
+          </header>
+
+          <div class="tutorial-card-body">
+            <!-- CONCEPTO CLAVE -->
+            <div class="concept-explanation-box">
+              <h3 class="concept-title">
+                <i data-lucide="swords"></i>
+                <span>Mecánicas del Motor de Combate</span>
+              </h3>
+              <p class="concept-text">
+                El simulador ejecuta la lógica oficial de combate por turnos: cálculo de iniciativa según la Velocidad, efectividad de tipos con bonificación por STAB (x1.5), golpes críticos, cambios de Pokémon durante el turno, uso de objetos curativos de la Mochila e Inteligencia Artificial con múltiples niveles de dificultad.
+              </p>
+            </div>
+
+            <!-- PASOS GUIADOS -->
+            <h3 class="steps-headline">
+              <i data-lucide="list-ordered"></i>
+              <span>Guía Rápida para Disputar tu Primer Combate</span>
+            </h3>
+
+            <div class="steps-grid">
+              <div class="step-card">
+                <span class="step-badge-number">1</span>
+                <div class="step-card-icon"><i data-lucide="users"></i></div>
+                <h4 class="step-card-title">Configurar tu Equipo</h4>
+                <p class="step-card-desc">
+                  Puedes importar directamente el equipo configurado en el <strong>Team Builder</strong> de la Pokédex, pulsar en <em>"Generar Equipo Rápido"</em> para que la IA elija un escuadrón competitivo equilibrado, o editar cada Pokémon a mano.
+                </p>
+                <div class="step-card-note">Hasta 6 Pokémon listos con 4 movimientos cada uno</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">2</span>
+                <div class="step-card-icon"><i data-lucide="sliders"></i></div>
+                <h4 class="step-card-title">Elegir Reglas y Dificultad</h4>
+                <p class="step-card-desc">
+                  Selecciona el formato de combate (Singles 1v1 o 6v6) y la dificultad de la IA rival (Fácil, Normal, Difícil). En niveles avanzados, el rival predecirá tus cambios y explotará tus debilidades elementales.
+                </p>
+                <div class="step-card-note">Elige entre Modo Servidor Seguro o Modo Local</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">3</span>
+                <div class="step-card-icon"><i data-lucide="play-circle"></i></div>
+                <h4 class="step-card-title">Fase de Acción por Turnos</h4>
+                <p class="step-card-desc">
+                  En cada turno dispones de 4 opciones clásicas: <strong>LUCHAR</strong> (elige entre tus 4 ataques), <strong>CAMBIAR</strong> (sustituye a tu criatura activa), <strong>MOCHILA</strong> (utiliza Pociones o Revivir) o <strong>RENDIRSE</strong>.
+                </p>
+                <div class="step-card-note">La iniciativa dependerá de la estadística de Velocidad y la prioridad</div>
+              </div>
+
+              <div class="step-card">
+                <span class="step-badge-number">4</span>
+                <div class="step-card-icon"><i data-lucide="trophy"></i></div>
+                <h4 class="step-card-title">Historial y Revancha</h4>
+                <p class="step-card-desc">
+                  Sigue el desarrollo de cada jugada en el registro de batalla en tiempo real. Al finalizar la partida, podrás consultar las estadísticas del combate y solicitar una revancha inmediata.
+                </p>
+                <div class="step-card-note">Ajusta la velocidad de las animaciones en cualquier momento</div>
+              </div>
+            </div>
+
+            <!-- CONSEJOS Y ADVERTENCIAS -->
+            <div class="callouts-container">
+              <div class="callout-box callout-pro-tip">
+                <i data-lucide="check-circle-2"></i>
+                <div>
+                  <h4 class="callout-title">Estrategia Competitiva: Predicción y Cambios</h4>
+                  <p class="callout-desc">
+                    Cambiar de Pokémon en el turno correcto para absorber un ataque del que eres inmune o resistente es la clave de los combates de alto nivel. ¡Aprovecha la inmunidad de tipos para ganar turnos libres!
+                  </p>
+                </div>
+              </div>
+              <div class="callout-box callout-warning">
+                <i data-lucide="alert-triangle"></i>
+                <div>
+                  <h4 class="callout-title">Prioridad de Movimientos</h4>
+                  <p class="callout-desc">
+                    Recuerda que movimientos con prioridad como <em>Ataque Rápido</em> o <em>Golpe Bajo</em> atacarán antes incluso si el rival es más veloz. Tenlo presente si a tu Pokémon le queda poca vida.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- =========================================================================
+             2. CALCULADORA DE CAPTURA
              ========================================================================= -->
         <article class="tutorial-card" id="tutorial-capture" data-category="combat" data-keywords="captura catch rate pokeball ultra ball super ball veloz ball ocaso ball sueño congelacion paralis hp vida legendarios probabilidades sacudidas">
           <header class="tutorial-card-header">

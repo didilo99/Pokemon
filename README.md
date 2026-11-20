@@ -131,17 +131,18 @@ A continuación se detalla exhaustivamente cada una de las secciones y funcional
 Disponible en `pages/tutorials.html`, es un centro de aprendizaje interactivo con guías estructuradas paso a paso tanto para principiantes como para jugadores experimentados:
 
 - **Buscador en Tiempo Real y Filtros por Categoría:** Encuentra explicaciones rápidas filtrando por _Combate & Captura_, _Mundo & Aventura_, _Coleccionismo_ o _Sistema & Accesibilidad_.
-- **10 Guías Paso a Paso Exhaustivas:**
-  1. *Calculadora de Captura:* Cómo maximizar tus opciones frente a legendarios paso a paso.
-  2. *Tabla Interactiva de Tipos:* Cómo leer coberturas defensivas y debilidades dobles.
-  3. *Buscador de Movimientos:* Cómo filtrar ataques idóneos para competitivo.
-  4. *Centro de Crianza Pokémon:* Guía para criar con 6 IVs perfectos y movimientos huevo.
-  5. *Matriz de Naturalezas:* Cuándo conviene cada personalidad y su impacto en stats.
-  6. *Cartas TCG & Mi Álbum:* Cómo catalogar tu mazo y calcular el valor de tus cartas.
-  7. *Simulador de Concursos:* Puntuación por apelación e inhibición.
-  8. *Rastreador de Encuentros:* Cómo usar la Pokédex de campo y condiciones horarias.
-  9. *Gestor de Caché Offline:* Cómo navegar sin conexión y optimizar tu memoria local.
-  10. *Panel de Accesibilidad:* Cómo adaptar la aplicación a cualquier necesidad visual o motriz.
+- **11 Guías Paso a Paso Exhaustivas:**
+  1. *Simulador de Combate:* Cómo disputar batallas por turnos contra la IA, importar equipos y usar la mochila.
+  2. *Calculadora de Captura:* Cómo maximizar tus opciones frente a legendarios paso a paso.
+  3. *Tabla Interactiva de Tipos:* Cómo leer coberturas defensivas y debilidades dobles.
+  4. *Buscador de Movimientos:* Cómo filtrar ataques idóneos para competitivo.
+  5. *Centro de Crianza Pokémon:* Guía para criar con 6 IVs perfectos y movimientos huevo.
+  6. *Matriz de Naturalezas:* Cuándo conviene cada personalidad y su impacto en stats.
+  7. *Cartas TCG & Mi Álbum:* Cómo catalogar tu mazo y calcular el valor de tus cartas.
+  8. *Simulador de Concursos:* Puntuación por apelación e inhibición.
+  9. *Rastreador de Encuentros:* Cómo usar la Pokédex de campo y condiciones horarias.
+  10. *Gestor de Caché Offline:* Cómo navegar sin conexión y optimizar tu memoria local.
+  11. *Panel de Accesibilidad:* Cómo adaptar la aplicación a cualquier necesidad visual o motriz.
 - **Simuladores Interactivos en Vivo:** Pequeños módulos interactivos incrustados en la propia guía (como un simulador de probabilidad rápida de atrapar a Mewtwo variando Pokéball y estado en directo).
 
 ---
@@ -275,6 +276,7 @@ Pokedex/
 │
 ├── pages/                       # Módulos y herramientas individuales
 │   ├── abilities.html           # Guía de habilidades
+│   ├── battle.html              # Simulador de combates por turnos con motor real
 │   ├── api_info.html            # Consola de diagnóstico y estado de APIs
 │   ├── aviso-legal.html         # Documento legal: Aviso Legal
 │   ├── berries.html             # Enciclopedia de bayas
